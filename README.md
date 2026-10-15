@@ -12,6 +12,18 @@ python3 server.py
 
 Open http://127.0.0.1:8080. State persists in local `demo.sqlite` (ignored by Git).
 
+## Continue in VS Code
+
+Open this repository folder in VS Code, then use **Terminal → Run Task → Apex: Run demo**. Wait for `Apex synthetic prototype: http://127.0.0.1:8080`, then open that URL in your browser. Keep the task running; stop it with Ctrl+C in its terminal. **Apex: Run tests** runs the workflow tests.
+
+These tasks use `python3` (Python 3.10+). No extension, packages, or API key is required. If your Python command is `python` or `py`, run the equivalent commands manually in the integrated terminal.
+
+`127.0.0.1` and `localhost` refer to the machine running the browser. A server started in a remote cloud environment is not accessible through your computer's localhost without port forwarding. In a remote VS Code session, forward remote port **8080** using the **Ports** panel and open its local address. The server remains bound to remote localhost; do not make the unauthenticated prototype publicly accessible.
+
+On a Chromebook, use the Linux development environment for Python and VS Code. If Linux is disabled by an administrator, local setup needs a permitted environment.
+
+See [the development handoff](docs/handoff.md) for completed checks, limitations, and the next Codex task.
+
 ## Walk through
 
 1. Inspect the case and expand evidence records.

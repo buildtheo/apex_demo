@@ -1,6 +1,7 @@
 # Apex implementation instructions
 
 Read README.md and docs/plan.md before editing.
+Read docs/handoff.md for the latest verification results, preview limitations, and next-session starting point.
 
 Keep every data item synthetic and every integration status explicit. Never present fixed responses as AI output or a custom API chat UI as actual ChatGPT. Do not add real customer data, credentials, proprietary documents, or interview uploads to this public repository.
 
