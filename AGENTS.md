@@ -1,6 +1,8 @@
 # Apex implementation instructions
 
-Read README.md and docs/plan.md before editing.
+Read README.md, docs/plan.md, docs/demo-flow.md, and docs/decisions-and-artifacts.md before editing.
+The decision/artifact index preserves the meeting outline, accepted and rejected design choices, open items, and artifact locations. The demo-flow document defines the customer banking app → Apex DMS queue → actual ChatGPT → Apex execution journey.
+Keep these documents current when implementation or user decisions change. Do not leave important decisions only in chat.
 Read docs/handoff.md for the latest verification results, preview limitations, and next-session starting point.
 
 Keep every data item synthetic and every integration status explicit. Never present fixed responses as AI output or a custom API chat UI as actual ChatGPT. Do not add real customer data, credentials, proprietary documents, or interview uploads to this public repository.
