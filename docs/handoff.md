@@ -1,5 +1,22 @@
 # Development handoff — October 15, 2026
 
+## Completed follow-up repair — October 15, 2026
+
+Incorporated the supplied patch and corrected the two additional review gaps:
+- Verification rejects a missing/blank request ID, unrecognized request state, missing approval identity, and a mismatched outer case ID. It still verifies saved requests after normal case progression and verifies exact saved handoff payload/assignment. This is a separate read from the same SQLite database, not external-system confirmation.
+- Assessment responses include case ID and evidence version. The UI discards mismatched, out-of-order, and superseded responses; refresh and actions clear old assessments. A client generation guard prevents a late assessment from repopulating the panel after reset reuses the same case ID/version. Superseded errors are discarded too.
+- Checks executed for this follow-up: 26 tests passed with Python and Node available. These include real local HTTP requests, verifier negative cases, and a minimal-DOM Node harness running the actual app.js with deferred network responses. No real-browser, mobile/layout, accessibility, or model evaluation was run in this follow-up.
+- The preceding supplied patch was applied in an isolated source copy and its 22 tests independently passed before these additions. The earlier jsdom/mutation-test claims below are reported by the supplied patch author; they were not rerun here.
+- The saved handoff remains the short fixed referral payload. The full cited investigation brief, authenticated authority, OpenAI integrations, and rehearsal-environment hardening remain pending. Existing database files are not migrated by this change; use the explicit local demo reset when moving from the old synthetic fixture if needed. Schema compatibility handling remains future work.
+
+## Credibility repair — evidence and completion checks (after adversarial code review)
+
+- **Effect verification.** Approving an evidence request now saves its case, approval ID, destination, question and source IDs; approving the handoff saves the exact approved payload in `handoff` and sets the assignment. `web/verify.js` compares those saved facts with the exact action the analyst approved. It does not compare receipt and status, and a request stays verified after the case advances. This is a separate read of the same local database, not a second system; the UI wording says "saved case record" accordingly.
+- **No answer leakage.** The fixed comparison text moved from `app.js` to `GET /api/analysis/<compare|gap>`, which returns the post-lookup finding only after E-004 is released. No served asset contains it.
+- **Raw evidence.** E-002/E-003/E-004 now state records, identifiers and attributed merchant assertions only. Demo framing stays in the UI; uncertainty analysis stays in the fixed assessment layer. A test fails if conclusion phrases return to evidence text.
+- **Checks reported by the supplied patch author (Oct 15, cloud session).** `python3 -m unittest discover -s tests -v`: 22 tests pass, including a real HTTP server on an ephemeral port. `tests/test_verify.py` needs Node and is skipped without it; with the verifier mutated to always succeed, 3 of its 4 tests fail. A throwaway jsdom run of `/ops` passed the full walkthrough, including a second client advancing the case between approval and read-back. That jsdom script is not committed. No real browser, layout, mobile or accessibility check was run.
+- **Not done (next, before rehearsal):** Host/origin allowlist for the real environment (the Origin check compares to `http://`+Host, which an HTTPS forwarder would likely fail), framing headers, incompatible-`demo.sqlite` handling, `CASE-2026-88412` vs `APX-001` in demo-flow.md, and labeling reset as development-only. Authentication, the cited investigation brief, ChatGPT and Realtime remain pending.
+
 ## Latest locked target — documentation update
 
 Theo locked three potential OpenAI experiences: Realtime voice support OR an OpenAI API-powered conversational text agent in the banking web/iPhone app, followed by analyst investigation in actual ChatGPT. Discovery selects the intake branch; both prepare structured intake for customer confirmation and submit to the same case service. A plain form alone is no longer the target in-app experience. This update changed documentation only and ran no application checks. Existing implementation and historical verification below remain as recorded. Read demo-flow.md, discovery-and-outcomes.md, and the accepted adversarial review response before continuing.
@@ -53,3 +70,4 @@ The checks above establish a working synthetic demo path. They do not establish 
 ## Next Codex task
 
 > Read AGENTS.md, README.md, docs/plan.md, and docs/handoff.md. Run the prototype and existing tests in this VS Code environment. Help me open the working browser preview, accounting for local versus remote execution, and review the UI with me. Preserve the locked synthetic workflow and explicit integration labels. Once the preview is usable, implement the next small milestone from docs/plan.md: authorized case/evidence read tools behind real authentication and case-level permissions, then prove an actual ChatGPT connection. Keep model tools separate from human execution approval, keep all changes in this repository, and do not claim integrations or evals have passed without recorded verification.
+

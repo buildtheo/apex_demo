@@ -1,7 +1,31 @@
 let state;
+let caseGeneration = 0, assessmentRequest = 0;
+let caseLoading = false;
+const emptyAssessment = 'Select a question to inspect the fixed demo reasoning and source references.';
 const $=id=>document.getElementById(id);
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-async function load(){const r=await fetch('/api/case');if(!r.ok)throw Error('Case read failed');state=await r.json();render();}
+function invalidateAssessment() {
+  caseGeneration += 1;
+  assessmentRequest += 1;
+  $('analysis').textContent = emptyAssessment;
+}
+async function load() {
+  // A refresh supersedes any assessment already in flight, even after a reset
+  // that reuses the same case ID and evidence version.
+  invalidateAssessment();
+  const generation = caseGeneration;
+  caseLoading = true;
+  try {
+    const r = await fetch('/api/case');
+    if (!r.ok) throw Error('Case read failed');
+    const next = await r.json();
+    if (generation !== caseGeneration) return;
+    state = next;
+    render();
+  } finally {
+    if (generation === caseGeneration) caseLoading = false;
+  }
+}
 function render(){
  $('amount').textContent=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(state.amount);
  $('merchant').textContent=state.merchant;
@@ -11,10 +35,34 @@ function render(){
  $('timeline').innerHTML=state.timeline.map(t=>`<div class="event"><small>${safe(new Date(t.at).toLocaleTimeString())}</small><p>${safe(t.message)}</p></div>`).reverse().join('');
  $('request').disabled=state.status!=='IN_REVIEW';$('response').disabled=state.status!=='PENDING_EVIDENCE';$('escalate').disabled=state.status!=='EVIDENCE_RECEIVED';
  const d=state.draft;$('approval').hidden=!d;
- if(d){$('approval').innerHTML=`<p class="eyebrow">REVIEW EXACT ACTION · LOCAL DEMO APPROVAL</p><h2>${safe(d.kind.replaceAll('_',' '))}</h2><p>Case ${safe(d.case_id)} · Evidence v${d.version}</p><pre>${safe(JSON.stringify(d.payload,null,2))}</pre><p class="small">This action changes only the local synthetic case. Production identity and authorization are not implemented.</p><button id="approve">Approve & execute in demo</button>`;$('approve').onclick=()=>act('approve',{draft_id:d.id});}
+ if(d){$('approval').innerHTML=`<p class="eyebrow">REVIEW EXACT ACTION · LOCAL DEMO APPROVAL</p><h2>${safe(d.kind.replaceAll('_',' '))}</h2><p>Case ${safe(d.case_id)} · Evidence v${d.version}</p><pre>${safe(JSON.stringify(d.payload,null,2))}</pre><p class="small">This action changes only the local synthetic case. Production identity and authorization are not implemented.</p><button id="approve">Approve & execute in demo</button>`;$('approve').onclick=()=>act('approve',{draft_id:d.id},d);}
 }
-async function act(action,extra={}){try{document.querySelectorAll('button').forEach(b=>b.disabled=true);const r=await fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json','X-Apex-Demo':'local'},body:JSON.stringify({action,...extra})});const j=await r.json();if(!r.ok)throw Error(j.error);await load();if(action==='approve'){const receipt=state.receipts[extra.draft_id];if(!receipt||receipt.result_status!==state.status)throw Error('Execution acknowledged, but read-back did not verify the expected state.');$('notice').textContent='Verified by a separate case read: '+state.status.replaceAll('_',' ');}else $('notice').textContent=action==='response'?'Simulated response received. Re-run the comparison to reassess.':'Case updated.';if(action==='reset')$('analysis').textContent='Select a question to inspect the fixed demo reasoning and source references.';}catch(e){$('notice').textContent=e.message;}finally{document.querySelectorAll('button').forEach(b=>b.disabled=false);if(state)render();}}
-$('compare').onclick=()=>{$('analysis').textContent=state.version===1?'E-001: the customer denies placing the order. E-003: the merchant asserts a recognized device, citing AUTH-77. E-002 identifies the disputed transaction as T-204. The packet does not establish that AUTH-77 belongs to T-204. Request the reference lookup before relying on that assertion.':'E-004 links AUTH-77 to prior transaction T-198, not T-204 in E-002. This weakens the support offered for the merchant assertion in E-003. It does not prove fraud or establish authorization. Under synthetic DEMO-01, prepare a senior-review handoff with the unresolved question.';};
-$('gap').onclick=()=>{$('analysis').textContent=state.version===1?'Missing: a verified association between AUTH-77 and T-204. Scope the request to that association; avoid requesting unrelated customer data.':'Still unresolved: what evidence establishes authorization of T-204? The lookup answers the record-association question only. Consumer liability and network recovery remain undecided.';};
+async function act(action,extra={},approved=null){invalidateAssessment();try{document.querySelectorAll('button').forEach(b=>b.disabled=true);const r=await fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json','X-Apex-Demo':'local'},body:JSON.stringify({action,...extra})});const j=await r.json();if(!r.ok)throw Error(j.error);await load();if(action==='approve'){const v=verifyEffect(state,approved);if(!v.ok)throw Error('Execution acknowledged, but the saved case record could not be verified: '+v.reason+'.');$('notice').textContent='Verified against the saved case record: '+v.summary+'.';}else $('notice').textContent=action==='response'?'Simulated response received. Re-run the comparison to reassess.':'Case updated.';}catch(e){$('notice').textContent=e.message;}finally{document.querySelectorAll('button').forEach(b=>b.disabled=false);if(state)render();}}
+async function ask(kind) {
+  if (!state || caseLoading) return;
+  const generation = caseGeneration, request = ++assessmentRequest;
+  const expectedCase = state.id, expectedVersion = state.version;
+  const current = () => generation === caseGeneration && request === assessmentRequest;
+  $('analysis').textContent = 'Loading fixed assessment...';
+  try {
+    const r = await fetch('/api/analysis/' + kind);
+    if (!current()) return;
+    if (!r.ok) throw Error('Fixed assessment unavailable');
+    const result = await r.json();
+    if (!current()) return;
+    if (result.case_id !== expectedCase || result.evidence_version !== expectedVersion) {
+      $('analysis').textContent = 'Case evidence changed. Refresh the case and request a new assessment.';
+      return;
+    }
+    $('analysis').textContent = result.text;
+  } catch (e) {
+    if (!current()) return;
+    $('analysis').textContent = 'Fixed assessment unavailable. Try again.';
+    $('notice').textContent = e.message;
+  }
+}
+$('compare').onclick=()=>ask('compare');
+$('gap').onclick=()=>ask('gap');
 $('request').onclick=()=>act('draft',{kind:'REQUEST_EVIDENCE'});$('response').onclick=()=>act('response');$('escalate').onclick=()=>act('draft',{kind:'ESCALATE_REVIEW'});$('reset').onclick=()=>{if(confirm('Reset this local demo case and its history?'))act('reset');};
 load().catch(e=>$('notice').textContent=e.message);
+

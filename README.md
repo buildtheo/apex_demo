@@ -37,15 +37,16 @@ See [the development handoff](docs/handoff.md) for completed checks, limitations
 1. Inspect the case and expand evidence records.
 2. Compare the evidence and inspect the missing information.
 3. Stage the evidence request and review its exact payload.
-4. Approve & execute in the local demo. The browser independently reads case state to verify the result.
+4. Approve & execute in the local demo. The browser performs a separate case read and verifies the saved request scope against the approved action.
 5. Simulate a later response. Compare again to reassess the new evidence.
-6. Stage and approve the specialist handoff; verify the assignment and status.
+6. Stage and approve the specialist handoff; verify the assignment and exact saved handoff payload.
 
 The handoff is a reversible prototype endpoint, not a locked final financial disposition. Consumer resolution and network recovery remain undecided. This build does not finalize credit, file network actions, or send messages.
 
 ## Honest implementation boundaries
 
-- SQLite-backed case transitions, draft version binding, duplicate approval handling, and read-back verification are implemented.
+- SQLite-backed transitions, draft version binding, duplicate handling, and separate read-back checks of saved request/handoff facts are implemented. Verification reads the same local database; it does not establish external execution or independent-system confirmation.
+- Fixed assessments are served only for the available evidence snapshot. The UI checks case/version metadata and discards superseded responses after refresh, actions, or reset. Raw records remain separate from assessment text.
 - Investigation text is fixed demo content. No model, ChatGPT, Realtime, MCP, bank, Visa, or external evidence service is connected.
 - Approval is performed by the local demo operator. This is not OAuth, real identity verification, or production role authorization.
 - Server binds only to localhost. Do not expose it to the internet as a production service.
@@ -58,4 +59,5 @@ The handoff is a reversible prototype endpoint, not a locked final financial dis
 python3 -m unittest discover -s tests -v
 ```
 
-These test local workflow controls, not model quality or production security. See `docs/plan.md` for the locked meeting baseline and next integration milestones.
+The suite includes workflow, HTTP, persisted-effect verification, and delayed-assessment race checks. Node is optional for running the app but required for the JavaScript verifier and UI-race tests; those tests are explicitly skipped without it. These test local workflow controls, not model quality or production security. See `docs/plan.md` for the locked meeting baseline and next integration milestones.
+

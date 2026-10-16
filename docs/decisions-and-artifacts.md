@@ -109,7 +109,7 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 | Accepted adversarial review actions and corrections | adversarial-review-response.md |
 | Backend prototype and synthetic state | ../server.py |
 | Browser prototype | ../web/index.html, ../web/app.js, ../web/style.css |
-| Existing workflow tests | ../tests/test_workflow.py |
+| Workflow, HTTP, persisted-effect verification, and UI race tests | ../tests/test_workflow.py, ../tests/test_http.py, ../tests/test_verify.py, ../tests/test_app_races.py, ../tests/app_races.js |
 | Runtime SQLite state | Local demo.sqlite, intentionally Git-ignored; not a source artifact |
 | Original AAA interview PDF and merchant guide | Not committed; original uploads are excluded by repository instructions. The guide was merchant-side, not an issuer procedure. |
 | Earlier pasted JSON/text drafts | Not archived verbatim here; superseded assumptions are recorded above. Do not assume these source attachments are available to a repo-only agent. |
@@ -121,6 +121,12 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 ## Latest locked demo decision — three potential OpenAI experiences
 
 Theo confirmed the demo after identifying voice dependency as a design weakness. Voice support (Realtime) and conversational text in the banking web/iPhone app (OpenAI API) are alternative customer-facing experiences; actual ChatGPT is the shared analyst experience. Every chosen branch demonstrates two OpenAI-powered experiences. Both intake agents prepare a report for customer confirmation and submit to the same Apex case service. A static form alone no longer satisfies the in-app demo path. This changes the target design, not current implementation status. Exact model/API choices and voice transport remain open. See demo-flow.md and discovery-and-outcomes.md.
+
+## Implemented credibility repair — October 15, 2026
+
+Incorporated the supplied evidence/completion patch and fixed two additional review findings. Saved request/handoff facts are checked against the approved payload; request ID, recognized request state, and matching outer case identity are required. Verification survives normal case progression. Fixed assessments are release-gated server-side and returned with case ID and evidence version; the UI rejects mismatched and superseded responses, including delayed responses after reset reuses ID/version. Static browser assets no longer contain the withheld finding. Raw evidence now states observations and attributed assertions only. Query strings are accepted by routes.
+
+Executed verification for this increment: 26 tests passed, including live local HTTP tests, Node verifier tests, and a minimal-DOM network-race harness using the actual app.js. These are not a real-browser/layout check, a model evaluation, authenticated authorization, or proof of external bank execution. The exact saved handoff is still the short fixed payload, not yet the full cited investigation brief. See handoff.md for limits and remaining work.
 
 ## Outstanding work and continuation
 
@@ -144,3 +150,4 @@ Theo confirmed the demo after identifying voice dependency as a design weakness.
 8. Execute adversarial evaluations, refine costs and pilot assumptions, create presentation/backup/fallback material, and rehearse the timed story.
 
 Exact voice transport, ChatGPT launch mechanism, deployment host, final disposition, and actual pilot owners remain open. Do not block the first local review on these choices. Keep repository documentation synchronized with implementation and clearly distinguish newly executed checks from historical verification reports.
+
