@@ -10,7 +10,8 @@ Updated October 15, 2026. Consolidated from the available project conversation a
 | Meeting goal | Locked | Demonstrate credible operational value and earn sponsorship for a bounded pilot. |
 | Meeting timing | Locked baseline | 30 minutes: 3 discovery, 6 solution, 18 demonstration including questions, 3 value/pilot/ask. |
 | Journey | Confirmed clarification | Customer sees charge in banking app, selects dispute via voice or in-app entry; Apex creates case and owns analyst queue; actual ChatGPT investigates the same case; Apex executes approved updates. See demo-flow.md. |
-| OpenAI surfaces | Locked direction; integrations pending | Realtime customer intake and actual ChatGPT analyst investigation. Custom browser chat is not a substitute for actual ChatGPT. |
+| OpenAI experiences | Locked by Theo, October 15; integrations pending | Three potential experiences: Realtime voice support; OpenAI API-powered conversational text agent in the banking web/iPhone app; analyst in actual ChatGPT. Discovery selects voice OR text agent, then shared ChatGPT investigation. Each path includes two OpenAI-powered experiences. A plain form is only a scaffold/fallback. |
+| Customer confirmation | Locked demo flow | Either intake agent clarifies the selected transaction and presents structured intake for customer confirmation before Apex case creation. This is distinct from analyst approval of consequential investigation actions. |
 | Investigation | Locked | Compare sources, identify a material inconsistency, request a narrowly scoped internal record, reassess, approve a supported next action, verify execution. |
 | Approval | Locked direction | Show approval and verification on both actions; explain first in depth and finish second in approximately 60–90 seconds. |
 | Evidence | Locked principle | Raw observations with provenance, no prewritten conclusions; missing proof does not establish fraud. Requested evidence should improve judgment rather than provide an artificial smoking gun. |
@@ -42,7 +43,7 @@ Adapt emphasis to the answer. Do not present assumed customer pain as measured e
 
 ### 3–9 minutes: solution
 
-Discovery-selected voice or in-app intake → Apex case/evidence services → actual ChatGPT investigation → analyst approval → Apex execution and verification.
+Discovery-selected Realtime voice or OpenAI API-powered conversational in-app intake → customer confirmation → Apex case/evidence services → actual ChatGPT investigation → analyst approval → Apex execution and verification.
 
 Explain why the two OpenAI surfaces serve different jobs. Show Apex record ownership, identity, permission boundaries, and evidence provenance. Existing case systems remain authoritative. The hypothesis is that reduced evidence assembly and interpretation effort justifies integration and operating costs; do not claim unsupported competitive superiority.
 
@@ -50,7 +51,7 @@ Explain why the two OpenAI surfaces serve different jobs. Show Apex record owner
 
 | Meeting time | Scene | Visible result |
 | --- | --- | --- |
-| 9–12 | Customer entry and discovery-selected voice or in-app report | Attributed statement, structured intake, same case ID |
+| 9–12 | Customer entry and discovery-selected voice or API-powered text conversation | Attributed statement, structured intake, same case ID |
 | 12–14 | Explicit time jump; analyst queue and transition into actual ChatGPT | Authorized case and later evidence available |
 | 14–19 | Compare customer account with supporting records | Cited facts, material inconsistency, specific information gap |
 | 19–22 | Scoped evidence request | Exact request reviewed, approved, executed, independently verified |
@@ -116,6 +117,10 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 | Executed model evaluations and traces | Pending; six recorded local workflow checks are not model evaluations |
 | Hosted website | Not deployed; localhost requires a running server on the appropriate machine or port forwarding |
 
+## Latest locked demo decision — three potential OpenAI experiences
+
+Theo confirmed the demo after identifying voice dependency as a design weakness. Voice support (Realtime) and conversational text in the banking web/iPhone app (OpenAI API) are alternative customer-facing experiences; actual ChatGPT is the shared analyst experience. Every chosen branch demonstrates two OpenAI-powered experiences. Both intake agents prepare a report for customer confirmation and submit to the same Apex case service. A static form alone no longer satisfies the in-app demo path. This changes the target design, not current implementation status. Exact model/API choices and voice transport remain open. See demo-flow.md and discovery-and-outcomes.md.
+
 ## Outstanding work and continuation
 
 ### Customer-entry implementation update — October 15, 2026
@@ -130,10 +135,10 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 
 1. Start locally in VS Code; run tests; confirm Theo can open and review the UI.
 2. Make the three surfaces and case continuity clear without adding unnecessary scope.
-3. Connect submitted intake to shared case creation and a minimal analyst queue, preserving the actual statement and case ID. Prove real authenticated, case-authorized evidence retrieval in actual ChatGPT.
+3. Build API-powered conversational in-app intake with useful clarification and customer confirmation. Connect submitted intake to shared case creation and a minimal analyst queue, preserving the actual statement and case ID. Prove real authenticated, case-authorized evidence retrieval in actual ChatGPT.
 4. Replace fixed comparisons with grounded investigation; preserve source and snapshot references.
 5. Implement a source-cited investigation brief, authenticated human approval, and failure/duplicate/stale-state handling. Verify the exact saved brief and expected request/assignment, not just status. See adversarial-review-response.md.
-6. Add customer entry and Realtime intake through the shared case service.
+6. Build Realtime voice as the alternative intake branch using the same customer-confirmation and case-creation contract. Rehearse both discovery-selected branches.
 7. Resolve the final consumer outcome from balanced evidence and explicit synthetic policy; keep network recovery separate.
 8. Execute adversarial evaluations, refine costs and pilot assumptions, create presentation/backup/fallback material, and rehearse the timed story.
 
