@@ -4,6 +4,7 @@ Read README.md, docs/plan.md, docs/demo-flow.md, docs/discovery-and-outcomes.md,
 The decision/artifact index preserves the meeting outline, accepted and rejected design choices, open items, and artifact locations. The demo-flow document defines the customer banking app → Apex DMS queue → actual ChatGPT → Apex execution journey.
 Discovery answers select the demonstrated voice or in-app intake path; do not hardcode voice as the default story. Keep the discovery table and end-in-mind outcomes current.
 Keep these documents current when implementation or user decisions change. Do not leave important decisions only in chat.
+Read docs/adversarial-review-response.md for accepted review actions; the original adversarial review is subjective critique, not an official hiring rubric or permission to inflate claims.
 Read docs/handoff.md for the latest verification results, preview limitations, and next-session starting point.
 
 Keep every data item synthetic and every integration status explicit. Never present fixed responses as AI output or a custom API chat UI as actual ChatGPT. Do not add real customer data, credentials, proprietary documents, or interview uploads to this public repository.
