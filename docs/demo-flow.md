@@ -10,12 +10,16 @@ Apex's dispute-management system (DMS) owns the case. ChatGPT is the analyst's i
 
 There are three visible surfaces, including two OpenAI-powered experiences: customer banking/intake (Realtime voice), Apex DMS, and actual ChatGPT (analyst investigation).
 
+## Discovery selects the intake path
+
+See [the running discovery table and outcomes](discovery-and-outcomes.md). Ask which intake experience needs improvement. Their answer chooses the voice or in-app path shown in depth; both converge on the same Apex case service and analyst workflow. Voice is not an unconditional default.
+
 ## End-to-end experience
 
 | Step | Actor and experience | System responsibility |
 | --- | --- | --- |
 | 1. Spot the charge | Customer opens a transaction in the Apex banking app and selects Dispute this charge. | Banking app supplies the selected transaction context. |
-| 2. Report the issue | Customer can choose a call/voice route or an in-app reporting route. The live demo follows voice intake using Realtime. | Apex captures structured intake and an attributed customer statement. Entry choices do not imply both channels have been implemented. |
+| 2. Report the issue | Customer can choose a call/voice route or an in-app reporting route. Discovery determines which path the live demo follows; the voice branch uses Realtime. | Apex captures structured intake and an attributed customer statement. Entry choices do not imply both channels have been implemented. |
 | 3. Create the case | Intake returns a case ID. | Apex case service persists the dispute, transaction reference, statement, and initial history. Do not imply automatic credit or network filing. |
 | 4. Pick up the work | Analyst sees the case in an assigned work queue. | Apex DMS owns routing, assignment, status, and access permissions. |
 | 5. Investigate | Analyst opens actual ChatGPT and requests the same case by ID. ChatGPT retrieves authorized evidence, compares sources, and identifies a material inconsistency. | Connected Apex tools enforce identity and case-level access. ChatGPT provides cited investigation support; Apex remains the record authority. |
