@@ -2,6 +2,10 @@
 
 Recorded October 15, 2026 (America/Los_Angeles). Theo authorized this response after reviewing adversarial-review-hm.md. This document records accepted planning changes, not completed implementation or passing evaluations.
 
+## Subsequent locked experience clarification
+
+Theo subsequently locked three potential OpenAI experiences: Realtime voice support OR an OpenAI API-powered text agent inside the banking web/iPhone app, followed by actual ChatGPT analyst investigation. Both intake branches prepare structured reports for customer confirmation and shared case creation. A plain form remains a development scaffold/fallback, not the complete in-app demo. This clarification supersedes any earlier suggestion that the in-app path would have only one OpenAI-powered experience. The actual integrations remain pending; see demo-flow.md.
+
 ## Disposition of findings
 
 | Finding | Decision | Acceptance evidence still required |
@@ -41,7 +45,7 @@ Approval binds the case, snapshot, exact action payload and brief, recipient, ac
 
 ## Build order
 
-1. Confirm local usability, then connect an in-app submission to the shared case backend and a minimal analyst queue. Preserve the actual submitted statement and return the case ID. This is a development sequence, not a change to discovery branching.
+1. Confirm local usability, then build useful API-powered conversational in-app intake with customer confirmation and connect submission to the shared case backend and a minimal analyst queue. Preserve the actual submitted statement and return the case ID. This is a development sequence, not a change to discovery branching.
 2. Prove authorized case/evidence retrieval in actual ChatGPT; replace fixed comparisons with sourced model investigation.
 3. Implement the useful investigation brief and authenticated stage/approve/execute/read-back cycle. Stage-only model tools cannot approve themselves.
 4. Connect Realtime intake to the same case-creation operation and rehearse both customer-selected branches.
