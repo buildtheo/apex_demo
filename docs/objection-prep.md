@@ -17,6 +17,12 @@ Prepared October 15, 2026. Facilitator preparation, not claims about a competito
 | What happens if a write times out or the model is wrong? | No blind success claim or blind retry. Reconcile by action ID against saved facts, preserve the analyst's ability to reject/edit, and return to the case system when uncertain. | Tests for false success, duplicates, stale approvals, timeouts, and corrections. Distinguish existing unit checks from future model/system evaluations. |
 | Why this provider rather than another model/vendor? | Use the same representative task set and access constraints to compare source fidelity, procedure adherence, latency, cost, and operator usability. | Present observed results only. Keep model/backend choice flexible behind governed tool contracts if the evidence warrants it. |
 
+## Two-sentence spoken position
+
+"I recommend OpenAI for this pilot because its APIs let us tailor the customer conversation while ChatGPT gives analysts a workspace for investigating through the same governed Apex tools. We will retain the bank's case system and deterministic checks, and require measurable improvement over that baseline before expanding."
+
+This is our proposed architecture position, not a claim of measured superiority. Follow with the customer's priority outcome, the specific demonstrated model contribution, and the pilot's acceptance threshold. If the baseline wins on value or controls, say so.
+
 ## Qualification and close practice
 
 Operations sponsor: confirm the primary measure and who can commit evaluation capacity. Technology owner: confirm the supported access path and cost estimate. Risk/privacy: identify the approval gate and prohibited uses. Analyst/specialist leads: agree scoring and training. Procurement: confirm how incremental spend and supplier review are decided.

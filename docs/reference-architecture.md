@@ -2,6 +2,34 @@
 
 Prepared October 15, 2026. Target design; consult handoff.md for implemented behavior. The two selected OpenAI product surfaces are **Platform/APIs** for customer intake and **ChatGPT** for analyst investigation. Realtime voice and conversational text are alternative experiences within the first surface. Codex is a development aid, not a counted live surface.
 
+## Intelligent UI feasibility check — Gate 0
+
+Required planning step before further feature building; requested by Theo. It is a test of whether to use an optional evidence-comparison presentation in the existing analyst scene. It does not change the case contract or execution controls.
+
+Official announcement checked October 15, 2026: native Intelligent UI is a Chat-tab feature, with Enterprise availability subject to admin settings. The announcement does not establish compatibility with Apex MCP tools or an embeddable API feature. A custom MCP component or browser widget must not be labeled native Intelligent UI.
+
+| Check | Action / evidence to record | Current status |
+| --- | --- | --- |
+| Presentation-account availability | Identify actual account/workspace, Chat mode/model and browser; confirm native rendering is available. Do not assume Work/Codex behaves the same. | Not run |
+| Useful evidence comparison | With a clearly labeled synthetic available-evidence snapshot, compare assertion/source/uncertainty, expand a source, and inspect legibility. Preserve source IDs/version and exclude unreleased findings. | Not run; snapshot rendering alone would not prove tools |
+| Combined case retrieval and presentation | Once the minimal adapter is available, invoke get_case/get_evidence in the same Chat experience, render the comparison, verify references and changes after additional evidence. Record the actual tool trace and rendering. | Adapter/linking unbuilt; unproven |
+| Failure and timing | Check stale or mismatched evidence, unavailable UI, refresh, and failed source links; retain a plain sourced table. Fit the comparison into the existing scene, proposed maximum 60 seconds. | Not run |
+
+Proposed timebox: one 20-minute readiness session, not a requirement to solve every UI issue. Record one outcome before further feature building: USE AFTER PROOF (native rendering useful, with combined tool proof still explicitly pending if no adapter), DEFER (use sourced table), or UNAVAILABLE (use sourced table). Do not mark an untested combination as working. An availability/rendering decision permits only the minimal read-adapter proof next; repeat the combined check before investing in custom UI. If tool compatibility fails, keep the table and continue the core demo. This gate must not force a new Chat mode or weaker access control merely to obtain visuals.
+
+## Named API and integration baseline
+
+| Responsibility | Selected API / interface | Required behavior |
+| --- | --- | --- |
+| Conversational text intake | OpenAI Responses API, function calling and Structured Outputs where appropriate | Server validates output; preserve attribution; customer confirms before shared case submission |
+| Browser voice alternative | OpenAI Realtime API over WebRTC | Backend-controlled session setup; no persistent API secret in browser; same confirmation/case contract; phone transport is separate and not assumed |
+| Analyst investigation | Actual ChatGPT + custom MCP plugin, Streamable HTTP | get_case/get_evidence are truly read-only; validated identity/case access and source snapshots |
+| Stage request / brief | Proposed MCP stage tools | Saving a draft is a write and may need ChatGPT confirmation; it cannot authorize Apex execution |
+| Human-approved execution | Apex's own HTTP service and executor | Existing prototype is local-only; real actor authorization remains pending; verify exact persisted effects |
+| Native Intelligent UI | ChatGPT presentation capability, conditional on Gate 0 | Evidence presentation only; no claim it is available as an API for the simulated iPhone app |
+
+Model IDs/snapshots are not interchangeable with API selection. Before model evaluation, choose candidates supported by the actual account and required tools/schema, record exact IDs/versions and inference settings, then pin the evaluated configuration. The actual ChatGPT model/mode must also work with the tool connection and any native UI. None of these account-level combinations has yet been verified.
+
 ## Target reference architecture
 
 ```mermaid
@@ -30,6 +58,12 @@ The same Apex case ID spans intake, queue, investigation, and execution. ChatGPT
 | Model -> staged action | Proposed request or cited investigation brief, exact destination and snapshot | Allowlisted schema; stage-only tools; deterministic identifiers and associations checked in code |
 | Human -> executor | Exact reviewed payload with actor, expiry, and snapshot | Fresh authorization, stale-draft rejection, idempotency; no credit or network filing in present scope |
 | Executor -> read-back | Saved request ID/scope or assignment/exact handoff | Verify persisted facts; distinguish failure, ambiguity, and later progression; do not infer success from status alone |
+
+### Tool confirmation versus business approval
+
+Official custom-MCP guidance says write tools require confirmation by default and honors readOnlyHint for reads. Mark get_case/get_evidence read-only only because they do not mutate state. Draft-persisting stage tools remain writes. In the full two-action demo there may be two ChatGPT staging confirmations plus two Apex approvals; rehearse the actual count and timing, rather than assuming one approval prompt per action. Account setup/OAuth consent is a separate preparation step.
+
+Narration: "ChatGPT is asking permission to call the staging tool. Apex's approval is the bank-authorized decision to execute this exact action." Do not suppress necessary prompts by mislabeling tools or treat a remembered tool permission as business authority. Installation/confirmation behavior must be rehearsed on the presentation account.
 
 Minimal proposed tools: get_case(case_id), get_evidence(case_id, source_id, snapshot), stage_evidence_request(case_id, snapshot, scope), stage_handoff(case_id, snapshot, brief), and get_action_result(case_id, action_id). Names/contracts are proposed, not implemented MCP tools. Execution approval remains an Apex human operation; it is not exposed as a model approval tool.
 
@@ -70,6 +104,10 @@ Consumer liability, network remedies, and Apex synthetic referral policy remain 
 
 ## Primary sources
 
+- [Intelligent UI announcement](https://openai.com/index/gpt-6-for-everyone/)
+- [Responses text generation](https://developers.openai.com/api/docs/guides/text)
+- [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
+- [Realtime WebRTC](https://developers.openai.com/api/docs/guides/voice-webrtc)
 - [ChatGPT custom MCP connection](https://developers.openai.com/api/docs/guides/custom-mcp-server)
 - [MCP authentication](https://developers.openai.com/plugins/build/auth)
 - [CFPB 1026.13](https://www.consumerfinance.gov/rules-policy/regulations/1026/13/)

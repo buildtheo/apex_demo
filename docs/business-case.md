@@ -35,6 +35,28 @@ These rows are a scenario model, not a prediction that the hero case resolves in
 
 Costs are planning placeholders, not current OpenAI pricing or negotiated terms. Replace with incremental seats, measured calls/tokens/audio, deployment costs, identity/integration work, QA, and technical support. Keep technical operating costs separate from the case-handling effort already counted above. Do not add the pilot allocation a second time. This annualized scenario excludes rollout ramp and discounting; build a monthly forecast before a real investment decision. The hypothetical growth pressure is not monetized. Do not imply labor is removed from payroll: if only 50% of the released time can be redeployed, valued benefit is $112,500 and year-one modeled net becomes **negative $67,500**.
 
+## Connect urgency to capacity: growth scenario
+
+This is a separate forward-volume scenario using the same assumptions, not another benefit to add to the $225k base-year estimate. Assume eligible volume rises 15% to 69,000 cases, case mix and quality remain comparable, 75% adopt the assisted process, and the total all-role effort truly falls from 20 to 15 minutes on adopted cases.
+
+| Comparable annual workload | Hours |
+| --- | ---: |
+| Today's 60,000 cases at 20 minutes | 20,000 |
+| Next year's 69,000 cases with no change | 23,000 |
+| 51,750 adopted cases at 15 minutes | 12,937.5 |
+| 17,250 unadopted cases at 20 minutes | 5,750 |
+| Next-year total with assumed adoption | **18,687.5** |
+| Effort avoided versus next-year unchanged process | **4,312.5** |
+| Headroom versus today's effort | **1,312.5** |
+
+Proposed executive line: "Under these assumptions, we could handle 15% more eligible investigations in fewer handling hours than today, while preserving quality." This is an effort-capacity hypothesis, not a proven headcount reduction, a service-level guarantee, or a reason to omit costs. At $60/hour the forward-volume effort difference is $258,750; it replaces the $225,000 constant-volume scenario when modeling that year, not an additive benefit. Test peak demand, queue waiting, skill mix, role-specific bottlenecks, rollout ramp, and whether released time is usable. The projected volume growth and savings remain unvalidated.
+
+## Portfolio-scale benchmark status
+
+120,000 dispute events / 1,000,000 active accounts = 0.12 events per account-year, or 12 events per 100 accounts. This is not a claim that 12% of unique customers dispute a charge. No like-for-like public benchmark has validated that assumption, nor the 60,000-case eligible share. Do not increase account counts or widen the use case merely to make the economics look better.
+
+The [CFPB 2025 credit-card market report](https://files.consumerfinance.gov/f/documents/cfpb_consumer-credit-card-market-report_2025.pdf), section 7.6.2 and Figure 132, reports disputed dollars relative to purchase dollars. That denominator cannot validate events per account-year without additional information. Reconcile transaction-event definitions, active-account denominator, period, intake reason mix, and eligibility with customer data before using the scale as more than an illustrative scenario. The single unrecognized-charge hero case does not prove applicability to 60,000 cases across other dispute classes. Keep one-million-account and eligibility figures out of the headline until validated; the pilot readiness checklist must retain this gap.
+
 ## Sensitivity and decision threshold
 
 At 45,000 adopted cases and $60/hour, one minute saved is worth $45,000/year. With $180,000 year-one costs, break-even is four minutes saved per adopted case before any capture discount. The five-minute hypothesis has limited headroom; a pilot may conclude that expansion is not justified.

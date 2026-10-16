@@ -2,6 +2,12 @@
 
 Prepared October 15, 2026. Reviewable content outline, not a finished slide deck or an executed rehearsal. Read with customer-profile.md, reference-architecture.md, business-case.md, and objection-prep.md. New customer details, pilot thresholds, owners, and costs are proposals for discussion; the 30-minute meeting, two product surfaces, browser iPhone presentation, and discovery-selected intake direction remain locked.
 
+## Readiness gate and proposed rehearsal default
+
+Before further feature building, run and record the Intelligent UI Gate 0 in reference-architecture.md. Outcome may be the sourced-table fallback; native UI is optional and unproven. It replaces up to 60 seconds of the existing evidence-comparison scene and adds no new scene. After the gate, the smallest implementation is a read-only MCP adapter and one actual ChatGPT get_case/get_evidence proof. Export the existing architecture diagram, create the six-slide deck, and rehearse; another prose expansion is not the next deliverable.
+
+Proposed default for preparation: text intake as the primary live candidate, a labeled recording/simulation if not ready, and voice as a labeled prepared alternative. This is a rehearsal proposal, not a user-approved replacement for discovery selection. The customer's answer still selects the experience demonstrated. Both product surfaces must have a clear role in either live or simulated route.
+
 ## Story and executive close
 
 Apex's card team needs capacity without weakening customer treatment. An API-powered customer conversation preserves the selected charge and confirmed statement. Later, an analyst uses ChatGPT to assemble evidence, check a material inconsistency, and prepare a supported next action. Apex authorizes, executes, and verifies. The executive decision is sponsorship for a bounded, measured pilot, not acceptance of a predetermined liability verdict.
@@ -15,7 +21,7 @@ Apex's card team needs capacity without weakening customer treatment. An API-pow
 | 4:30-7:00 | 3. One case, existing bank authority | Use the architecture in reference-architecture.md; explain context, source retrieval, human approval, executor, and separate saved-effect read. | Identity/data boundaries; current versus target |
 | 7:00-9:00 | 4. Adoption with controls | Three points: bank-owned deadlines and decisions; scoped evidence and verified actions; shadow evaluation before limited use. | Concise legal/privacy context, evaluation and rollout thesis |
 | 9:00-27:00 | Live / clearly labeled simulated workflow | One coherent customer-to-analyst case, as detailed below. | Visible before/after and the role of both OpenAI product surfaces |
-| 27:00-28:15 | 5. Value hypothesis and break-even | Assumed 20 -> 15 active minutes; $300k full-coverage gross capacity, $225k at assumed adoption; costs and downside explicit. | Pilot validates total-role effort, quality, and costs |
+| 27:00-28:15 | 5. Value hypothesis and break-even | Assumed 15% growth: 23,000 hours without change versus 18,687.5 with adoption, below today's 20,000. Keep the $225k constant-volume capacity and cost/downside model as backup, not an additive benefit. | Pilot validates total-role effort, quality, and costs |
 | 28:15-30:00 | 6. Pilot decision | Proposed six-week gated pilot; name operations/technology owners and risk participation; agree baseline/access work and scorecard. | Clear next step; no invented customer commitment |
 
 Keep each main slide to one visual and a few talking points. Full tables stay in backup material. This skeleton has not been rendered or rehearsed.
@@ -28,14 +34,16 @@ Keep each main slide to one visual and a few talking points. Full tables stay in
 | 10:00-12:00 | Browser iPhone: select VeloCraft charge; follow discovery-selected text or voice conversation; clarify and confirm intake | Model contribution, customer corrections, structured report, case ID |
 | 12:00-14:00 | Case appears in Apex queue; announce time jump before later merchant evidence; switch to actual ChatGPT | Same case ID and attributed intake; no instant merchant response |
 | 14:00-18:00 | Investigate claims with source references; ask what underlying record supports the merchant assertion | Model synthesis versus deterministic association checks; specific gap |
-| 18:00-21:00 | Stage a scoped evidence request; analyst approves; Apex executes and saved request is read back | Exact scope, destination, action ID, persisted-effect verification |
+| 18:00-21:00 | Stage a scoped evidence request; distinguish ChatGPT's tool-call permission from Apex approval; Apex executes and saved request is read back | Exact scope, destination, action ID, persisted-effect verification |
 | 21:00-24:00 | Label the simulated later response; reassess the material inconsistency and remaining uncertainty | Raw observation separated from inference; no fraud verdict |
-| 24:00-26:00 | Review the cited investigation package and approve the next action | Requested specialist decision, sources, open questions, human judgment |
+| 24:00-26:00 | Review the cited package; keep second Apex approval/verification concise (60-90 seconds), with brief narration of any ChatGPT staging confirmation | Requested specialist decision, sources, open questions, human judgment |
 | 26:00-27:00 | Verify destination and exact saved package; connect to the named business priority | Completed supported action; consumer/network states remain distinct |
 
 The full cited brief, case-creation continuity, and model connections remain build work. APX-001 is the current seeded case; when live intake creates another ID, use that actual returned ID throughout. Never use an unrelated scripted case ID.
 
 Discovery still selects the intake path. Prepare both. The brief permits live or simulated demonstrations, so both routes need not be live implementations. Proposed execution plan: rehearse one stable live primary path and a clearly labeled prepared alternative, choosing live versus simulation based on actual readiness. Do not quietly replace the user's branch choice or represent a prerecorded path as interactive.
+
+Do not assume stage tools avoid confirmation. Saving drafts changes state; only true read tools get readOnlyHint. Rehearse the actual sequence and total prompt count, potentially two staging permissions plus two Apex approvals. Use the first cycle to explain the distinction and the second concisely. The eight timing rows are scene cues, not eight separate applications or presentations. If the run exceeds its budget, shorten narration and optional visual exploration; preserve source inspection, meaningful human review, and verified completion. Keep timed slack for questions rather than adding features.
 
 ## Evaluation plan (proposed; not executed)
 

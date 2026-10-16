@@ -1,5 +1,11 @@
 # Development handoff — October 15, 2026
 
+## Next action — Intelligent UI readiness before feature expansion
+
+Theo requested Gate 0 before further feature building. Read plan.md and reference-architecture.md. Gate status is NOT RUN; verify the actual presentation account/Chat mode and a source-based comparison, record fallback if unavailable, and distinguish pasted-snapshot rendering from real Apex retrieval. If no adapter exists, record combined proof pending, select table fallback for now, then implement only get_case/get_evidence and repeat the combined test before further UI work. Do not build a UI framework to force the optional feature.
+
+Updated preparation also covers growth-capacity arithmetic, staging confirmation versus bank authority, named API baseline, and a spoken OpenAI position. Text-primary/voice-prepared-alternative remains a proposed rehearsal default; discovery selection is unchanged. Account/dispute scale is not publicly benchmark-validated. No integration, native Intelligent UI, deck export, or rehearsal was executed by this documentation change. The next deliverables are working/visible proof, not more planning prose.
+
 ## Presentation preparation update — October 15, 2026
 
 Original assignment checked privately; selected surfaces are ChatGPT and Platform/APIs. Voice and text remain alternative customer experiences, but both do not need live implementation. Keep discovery-driven branch selection and label simulations. Read customer-profile.md, reference-architecture.md, business-case.md, objection-prep.md, and meeting-outline.md. They add explicit fictional customer/urgency/baseline/cost assumptions, stakeholder and qualification prep, architecture/data flow, primary-source regulatory mapping, a timed six-slide skeleton, and proposed eval/governance/enablement. No actual deck, rehearsal, model evaluation, or live OpenAI connection was produced by this documentation update. Current custom-MCP connection guidance was verified from official docs; actual account/identity setup and invocation remain pending. Prioritize one live read-tool proof alongside presentation work, rather than building both intake modes before proving ChatGPT.
