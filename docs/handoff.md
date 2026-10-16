@@ -4,6 +4,10 @@
 
 Theo locked three potential OpenAI experiences: Realtime voice support OR an OpenAI API-powered conversational text agent in the banking web/iPhone app, followed by analyst investigation in actual ChatGPT. Discovery selects the intake branch; both prepare structured intake for customer confirmation and submit to the same case service. A plain form alone is no longer the target in-app experience. This update changed documentation only and ran no application checks. Existing implementation and historical verification below remain as recorded. Read demo-flow.md, discovery-and-outcomes.md, and the accepted adversarial review response before continuing.
 
+## Customer presentation environment
+
+Theo will present the Apex iPhone app in the browser as an iPhone-style simulator. Build and rehearse the browser phone experience; no native iOS application, Apple simulator, or App Store packaging is required. Test readable conversation, text entry, and browser audio/microphone permissions when voice is connected. This is a presentation decision, not additional executed verification.
+
 ## Latest local implementation
 
 The preview now starts at an iPhone-style banking app (`/` or `/banking`). Select the VeloCraft charge → Dispute this charge → choose Talk to support or Report in the app. Voice is explicitly not connected. The form saves a browser-local draft and does not create a case. The existing analyst investigation remains at `/ops`, using the preseeded APX-001 case. Shared case submission, analyst queue, actual ChatGPT and Realtime integration remain pending.
