@@ -28,7 +28,7 @@ The reviewer uses four preparation dimensions below. These are subjective review
 ## 1. The "Where is OpenAI?" Problem (Current Build vs. Plan)
 
 * **The Critique:** `server.py`, `web/app.js`, and `web/banking.js` currently contain zero OpenAI API integrations, zero MCP/Actions connections to actual ChatGPT, fixed guided-investigation strings, and a disabled button on the voice support screen.
-* **The Trap:** While explicit honesty about unbuilt integrations is mandatory during the 15-minute reflection and in repo documentation, **showing disabled buttons and "no model connected" disclaimers during the 30-minute customer roleplay kills executive momentum.**
+* **The Trap:** An unfinished route can interrupt the roleplay. Keep disclosures accurate in both the roleplay and reflection; demonstrate working capability or an explicitly labeled simulation/fallback instead of concealing missing integrations.
 * **How the Panel Will Push Back:**
   > *"You're interviewing at OpenAI. Why did you spend 60% of your preparation building a local SQLite state-machine and an iPhone CSS frame, and 0% showing frontier model reasoning, Realtime audio, or actual ChatGPT Enterprise tool execution?"*
 * **Recommended Remediation:**
@@ -49,7 +49,7 @@ The reviewer uses four preparation dimensions below. These are subjective review
   > *"Wait—you told me this saves 5 minutes per case and drives efficiency. Yet at the end of an 18-minute demo, my Tier-1 analyst didn't resolve the case. They requested an internal lookup, waited for a response, and then punted the case to a more expensive Senior Specialist. Didn't you just add a touchpoint and increase my cost per case?"*
 * **Why This Happens:** In rightly avoiding unverified legal/Reg Z liability conclusions, the workflow ended on an operational punt (`ESCALATE_REVIEW` with a one-sentence reason).
 * **Recommended Remediation:**
-  * **Sharpen the Before/After Framing:** Explicitly contrast what happens today vs. with Apex + ChatGPT: *"Without this workflow, Tier-1 analysts either rubber-stamp the merchant's `AUTH-77` assertion (wrongly rebilling the customer and triggering rework/complaints) OR spend 20 minutes hunting across four systems before escalating with incomplete notes. Here, the analyst disproved the merchant's representment anchor in 90 seconds and handed Senior Review a citation-locked, verified brief."*
+  * **Sharpen the Before/After Framing:** Validate the current process through discovery before contrasting it with Apex. Rubber-stamping, searching four systems, incomplete notes, and a 90-second outcome are unverified hypotheses, not customer facts or measured results. The lookup undermines one supporting item without deciding authorization or the entire representment.
   * **Make the Staged Payload High-Value:** When staging `ESCALATE_REVIEW` (or a final consumer disposition once milestone 6 is reached), ensure the staged payload contains a structured, citation-backed investigation brief—not just a single static sentence—so the labor saved for both Tier-1 and Senior Review is visually unmistakable.
 
 ---
