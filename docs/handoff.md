@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## Presentation preparation update — October 15, 2026
+
+Original assignment checked privately; selected surfaces are ChatGPT and Platform/APIs. Voice and text remain alternative customer experiences, but both do not need live implementation. Keep discovery-driven branch selection and label simulations. Read customer-profile.md, reference-architecture.md, business-case.md, objection-prep.md, and meeting-outline.md. They add explicit fictional customer/urgency/baseline/cost assumptions, stakeholder and qualification prep, architecture/data flow, primary-source regulatory mapping, a timed six-slide skeleton, and proposed eval/governance/enablement. No actual deck, rehearsal, model evaluation, or live OpenAI connection was produced by this documentation update. Current custom-MCP connection guidance was verified from official docs; actual account/identity setup and invocation remain pending. Prioritize one live read-tool proof alongside presentation work, rather than building both intake modes before proving ChatGPT.
+
 ## Completed follow-up repair — October 15, 2026
 
 Incorporated the supplied patch and corrected the two additional review gaps:
@@ -15,7 +19,7 @@ Incorporated the supplied patch and corrected the two additional review gaps:
 - **No answer leakage.** The fixed comparison text moved from `app.js` to `GET /api/analysis/<compare|gap>`, which returns the post-lookup finding only after E-004 is released. No served asset contains it.
 - **Raw evidence.** E-002/E-003/E-004 now state records, identifiers and attributed merchant assertions only. Demo framing stays in the UI; uncertainty analysis stays in the fixed assessment layer. A test fails if conclusion phrases return to evidence text.
 - **Checks reported by the supplied patch author (Oct 15, cloud session).** `python3 -m unittest discover -s tests -v`: 22 tests pass, including a real HTTP server on an ephemeral port. `tests/test_verify.py` needs Node and is skipped without it; with the verifier mutated to always succeed, 3 of its 4 tests fail. A throwaway jsdom run of `/ops` passed the full walkthrough, including a second client advancing the case between approval and read-back. That jsdom script is not committed. No real browser, layout, mobile or accessibility check was run.
-- **Not done (next, before rehearsal):** Host/origin allowlist for the real environment (the Origin check compares to `http://`+Host, which an HTTPS forwarder would likely fail), framing headers, incompatible-`demo.sqlite` handling, `CASE-2026-88412` vs `APX-001` in demo-flow.md, and labeling reset as development-only. Authentication, the cited investigation brief, ChatGPT and Realtime remain pending.
+- **Not done (next, before rehearsal):** Host/origin allowlist for the real environment (the Origin check compares to `http://`+Host, which an HTTPS forwarder would likely fail), framing headers, incompatible-`demo.sqlite` handling, and labeling reset as development-only. The case-ID narration mismatch was corrected in the presentation preparation update: use seeded APX-001 or the actual ID returned by intake. Authentication, the cited investigation brief, ChatGPT and Realtime remain pending.
 
 ## Latest locked target — documentation update
 
@@ -70,4 +74,5 @@ The checks above establish a working synthetic demo path. They do not establish 
 ## Next Codex task
 
 > Read AGENTS.md, README.md, docs/plan.md, and docs/handoff.md. Run the prototype and existing tests in this VS Code environment. Help me open the working browser preview, accounting for local versus remote execution, and review the UI with me. Preserve the locked synthetic workflow and explicit integration labels. Once the preview is usable, implement the next small milestone from docs/plan.md: authorized case/evidence read tools behind real authentication and case-level permissions, then prove an actual ChatGPT connection. Keep model tools separate from human execution approval, keep all changes in this repository, and do not claim integrations or evals have passed without recorded verification.
+
 

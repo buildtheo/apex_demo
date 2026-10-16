@@ -6,6 +6,10 @@ Updated October 15, 2026 (America/Los_Angeles). Maintain this document as discov
 
 Theo locked three potential experiences: (1) Realtime voice support, (2) an OpenAI API-powered conversational agent in the web/iPhone banking app, and (3) analyst investigation in actual ChatGPT. Discovery selects 1 OR 2, followed by 3. Both intake agents clarify and prepare structured reports for customer confirmation, then use the shared Apex case service. A plain form alone does not fulfill the in-app branch. See demo-flow.md for the authoritative experience table and implementation boundaries.
 
+## Assignment clarification — two product surfaces
+
+The original assignment was checked. Our two selected product surfaces are ChatGPT and Platform/APIs. Voice and text are API modes, not two counted product surfaces. Discovery still selects which intake experience and pain to explore; prepare both alternatives, but both need not be live implementations. Label any simulated/prepared path. Do not force a voice interaction to satisfy a surface count. See the five-piece preparation pack linked from meeting-outline.md.
+
 ## Keep the end in mind
 
 The meeting should establish value (less investigation effort and rework with decision quality preserved), credibility (evidence retrieval, analyst judgment, approved execution and verification), and commitment (sponsor a bounded pilot with owners and measurable success criteria).
@@ -57,7 +61,7 @@ Both branches use the same case contract and preserve transaction and customer-s
 | Retained control | Human approves exact action; Apex executes; independent read verifies result | Authenticated authority and recorded failure evaluations |
 | Investment decision | Illustrative economics, scoped pilot, named owners and agreed measures | Customer commitments; net costs; readiness gates |
 
-Keep the 30-minute structure (3 discovery / 6 solution / 18 demo / 3 close). The intake slot demonstrates the chosen route, not automatically voice. Realtime remains the voice-branch capability; the OpenAI API powers the text agent in the in-app branch; actual ChatGPT remains the shared analyst surface. Every intended path includes two OpenAI-powered experiences. No decision has been made here about whether an external interview rubric requires both capabilities to be visibly demonstrated regardless of branch; check the original brief if that question arises.
+Keep the 30-minute structure (3 discovery / 6 solution / 18 demo / 3 close). The intake slot demonstrates the chosen route, not automatically voice. Realtime remains the voice-branch capability; the OpenAI API powers the text agent in the in-app branch; actual ChatGPT remains the shared analyst surface. Every intended path includes two OpenAI-powered experiences. The original brief's surface requirement is resolved: demonstrate ChatGPT plus Platform/APIs. It permits live or simulated workflows and does not require both voice and text modes to be built live.
 
 ## Running change log
 
@@ -67,6 +71,8 @@ Keep the 30-minute structure (3 discovery / 6 solution / 18 demo / 3 close). The
 | 2026-10-15 | Banking app, DMS, and actual ChatGPT have distinct responsibilities and shared case continuity | Confirmed |
 | 2026-10-15 | Discovery answers choose voice versus in-app demonstration; voice is not the unconditional live path | Confirmed by Theo; supersedes earlier voice-default wording |
 | 2026-10-15 | Three potential OpenAI experiences locked: Realtime voice OR API-powered in-app text agent, followed by actual ChatGPT investigation; both intake branches include customer confirmation and shared case creation | Locked by Theo; supersedes plain-form-only in-app demo |
+| 2026-10-15 | Original brief verified: ChatGPT + Platform/APIs satisfy the two-product-surface requirement; Realtime/text are modes. Both discovery branches remain prepared; both need not be live implementations | Brief verified; simulation must be explicit |
 | 2026-10-15 | Maintain a running discovery table, flow, and end-in-mind section in the repo | Requested by Theo |
 
 For each future discovery session, record date, attributed answer, selected branch, changed emphasis, metric implications, and unresolved questions. Keep synthetic rehearsal answers labeled. Update decisions-and-artifacts.md and affected plan/flow documents when a decision changes. Do not mark proposals as approved or integrations as complete without evidence.
+

@@ -10,6 +10,12 @@ The current form and fixed analyst responses are scaffolds; the integrations bel
 
 The customer banking app will be presented in the browser as an iPhone-style simulator. A native iOS build or Apple iOS Simulator is not required. ChatGPT and Apex DMS remain separate analyst surfaces.
 
+## Presentation preparation
+
+The two selected product surfaces are ChatGPT and Platform/APIs. Realtime voice and API text are alternative customer experiences; prepare both for discovery, with live or explicitly simulated execution. Both modes need not be live implementations.
+
+Start with [the timed meeting and criteria map](docs/meeting-outline.md), then [customer and stakeholders](docs/customer-profile.md), [architecture and data flow](docs/reference-architecture.md), [before/after and value](docs/business-case.md), and [objection preparation](docs/objection-prep.md). These are reviewable drafts with explicit assumptions; a finished deck, rehearsal, and live two-surface proof remain pending.
+
 ## Run
 
 Requires Python 3.10+; no packages, API keys, or build step.
@@ -60,4 +66,5 @@ python3 -m unittest discover -s tests -v
 ```
 
 The suite includes workflow, HTTP, persisted-effect verification, and delayed-assessment race checks. Node is optional for running the app but required for the JavaScript verifier and UI-race tests; those tests are explicitly skipped without it. These test local workflow controls, not model quality or production security. See `docs/plan.md` for the locked meeting baseline and next integration milestones.
+
 

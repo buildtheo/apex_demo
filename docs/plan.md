@@ -1,5 +1,13 @@
 # Locked direction and implementation sequence
 
+## Preparation update — verified assignment scope
+
+The original assignment has been checked. The selected product surfaces are ChatGPT and Platform/APIs. Realtime voice and conversational text are alternative experiences within Platform/APIs, not separate counted product surfaces. Discovery still selects the intake experience; prepare both, but a clearly labeled simulated alternative is permitted and both need not be live implementations. The customer experience still runs in the browser iPhone frame.
+
+The preparation pack is customer-profile.md (scenario/stakeholders/qualification), reference-architecture.md (architecture/data/connection proof/regulatory context), business-case.md (before/after/value/instrumentation), objection-prep.md, and meeting-outline.md (timing/evals/governance/enablement).
+
+Explicit baseline and before/after assumptions are appropriate; unsupported statements presented as actual customer behavior/results remain prohibited. New scenario attributes and pilot/cost assumptions in the pack are proposals to validate, not additional customer commitments or measured outcomes.
+
 ## Customer meeting
 
 Fictional US consumer-credit issuer Apex. Thirty-minute meeting: 3 minutes customer/discovery, 6 solution, 18 demo with questions, 3 value/pilot/ask. Separate 15-minute reflection.
@@ -12,7 +20,7 @@ Maintain the [running discovery table, branching flow, and end-in-mind outcomes]
 
 ## Locked demo capabilities
 
-Three potential OpenAI experiences: Realtime voice support, an API-powered conversational agent in the banking web/iPhone app, and actual ChatGPT for the analyst. Discovery selects one customer intake branch, followed by the shared analyst investigation. Both branches must support useful clarification, customer confirmation of structured intake, and shared case creation. A plain form is a scaffold/fallback, not the final in-app branch. See demo-flow.md for the locked experience table. These are build requirements, not completed integrations.
+Three potential OpenAI experiences: Realtime voice support, an API-powered conversational agent in the banking web/iPhone app, and actual ChatGPT for the analyst. Discovery selects one customer intake branch, followed by the shared analyst investigation. Both prepared branches must show useful clarification, customer confirmation of structured intake, and shared case creation, live or explicitly simulated. A plain form is a scaffold/fallback, not the final in-app branch. See demo-flow.md for the locked experience table. These are build requirements, not completed integrations.
 
 ## Scope of this first build
 
@@ -22,7 +30,7 @@ One persistent synthetic case, inspectable evidence, fixed guided comparison, ap
 
 Customer-entry preview now exists at `/`: iPhone-style banking → charge details → voice or in-app reporting. Voice is explicitly pending; the in-app route saves only a browser-local draft. The analyst scaffold moved to `/ops`. Neither route creates a backend case yet; shared intake and case continuity remain future work. See demo-flow.md and decisions-and-artifacts.md for the exact state.
 
-1. Run and inspect the prototype with Theo; simplify confusing screens.
+1. Review the five preparation pieces and rehearse the executive story; finish a compact deck. Confirm local prototype usability. Work on a single actual ChatGPT retrieval proof alongside the presentation work rather than waiting for the complete intake build.
 2. Build the OpenAI API-powered conversational in-app intake branch with relevant clarification and customer confirmation. Connect it to shared case creation and a minimal analyst queue, preserving the submitted statement and case ID. This implementation sequence does not change discovery-selected demo branching.
 3. Add approved read tools for case/evidence behind real authentication and case-level permissions. Prove one actual ChatGPT connection. REST endpoints in this version are not an MCP implementation.
 4. Replace fixed review text with grounded model investigation; retain sources and evidence snapshots. Put evaluator expectations outside model-visible records.
@@ -51,3 +59,4 @@ Apex is our proposed application, not an OpenAI packaged dispute product. Relate
 - https://openai.com/index/introducing-chatgpt-financial-services/ — financial research/product context, not packaged dispute adjudication.
 
 These precedents do not substantiate Apex ROI or imply access to their implementations.
+

@@ -2,6 +2,12 @@
 
 Recorded October 15, 2026 from Theo's clarification. Read alongside plan.md and handoff.md. This describes the intended experience, not a claim that pending integrations work.
 
+## Product surfaces and build scope — brief verified
+
+The selected OpenAI product surfaces are **ChatGPT** and **Platform/APIs**. The three possible experiences below remain the design: voice and text are alternative API modes, followed by actual ChatGPT for the analyst. Discovery selects the experience and emphasis. Prepare both branches; the assignment does not require both modes to be live implementations. A clearly labeled simulated alternative can preserve the branch choice while reducing build/rehearsal risk. Keep the browser iPhone presentation.
+
+See meeting-outline.md for the timed story, reference-architecture.md for diagrams and data/notice handling, and business-case.md for assumed before/after value.
+
 ## Locked demo experiences — October 15, 2026
 
 Theo confirmed this as the demo. There are three potential OpenAI-powered user experiences, with two shown on either discovery-selected path:
@@ -56,7 +62,7 @@ Show an explicit time jump between customer intake and later analyst investigati
 
 Suggested narration: "Here is the case in the analyst's queue. Now let's investigate it in ChatGPT."
 
-Switch to actual ChatGPT and ask: "Open case CASE-2026-88412 and summarize what needs investigation."
+Switch to actual ChatGPT and ask: "Open case APX-001 and summarize what needs investigation." APX-001 is the current seeded case; when intake creates a different case, use the actual returned ID instead, consistently across the demo.
 
 A direct Investigate in ChatGPT button or deep link is optional and unvalidated. Manual switching with the same case ID is sufficient to demonstrate the intended handoff. Do not show a button as working until its supported integration has been verified.
 
@@ -84,3 +90,4 @@ The original analyst prototype is at `/ops`. A distinct assigned-case queue, liv
 An observer should be able to answer: Where did the customer start? Where was the case created? Where does the analyst find it? What does ChatGPT retrieve? Who approves? Which system executes? What independently proves completion?
 
 The same case must remain identifiable across the journey. Source observations must remain separate from model conclusions and evaluator answer keys. Missing proof is not proof of fraud. Evidence requests do not pause external deadlines. The final financial outcome remains open; do not silently promote specialist handoff into a final consumer resolution.
+

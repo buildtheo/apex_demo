@@ -6,6 +6,10 @@ Recorded October 15, 2026 (America/Los_Angeles). Theo authorized this response a
 
 Theo subsequently locked three potential OpenAI experiences: Realtime voice support OR an OpenAI API-powered text agent inside the banking web/iPhone app, followed by actual ChatGPT analyst investigation. Both intake branches prepare structured reports for customer confirmation and shared case creation. A plain form remains a development scaffold/fallback, not the complete in-app demo. This clarification supersedes any earlier suggestion that the in-app path would have only one OpenAI-powered experience. The actual integrations remain pending; see demo-flow.md.
 
+## Assignment-verified preparation clarification
+
+The original assignment confirms ChatGPT plus Platform/APIs as the selected two product surfaces; Realtime/text are alternative modes within Platform/APIs. Prepare both discovery choices, but both need not be live implementations. It explicitly calls for assumptions: baselines, before/after timings, rework, costs, and urgency may be modeled transparently. The earlier corrections rejected unsupported claims presented as customer facts or measured results, not labeled scenario modeling. New proposed assumptions and the five-piece preparation pack are linked from meeting-outline.md; none is a measured benefit or customer commitment. Finish the executive/commercial story while proving one actual ChatGPT read-tool connection.
+
 ## Disposition of findings
 
 | Finding | Decision | Acceptance evidence still required |
@@ -52,3 +56,4 @@ Approval binds the case, snapshot, exact action payload and brief, recipient, ac
 5. Execute adversarial evaluations and timed rehearsals; validate baseline, downstream workload, and costs before expanding claims.
 
 Maintain the explicit time jump before later merchant evidence, the 30-minute meeting, and the pilot-sponsorship close. None of these changes locks consumer liability, a network action, or a final financial disposition.
+

@@ -8,6 +8,8 @@ Updated October 15, 2026. Consolidated from the available project conversation a
 | --- | --- | --- |
 | Customer presentation format | Locked by Theo, October 15 | Run the Apex iPhone app experience in the browser as an iPhone-style simulator. Browser mobile UI, not a native iOS build or Apple iOS Simulator. No native packaging requirement; keep the phone viewport usable for customer conversation. |
 | Discovery branch | Confirmed by Theo, October 15 | Customer discovery answers select voice (Realtime) or in-app reporting for the live demonstration. Show selected route in depth; both converge on the shared Apex case and analyst workflow. See discovery-and-outcomes.md. |
+| Product-surface requirement | Verified against original brief | Selected surfaces are ChatGPT and Platform/APIs. Realtime voice and API text are alternative customer experiences within Platform/APIs. The brief does not require both modes live; prepare both discovery branches with honest simulation/fallback labels. |
+| Preparation pack | Created; scenario details and targets proposed | customer-profile.md, reference-architecture.md, business-case.md, objection-prep.md, and meeting-outline.md cover the executive/commercial work and map remaining proof. Assumptions are explicit; neither a finished deck nor a passing pilot is claimed. |
 | Meeting goal | Locked | Demonstrate credible operational value and earn sponsorship for a bounded pilot. |
 | Meeting timing | Locked baseline | 30 minutes: 3 discovery, 6 solution, 18 demonstration including questions, 3 value/pilot/ask. |
 | Journey | Confirmed clarification | Customer sees charge in banking app, selects dispute via voice or in-app entry; Apex creates case and owns analyst queue; actual ChatGPT investigates the same case; Apex executes approved updates. See demo-flow.md. |
@@ -18,7 +20,7 @@ Updated October 15, 2026. Consolidated from the available project conversation a
 | Evidence | Locked principle | Raw observations with provenance, no prewritten conclusions; missing proof does not establish fraud. Requested evidence should improve judgment rather than provide an artificial smoking gun. |
 | Current scenario | Prototype choice | Merchant-cited record is associated with a prior transaction; this undermines one item without establishing fraud or authorization. |
 | Current endpoint | Implemented iteration choice; enhancement authorized | Specialist handoff remains the prototype endpoint. Upgrade its payload to a cited investigation brief with findings, conflicts, open questions, and the requested specialist decision. This is not the locked final financial outcome. |
-| Adversarial review response | Authorized by Theo, October 15 | Follow adversarial-review-response.md: prove actual ChatGPT, shared case continuity, useful handoff, deterministic association checks, both discovery branches, and measured economics. Scores, invented baselines/timings, and $1M–$3M+ uplift are not accepted claims. |
+| Adversarial review response | Authorized by Theo, October 15 | Follow adversarial-review-response.md: prove actual ChatGPT, shared case continuity, useful handoff, deterministic association checks, both discovery branches, and measured economics. Subjective scores, unsupported baselines/timings presented as facts, and $1M–$3M+ uplift are not accepted claims. Clearly labeled baseline/timing assumptions are permitted. |
 | Final outcome | Open | Consumer disposition remains undecided; network recovery has separate status and authority. |
 | Variant direction | Proposed | Customer-favorable primary path and stronger merchant evidence counterexample can test impartial reassessment; neither outcome is an automatic rebilling rule or locked fixture. |
 | Economics | Illustrative assumptions | 60,000 eligible cases/year; 20 minutes baseline; 5 minutes saved; $60/hour; 5,000 hours and $300,000 annual gross capacity value before costs. Not measured savings. |
@@ -101,6 +103,11 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 | Agent instructions | ../AGENTS.md |
 | Run, preview, VS Code instructions | ../README.md and ../.vscode/tasks.json |
 | Running discovery, branching flow, end-in-mind outcomes | discovery-and-outcomes.md |
+| Customer scenario, stakeholder map, qualification | customer-profile.md; synthetic assumptions |
+| Architecture, data flow, regulatory context, connection proof checklist | reference-architecture.md; target design; real connection unproven |
+| Before/after, capacity economics, costs, instrumentation | business-case.md; assumptions and pilot proposals |
+| Competitive and executive objection prep | objection-prep.md; no unsupported competitor claims |
+| Timed deck skeleton, evals, governance, enablement | meeting-outline.md; actual deck/rehearsal pending |
 | Locked strategy and milestones | plan.md |
 | Customer-to-analyst flow and ownership | demo-flow.md |
 | Decisions, full meeting outline, artifact index | This file |
@@ -128,6 +135,12 @@ Incorporated the supplied evidence/completion patch and fixed two additional rev
 
 Executed verification for this increment: 26 tests passed, including live local HTTP tests, Node verifier tests, and a minimal-DOM network-race harness using the actual app.js. These are not a real-browser/layout check, a model evaluation, authenticated authorization, or proof of external bank execution. The exact saved handoff is still the short fixed payload, not yet the full cited investigation brief. See handoff.md for limits and remaining work.
 
+## Assignment coverage update — October 15, 2026
+
+Read the five-piece preparation pack in the artifact inventory. The original five-page assignment was read privately; its upload is not committed. It confirms ChatGPT plus Platform/APIs as our selected two surfaces and permits a live or simulated workflow. Keep discovery-driven voice/text choice, but do not treat both live modes as required. The review did not prohibit explicit assumptions: fictional baselines, timings, rework, costs, and urgency are permitted when labeled. The pack proposes a customer profile, before/after, cost sensitivity, stakeholder/qualification map, objections, architecture/data flow, verified regulatory context, eval plan, and governance/enablement. No new customer answer or approval is invented.
+
+The original $300k full-coverage capacity example is retained; the new cost/adoption scenario shows $45k year-one modeled net capacity value and a negative downside. These new numbers are proposals, not locked measurements. The next technical risk is one actual ChatGPT case/evidence tool invocation with access checks; current official connection guidance was verified, but account linking, the MCP adapter, and live invocation are still unexecuted. Do not claim the technical proof is complete.
+
 ## Outstanding work and continuation
 
 ### Customer-entry implementation update — October 15, 2026
@@ -150,4 +163,5 @@ Executed verification for this increment: 26 tests passed, including live local 
 8. Execute adversarial evaluations, refine costs and pilot assumptions, create presentation/backup/fallback material, and rehearse the timed story.
 
 Exact voice transport, ChatGPT launch mechanism, deployment host, final disposition, and actual pilot owners remain open. Do not block the first local review on these choices. Keep repository documentation synchronized with implementation and clearly distinguish newly executed checks from historical verification reports.
+
 
