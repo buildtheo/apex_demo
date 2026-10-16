@@ -90,7 +90,7 @@ class Handler(BaseHTTPRequestHandler):
                 # Unreleased evidence bodies must never reach the initial browser response.
                 s['evidence'] = [e if e['available'] else {k:v for k,v in e.items() if k!='text'} for e in s['evidence']]
                 return self.reply(200,s)
-        files = {'/':('index.html','text/html; charset=utf-8'),'/app.js':('app.js','text/javascript; charset=utf-8'),'/style.css':('style.css','text/css; charset=utf-8')}
+        files = {'/':('banking.html','text/html; charset=utf-8'),'/banking':('banking.html','text/html; charset=utf-8'),'/banking.js':('banking.js','text/javascript; charset=utf-8'),'/banking.css':('banking.css','text/css; charset=utf-8'),'/ops':('index.html','text/html; charset=utf-8'),'/app.js':('app.js','text/javascript; charset=utf-8'),'/style.css':('style.css','text/css; charset=utf-8')}
         if self.path in files:
             name,mime = files[self.path]; return self.reply(200,(ROOT/'web'/name).read_bytes(),mime)
         self.reply(404,{'error':'Not found'})

@@ -38,7 +38,9 @@ A direct Investigate in ChatGPT button or deep link is optional and unvalidated.
 
 The initial custom browser workspace combines case details with fixed guided investigation responses. It is a local workflow scaffold, not the final three-surface experience and not actual ChatGPT. An API-backed custom chat panel would also not meet the actual ChatGPT milestone by itself.
 
-At this clarification, customer banking screens, live Realtime intake, actual ChatGPT integration, real authentication, and case-level authorization remain pending. A distinct assigned-case queue must be built or verified rather than inferred from the existing single-case view. The implemented synthetic sequence is evidence review → approved request → simulated response → reassessment → approved specialist handoff → read-back verification. Consult handoff.md for recorded checks and their limits.
+The customer banking preview now opens at `/` (also `/banking`): iPhone-style accounts → selected VeloCraft transaction T-204 → Dispute this charge → Talk to support OR Report in the app. The voice route builds on the M. Price demo concept, but does not reuse its live connection or imply that Twilio is configured for Apex. Its connection button is disabled and labeled pending. The in-app form captures a reason and statement and saves a browser-local draft; it does not create or update an Apex case. The confirmation explicitly identifies the result as a draft.
+
+The original analyst prototype is at `/ops`. A distinct assigned-case queue, live Realtime intake, actual ChatGPT integration, real authentication, case-level authorization, and shared case creation from intake remain pending. Do not describe the preseeded APX-001 investigation case as having been created by the banking preview. The implemented analyst sequence remains evidence review → approved request → simulated response → reassessment → approved specialist handoff → read-back verification. Consult handoff.md for recorded checks and their limits.
 
 ## Build implications and scope control
 

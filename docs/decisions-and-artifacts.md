@@ -112,6 +112,16 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 
 ## Outstanding work and continuation
 
+### Customer-entry implementation update — October 15, 2026
+
+- Theo confirmed two customer roads: voice support, building on the previous M. Price experience, and an in-app dispute report. Both start from an iPhone-style Apex banking app and a selected transaction.
+- `/` and `/banking` now show accounts, recent activity, VeloCraft transaction T-204, its details, and the two reporting choices. `/ops` retains the original analyst prototype.
+- The in-app report saves a reason and statement in browser localStorage as a draft. It is not case submission, customer authentication, or a shared backend integration.
+- Voice shows the selected transaction context and an explicit pending connection state. Realtime and phone transport have not been connected for Apex.
+- The intended story remains banking → shared Apex case creation → assigned DMS queue → actual ChatGPT → human-approved, verified Apex updates. Case creation, queue, ChatGPT, and authenticated approval remain unfinished.
+- Preserve an explicit later-stage transition before showing merchant evidence. Do not portray APX-001 as created by either preview entry route.
+- New source artifacts: `../web/banking.html`, `../web/banking.css`, and `../web/banking.js`. They are served by the existing Python server.
+
 1. Start locally in VS Code; run tests; confirm Theo can open and review the UI.
 2. Make the three surfaces and case continuity clear without adding unnecessary scope.
 3. Prove real authenticated, case-authorized evidence retrieval in actual ChatGPT.

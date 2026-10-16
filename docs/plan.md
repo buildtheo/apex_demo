@@ -14,6 +14,8 @@ One persistent synthetic case, inspectable evidence, fixed guided comparison, ap
 
 ## Next milestones
 
+Customer-entry preview now exists at `/`: iPhone-style banking → charge details → voice or in-app reporting. Voice is explicitly pending; the in-app route saves only a browser-local draft. The analyst scaffold moved to `/ops`. Neither route creates a backend case yet; shared intake and case continuity remain future work. See demo-flow.md and decisions-and-artifacts.md for the exact state.
+
 1. Run and inspect the prototype with Theo; simplify confusing screens.
 2. Add approved read tools for case/evidence behind real authentication and case-level permissions. Prove one actual ChatGPT connection. REST endpoints in this version are not an MCP implementation.
 3. Replace fixed review text with grounded model investigation; retain sources and evidence snapshots. Put evaluator expectations outside model-visible records.

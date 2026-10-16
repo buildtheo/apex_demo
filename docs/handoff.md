@@ -1,5 +1,13 @@
 # Development handoff — October 15, 2026
 
+## Latest local implementation
+
+The preview now starts at an iPhone-style banking app (`/` or `/banking`). Select the VeloCraft charge → Dispute this charge → choose Talk to support or Report in the app. Voice is explicitly not connected. The form saves a browser-local draft and does not create a case. The existing analyst investigation remains at `/ops`, using the preseeded APX-001 case. Shared case submission, analyst queue, actual ChatGPT and Realtime integration remain pending.
+
+Read the customer-entry update in decisions-and-artifacts.md and current demo-flow.md before continuing. The earlier cloud verification below applies to the original analyst workflow, not these new screens.
+
+Local verification for this increment: all six existing workflow tests pass. A headless Chromium walkthrough exercised account → transaction → reporting choices, checked that the voice connection stays disabled, saved and reloaded an in-app draft, and loaded `/ops` without JavaScript page errors. This is an executed browser walkthrough, not a committed automated browser suite or a model evaluation. Theo's visual acceptance is still pending.
+
 ## Starting point
 
 Repository: `buildtheo/apex_demo`. Prototype baseline reviewed: `7e88ca49a6ec6ffae821ba51a6bfc8f73d2afda7`.

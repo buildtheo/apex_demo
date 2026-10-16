@@ -10,7 +10,7 @@ Requires Python 3.10+; no packages, API keys, or build step.
 python3 server.py
 ```
 
-Open http://127.0.0.1:8080. State persists in local `demo.sqlite` (ignored by Git).
+Open http://127.0.0.1:8080 for the iPhone-style customer banking preview. Select VeloCraft, then Dispute this charge to choose voice support or an in-app report. The form saves a browser-local draft only; voice connection and case submission remain pending. Open http://127.0.0.1:8080/ops for the existing analyst investigation prototype. Case state persists in local `demo.sqlite` (ignored by Git).
 
 ## Continue in VS Code
 
