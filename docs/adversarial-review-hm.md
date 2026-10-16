@@ -6,9 +6,11 @@ Recorded October 15, 2026. This document provides an adversarial critique of the
 
 ---
 
+> **Accepted response:** Read [adversarial-review-response.md](adversarial-review-response.md) for the approved actions and corrections. Historical reviewer suggestions below do not override that response.
+
 ## Evaluation Summary (Current State vs. Plan)
 
-In an OpenAI AAA interview loop, candidates are evaluated across four primary axes:
+The reviewer uses four preparation dimensions below. These are subjective review categories, not a verified OpenAI hiring rubric:
 1. **Executive Presence & Commercial Framing**
 2. **Technical & Model Depth (OpenAI Platform Mastery)**
 3. **System Architecture & Enterprise Governance**
@@ -16,10 +18,10 @@ In an OpenAI AAA interview loop, candidates are evaluated across four primary ax
 
 | Dimension | Current Trajectory | Hiring Panel Takeaway |
 | :--- | :--- | :--- |
-| **Architecture & Controls** | **Strong Hire (9.5/10)** | Snapshot version binding, stage-vs-execute separation, independent read-back verification (`GET /api/case` checking `receipts`), and server-side redaction of unreleased evidence (`E-004`) are textbook enterprise AI patterns. |
-| **Domain Credibility** | **Strong Hire (9.0/10)** | Refusing to conflate Reg E/Reg Z rules, avoiding fake CE 3.0 "smoking guns," and separating evidence assessment from consumer liability and network recovery show senior architectural judgment. |
-| **Commercial & Exec Story** | **At Risk / Lean Hire (7.0/10)** | The $300k gross ROI calculation is small for an enterprise bank pilot, and ending the 18-minute demo on a "specialist referral" risks looking like an extra operational handoff rather than a resolution unless framed carefully. |
-| **Live OpenAI Capability Proof** | **At Risk (2.0/10 — Pending Build)** | Currently 100% deterministic Python/JS CRUD with hardcoded text and disabled buttons. Without live ChatGPT tool calls and/or live model synthesis, the demo fails to prove OpenAI platform differentiation. |
+| **Architecture & Controls** | **Promising design; implementation incomplete** | Snapshot version binding, stage-vs-execute separation, independent read-back verification (`GET /api/case` checking `receipts`), and server-side redaction of unreleased evidence (`E-004`) are useful local prototype patterns. Real authorization, robust failure handling, and live integrations remain unproven. |
+| **Domain Credibility** | **Careful scope boundaries** | Refusing to conflate Reg E/Reg Z rules, avoiding fake CE 3.0 "smoking guns," and separating evidence assessment from consumer liability and network recovery show senior architectural judgment. |
+| **Commercial & Exec Story** | **Needs validation** | The $300k gross ROI calculation is small for an enterprise bank pilot, and ending the 18-minute demo on a "specialist referral" risks looking like an extra operational handoff rather than a resolution unless framed carefully. |
+| **Live OpenAI Capability Proof** | **Pending build** | Currently 100% deterministic Python/JS CRUD with hardcoded text and disabled buttons. Without live ChatGPT tool calls and/or live model synthesis, the demo fails to prove OpenAI platform differentiation. |
 
 ---
 
@@ -31,7 +33,7 @@ In an OpenAI AAA interview loop, candidates are evaluated across four primary ax
   > *"You're interviewing at OpenAI. Why did you spend 60% of your preparation building a local SQLite state-machine and an iPhone CSS frame, and 0% showing frontier model reasoning, Realtime audio, or actual ChatGPT Enterprise tool execution?"*
 * **Recommended Remediation:**
   * Prioritize getting **at least one live, undeniable OpenAI surface working end-to-end** (specifically: actual ChatGPT connecting to the local/tunneled backend via Actions/MCP to read `APX-001` and stage drafts).
-  * For customer intake (`/`), do not click into a dead-end disabled button during a live pitch unless immediately pivoting to a working fallback. Either connect Realtime/in-app model assistance or use the mobile screen strictly as a 30-second visual context-setter before transitioning to the DMS queue and actual ChatGPT.
+  * For customer intake (`/`), do not click into a dead-end disabled button during a live pitch unless immediately pivoting to a working fallback. Show working capability or a clearly labeled simulation/fallback; never conceal missing integrations. Keep discovery-selected intake, and use the shared actual ChatGPT investigation as capability proof. One option is to use the mobile screen as a brief visual context-setter before transitioning to the DMS queue and actual ChatGPT.
 
 ---
 
@@ -62,7 +64,7 @@ In an OpenAI AAA interview loop, candidates are evaluated across four primary ax
   * Enrich the synthetic text in `E-001` and `E-003` so the problem requires **unstructured, multi-hop synthesis across messy sources** while keeping the underlying facts identical:
     * `E-001` (Customer statement / voice transcript): Include realistic conversational detail—e.g., the customer mentions buying a cycling helmet from VeloCraft back in the spring (`T-198`), receiving promotional emails, and noticing the new unauthorized $648.50 charge (`T-204`).
     * `E-003` (Merchant supporting packet): Format as a realistic, dense unstructured merchant representment narrative mixed with semi-structured device/auth metadata where `AUTH-77` is buried in prose asserting continuous device recognition.
-  * When ChatGPT connects the customer's casual mention of the prior helmet purchase (`E-001`), the merchant's buried `AUTH-77` claim (`E-003`), and the lookup tying `AUTH-77` to `T-198` (`E-004`), it demonstrates unstructured cross-document reasoning that a simple SQL rule on raw PDFs/transcripts cannot do.
+  * When ChatGPT connects the customer's casual mention of the prior helmet purchase (`E-001`), the merchant's buried `AUTH-77` claim (`E-003`), and the lookup tying `AUTH-77` to `T-198` (`E-004`), it demonstrates document interpretation and synthesis alongside a deterministic association check. Longer or messier text alone does not establish a model advantage.
 
 ---
 
@@ -96,4 +98,4 @@ In an OpenAI AAA interview loop, candidates are evaluated across four primary ax
 * **Recommended Remediation:**
   * Keep the strict disclaimer that numbers are illustrative hypotheses to be validated in the pilot, but present a **two-lever value framework** that reflects why banks actually invest in dispute intelligence:
     1. **Operational Capacity & Rework Reduction (Time Lever):** Minutes saved per investigation + reduced downstream rework/repeat contacts.
-    2. **Decision Accuracy & Loss/Write-Off Avoidance (Quality Lever):** Catching flawed merchant representments (like `AUTH-77` on a $648.50 transaction) where a rushed analyst might otherwise wrongfully rebill a good cardholder (causing regulatory/churn risk) or prematurely write off recoverable funds. Even a modest improvement in decision accuracy across 60,000 high-value disputes represents **$1M–$3M+ in preserved value**, making the 6-week pilot a clear executive priority.
+    2. **Decision Accuracy & Loss/Write-Off Avoidance (Quality Lever):** Catching flawed merchant representments (like `AUTH-77` on a $648.50 transaction) where a rushed analyst might otherwise wrongfully rebill a good cardholder (causing regulatory/churn risk) or prematurely write off recoverable funds. Any financial impact requires an explicit calculation, baseline, attributable improvement, and validated costs. The previously suggested $1M–$3M+ uplift is unsupported and must not be used.
