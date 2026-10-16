@@ -6,6 +6,7 @@ Updated October 15, 2026. Consolidated from the available project conversation a
 
 | Topic | Status | Decision |
 | --- | --- | --- |
+| Discovery branch | Confirmed by Theo, October 15 | Customer discovery answers select voice (Realtime) or in-app reporting for the live demonstration. Show selected route in depth; both converge on the shared Apex case and analyst workflow. See discovery-and-outcomes.md. |
 | Meeting goal | Locked | Demonstrate credible operational value and earn sponsorship for a bounded pilot. |
 | Meeting timing | Locked baseline | 30 minutes: 3 discovery, 6 solution, 18 demonstration including questions, 3 value/pilot/ask. |
 | Journey | Confirmed clarification | Customer sees charge in banking app, selects dispute via voice or in-app entry; Apex creates case and owns analyst queue; actual ChatGPT investigates the same case; Apex executes approved updates. See demo-flow.md. |
@@ -32,6 +33,7 @@ Central message: Apex can help analysts reach a defensible next action with less
 Proposed audience: head of card operations, technology leader, and risk representative. Validate the hypothesis that gathering records and reconciling conflicts create investigation effort and rework.
 
 Ask:
+- When customers report an unfamiliar charge, do they typically call support or start in your banking app? Which experience most needs improvement? Use the answer to choose the demonstrated intake branch. See [running discovery and outcomes](discovery-and-outcomes.md).
 - Where does your team lose more time today: gathering evidence, interpreting conflicts, or completing the disposition?
 - What would make this pilot valuable: more capacity, less rework, faster customer responses, or improved decision consistency?
 
@@ -39,7 +41,7 @@ Adapt emphasis to the answer. Do not present assumed customer pain as measured e
 
 ### 3–9 minutes: solution
 
-Realtime intake → Apex case/evidence services → actual ChatGPT investigation → analyst approval → Apex execution and verification.
+Discovery-selected voice or in-app intake → Apex case/evidence services → actual ChatGPT investigation → analyst approval → Apex execution and verification.
 
 Explain why the two OpenAI surfaces serve different jobs. Show Apex record ownership, identity, permission boundaries, and evidence provenance. Existing case systems remain authoritative. The hypothesis is that reduced evidence assembly and interpretation effort justifies integration and operating costs; do not claim unsupported competitive superiority.
 
@@ -47,7 +49,7 @@ Explain why the two OpenAI surfaces serve different jobs. Show Apex record owner
 
 | Meeting time | Scene | Visible result |
 | --- | --- | --- |
-| 9–12 | Customer entry and voice report | Attributed statement, structured intake, same case ID |
+| 9–12 | Customer entry and discovery-selected voice or in-app report | Attributed statement, structured intake, same case ID |
 | 12–14 | Explicit time jump; analyst queue and transition into actual ChatGPT | Authorized case and later evidence available |
 | 14–19 | Compare customer account with supporting records | Cited facts, material inconsistency, specific information gap |
 | 19–22 | Scoped evidence request | Exact request reviewed, approved, executed, independently verified |
@@ -95,6 +97,7 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 | --- | --- |
 | Agent instructions | ../AGENTS.md |
 | Run, preview, VS Code instructions | ../README.md and ../.vscode/tasks.json |
+| Running discovery, branching flow, end-in-mind outcomes | discovery-and-outcomes.md |
 | Locked strategy and milestones | plan.md |
 | Customer-to-analyst flow and ownership | demo-flow.md |
 | Decisions, full meeting outline, artifact index | This file |
