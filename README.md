@@ -8,6 +8,8 @@ Discovery selects either OpenAI Realtime voice support or an OpenAI API-powered 
 
 The current form and fixed analyst responses are scaffolds; the integrations below remain pending. Locking the target does not mean it has been implemented.
 
+The customer banking app will be presented in the browser as an iPhone-style simulator. A native iOS build or Apple iOS Simulator is not required. ChatGPT and Apex DMS remain separate analyst surfaces.
+
 ## Run
 
 Requires Python 3.10+; no packages, API keys, or build step.
