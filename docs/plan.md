@@ -4,9 +4,11 @@
 
 Fictional US consumer-credit issuer Apex. Thirty-minute meeting: 3 minutes customer/discovery, 6 solution, 18 demo with questions, 3 value/pilot/ask. Separate 15-minute reflection.
 
-Demo direction: Realtime intake; explicit later investigation stage; actual ChatGPT opens the same case; analyst compares evidence, asks a follow-up, requests a scoped internal record, reassesses, and approves a defined next action with independent verification. First approval explained in depth, second concise. Final consumer disposition is still open.
+Demo direction: discovery selects voice (Realtime) or in-app intake; explicit later investigation stage; actual ChatGPT opens the same case; analyst compares evidence, asks a follow-up, requests a scoped internal record, reassesses, and approves a defined next action with independent verification. First approval explained in depth, second concise. Final consumer disposition is still open.
 
 Executive outcome: sponsorship of a bounded pilot, operations and technology owners, risk participation, and agreed validation work. Proposed six weeks: baseline/access/evals, shadow testing, then limited assisted use if gates pass. Illustrative assumptions: 60,000 eligible cases/year, 20 minutes baseline, 5 minutes saved, $60/hour = 5,000 hours / $300,000 gross capacity value before costs. These are not measured results. Test quality, follow-up workload, cost, adoption, and controls alongside time.
+
+Maintain the [running discovery table, branching flow, and end-in-mind outcomes](discovery-and-outcomes.md). The selected intake path changes with the customer's answer; both paths converge on the same case and analyst investigation. The executive close remains pilot sponsorship.
 
 ## Scope of this first build
 
