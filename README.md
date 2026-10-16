@@ -2,6 +2,12 @@
 
 A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Architect onsite demo.
 
+## Locked target demo
+
+Discovery selects either OpenAI Realtime voice support or an OpenAI API-powered conversational text agent in the banking web/iPhone app. Both clarify the selected charge, prepare intake for customer confirmation, and create the same Apex case for analyst investigation in actual ChatGPT. That is three potential OpenAI experiences, with two on each demonstrated path. Apex DMS owns the case and approved execution. See [demo flow](docs/demo-flow.md) and [running discovery](docs/discovery-and-outcomes.md).
+
+The current form and fixed analyst responses are scaffolds; the integrations below remain pending. Locking the target does not mean it has been implemented.
+
 ## Run
 
 Requires Python 3.10+; no packages, API keys, or build step.
