@@ -102,6 +102,7 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 | Customer-to-analyst flow and ownership | demo-flow.md |
 | Decisions, full meeting outline, artifact index | This file |
 | Recorded checks and local-development handoff | handoff.md |
+| Adversarial hiring-manager review | adversarial-review-hm.md |
 | Backend prototype and synthetic state | ../server.py |
 | Browser prototype | ../web/index.html, ../web/app.js, ../web/style.css |
 | Existing workflow tests | ../tests/test_workflow.py |
