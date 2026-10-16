@@ -12,6 +12,8 @@ Updated October 15, 2026. Consolidated from the available project conversation a
 | Preparation pack | Created; scenario details and targets proposed | customer-profile.md, reference-architecture.md, business-case.md, objection-prep.md, and meeting-outline.md cover the executive/commercial work and map remaining proof. Assumptions are explicit; neither a finished deck nor a passing pilot is claimed. |
 | Intelligent UI readiness | Required by Theo before further feature building | Run Gate 0 in reference-architecture.md; record availability, source fidelity, use/fallback and combined-tool limits. Native UI is optional within ChatGPT. If no adapter yet, record combined proof pending, select sourced table for now, then build only the minimal read adapter before any further UI expansion. |
 | Post-preparation review | Accepted corrections; execution defaults proposed | Add growth-capacity scenario, write-tool permission narration, named API baseline, and spoken OpenAI position. Text-primary/voice-alternative rehearsal default remains a proposal; discovery branching stays locked. Account/dispute scale is not benchmark-validated. |
+| Market evidence and investment case | Locked by Theo, October 15 | Use primary Visa 106m global disputes in 2025 / 35% since 2019 and Mastercard published $9.08-$10.32 average US FI processing cost as context. Apex volume, complex-case share/cost and savings remain assumptions. The subset label does not by itself reconcile the 50% eligible mix and $20 baseline. See market-evidence.md. |
+| Agent continuity | Required by Theo | Start at START-HERE.md, then follow the linked decision register, current handoff, preparation pack, and Gate 0. Preserve implemented/proposed/unproven distinctions. |
 | Meeting goal | Locked | Demonstrate credible operational value and earn sponsorship for a bounded pilot. |
 | Meeting timing | Locked baseline | 30 minutes: 3 discovery, 6 solution, 18 demonstration including questions, 3 value/pilot/ask. |
 | Journey | Confirmed clarification | Customer sees charge in banking app, selects dispute via voice or in-app entry; Apex creates case and owns analyst queue; actual ChatGPT investigates the same case; Apex executes approved updates. See demo-flow.md. |
@@ -102,11 +104,13 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 
 | Artifact | Location / status |
 | --- | --- |
+| Agent starting point and consolidated status | START-HERE.md |
 | Agent instructions | ../AGENTS.md |
 | Run, preview, VS Code instructions | ../README.md and ../.vscode/tasks.json |
 | Running discovery, branching flow, end-in-mind outcomes | discovery-and-outcomes.md |
 | Customer scenario, stakeholder map, qualification | customer-profile.md; synthetic assumptions |
 | Architecture, data flow, regulatory context, connection proof checklist | reference-architecture.md; target design; real connection unproven |
+| Verified market sources, complex-case cost/mix caveat, competitive implications | market-evidence.md |
 | Before/after, capacity economics, costs, instrumentation | business-case.md; assumptions and pilot proposals |
 | Competitive and executive objection prep | objection-prep.md; no unsupported competitor claims |
 | Timed deck skeleton, evals, governance, enablement | meeting-outline.md; actual deck/rehearsal pending |
@@ -148,6 +152,10 @@ The original $300k full-coverage capacity example is retained; the new cost/adop
 Theo asked for an Intelligent UI feasibility step before more building. Gate 0 is now first in plan.md and detailed in reference-architecture.md. It has not been run. Do not claim native UI works with Apex tools because the public feature exists. Use a sourced-table fallback if unavailable and record whether any test used pasted synthetic context rather than real retrieval.
 
 The follow-up review correctly emphasizes renderable output and actual execution over more prose. The pack adds a calculated growth-capacity scenario (69,000 cases, 18,687.5 expected assisted hours versus 23,000 unchanged), while keeping costs and downside. This does not make the economic case automatically positive or justify adding the benefit twice. It names Responses API, Realtime/WebRTC, and MCP Streamable HTTP; exact model configurations still require selection and testing. Stage tools are writes with possible ChatGPT confirmation, separate from Apex authority. A two-sentence spoken position is in objection-prep.md. The one-million-account/120,000-event scale remains unvalidated; a public dollar-volume rate is not an account-event benchmark. Next: bounded Gate 0, smallest actual ChatGPT read proof, renderable deck/diagram and rehearsal. No application code changed in this update.
+
+## End-of-session source and continuity update — October 15, 2026
+
+Theo locked the verified market research and its limits into the repo before ending the session. Read market-evidence.md and START-HERE.md. These add primary Visa/Mastercard sources, separate network context from bank-specific economics, explain the cost/mix reconciliation gap, and identify network AI offerings as discovery/competitive context. No additional benefit, issuer-specific data, validated account rate, live integration, or model result is claimed. Gate 0 remains NOT RUN and must be recorded before further feature building; the minimal actual ChatGPT read proof and renderable/rehearsed presentation follow. This was a documentation update, with no application-code change.
 
 ## Outstanding work and continuation
 

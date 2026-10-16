@@ -17,6 +17,12 @@ Prepared October 15, 2026. Facilitator preparation, not claims about a competito
 | What happens if a write times out or the model is wrong? | No blind success claim or blind retry. Reconcile by action ID against saved facts, preserve the analyst's ability to reject/edit, and return to the case system when uncertain. | Tests for false success, duplicates, stale approvals, timeouts, and corrections. Distinguish existing unit checks from future model/system evaluations. |
 | Why this provider rather than another model/vendor? | Use the same representative task set and access constraints to compare source fidelity, procedure adherence, latency, cost, and operator usability. | Present observed results only. Keep model/backend choice flexible behind governed tool contracts if the evidence warrants it. |
 
+## Network-tool and average-cost objections
+
+Source detail is in market-evidence.md. Ask whether the bank uses Visa Dispute Intelligence, Doc Analyzer, Case Manager, or comparable network tools. Visa's April 2026 announcement describes these capabilities; current installed availability and bank entitlements must be checked. Our position is the customer conversation and analyst workflow over governed bank evidence/actions, complementing useful existing services where appropriate. Do not claim OpenAI uniquely summarizes documents or is superior without a comparison.
+
+If an executive cites roughly $10 per dispute, acknowledge Mastercard's published $9.08-$10.32 average. Our $20 figure is a complex-case hypothesis requiring measurement, especially because we assumed a 50% eligible share. Do not dismiss the comparison simply by saying subset. Ask for the bank's distribution and all-role costs, then rerun the model; lower value can justify stopping.
+
 ## Two-sentence spoken position
 
 "I recommend OpenAI for this pilot because its APIs let us tailor the customer conversation while ChatGPT gives analysts a workspace for investigating through the same governed Apex tools. We will retain the bank's case system and deterministic checks, and require measurable improvement over that baseline before expanding."

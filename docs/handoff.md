@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## End-of-session starting point
+
+Theo is ending the session. Start with [START-HERE.md](START-HERE.md) for the consolidated locked demo, implementation/tests, next action, economics, source limits, and linked artifacts. [market-evidence.md](market-evidence.md) records verified primary Visa/Mastercard context and the unresolved cost/mix reconciliation. Gate 0 is NOT RUN. No extra live capability, model evaluation, browser validation, slide deck, or rehearsal was completed in this source/documentation update.
+
 ## Next action — Intelligent UI readiness before feature expansion
 
 Theo requested Gate 0 before further feature building. Read plan.md and reference-architecture.md. Gate status is NOT RUN; verify the actual presentation account/Chat mode and a source-based comparison, record fallback if unavailable, and distinguish pasted-snapshot rendering from real Apex retrieval. If no adapter exists, record combined proof pending, select table fallback for now, then implement only get_case/get_evidence and repeat the combined test before further UI work. Do not build a UI framework to force the optional feature.

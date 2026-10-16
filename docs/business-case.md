@@ -2,6 +2,10 @@
 
 Prepared October 15, 2026. All figures below are explicit synthetic scenario assumptions or proposed targets. No baseline, improvement, vendor quote, customer budget, or financial result has been measured. The primary value lever is **released operational capacity with decision quality preserved**. Capacity valued at labor cost is not automatically cash savings.
 
+## Verified market context and complex-case caveat
+
+Read [market-evidence.md](market-evidence.md). Primary sources establish Visa's global dispute volume/growth and Mastercard's published average FI processing-cost range. They do not validate Apex-specific volume, the eligible share, or the $20 complex-case baseline. With assumed half of disputes costing $20, that subset alone implies $10 per portfolio dispute before any other costs; the subset label is not a sufficient reconciliation to the published $9-$10 average. Validate case mix, definitions, and costs before using the scenario as more than an assumption. Keep market urgency distinct from the bank-specific investment case.
+
 ## Assumed before and proposed after
 
 The comparison measures expected active human effort across initial analysts, specialists, and downstream correction work. It excludes waiting time, which is measured separately. More evidence requests or specialist referrals must not hide extra work.

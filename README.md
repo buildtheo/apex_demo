@@ -2,6 +2,8 @@
 
 A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Architect onsite demo.
 
+**Continuing as another agent? Start with [the consolidated handoff](docs/START-HERE.md).** It links the locked demo, current implementation, executed checks, source evidence, and next required step.
+
 ## Locked target demo
 
 Discovery selects either OpenAI Realtime voice support or an OpenAI API-powered conversational text agent in the banking web/iPhone app. Both clarify the selected charge, prepare intake for customer confirmation, and create the same Apex case for analyst investigation in actual ChatGPT. That is three potential OpenAI experiences, with two on each demonstrated path. Apex DMS owns the case and approved execution. See [demo flow](docs/demo-flow.md) and [running discovery](docs/discovery-and-outcomes.md).

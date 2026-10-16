@@ -1,5 +1,7 @@
 # Apex implementation instructions
 
+Start with docs/START-HERE.md for the consolidated current state and next action, then follow the required references below. Market sources and business-case limits are in docs/market-evidence.md. Do not turn source context or scenario assumptions into bank-specific facts.
+
 Read README.md, docs/plan.md, docs/demo-flow.md, docs/discovery-and-outcomes.md, and docs/decisions-and-artifacts.md before editing.
 The decision/artifact index preserves the meeting outline, accepted and rejected design choices, open items, and artifact locations. The demo-flow document defines the customer banking app → Apex DMS queue → actual ChatGPT → Apex execution journey.
 The locked demo has three potential OpenAI experiences: Realtime voice OR an OpenAI API-powered conversational text agent in the banking web/iPhone app, followed by actual ChatGPT for the analyst. Each path includes two OpenAI-powered experiences. Both intake agents obtain customer confirmation before shared Apex case creation; a plain form is only a scaffold/fallback. See docs/demo-flow.md.
