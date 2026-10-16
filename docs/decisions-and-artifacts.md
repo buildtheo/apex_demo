@@ -15,7 +15,8 @@ Updated October 15, 2026. Consolidated from the available project conversation a
 | Approval | Locked direction | Show approval and verification on both actions; explain first in depth and finish second in approximately 60–90 seconds. |
 | Evidence | Locked principle | Raw observations with provenance, no prewritten conclusions; missing proof does not establish fraud. Requested evidence should improve judgment rather than provide an artificial smoking gun. |
 | Current scenario | Prototype choice | Merchant-cited record is associated with a prior transaction; this undermines one item without establishing fraud or authorization. |
-| Current endpoint | Implemented iteration choice | Specialist handoff. This is not the locked final financial outcome. |
+| Current endpoint | Implemented iteration choice; enhancement authorized | Specialist handoff remains the prototype endpoint. Upgrade its payload to a cited investigation brief with findings, conflicts, open questions, and the requested specialist decision. This is not the locked final financial outcome. |
+| Adversarial review response | Authorized by Theo, October 15 | Follow adversarial-review-response.md: prove actual ChatGPT, shared case continuity, useful handoff, deterministic association checks, both discovery branches, and measured economics. Scores, invented baselines/timings, and $1M–$3M+ uplift are not accepted claims. |
 | Final outcome | Open | Consumer disposition remains undecided; network recovery has separate status and authority. |
 | Variant direction | Proposed | Customer-favorable primary path and stronger merchant evidence counterexample can test impartial reassessment; neither outcome is an automatic rebilling rule or locked fixture. |
 | Economics | Illustrative assumptions | 60,000 eligible cases/year; 20 minutes baseline; 5 minutes saved; $60/hour; 5,000 hours and $300,000 annual gross capacity value before costs. Not measured savings. |
@@ -102,7 +103,8 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 | Customer-to-analyst flow and ownership | demo-flow.md |
 | Decisions, full meeting outline, artifact index | This file |
 | Recorded checks and local-development handoff | handoff.md |
-| Adversarial hiring-manager review | adversarial-review-hm.md |
+| Adversarial hiring-manager review | adversarial-review-hm.md; subjective critique |
+| Accepted adversarial review actions and corrections | adversarial-review-response.md |
 | Backend prototype and synthetic state | ../server.py |
 | Browser prototype | ../web/index.html, ../web/app.js, ../web/style.css |
 | Existing workflow tests | ../tests/test_workflow.py |
@@ -128,9 +130,9 @@ Older proposed policy POL-DISP-104-v2.4, EVD-3DS-005 payloads, and UPHOLD_CLAIM_
 
 1. Start locally in VS Code; run tests; confirm Theo can open and review the UI.
 2. Make the three surfaces and case continuity clear without adding unnecessary scope.
-3. Prove real authenticated, case-authorized evidence retrieval in actual ChatGPT.
+3. Connect submitted intake to shared case creation and a minimal analyst queue, preserving the actual statement and case ID. Prove real authenticated, case-authorized evidence retrieval in actual ChatGPT.
 4. Replace fixed comparisons with grounded investigation; preserve source and snapshot references.
-5. Implement authenticated human approval and failure/duplicate/stale-state handling with recorded verification.
+5. Implement a source-cited investigation brief, authenticated human approval, and failure/duplicate/stale-state handling. Verify the exact saved brief and expected request/assignment, not just status. See adversarial-review-response.md.
 6. Add customer entry and Realtime intake through the shared case service.
 7. Resolve the final consumer outcome from balanced evidence and explicit synthetic policy; keep network recovery separate.
 8. Execute adversarial evaluations, refine costs and pilot assumptions, create presentation/backup/fallback material, and rehearse the timed story.
