@@ -19,12 +19,19 @@ One persistent synthetic case, inspectable evidence, fixed guided comparison, ap
 Customer-entry preview now exists at `/`: iPhone-style banking → charge details → voice or in-app reporting. Voice is explicitly pending; the in-app route saves only a browser-local draft. The analyst scaffold moved to `/ops`. Neither route creates a backend case yet; shared intake and case continuity remain future work. See demo-flow.md and decisions-and-artifacts.md for the exact state.
 
 1. Run and inspect the prototype with Theo; simplify confusing screens.
-2. Add approved read tools for case/evidence behind real authentication and case-level permissions. Prove one actual ChatGPT connection. REST endpoints in this version are not an MCP implementation.
-3. Replace fixed review text with grounded model investigation; retain sources and evidence snapshots. Put evaluator expectations outside model-visible records.
-4. Add authenticated approval bound to actor, exact payload, case, snapshot and expiration. Stage-only model tools must not execute approvals. Add audit, timeout reconciliation and failure tests.
-5. Add Realtime intake using server-side credentials and a shared case service; never ship API secrets to browser or GitHub.
-6. Finalize a grounded customer disposition and separately track network recovery if in scope.
-7. Execute adversarial evals, record model/tool/policy versions and traces, then rehearse with a labeled fallback.
+2. Connect in-app reporting to shared case creation and a minimal analyst queue, preserving the submitted statement and case ID. This implementation sequence does not change discovery-selected demo branching.
+3. Add approved read tools for case/evidence behind real authentication and case-level permissions. Prove one actual ChatGPT connection. REST endpoints in this version are not an MCP implementation.
+4. Replace fixed review text with grounded model investigation; retain sources and evidence snapshots. Put evaluator expectations outside model-visible records.
+5. Add authenticated approval bound to actor, exact payload, case, snapshot and expiration. Stage-only model tools must not execute approvals. Add audit, timeout reconciliation and failure tests.
+6. Add Realtime intake using server-side credentials and a shared case service; never ship API secrets to browser or GitHub.
+7. Finalize a grounded customer disposition and separately track network recovery if in scope.
+8. Execute adversarial evals, record model/tool/policy versions and traces, then rehearse with a labeled fallback.
+
+## Accepted adversarial review actions
+
+See [the approved review response](adversarial-review-response.md). The next action must carry a useful source-cited investigation brief: supported findings, conflicts, unresolved questions, and the specific specialist decision required. Analyst approval covers the exact brief and destination; separate read-back verifies the saved brief and request/assignment, not only status. This is required future behavior, not implemented functionality.
+
+Use deterministic code for transaction associations; use the model for document interpretation, selecting what to verify, scoped investigation, and explaining evidence limits. Enrich evidence only for representative realism. Prepare both discovery branches; rehearse readable side-by-side surfaces as an option. Customer behavior and timing need validation; hiring scores are subjective and the proposed $1M–$3M+ uplift is unsupported. Keep economic claims tied to measured quality, effort, and costs.
 
 ## Evidence and domain corrections
 
