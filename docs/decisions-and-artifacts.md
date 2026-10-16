@@ -6,6 +6,7 @@ Updated October 15, 2026. Consolidated from the available project conversation a
 
 | Topic | Status | Decision |
 | --- | --- | --- |
+| Customer presentation format | Locked by Theo, October 15 | Run the Apex iPhone app experience in the browser as an iPhone-style simulator. Browser mobile UI, not a native iOS build or Apple iOS Simulator. No native packaging requirement; keep the phone viewport usable for customer conversation. |
 | Discovery branch | Confirmed by Theo, October 15 | Customer discovery answers select voice (Realtime) or in-app reporting for the live demonstration. Show selected route in depth; both converge on the shared Apex case and analyst workflow. See discovery-and-outcomes.md. |
 | Meeting goal | Locked | Demonstrate credible operational value and earn sponsorship for a bounded pilot. |
 | Meeting timing | Locked baseline | 30 minutes: 3 discovery, 6 solution, 18 demonstration including questions, 3 value/pilot/ask. |
