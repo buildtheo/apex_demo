@@ -2,13 +2,31 @@
 
 Recorded October 15, 2026 from Theo's clarification. Read alongside plan.md and handoff.md. This describes the intended experience, not a claim that pending integrations work.
 
+## Locked demo experiences — October 15, 2026
+
+Theo confirmed this as the demo. There are three potential OpenAI-powered user experiences, with two shown on either discovery-selected path:
+
+| Experience | User and purpose | Technology |
+| --- | --- | --- |
+| Voice support | Customer reports the selected charge by call or an in-app voice conversation; assistant clarifies and prepares intake | OpenAI Realtime |
+| Conversational agent in the web/iPhone banking app | Customer explains the selected charge through text; assistant asks relevant clarifying questions and prepares intake | OpenAI API |
+| Analyst investigation in actual ChatGPT | Analyst retrieves authorized evidence, investigates, and prepares supported actions | Actual ChatGPT connected to Apex tools |
+
+Discovery selects voice OR conversational in-app intake. Both converge on the SAME case service, DMS queue, and actual ChatGPT analyst investigation. Every intended demo path therefore includes a customer-facing OpenAI experience and the analyst-facing ChatGPT experience. Realtime is the voice implementation, not a dependency of the text branch.
+
+Apex DMS remains the system of record and execution authority, not an additional OpenAI surface. The customer confirms the prepared intake before Apex creates the case. The analyst separately approves consequential investigation actions. Customer intake does not determine liability, issue credit, or initiate network recovery.
+
+Example text intake: Customer says, "I've bought from VeloCraft before, but this charge isn't mine." The agent may clarify whether this specific $648.50 purchase is disputed while earlier purchases are recognized. Ask only useful questions, retain the customer's wording and corrections, and present the structured report for confirmation. Do not imply recognition of a merchant proves authorization.
+
+This supersedes the earlier option of a plain form as the complete in-app demo branch. The existing form may remain a temporary development scaffold or clearly labeled fallback; it does not satisfy the locked conversational in-app capability. Neither new capability is claimed implemented by this documentation update. Exact APIs, model selection, call transport, and integration mechanisms remain implementation choices.
+
 ## Core distinction
 
 Customer banking app → Apex dispute-management case queue → actual ChatGPT investigation → verified updates back to Apex.
 
 Apex's dispute-management system (DMS) owns the case. ChatGPT is the analyst's investigation workspace, accessing authorized Apex records through connected tools. A dispute does not arrive in ChatGPT as a separate case or independent queue. The mocked DMS represents the bank's existing operational system.
 
-There are three visible surfaces, including two OpenAI-powered experiences: customer banking/intake (Realtime voice), Apex DMS, and actual ChatGPT (analyst investigation).
+Distinguish the three potential OpenAI experiences above from the bank's system-of-record UI. In a given path, the audience sees customer intake, Apex DMS, and actual ChatGPT; customer intake is powered by Realtime voice or an API-powered text agent.
 
 ## Discovery selects the intake path
 
@@ -19,7 +37,7 @@ See [the running discovery table and outcomes](discovery-and-outcomes.md). Ask w
 | Step | Actor and experience | System responsibility |
 | --- | --- | --- |
 | 1. Spot the charge | Customer opens a transaction in the Apex banking app and selects Dispute this charge. | Banking app supplies the selected transaction context. |
-| 2. Report the issue | Customer can choose a call/voice route or an in-app reporting route. Discovery determines which path the live demo follows; the voice branch uses Realtime. | Apex captures structured intake and an attributed customer statement. Entry choices do not imply both channels have been implemented. |
+| 2. Report the issue | Customer can choose a call/voice route or an in-app reporting route. Discovery determines which path the live demo follows; the voice branch uses Realtime and the in-app branch uses an OpenAI API-powered text agent. The customer confirms the structured intake before submission. | Apex captures structured intake and an attributed customer statement. Entry choices do not imply both channels have been implemented. |
 | 3. Create the case | Intake returns a case ID. | Apex case service persists the dispute, transaction reference, statement, and initial history. Do not imply automatic credit or network filing. |
 | 4. Pick up the work | Analyst sees the case in an assigned work queue. | Apex DMS owns routing, assignment, status, and access permissions. |
 | 5. Investigate | Analyst opens actual ChatGPT and requests the same case by ID. ChatGPT retrieves authorized evidence, compares sources, and identifies a material inconsistency. | Connected Apex tools enforce identity and case-level access. ChatGPT provides cited investigation support; Apex remains the record authority. |
@@ -40,7 +58,7 @@ A direct Investigate in ChatGPT button or deep link is optional and unvalidated.
 
 ## Why the existing prototype can be confusing
 
-The initial custom browser workspace combines case details with fixed guided investigation responses. It is a local workflow scaffold, not the final three-surface experience and not actual ChatGPT. An API-backed custom chat panel would also not meet the actual ChatGPT milestone by itself.
+The initial custom browser workspace combines case details with fixed guided investigation responses. It is a local workflow scaffold, not the final discovery-selected experience and not actual ChatGPT. An API-backed custom chat panel would also not meet the actual ChatGPT milestone by itself.
 
 The customer banking preview now opens at `/` (also `/banking`): iPhone-style accounts → selected VeloCraft transaction T-204 → Dispute this charge → Talk to support OR Report in the app. The voice route builds on the M. Price demo concept, but does not reuse its live connection or imply that Twilio is configured for Apex. Its connection button is disabled and labeled pending. The in-app form captures a reason and statement and saves a browser-local draft; it does not create or update an Apex case. The confirmation explicitly identifies the result as a draft.
 
@@ -51,7 +69,7 @@ The original analyst prototype is at `/ops`. A distinct assigned-case queue, liv
 - Make customer banking/intake, DMS case management, and ChatGPT investigation visually and verbally distinct.
 - Use one shared case ID and authoritative case service across surfaces.
 - First get the local prototype accessible for review. Then prove authenticated case/evidence retrieval in actual ChatGPT; add customer entry and Realtime intake in small increments per plan.md.
-- Keep call/voice and in-app options as intended entry choices. A real telephone connection and a complete second intake channel are not established requirements for the first demo. The precise voice transport remains an implementation choice.
+- Keep call/voice and in-app options as intended entry choices. Both conversational intake branches must be prepared for the locked discovery-driven demo, with explicit fallback labeling while building. Actual telephony transport remains an implementation choice; an in-app voice connection must not be presented as a working telephone call.
 - Show human approval and independent verification for both the evidence request and the later consequential action. The first gets the architectural explanation; the second is concise.
 - Model tools may prepare actions; they must not grant human approval themselves. Apex owns authorization, execution, and authoritative results.
 - Label synthetic records, simulated arrivals, fixed responses, and pending integrations honestly.
