@@ -2,6 +2,10 @@
 
 Last consolidated October 15, 2026, 11 p.m. America/Los_Angeles. Theo is ending the session and wants any agent to continue from repository state. Read AGENTS.md, then this page. The repo contains the consolidated decisions and work; the complete chat and original interview uploads are not archived here.
 
+## Preparation update — October 19: Why OpenAI
+
+Theo requested a substantive enterprise buying rationale in the interview brief. Read [Why OpenAI for Apex](why-openai.md), then the updated customer profile, objection prep and slide 2 cue. Security, governance and safety are central alongside capability, adoption, integration and total cost. Existing ChatGPT Enterprise productivity use and the original selection rationale are explicitly fictional premeeting context; new case-data/API/action approvals remain separate. No implementation, connection, model evaluation or readiness gate changed.
+
 ## Locked demo
 
 - Thirty-minute customer meeting: 3 minutes discovery, 6 solution, 18 demonstration/Q&A, 3 pilot/value/ask; 15-minute reflection afterward.
@@ -39,6 +43,7 @@ Then finish a renderable six-slide deck, export the architecture diagram, and re
 | Diagram, data flow, regulatory sources, named APIs, Gate 0 and connection proof | reference-architecture.md |
 | Before/after, costs, downside, growth-capacity math, instrumentation | business-case.md |
 | Verified primary market sources and cost/mix caveat | market-evidence.md |
+| Enterprise provider-selection rationale, trust controls, alternatives and spoken answer | why-openai.md |
 | Spoken positioning and competitive objections | objection-prep.md |
 | Six-slide timing, demo cues, evals, governance, enablement | meeting-outline.md |
 | Detailed executed checks and remaining implementation limits | handoff.md |

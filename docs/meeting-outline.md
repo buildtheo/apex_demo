@@ -17,7 +17,7 @@ Apex's card team needs capacity without weakening customer treatment. An API-pow
 | Time | Slide / screen | Main message and speaker cue | Discovery or proof |
 | --- | --- | --- | --- |
 | 0:00-3:00 | 1. Apex's capacity question | Fictional US credit issuer; assumed eligible volume and flat capacity. Ask which intake pain and analyst bottleneck matter, and what result warrants investment. | Explicit assumptions; selected branch and value priority |
-| 3:00-4:30 | 2. Two product surfaces, distinct jobs | Platform/APIs inside Apex's customer experience; actual ChatGPT for the analyst. Voice and text are alternative API modes, not two product surfaces. | Why these surfaces fit the users; show what each model contributes |
+| 3:00-4:30 | 2. Why OpenAI for Apex | Capability plus enterprise privacy, security, governance and safe adoption. Extend the fictional existing ChatGPT Enterprise footprint: APIs in the customer app; actual ChatGPT for analysts. Voice/text remain alternative API modes. | Use the short answer in [Why OpenAI](why-openai.md); tie each surface to the work, and distinguish platform controls from Apex authority |
 | 4:30-7:00 | 3. One case, existing bank authority | Use the architecture in reference-architecture.md; explain context, source retrieval, human approval, executor, and separate saved-effect read. | Identity/data boundaries; current versus target |
 | 7:00-9:00 | 4. Adoption with controls | Three points: bank-owned deadlines and decisions; scoped evidence and verified actions; shadow evaluation before limited use. | Concise legal/privacy context, evaluation and rollout thesis |
 | 9:00-27:00 | Live / clearly labeled simulated workflow | One coherent customer-to-analyst case, as detailed below. | Visible before/after and the role of both OpenAI product surfaces |
@@ -25,6 +25,8 @@ Apex's card team needs capacity without weakening customer treatment. An API-pow
 | 28:15-30:00 | 6. Pilot decision | Proposed six-week gated pilot; name operations/technology owners and risk participation; agree baseline/access work and scorecard. | Clear next step; no invented customer commitment |
 
 Keep each main slide to one visual and a few talking points. Full tables stay in backup material. This skeleton has not been rendered or rehearsed.
+
+Before rehearsal, read the [provider-selection brief](why-openai.md). It supplies the original-selection scenario assumptions, verified controls, alternatives and one-minute answer. Keep this rationale inside the existing solution time; detailed comparisons belong in backup material. No product connection or safety evaluation is established by this preparation update.
 
 ## Eighteen-minute workflow with Q&A
 

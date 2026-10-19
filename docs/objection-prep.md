@@ -15,7 +15,7 @@ Prepared October 15, 2026. Facilitator preparation, not claims about a competito
 | Can the model read other accounts or follow instructions in a merchant PDF? | Server-side identity/ACLs determine access; document text is evidence, not authority. The model cannot grant itself approval or broaden scope. | Denied-case, cross-case, injection, and withheld-evidence tests. These target controls are not all implemented. |
 | Does this comply with banking regulation? | This design preserves bank-controlled notice/deadline handling, investigation, human decisions, and separate network recovery. Compliance validates the exact workflow before customer use. | Use the primary-source mapping in reference-architecture.md. Never claim compliance because the demo has citations. |
 | What happens if a write times out or the model is wrong? | No blind success claim or blind retry. Reconcile by action ID against saved facts, preserve the analyst's ability to reject/edit, and return to the case system when uncertain. | Tests for false success, duplicates, stale approvals, timeouts, and corrections. Distinguish existing unit checks from future model/system evaluations. |
-| Why this provider rather than another model/vendor? | Use the same representative task set and access constraints to compare source fidelity, procedure adherence, latency, cost, and operator usability. | Present observed results only. Keep model/backend choice flexible behind governed tool contracts if the evidence warrants it. |
+| Why this provider rather than another model/vendor? | Recommend OpenAI for the combined fit: model capability, enterprise privacy/security/governance, a safety approach backed by workflow controls, assumed existing ChatGPT adoption, and customer APIs plus an employee workspace. | Use the [customer selection brief](why-openai.md) for substantiation, the one-minute answer and fair alternatives. Compare total workflow results and controls; no universal superiority is claimed. |
 
 ## Network-tool and average-cost objections
 
@@ -23,11 +23,11 @@ Source detail is in market-evidence.md. Ask whether the bank uses Visa Dispute I
 
 If an executive cites roughly $10 per dispute, acknowledge Mastercard's published $9.08-$10.32 average. Our $20 figure is a complex-case hypothesis requiring measurement, especially because we assumed a 50% eligible share. Do not dismiss the comparison simply by saying subset. Ask for the bank's distribution and all-role costs, then rerun the model; lower value can justify stopping.
 
-## Two-sentence spoken position
+## Short spoken position
 
-"I recommend OpenAI for this pilot because its APIs let us tailor the customer conversation while ChatGPT gives analysts a workspace for investigating through the same governed Apex tools. We will retain the bank's case system and deterministic checks, and require measurable improvement over that baseline before expanding."
+"I recommend OpenAI for the combination of useful model capability, enterprise privacy, security and governance, and a practical path to safe adoption. In our scenario, Apex already uses ChatGPT Enterprise; we can extend that investment with customer APIs and approved analyst tools while Apex retains control over data access, decisions and actions."
 
-This is our proposed architecture position, not a claim of measured superiority. Follow with the customer's priority outcome, the specific demonstrated model contribution, and the pilot's acceptance threshold. If the baseline wins on value or controls, say so.
+Use the [full customer selection brief](why-openai.md) for the one-minute answer, product sources, safety proof, competitive decision guide and total-cost criteria. Existing adoption and the original selection rationale are fictional rehearsal assumptions. The brief separates platform controls from Apex's responsibilities; a prior productivity approval does not approve this new workflow.
 
 ## Qualification and close practice
 

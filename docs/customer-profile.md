@@ -1,6 +1,6 @@
 # Apex customer and qualification brief
 
-Prepared October 15, 2026. Rehearsal scenario v1. Every customer attribute below is a proposed fictional assumption unless marked as implemented. These are inputs for discovery, not facts learned from a bank. No executive commitment, customer policy, deadline, budget, or result has been established.
+Prepared October 15, 2026; provider-selection context updated October 19. Rehearsal scenario v2. Every customer attribute below is a proposed fictional assumption unless marked as implemented. These are inputs for discovery, not facts learned from a bank. No executive commitment, customer policy, deadline, budget, or result has been established.
 
 ## Customer in one paragraph
 
@@ -18,6 +18,12 @@ Apex is a fictional US regional bank with a consumer credit-card business. For r
 | Evidence systems | Card ledger, customer intake transcript, merchant documents, internal authentication-reference service |
 | Identity and governance | Existing enterprise identity provider, case assignment/ACLs, privacy/security review, QA and risk owners; target integrations pending |
 | Shared workflow | Customer-confirmed intake -> case and queue -> explicit later evidence stage -> actual ChatGPT investigation -> approved evidence request -> reassessment -> approved next action -> saved-effect verification |
+
+## Existing AI footprint and why OpenAI
+
+For this rehearsal, assume ChatGPT Enterprise is already deployed for employee productivity. Its original selection rationale combines useful model capability with acceptable privacy, security, governance and safety requirements. Card Operations evidence and actions are not yet connected. These are explicit fictional premeeting assumptions, not real bank discovery or approval of API processing, sensitive case data or write tools.
+
+The recommendation is to extend that foundation into a bounded Card Ops pilot, retaining Apex's DMS and execution authority. The [Why OpenAI customer selection brief](why-openai.md) covers the full buying rationale, verified product controls, alternatives, responsibility boundaries and a one-minute spoken answer. Responsible account preparation establishes installed platforms, adoption and approved uses before the executive meeting; discovery validates the priority and new-use constraints.
 
 ## Pain, urgency, and end in mind
 
@@ -48,7 +54,7 @@ Use the running table in discovery-and-outcomes.md. Three opening questions are 
 | Sponsor and decision process | Who can fund a pilot and who must approve production use? | Owners, decision date, and review gates; do not invent a budget |
 | Workflow fit | Which case class and handoff generate repeat work? | Narrow the pilot to a measurable class |
 | Access and security | Can approved synthetic/deidentified records and existing APIs be made available? | Start read-only/shadow if writes or real data are blocked |
-| Alternatives | What existing case-system or AI capability would we compare against? | Use the same task set, costs, and quality measures |
+| Alternatives | Based on the premeeting review of installed capabilities, which baseline and native AI option should the pilot beat? | Use the same task set, costs, quality measures and non-negotiable controls; do not ask about basic platform presence as if unprepared |
 | Success | What result would justify expansion or stopping? | Agree economic threshold and quality/control guardrails |
 
 An acceptable next step is not merely interest: obtain a sponsor, proposed owners, a bounded class, access-validation work, and a scheduled review of the pilot scorecard. If these are absent, name the gaps and do not claim a qualified pilot.

@@ -2,6 +2,12 @@
 
 Updated October 15, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 19 preparation decision — customer selection rationale
+
+Theo explicitly requested the reasons a customer selects OpenAI over another provider in the interview brief, emphasizing security, governance and safety. [Why OpenAI for Apex](why-openai.md) now covers capability, privacy, security, governance, safe deployment, adoption, integration, total cost and supplier/deployment fit, with official sources and a competitive decision guide.
+
+For this fictional rehearsal, use the premeeting baseline that ChatGPT Enterprise already serves employee productivity and was selected for capability plus enterprise trust requirements; Card Ops evidence/actions are not connected. This is authored scenario context, not actual customer discovery, a completed vendor review or permission for sensitive data, API processing or writes. Review installed platforms and approved uses before a real executive meeting. Product controls and Apex-owned safeguards remain distinct. Updated customer profile, objection prep and slide 2 cue route to the brief. This documentation update does not resume building, complete Gate 0 or establish integration/model-evaluation proof.
+
 ## Decision register
 
 | Topic | Status | Decision |
