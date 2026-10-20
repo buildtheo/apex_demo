@@ -1,5 +1,21 @@
 # Build progress — October 20, 2026
 
+## First live-case request verified after Theo's approval - October 20
+
+Theo reports approving the restaged lookup. A read-only /api/action-result check for APX-3625B0CC/action 09590c76058eea27922444a8 returns VERIFIED_SAVED_REQUEST: approved snapshot 2, observed snapshot 3, request REQ-09590c76, state RESPONDED, correct exact scope/references and simulated Barbara approval. The explicit later lookup response has therefore already been released in the saved case; Codex did not approve or advance it. This proves the saved synthetic request facts, not production identity or an external processor integration. Continue actual ChatGPT result/source reading and reassessment; processor follow-up and credit are not implemented.
+
+Public MCP SDK get_case/get_evidence reads also succeeded: case EVIDENCE_RECEIVED/v3, E-004 released and associates AUTH-77 with T-198 rather than disputed T-204. The deterministic association check is false. No fraud, liability or credit conclusion follows from this mismatch alone; account-side ChatGPT reassessment is next.
+
+Theo locked the plain-language, inspectable-provenance, visible evidence-arrival, second evidence-request and Martha-app-credit choices in decisions-and-artifacts.md/demo-flow.md. Finish this technical walkthrough first. No runtime changes or additional tests in this documentation increment.
+
+## Readable request approval and account-side staging - October 20
+
+Theo supplied actual ChatGPT staging output for APX-3625B0CC at snapshot 2, including action IDs matching persisted drafts. E-003 is now released; the case is IN_REVIEW, not intake/v1 as in older entries. A prior draft expired without execution. A transient account-side retrieval error was not reproduced by a subsequent public MCP SDK get_case. Refreshing the installed tool definitions made the four-tool connection available to actual ChatGPT. This is user-observed staging plus independent saved-draft checks, not human approval or a passing model evaluation.
+
+Theo flagged raw code in the local review screen. The first-request approval now presents the exact request question and all payload fields as readable labels, with action ID visible. JSON and hash remain available under collapsed Technical details. Approval binding, five-minute expiry and private execution checks are unchanged. Browser coverage checks the visible summary, collapsed payload, expandable exact JSON/hash and separate human approval on an isolated database. No approval or execution on Theo's case is performed by this UI change. Processor follow-up and credit remain unbuilt.
+
+Verification passed: all 53 Python tests, 29 Node tests and the extended isolated mock-intake browser/SDK run. The resulting review screenshot was visually inspected. No new OpenAI provider requests or live-case changes were made.
+
 ## First scoped approval cycle implemented - October 20
 
 Theo supplied the actual ChatGPT response reading E-001/E-002 for APX-3625B0CC at snapshot 1. It cites the confirmed denial and transaction, keeps authorization unresolved, reports no E-003/E-004 use and labels simulated identity. This closes user-observed new-case intake-to-ChatGPT evidence continuity; raw tool trace was not independently inspected.

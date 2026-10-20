@@ -104,6 +104,15 @@ try {
   assert.equal(before.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
   await page.click('#refresh-case');
   await page.locator('#approval').waitFor({state: 'visible'});
+  assert.equal(await page.locator('.request-question').innerText(), 'Which transaction is AUTH-77 associated with?');
+  const requestFacts = await page.locator('.request-facts').innerText();
+  for (const value of ['Apex evidence operations', 'AUTH-77', 'T-204', 'E-002, E-003', draft.action_id]) assert.ok(requestFacts.includes(value));
+  assert.equal(await page.locator('#approval pre').isVisible(), false, 'Raw payload must be collapsed by default');
+  await page.locator('.technical-payload summary').click();
+  assert.equal(await page.locator('#approval pre').isVisible(), true);
+  assert.ok((await page.locator('.technical-payload').innerText()).includes(draft.payload_hash));
+  assert.deepEqual(JSON.parse(await page.locator('#approval pre').innerText()), draft.payload);
+  await page.locator('.technical-payload summary').click();
   await page.screenshot({path: '.local/request-review.png', fullPage: true});
   await page.click('#approve');
   await page.waitForFunction(() => document.getElementById('notice').textContent.startsWith('Verified against the saved case record:'));

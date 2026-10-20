@@ -2,6 +2,18 @@
 
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 20 - plain-language evidence journey and customer ending locked
+
+Theo explicitly locked these choices after reviewing the technical approval checkpoint:
+
+- Use conversational analyst language, merchant/amount first; keep IDs, snapshots, payload hashes and implementation instructions in secondary details. Simplification must not hide the exact action being approved.
+- Every finding must trace to an inspectable source excerpt with origin and arrival information. Use clearly synthetic PDFs for document-shaped evidence, and appropriate record views for banking/system data. Do not imply current text fixtures are retrieved original PDFs or fabricate source provenance.
+- Show requested evidence as pending, then an explicit later-response/time-jump transition. No apparent instantaneous processor reply.
+- After the internal lookup mismatch, separately request evidence tied to the disputed purchase and correction of the prior citation. The mismatch alone is not a verdict. Processor follow-up remains a separate approval cycle.
+- End back in Martha's banking app with the approved explanation and verified synthetic $648.50 credit, only after Barbara's approval and separate ledger/case verification. This ending remains unbuilt.
+
+Finish the current technical walkthrough before broad experience changes. Theo reports approving the first lookup; read-only saved-effect verification confirms action 09590c76058eea27922444a8 as VERIFIED_SAVED_REQUEST, approved at v2, now RESPONDED at observed v3. No approval or evidence arrival was performed by Codex. See current build-progress.md and demo-flow.md. Later entries are historical where they describe this live case as unapproved or intake/v1.
+
 ## October 20 - new-case ChatGPT proof and first controlled approval cycle
 
 Theo pasted the actual ChatGPT E-001/E-002 comparison for APX-3625B0CC/v1, completing user-observed new-case read/reason continuity (not an independently inspected raw trace). Built optional WRITE stage_evidence_request and read get_action_result, exact expiring draft review in separate Apex, saved-request verification and explicitly released deterministic association check. 82 deterministic tests and extended isolated browser/SDK approval flow pass. Current no-auth synthetic runtime exposes four tools but no approval/execution endpoint; actual ChatGPT staging confirmation/human approval remain pending. Theo's case was not advanced or approved. See request-actions.md and build-progress.md. Next build remains transaction-specific processor follow-up, then supported reviewed credit and customer verification; no slides or rehearsal.

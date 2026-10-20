@@ -42,7 +42,13 @@ function render(){
  const d=state.draft;$('approval').hidden=!d;
  if(d){
   const note=d.contract?'This saves a synthetic request only. It does not return evidence or approve credit. Production identity is not implemented.':'This action changes only the local synthetic case. Production identity and authorization are not implemented.';
-  $('approval').innerHTML=`<p class="eyebrow">REVIEW EXACT ACTION · ${d.contract?'BARBARA / SIMULATED IDENTITY':'LOCAL DEMO APPROVAL'}</p><h2>${safe(d.kind.replaceAll('_',' '))}</h2><p>Case ${safe(d.case_id)} · Evidence v${d.version}</p><pre>${safe(JSON.stringify(d.payload,null,2))}</pre>${d.expires_at?`<p>Review expires: ${safe(new Date(d.expires_at*1000).toLocaleTimeString())}</p>`:''}<p class="small">${safe(note)}</p><button id="approve">Approve & execute in demo</button>`;
+  const request=d.contract==='mcp_request_v1';
+  const payload=request?`<p class="request-question">${safe(d.payload.question)}</p><dl class="request-facts">${[
+   ['Send to',d.payload.queue],['Authentication record',d.payload.auth_record_id],
+   ['Disputed transaction',d.payload.disputed_transaction_id],['Evidence sources',d.payload.source_ids.join(', ')],
+   ['Action ID',d.id]
+  ].map(([label,value])=>`<div><dt>${safe(label)}</dt><dd>${safe(value)}</dd></div>`).join('')}</dl><p>Approve only this transaction-association lookup. This does not decide the dispute or issue a credit.</p><details class="technical-payload"><summary>Technical details</summary><p>Exact payload hash: ${safe(d.payload_hash)}</p><pre>${safe(JSON.stringify(d.payload,null,2))}</pre></details>`:`<pre>${safe(JSON.stringify(d.payload,null,2))}</pre>`;
+  $('approval').innerHTML=`<p class="eyebrow">REVIEW EXACT ACTION · ${d.contract?'BARBARA / SIMULATED IDENTITY':'LOCAL DEMO APPROVAL'}</p><h2>${request?'Review evidence request':safe(d.kind.replaceAll('_',' '))}</h2><p>Case ${safe(d.case_id)} · Evidence v${d.version}</p>${payload}${d.expires_at?`<p>Review expires: ${safe(new Date(d.expires_at*1000).toLocaleTimeString())}</p>`:''}<p class="small">${safe(note)}</p><button id="approve">Approve & execute in demo</button>`;
   $('approve').onclick=()=>act('approve',{draft_id:d.id},d);
  }
 }
