@@ -2,6 +2,8 @@
 
 ## Latest setup decision and executed follow-up
 
+Presentation account confirmed by Theo: **personal ChatGPT Plus**, not a work workspace. No email address is needed. Custom-MCP creation/connection permissions on that specific account and an actual Apex tool call remain unverified; do not equate plan selection with proven entitlement or advise an upgrade without checking. Current official connection instructions describe ChatGPT web -> Plugins -> plus -> Add custom MCP server; ask for a screenshot if the option is missing. Demo connection remains No authentication with explicitly simulated identity. This account confirmation changes no runtime code or test results.
+
 Theo approved simulated authentication for the demo and reuse of M. Price API credentials. Added explicit `APEX_AUTH_MODE=demo`: fixed `demo:barbara` role, no OAuth challenge/discovery, no validated user identity, and `simulated_not_oauth` on health and successful tool results. Case assignment, source-release/snapshot checks and minimized screening still apply. Unknown auth modes fail closed; OAuth remains the default when no explicit mode is configured. The demo mode is not an unauthorized-user authentication proof and is for synthetic records only. No public tunnel has been opened.
 
 Configured the ignored local `.env` to reference the existing M. Price env file via `APEX_OPENAI_ENV_FILE`. The server-side credential helper imports only key/project/organization fields, not Twilio settings or old model choices. Confirmed a nonempty key loads without printing/copying it; validity, balance and provider requests have NOT been tested. The helper is preparation for API intake, not an implemented model conversation.

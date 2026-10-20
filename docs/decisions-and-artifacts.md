@@ -2,6 +2,10 @@
 
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 20 - presentation account confirmed
+
+Theo will present from his personal ChatGPT Plus account, not a work workspace. Email not needed. Actual custom-MCP creation/access and Apex invocation still require account-side proof; do not assume Plus guarantees the feature or ask for a paid upgrade before checking the available UI. Preserve the synthetic No authentication connection and simulated-identity disclosure. See build-progress.md. Documentation-only update; no new runtime or model check.
+
 ## October 20 - simulated identity and API credential reuse
 
 Theo approved faking authentication for the synthetic demo and using the M. Price OpenAI API configuration. Implemented an explicitly labeled fixed demo identity with ChatGPT's No authentication connection path; no fake OAuth provider or externally authenticated-user claim. Case/source/version/output checks remain; the OAuth path is retained but external IdP setup is no longer a demo prerequisite. Ignored local configuration references the existing API credential file; secrets are neither copied nor committed. All 19 adapter/config tests and 26 existing tests pass. No live ChatGPT/model call, public tunnel, actual sign-in UI or credit flow was completed. See [build-progress.md](build-progress.md) and [adapter-setup.md](adapter-setup.md). Presentation account/connection access is still unknown; an email address is not required for that clarification.
