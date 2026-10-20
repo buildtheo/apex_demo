@@ -2,6 +2,10 @@
 
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 20 clarification — observation, boundaries and evaluations before pilot launch
+
+Theo challenged the premature pilot ask and requested locking the [revised next-step language and definitions](discovery-to-pilot.md). Opening discovery asks what meaningful improvement looks like and how it is measured. The immediate close seeks sponsorship of Gemba/ride-along observation, baseline validation, data/action boundaries and evaluation design with domain reviewers. A bounded pilot remains proposed conditionally; evaluation results and readiness gates determine shadow mode and limited assisted use. Define source fidelity, investigation quality, total effort, downstream rework, failures, fallback and stopping rather than rely on vague “quality” or “human control.” No real Apex observation, customer launch approval, new implementation or model result is inferred. This supersedes earlier immediate pilot-sponsorship wording while retaining the contingent rollout outline.
+
 ## October 20 preparation decision — correctable discovery and unexpected answers
 
 Theo requested locking the [focused discovery approach](discovery-and-outcomes.md#discovery-approach--locked-october-20-2026): broaden intake discovery beyond the two prepared demo modes, test the analyst-effort hypothesis with room for correction, listen and adapt. Saved responses for external merchant waiting, incomplete intake, quality-first priorities, existing evidence automation and problems outside scope. These change emphasis, metrics or the proposed next step rather than force the same pitch. Theo reaffirmed Apex as the fictional issuer; Visa remains network context and Apex volumes/growth remain assumptions. More workload per analyst does not itself imply increased effort per case. No AI-driven-fraud forecast or customer dissatisfaction claim was adopted. This is documentation-only preparation; no actual discovery, build resumption, runtime result, Gate 0 or model evaluation is established.
@@ -24,7 +28,7 @@ For this fictional rehearsal, use the premeeting baseline that ChatGPT Enterpris
 | Post-preparation review | Accepted corrections; execution defaults proposed | Add growth-capacity scenario, write-tool permission narration, named API baseline, and spoken OpenAI position. Text-primary/voice-alternative rehearsal default remains a proposal; discovery branching stays locked. Account/dispute scale is not benchmark-validated. |
 | Market evidence and investment case | Locked by Theo, October 15 | Use primary Visa 106m global disputes in 2025 / 35% since 2019 and Mastercard published $9.08-$10.32 average US FI processing cost as context. Apex volume, complex-case share/cost and savings remain assumptions. The subset label does not by itself reconcile the 50% eligible mix and $20 baseline. See market-evidence.md. |
 | Agent continuity | Required by Theo | Start at START-HERE.md, then follow the linked decision register, current handoff, preparation pack, and Gate 0. Preserve implemented/proposed/unproven distinctions. |
-| Meeting goal | Locked | Demonstrate credible operational value and earn sponsorship for a bounded pilot. |
+| Meeting goal | Locked; October 20 clarification | Demonstrate the value hypothesis and earn sponsorship for workflow observation, baseline/boundary validation and evaluation design. Pilot launch is conditional on findings, evaluation results and readiness. |
 | Meeting timing | Locked baseline | 30 minutes: 3 discovery, 6 solution, 18 demonstration including questions, 3 value/pilot/ask. |
 | Journey | Confirmed clarification | Customer sees charge in banking app, selects dispute via voice or in-app entry; Apex creates case and owns analyst queue; actual ChatGPT investigates the same case; Apex executes approved updates. See demo-flow.md. |
 | OpenAI experiences | Locked by Theo, October 15; integrations pending | Three potential experiences: Realtime voice support; OpenAI API-powered conversational text agent in the banking web/iPhone app; analyst in actual ChatGPT. Discovery selects voice OR text agent, then shared ChatGPT investigation. Each path includes two OpenAI-powered experiences. A plain form is only a scaffold/fallback. |
@@ -52,9 +56,9 @@ Central message: Apex can help analysts reach a defensible next action with less
 Proposed audience: head of card operations, technology leader, and risk representative. Validate the hypothesis that gathering records and reconciling conflicts create investigation effort and rework.
 
 Ask:
-- When customers report an unfamiliar charge, do they typically call support or start in your banking app? Which experience most needs improvement? Use the answer to choose the demonstrated intake branch. See [running discovery and outcomes](discovery-and-outcomes.md).
-- Where does your team lose more time today: gathering evidence, interpreting conflicts, or completing the disposition?
-- What would make this pilot valuable: more capacity, less rework, faster customer responses, or improved decision consistency?
+- Walk me through how customers initiate disputes today. Which channels account for most of the volume, and where does intake create the most friction? Agree a relevant prepared route after understanding the process; see [running discovery and outcomes](discovery-and-outcomes.md).
+- Once a dispute reaches your team, walk me through how an analyst investigates it. Which steps take the most hands-on time?
+- What would a meaningful improvement look like for your team, and how do you measure that today? What would need to stay at least as good?
 
 Adapt emphasis to the answer. Do not present assumed customer pain as measured evidence.
 
@@ -92,7 +96,7 @@ Proposed pilot scorecard:
 
 Proposed weeks 1–2: validate workflow, baseline, access, evaluation set. Weeks 3–4: shadow evaluations and failure remediation. Weeks 5–6: limited analyst-assisted use only if gates pass, then assess results.
 
-Ask executives to sponsor the pilot, name operations and technology owners, agree scope and success criteria, involve risk/security, and provide approved evaluation data. No named owner, customer approval, or actual baseline has been established.
+Ask executives to sponsor workflow observation and evaluation design, name proposed operations and technology participants, involve risk/security and agree permitted access plus a follow-up review. Use the findings to define scope, baseline, boundaries and evaluation criteria. Present the pilot conditionally; launch requires evaluation/readiness gates. No named owner, customer approval, real Gemba or actual baseline has been established. See [the locked next-step wording](discovery-to-pilot.md).
 
 ## Rejected or superseded design claims
 

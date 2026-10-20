@@ -14,7 +14,7 @@ Theo approved this approach during interview preparation: use focused questions 
 2. **Analyst work:** “Once a dispute reaches your team, walk me through how an analyst investigates it. Which steps take the most hands-on time?”
    - Follow-up: “What makes that step difficult—and what does the analyst have to do when the information is incomplete or conflicting?”
    - When the three-minute budget calls for a narrower hypothesis: “From our preparation, evidence gathering and reconciliation look like major sources of analyst effort. How closely does that match what your team experiences?”
-3. **Success:** “What would make a pilot worth sponsoring?” Agree the primary outcome and quality boundaries rather than supply the customer's answer.
+3. **Success:** “What would a meaningful improvement look like for your team, and how do you measure that today?” Follow up: “What would need to stay at least as good?” Agree the outcome before proposing a pilot target; see [discovery-to-pilot sequencing](discovery-to-pilot.md).
 
 Pause after each question. Select the highest-value follow-up; these are alternatives within the existing three-minute opening, not an expanded questionnaire. Once the channel/process is understood, agree which relevant prepared intake route to explore. If another channel is the priority, clarify its friction and whether a prepared route illustrates an applicable pattern; disclose any mismatch rather than pretending that channel is built.
 
@@ -53,9 +53,9 @@ The original assignment was checked. Our two selected product surfaces are ChatG
 
 ## Keep the end in mind
 
-The meeting should establish value (less investigation effort and rework with decision quality preserved), credibility (evidence retrieval, analyst judgment, approved execution and verification), and commitment (sponsor a bounded pilot with owners and measurable success criteria).
+The meeting should establish value (less investigation effort and rework with decision quality preserved), credibility (evidence retrieval, analyst judgment, approved execution and verification), and commitment (sponsor workflow observation and evaluation design with owners; a bounded pilot remains conditional on the findings and readiness).
 
-The executive close is pilot sponsorship, not a predetermined dispute verdict. The operational demo ends in a verified supported next action; the implemented specialist handoff remains an iteration endpoint, not a locked financial disposition. Consumer resolution and network recovery stay separate.
+The executive close first earns sponsorship of workflow observation, baseline validation, boundaries and evaluation design. A pilot is a conditional proposal rather than an immediate launch commitment; see [the locked next-step language](discovery-to-pilot.md). A predetermined dispute verdict is not the meeting outcome. The operational demo ends in a verified supported next action; the implemented specialist handoff remains an iteration endpoint, not a locked financial disposition. Consumer resolution and network recovery stay separate.
 
 ## Running discovery table
 
@@ -66,9 +66,9 @@ D-01's prepared demo branching is confirmed by Theo. October 20 broadens intake 
 | D-01 | Walk me through how customers initiate disputes today. Which channels account for most of the volume, and where does intake create the most friction? | Call or support friction | Follow the voice intake path using Realtime | Validate intake effort, handoff completeness, and downstream rework | Uncollected; branching decision confirmed |
 | D-01b | After understanding the channel mix, agree which relevant prepared route to explore; do not force a phone/app binary | In-app reporting friction | Follow API-powered conversational in-app intake and customer-confirmed submission | Validate report completeness, follow-up effort, and case continuity | Uncollected; branching decision confirmed |
 | D-02 | Once a dispute reaches your team, walk me through how an analyst investigates it. Which steps take the most hands-on time? Use the correctable evidence-gathering hypothesis if useful. | Gathering / interpretation / execution | Emphasize authorized retrieval / sourced comparison and follow-up / approval and verified update, respectively | Select baseline time measures; count downstream work | Uncollected; proposed mapping |
-| D-03 | What would make the pilot valuable: capacity, less rework, faster responses, or consistency? | Customer's priority outcome | Refer back to that priority during the demonstration and close | Agree primary metric plus quality guardrails; do not assume labor savings | Uncollected; proposed mapping |
+| D-03 | What would a meaningful improvement look like for your team, and how do you measure that today? What would need to stay at least as good? | Customer's priority outcome | Refer back to that priority during the demonstration and close | Agree primary metric plus quality guardrails; do not assume labor savings | Uncollected; proposed mapping |
 | D-04 | What must remain under analyst control, and what would prevent approval of a pilot? | Authority, evidence quality, access, or execution concerns | Show relevant permissions, uncertainty, approval, and verification; disclose unfinished controls | Agree risk/security readiness and evaluation gates | Uncollected; proposed follow-up |
-| D-05 | Which case class and systems could support a bounded pilot, and who would own it? | Scope, access constraints, sponsor and owners | Narrow pilot proposal to feasible workflow | Confirm operations/technology owners and approved data access | Uncollected; proposed close question |
+| D-05 | Who should join a workflow ride-along and evaluation-design session, and which case class should we observe? | Scope, access constraints, sponsor and owners | Agree discovery work and a follow-up review; pilot remains conditional | Validate baseline, boundaries, permitted access and owners before a launch decision | Uncollected; proposed close question |
 
 If both intake channels matter, ask which to explore first. Show the selected branch in depth and acknowledge the other without doubling the demo. If neither answer is clear, ask a short follow-up; do not silently default to voice or invent a customer preference. If a chosen integration is unfinished, disclose that and use an explicitly labeled simulation/fallback.
 
@@ -89,7 +89,7 @@ flowchart TD
     H --> I["Approve evidence request; Apex executes and verifies"]
     I --> J["Labeled response arrival; reassess"]
     J --> K["Approve next action; Apex executes and verifies"]
-    K --> L["Return to discovery priority and pilot ask"]
+    K --> L["Return to priority; agree discovery and evaluation next step"]
 ```
 
 Both branches use the same case contract and preserve transaction and customer-statement provenance. The same case ID must follow through the journey. This flow is intended behavior, not a claim that all connections are implemented. The current banking form saves locally; voice is pending; the DMS uses a preseeded case. See demo-flow.md and handoff.md.
@@ -101,7 +101,7 @@ Both branches use the same case contract and preserve transaction and customer-s
 | Useful improvement | Before/after tied to the pain the customer named | Actual baseline and measured improvement |
 | Credible workflow | Same case across surfaces, source citations, evidence-driven reassessment | Working shared intake and actual ChatGPT/Realtime integrations |
 | Retained control | Human approves exact action; Apex executes; independent read verifies result | Authenticated authority and recorded failure evaluations |
-| Investment decision | Illustrative economics, scoped pilot, named owners and agreed measures | Customer commitments; net costs; readiness gates |
+| Investment decision | Illustrative economics and conditional pilot proposal; immediate discovery/evaluation-design ask with proposed owners and measures | Customer commitment to discovery; baseline, boundaries, net costs, agreed evals and readiness gates before launch |
 
 Keep the 30-minute structure (3 discovery / 6 solution / 18 demo / 3 close). The intake slot demonstrates the chosen route, not automatically voice. Realtime remains the voice-branch capability; the OpenAI API powers the text agent in the in-app branch; actual ChatGPT remains the shared analyst surface. Every intended path includes two OpenAI-powered experiences. The original brief's surface requirement is resolved: demonstrate ChatGPT plus Platform/APIs. It permits live or simulated workflows and does not require both voice and text modes to be built live.
 
@@ -109,6 +109,7 @@ Keep the 30-minute structure (3 discovery / 6 solution / 18 demo / 3 close). The
 
 | Date | Decision / clarification | Status |
 | --- | --- | --- |
+| 2026-10-20 | Outcome-led opening; immediate next step is Gemba/baseline/boundaries/evaluation design; pilot conditional on findings and gates | Locked by Theo; supersedes an immediate pilot-sponsorship ask |
 | 2026-10-20 | Focused, correctable discovery; broader intake question; adapt to unexpected answers or revisit scope; retain issuer scenario | Locked by Theo; no actual customer answers or execution proof |
 | 2026-10-15 | Pilot sponsorship is the meeting outcome; illustrative ROI and proposed targets are not measured results | Existing locked baseline |
 | 2026-10-15 | Banking app, DMS, and actual ChatGPT have distinct responsibilities and shared case continuity | Confirmed |

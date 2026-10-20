@@ -29,7 +29,7 @@ The recommendation is to extend that foundation into a bounded Card Ops pilot, r
 
 Working hypothesis: evidence assembly and reconciliation consume analyst time, while incomplete handoffs create repeat work. The urgency assumption is that case volume will rise 15% over the next planning year while capacity remains flat. This is proposed scenario pressure, not an actual forecast or a regulatory event. Ask what is driving urgency; replace or drop the assumption if the customer gives a different answer.
 
-The meeting should earn sponsorship for a bounded pilot, with operations and technology owners, risk participation, and agreed measures. The proposed primary value lever is released operational capacity with decision quality preserved. A specialist referral is useful only if the verified investigation package reduces work across the full chain. It is not a final customer resolution.
+The meeting should earn sponsorship for workflow observation and evaluation design, with operations and technology owners, risk participation and a review of the findings. A bounded pilot is a conditional proposal, subject to validated baseline, permitted data/actions, evaluation results and readiness; see [discovery-to-pilot sequencing](discovery-to-pilot.md). The proposed primary value lever is released operational capacity with decision quality preserved. A specialist referral is useful only if the verified investigation package reduces work across the full chain. It is not a final customer resolution.
 
 ## Stakeholder map
 
@@ -46,7 +46,7 @@ Roles are proposed; no individual is appointed.
 
 ## Qualification and discovery
 
-Use the running table in discovery-and-outcomes.md. Three opening questions are enough: which intake friction matters, where analyst effort is lost, and what outcome warrants a pilot. The answer selects voice versus text and changes emphasis. Both use Platform/APIs followed by ChatGPT. A prerecorded or simulated alternative must be labeled; both modes need preparation, but both need not be implemented live to meet the assignment.
+Use the running table in discovery-and-outcomes.md. Three opening questions are enough: which intake friction matters, where analyst effort is lost, and what meaningful improvement looks like and how it is measured. The answer selects voice versus text and changes emphasis. Both use Platform/APIs followed by ChatGPT. A prerecorded or simulated alternative must be labeled; both modes need preparation, but both need not be implemented live to meet the assignment.
 
 | Qualification area | Ask | What changes the proposal |
 | --- | --- | --- |
@@ -57,4 +57,4 @@ Use the running table in discovery-and-outcomes.md. Three opening questions are 
 | Alternatives | Based on the premeeting review of installed capabilities, which baseline and native AI option should the pilot beat? | Use the same task set, costs, quality measures and non-negotiable controls; do not ask about basic platform presence as if unprepared |
 | Success | What result would justify expansion or stopping? | Agree economic threshold and quality/control guardrails |
 
-An acceptable next step is not merely interest: obtain a sponsor, proposed owners, a bounded class, access-validation work, and a scheduled review of the pilot scorecard. If these are absent, name the gaps and do not claim a qualified pilot.
+An acceptable next step is not merely interest: agree a sponsor and proposed participants for a workflow ride-along/evaluation-design session, a case class, permitted observation/access work and a follow-up review. Establish baseline, boundaries, expected behavior and evaluation criteria before asking for a pilot launch. If these are absent, name the gaps; do not claim a qualified or approved pilot.

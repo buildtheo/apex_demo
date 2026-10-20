@@ -2,6 +2,10 @@
 
 Last consolidated October 15, 2026, 11 p.m. America/Los_Angeles. Theo is ending the session and wants any agent to continue from repository state. Read AGENTS.md, then this page. The repo contains the consolidated decisions and work; the complete chat and original interview uploads are not archived here.
 
+## Preparation update — October 20: discovery, boundaries and evaluations before pilot launch
+
+Theo locked the [discovery-to-pilot sequence and spoken language](discovery-to-pilot.md): establish meaningful improvement in the opening; close by asking for Gemba/ride-along observation, baseline validation, permitted data/action boundaries and evaluation design. A pilot remains a conditional proposal. Representative and failure-case evaluations, domain review and release gates determine progression to shadow mode and limited assisted use. No real Apex Gemba, permitted-data approval or passing evaluation is established.
+
 ## Preparation update — October 20: discovery and unexpected answers
 
 Theo locked the [focused, correctable discovery approach](discovery-and-outcomes.md#discovery-approach--locked-october-20-2026). Ask about the full intake process before selecting a relevant prepared phone/in-app route; understand analyst effort and pilot value; adapt if the priority is waiting, intake quality, investigation quality, existing automation or another problem. Apex remains the fictional issuer. These are preparation decisions, not collected customer answers or new execution proof. The feature-building gate and implementation status below are unchanged.
@@ -19,7 +23,7 @@ Theo requested a substantive enterprise buying rationale in the interview brief.
 - Customer confirms intake; Apex owns the case, queue, records, permissions, and execution. Use the same returned case ID across surfaces and an explicit time jump before later merchant evidence.
 - Analyst investigates, requests one scoped record, reassesses, and approves a supported next action. Show approval and persisted-effect verification for both actions; explain the first and keep the second concise.
 - Current endpoint is specialist review. Final consumer disposition and network recovery remain separate and open. Missing proof does not establish fraud.
-- Executive close: sponsor a bounded pilot with owners and measurable gates. Keep assumptions explicit.
+- Executive close: sponsor workflow observation and evaluation design with proposed owners and a review of the findings. Present the bounded pilot conditionally; launch follows baseline/access/boundary validation, evaluation results and readiness gates. Keep assumptions explicit.
 
 ## Implemented and checked
 

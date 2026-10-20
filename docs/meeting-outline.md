@@ -10,7 +10,7 @@ Proposed default for preparation: text intake as the primary live candidate, a l
 
 ## Story and executive close
 
-Apex's card team needs capacity without weakening customer treatment. An API-powered customer conversation preserves the selected charge and confirmed statement. Later, an analyst uses ChatGPT to assemble evidence, check a material inconsistency, and prepare a supported next action. Apex authorizes, executes, and verifies. The executive decision is sponsorship for a bounded, measured pilot, not acceptance of a predetermined liability verdict.
+Apex's card team needs capacity without weakening customer treatment. An API-powered customer conversation preserves the selected charge and confirmed statement. Later, an analyst uses ChatGPT to assemble evidence, check a material inconsistency, and prepare a supported next action. Apex authorizes, executes, and verifies. The immediate executive decision is sponsorship of workflow observation and evaluation design; a bounded pilot is proposed conditionally, after baseline, permitted access, boundaries and evaluation/readiness review. See [the locked next-step language](discovery-to-pilot.md). Acceptance of a predetermined liability verdict is not the meeting outcome.
 
 ## Opening discovery — October 20 preparation decision
 
@@ -26,7 +26,7 @@ Use the [locked discovery approach and unexpected-answer responses](discovery-an
 | 7:00-9:00 | 4. Adoption with controls | Three points: bank-owned deadlines and decisions; scoped evidence and verified actions; shadow evaluation before limited use. | Concise legal/privacy context, evaluation and rollout thesis |
 | 9:00-27:00 | Live / clearly labeled simulated workflow | One coherent customer-to-analyst case, as detailed below. | Visible before/after and the role of both OpenAI product surfaces |
 | 27:00-28:15 | 5. Value hypothesis and break-even | Assumed 15% growth: 23,000 hours without change versus 18,687.5 with adoption, below today's 20,000. Keep the $225k constant-volume capacity and cost/downside model as backup, not an additive benefit. | Pilot validates total-role effort, quality, and costs |
-| 28:15-30:00 | 6. Pilot decision | Proposed six-week gated pilot; name operations/technology owners and risk participation; agree baseline/access work and scorecard. | Clear next step; no invented customer commitment |
+| 28:15-30:00 | 6. Discovery next step and conditional pilot | Ask for a workflow ride-along, baseline validation, permitted-data/action boundaries and evaluation-design session, with operations/technology owners and risk participation. Present the six-week outline only as contingent. | Agreed discovery work and review of findings; no unconditional pilot launch or invented customer commitment |
 
 Keep each main slide to one visual and a few talking points. Full tables stay in backup material. This skeleton has not been rendered or rehearsed.
 
@@ -50,6 +50,10 @@ The full cited brief, case-creation continuity, and model connections remain bui
 Discovery still selects the intake path. Prepare both. The brief permits live or simulated demonstrations, so both routes need not be live implementations. Proposed execution plan: rehearse one stable live primary path and a clearly labeled prepared alternative, choosing live versus simulation based on actual readiness. Do not quietly replace the user's branch choice or represent a prerecorded path as interactive.
 
 Do not assume stage tools avoid confirmation. Saving drafts changes state; only true read tools get readOnlyHint. Rehearse the actual sequence and total prompt count, potentially two staging permissions plus two Apex approvals. Use the first cycle to explain the distinction and the second concisely. The eight timing rows are scene cues, not eight separate applications or presentations. If the run exceeds its budget, shorten narration and optional visual exploration; preserve source inspection, meaningful human review, and verified completion. Keep timed slack for questions rather than adding features.
+
+## Discovery before pilot commitment — locked October 20
+
+Use the exact [spoken next-step proposal](discovery-to-pilot.md). Observe analysts and specialist reviewers before finalizing scope. Define permitted data access/actions, retained human decisions, expected behavior and domain-reviewed cases. Separate active effort from waiting and count downstream rework. Evaluation results and readiness determine progression to shadow mode and limited assisted use; workflow observation or the demonstration alone does not authorize either. No real Apex ride-along has occurred. The plan below remains proposed and unexecuted.
 
 ## Evaluation plan (proposed; not executed)
 
