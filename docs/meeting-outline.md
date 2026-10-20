@@ -32,6 +32,10 @@ Keep each main slide to one visual and a few talking points. Full tables stay in
 
 Before rehearsal, read the [provider-selection brief](why-openai.md). It supplies the original-selection scenario assumptions, verified controls, alternatives and one-minute answer. Keep this rationale inside the existing solution time; detailed comparisons belong in backup material. No product connection or safety evaluation is established by this preparation update.
 
+## Codex implementation cue — locked October 20
+
+Within slide 3's existing architecture time, use the [20–30 second Codex talk track](reference-architecture.md#codex-in-the-implementation-talk-track--locked-october-20) if relevant to the technology leader: engineers can use Codex to build/test the adapter around existing DMS interfaces and identity controls, including allowed/denied access checks. Apex engineers own review, maintenance and release approval. This adds no live scene and no counted product surface; customer intake uses Platform/APIs, analyst investigation uses actual ChatGPT. No new build or test result is implied.
+
 ## Eighteen-minute workflow with Q&A
 
 | Time | Scene and narration | Observable proof |

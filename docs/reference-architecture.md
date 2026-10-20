@@ -55,6 +55,26 @@ Published OpenAI customer examples are precedents for parts of this operating pa
 
 This is an approved scenario/design assumption, not evidence of a real bank integration, executed adapter, working identity or passing evaluation. Gate 0 and build sequencing remain unchanged.
 
+## Codex in the implementation talk track — locked October 20
+
+Theo requested including Codex as an implementation/maintenance aid for Apex's engineers. Keep this to approximately 20–30 seconds inside the architecture discussion, especially when the technology leader asks who builds and maintains the adapter. It is not a new demo scene or a third counted product surface.
+
+Locked talk track:
+
+“Your engineering team can use Codex to help build and test this integration layer around the DMS interfaces you already have. We'd start with a small set of case and evidence tools, integrate your existing identity controls, and test both permitted and denied access.
+
+“Apex's engineers own the code, review the changes and approve releases. Codex helps with implementation and maintenance; the bank retains responsibility for the system.”
+
+Candidate engineering work:
+- Implement focused MCP tools around supported DMS/evidence interfaces.
+- Integrate existing identity and authorization mechanisms; do not invent a new identity provider.
+- Write/run meaningful checks for denied case access, sensitive-data filtering, unavailable evidence, failed actions and saved-effect verification.
+- Help maintain tool contracts and integration code as interfaces and requirements change.
+
+Codex can assist with coding, tests and review; this is not a guarantee of security, compliance, correctness or a delivery-time reduction. Engineers still review changes, evaluate behavior and approve releases. No new adapter/code/test was produced by this preparation update. [OpenAI engineering guidance](https://openai.com/business/solutions/engineering/) supports coding, testing and review workflows; checked October 20.
+
+Selected runtime surfaces remain Platform/APIs for customer text OR voice intake and actual ChatGPT for analyst investigation. Existing Gate 0 and implementation-proof requirements remain unchanged.
+
 ## Target reference architecture
 
 ```mermaid

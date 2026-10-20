@@ -2,6 +2,10 @@
 
 Last consolidated October 15, 2026, 11 p.m. America/Los_Angeles. Theo is ending the session and wants any agent to continue from repository state. Read AGENTS.md, then this page. The repo contains the consolidated decisions and work; the complete chat and original interview uploads are not archived here.
 
+## Preparation update — October 20: Codex engineering cue
+
+Theo locked a [brief architecture talk track](reference-architecture.md#codex-in-the-implementation-talk-track--locked-october-20) explaining how Apex engineers can use Codex to build/test and maintain the MCP adapter around existing interfaces and identity controls. Engineering review, release approval and bank responsibility remain explicit. Keep it within existing solution time; no new scene, third counted surface, build authorization or test result is implied.
+
 ## Preparation update — October 20: legacy DMS and Apex-owned MCP adapter
 
 Theo locked [the legacy integration assumption](reference-architecture.md#legacy-dms-integration--locked-october-20): Apex keeps a legacy DMS with supported integration interfaces but no native MCP. Apex owns the adapter translating ChatGPT tools to existing DMS/evidence services, enforcing identity and case/action permissions and minimizing fields. Python/SQLite/HTTP is the demo stand-in; the adapter remains unbuilt. This does not require a native DMS AI feature or replacing the DMS. Customer precedents illustrate patterns, not a required architecture match. No runtime proof or build-resumption status changed.
