@@ -2,6 +2,10 @@
 
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 20 - Theo tested and submitted a new case
+
+Theo reported a successful banking-app submission. Codex verified saved case APX-3625B0CC (JCPenney, INTAKE_RECEIVED, v1) and public MCP readability of its intake, with only E-001/E-002 available and E-003 denied before the labeled later packet. No case state was changed during this check. This adds user-observed intake submission and saved/public-read proof, not new-case actual-ChatGPT or execution proof. See build-progress.md; scoped approved investigation/processor follow-up/credit remain next.
+
 ## October 20 - confirmed Responses intake and shared-case implementation
 
 Built the next authorized increment: private Responses worker with structured outputs, persistent customer corrections/review/confirmation, one submitted case, queue, explicit later packet and same-case MCP reads using saved demo assignments. Seed APX-001 remains unchanged; new cases use Martha/JCPenney. 41 Python and 25 Node tests pass; deterministic browser and a two-call live-Responses browser check passed in isolated databases. Final model returned gpt-5.4-mini-2026-03-17. Capture new-case retrieval in actual ChatGPT next; SDK continuity is not that account-side proof. Identity is simulated and only reads are public. MCP staging, processor follow-up and credit are still pending. Run/setup/current scope: [intake-setup.md](intake-setup.md), results: build-progress.md. No slides, rehearsal or real money operations.

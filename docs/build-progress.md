@@ -1,5 +1,9 @@
 # Build progress — October 20, 2026
 
+## User submission observed and saved-case read verified - October 20
+
+Theo reported testing and submitting through the banking app. The saved queue contains APX-3625B0CC, JCPenney, INTAKE_RECEIVED, version 1, assigned to simulated Barbara. A public SDK read of that exact case and its E-001 succeeded; available sources are E-001/E-002. A get_evidence request for E-003 returned source_unavailable, as expected before the later packet step. No raw customer statement was printed, no state was modified by verification and APX-001 remains unchanged. Actual ChatGPT retrieval of this new case is the remaining account-side continuity proof; the older APX-001 ChatGPT read/reason proof already exists. No approval, processor response or credit has been executed for this submitted case.
+
 ## Confirmed intake and case continuity implemented - October 20
 
 Implemented the Responses text intake worker, persistent session/review confirmation, shared case creation and queue, explicit later-processor-packet release, case-scoped private analyst scaffold and current assignment-based MCP reads. New Martha/JCPenney cases are separate from the unchanged saved APX-001. No customer case is created before a valid current-revision confirmation. Duplicate confirmation returns the same saved ID; another session cannot create a second dispute for the same synthetic customer/transaction. Non-hero reasons route to manual review instead of the authentication fixture. See [intake setup and exact boundaries](intake-setup.md).
