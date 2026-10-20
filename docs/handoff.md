@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## Current authorization and build entry point - October 20
+
+Theo has now asked Codex to review and start building. Read [build-handoff.md](build-handoff.md), [plan.md](plan.md) and [case-resolution.md](case-resolution.md). Build the complete synthetic credit/customer-resolution target; presentation production and practice are on hold. Inspect and run the current checkout first, record fresh results and provider/account blockers, then implement authorized increments without repeated broad approval. The entries below preserve prior code/check history; they are not new execution proof or the current specialist-referral target.
+
 ## October 20 decision - Barbara approves the supported credit
 
 Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.

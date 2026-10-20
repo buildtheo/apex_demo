@@ -1,85 +1,105 @@
-# Locked direction and implementation sequence
+# Current Codex build plan
 
-## October 20 decision - Barbara approves the supported credit
+Updated October 20, 2026. **Theo has authorized resuming the build. Presentation/deck work and practice are on hold.** This is the current implementation plan, replacing the older specialist-handoff roadmap and slides-first milestones. Read AGENTS.md and docs/START-HERE.md first. Dated preparation notes remain history where they conflict with this plan.
 
-Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.
+## Goal and locked scope
 
-## Preparation update — verified assignment scope
+Build one coherent synthetic issuer-side dispute workflow for the OpenAI Applied AI Architect interview. Two selected OpenAI surfaces: Platform/APIs for customer intake and actual ChatGPT for analyst investigation. Text and voice are alternative intake modes, selected through discovery. Prepare both branches; both do not have to be live. Preserve the browser iPhone format, 30-minute customer meeting and 18-minute demo. No native iOS application or network-recovery product.
 
-The original assignment has been checked. The selected product surfaces are ChatGPT and Platform/APIs. Realtime voice and conversational text are alternative experiences within Platform/APIs, not separate counted product surfaces. Discovery still selects the intake experience; prepare both, but a clearly labeled simulated alternative is permitted and both need not be live implementations. The customer experience still runs in the browser iPhone frame.
+- **Martha Rivera**, cardholder, disputes the **$648.50 JCPenney purchase** while acknowledging an earlier purchase.
+- **Barbara**, analyst, investigates in actual ChatGPT using authenticated, case-scoped Apex MCP tools.
+- The weak packet comes from a **fictional merchant processor**, not JCPenney. Say the synthetic-case/real-brand disclosure once in the introduction; retain source labels.
+- Apex keeps its legacy DMS and existing identity; the local Python/SQLite service is a stand-in. Apex owns integration, records, policy and execution. MCP does not require a native DMS AI feature.
+- Barbara requests more evidence after the initial mismatch. After the labeled later processor response, she can approve a supported **$648.50 synthetic credit** under fictional analyst authority for amounts **strictly below $1,000**.
+- Apex validates the exact approval, posts once and independently reads the saved ledger/case state before Martha sees completion and the approved explanation.
+- Missing evidence, a low amount, or a model recommendation does not automatically justify credit or establish fraud. Network recovery is separate and out of scope.
 
-The preparation pack is customer-profile.md (scenario/stakeholders/qualification), reference-architecture.md (architecture/data/connection proof/regulatory context), business-case.md (before/after/value/instrumentation), objection-prep.md, and meeting-outline.md (timing/evals/governance/enablement).
+Detailed narrative and credit controls: [case-resolution.md](case-resolution.md). Identity/role rules: [analyst-access-control.md](analyst-access-control.md). Sensitive data/voice: [sensitive-data-and-voice.md](sensitive-data-and-voice.md). Executive close/evaluation: [discovery-to-pilot.md](discovery-to-pilot.md). Reflection: [reflection.md](reflection.md).
 
-Explicit baseline and before/after assumptions are appropriate; unsupported statements presented as actual customer behavior/results remain prohibited. New scenario attributes and pilot/cost assumptions in the pack are proposals to validate, not additional customer commitments or measured outcomes.
+## What is actually implemented
 
-## Customer meeting
+Recorded state before this build:
+- Python/SQLite case service; browser banking shell at / and analyst scaffold at /ops.
+- Banking form saves a browser-local draft; voice is disabled; intake does not create the backend case.
+- APX-001 is seeded. Fixed server assessment text is not model output.
+- One approved internal lookup and released simulated response, then specialist handoff and read-back checks.
+- No implemented MCP, actual ChatGPT connection, shared conversational intake, real identity/case authorization, full cited resolution brief, processor follow-up or credit ledger.
+- Historical 26 workflow/verifier/race checks are not fresh results or model evaluations.
+- Gate 0 is recorded NOT RUN. The planning assistant had no execution environment. Codex must inspect the actual checkout and run appropriate checks; do not assume its environment has the same limitation.
 
-Fictional US consumer-credit issuer Apex. Thirty-minute meeting: 3 minutes customer/discovery, 6 solution, 18 demo with questions, 3 value/pilot/ask. Separate 15-minute reflection.
+Do not report these items complete merely because requirements are documented.
 
-Demo direction: discovery selects voice (Realtime) or conversational text intake in the web/iPhone banking app (OpenAI API); explicit later investigation stage; actual ChatGPT opens the same case; analyst compares evidence, asks a follow-up, requests a scoped internal record, reassesses, and approves a defined next action with independent verification. The mismatch triggers a further processor request and a labeled later response; Barbara then approves a supported $648.50 synthetic credit under the below-$1,000 fictional policy. Apex verifies the credit and case update before showing the customer resolution. Explain the first approval in depth and keep later cycles concise. See case-resolution.md.
+## Start work without another broad permission round
 
-Executive outcome, clarified October 20: sponsorship of workflow observation and evaluation design, operations and technology owners, risk participation, and an agreed review of findings. Present a bounded pilot as a conditional proposal, not an immediate launch commitment. See [discovery-to-pilot sequencing](discovery-to-pilot.md). The illustrative six-week outline covers baseline/access/evals, shadow testing, then limited assisted use only if gates pass; its duration is not a customer commitment. Illustrative assumptions: 60,000 eligible cases/year, 20 minutes baseline, 5 minutes saved, $60/hour = 5,000 hours / $300,000 gross capacity value before costs. These are not measured results. Test quality, follow-up workload, cost, adoption, and controls alongside time.
+Review the checkout, preserve unrelated changes, run the existing tests and identify actual gaps. Then implement the approved scope in small reviewable increments. Routine code/schema/tool choices, tests, synthetic fixture details and reversible refactors are authorized. Do not wait for Theo to reapprove each milestone.
 
-Maintain the [running discovery table, branching flow, and end-in-mind outcomes](discovery-and-outcomes.md). The selected intake path changes with the customer's answer; both paths converge on the same case and analyst investigation. The executive close now asks for discovery/evaluation-design sponsorship, with pilot launch conditional on findings and readiness.
+Use the bounded Gate 0 check before feature expansion. If optional native evidence UI is unavailable, record the sourced-table fallback honestly. The next increment is the minimal read adapter/connection proof; repeat combined rendering/tool checks before any optional UI investment. Do not build a new UI framework to obtain a visual. If account linking or credentials block live proof, record exactly what is blocked and continue independent backend/control work; do not claim the missing connection works.
 
-## Locked demo capabilities
+Do not create presentation materials or rehearse. At each meaningful milestone record changed behavior, checks/results and live/simulated/unbuilt status.
 
-Three potential OpenAI experiences: Realtime voice support, an API-powered conversational agent in the banking web/iPhone app, and actual ChatGPT for the analyst. Discovery selects one customer intake branch, followed by the shared analyst investigation. Both prepared branches must show useful clarification, customer confirmation of structured intake, and shared case creation, live or explicitly simulated. A plain form is a scaffold/fallback, not the final in-app branch. See demo-flow.md for the locked experience table. These are build requirements, not completed integrations.
+## Ordered implementation milestones
 
-## Scope of this first build
+| Order | Deliverable | Acceptance evidence |
+| --- | --- | --- |
+| 0 | Baseline and Gate 0 | Inspect current code/instructions; run existing checks; record account/UI feasibility or sourced-table fallback and unresolved dependencies. |
+| 1 | Minimal actual ChatGPT read connection | MCP adapter with get_case/get_evidence around the existing service; token validation and case/source-release checks; a real ChatGPT tool trace if access is available. Distinct authorized/denied identities and unreleased-source denial. REST calls or a custom chat UI alone are not this proof. |
+| 2 | Shared case foundation and intake | Confirmed conversational text intake creates a persistent case/queue entry and returns its actual ID. Preserve Martha's exact account/corrections and selected transaction. Same ID follows into ChatGPT, evidence and actions. Reject duplicate/unauthorized submissions. Keep seed/demo reset separate from customer-created cases. |
+| 3 | Released evidence and model investigation | Actual model reads available excerpts and cites source IDs/snapshot; code checks transaction associations. Internal lookup request is staged, human-approved, saved and read back. A labeled later response reveals the earlier-purchase association. No hidden evidence or expected answer leaks. |
+| 4 | Processor follow-up and reassessment | Barbara requests evidence specific to the disputed purchase and clarification of the export. Human approval and saved request verification; labeled later processor response corrects the citation and provides no authentication evidence tied to this purchase. Updated cited assessment preserves uncertainty and supports human judgment. |
+| 5 | Human-approved synthetic credit and customer outcome | Barbara reviews the exact resolution brief/message and $648.50 action. Apex validates authenticated case/action/amount authority, current evidence/payload and approval freshness; posts one synthetic ledger entry; separate read verifies credit plus saved consumer decision before showing Martha completion. Failed/uncertain posting never becomes a success message. |
+| 6 | Voice alternative and failure/evaluation coverage | Prepare the discovery-selected voice branch against the same intake/case contract. Live only with actual approved transport/data controls and account proof; otherwise a clearly labeled simulation. Exercise adversarial evidence, access/action failures and full-path model behavior. Record model/tool/prompt versions and observed results. |
 
-One persistent synthetic case, inspectable evidence, fixed guided comparison, approved internal lookup request, simulated response, reassessment, approved specialist handoff, independent read-back. The handoff provides an iteration point while final financial disposition remains open. No credit or network transaction is performed.
+Prioritize one complete, reliable text-to-ChatGPT-to-credit path while retaining the other discovery branch as a labeled prepared alternative if necessary. This is an implementation efficiency choice, not permission to ignore the customer's selected route or claim an unfinished branch works.
 
-## Intelligent UI readiness gate — before further feature building
+## Evidence and fixture contract
 
-Theo requested this gate. Complete and record a bounded feasibility check before adding more features, including custom investigation UI or a larger intake build. See reference-architecture.md for the test and pass/fallback outcomes. Candidate use: a source-based evidence comparison inside actual ChatGPT, replacing a text response for up to 60 seconds. It is optional presentation within the ChatGPT surface, not a third product surface or a new banking-app dependency.
+Existing IDs provide traceability; narration leads with merchant/amount. Preserve the core E-001 customer account, E-002 disputed ledger record, E-003 fictional processor assertion and gated E-004 association lookup. Add later processor-request/response sources with explicit release stages and provenance. Do not put the eventual credit decision or evaluator answer into raw observations.
 
-Gate status: **NOT RUN**. Current announcement availability does not prove compatibility with the presentation account, selected Chat experience, custom Apex MCP tools, or source references. If the adapter is not yet available, test a clearly labeled synthetic snapshot for presentation only, record combined-tool proof as pending, and select the sourced-table fallback for now. After recording that decision, build only the minimal read adapter needed for the actual connection proof and repeat the combined check before further UI expansion. Lack of Intelligent UI must not cause a new architecture project.
+Earlier purchase amount/date and fuller corroborating ledger detail remain undefined. Codex may choose consistent, clearly synthetic values and record them; no user approval is needed for routine fictional fixture completion. Do not change the selected disputed merchant/amount or pretend these were previously verified real facts.
 
-## Next milestones
+The later processor response and exact human decision rationale must be consistent: the corrected citation weakens one assertion; Barbara considers the full case under the authored policy. Do not implement a rule that missing authentication equals fraud/automatic credit. Include supported, unsupported and needs-more-evidence variants for evaluation.
 
-Customer-entry preview now exists at `/`: iPhone-style banking → charge details → voice or in-app reporting. Voice is explicitly pending; the in-app route saves only a browser-local draft. The analyst scaffold moved to `/ops`. Neither route creates a backend case yet; shared intake and case continuity remain future work. See demo-flow.md and decisions-and-artifacts.md for the exact state.
+## Actions, identity and verification
 
-0. Complete the Intelligent UI readiness gate above and record use/fallback plus limits before further feature work.
-1. Review the five preparation pieces and rehearse the executive story; finish a compact deck. Confirm local prototype usability. Work on a single actual ChatGPT retrieval proof alongside the presentation work rather than waiting for the complete intake build.
-2. Build the OpenAI API-powered conversational in-app intake branch with relevant clarification and customer confirmation. Connect it to shared case creation and a minimal analyst queue, preserving the submitted statement and case ID. This implementation sequence does not change discovery-selected demo branching.
-3. Implement the smallest read-only MCP adapter (get_case and get_evidence) after Gate 0, then add approved read tools for case/evidence behind real authentication and case-level permissions. Prove one actual ChatGPT connection. REST endpoints in this version are not an MCP implementation.
-4. Replace fixed review text with grounded model investigation; retain sources and evidence snapshots. Put evaluator expectations outside model-visible records.
-5. Add authenticated approval bound to actor, exact payload, case, snapshot and expiration. Stage-only model tools must not execute approvals. Add audit, timeout reconciliation and failure tests.
-6. Build the alternative Realtime voice intake branch with the same confirmation and case-creation contract. Include the mandatory no-full-card-number/no-security-code opening and volunteered-data behavior in [sensitive-data-and-voice.md](sensitive-data-and-voice.md). Validate the raw-audio processing boundary separately from transcript masking; warning alone does not prove pre-transmission exclusion. Use server-side credentials and a shared case service; never ship API secrets to browser or GitHub.
-7. Finalize a grounded customer disposition and separately track network recovery if in scope.
-8. Execute adversarial evals, record model/tool/policy versions and traces, then rehearse with a labeled fallback.
+Tool names and storage schema are implementation choices. Keep model-facing tools for case/evidence reads and staged requests/credit drafts separate from human approval/execution. Draft saving is a write. Never mark it read-only to hide a ChatGPT permission prompt.
 
-## Sensitive-data requirement — October 20
+Three consequential approval cycles: internal lookup request, processor follow-up request and credit. Human approval binds case, current evidence snapshot, exact scope/account/amount/currency and payload, actor and freshness. Changed evidence/payload invalidates approval. Authoritative role/case/action checks happen in Apex on every request; an actor name or case ID in a prompt is not authentication.
 
-Model-facing data is limited to necessary case/transaction references, metadata, optional last-four and cleared evidence/narrative. Full PAN/security codes are unnecessary. Implement and verify pre-transmission screening for text/tool/document content before claiming exclusion; define containment for accidental exposure. Direct voice needs a separate approved boundary or validated upstream audio controls. See [the locked specification and required checks](sensitive-data-and-voice.md). These are future requirements; Gate 0/build sequencing remains unchanged.
+Barbara is the narrative role. Implement an actual authorized test identity or clearly label local role simulation. Do not silently rename the local-demo-operator audit actor and claim OAuth/enterprise RBAC is implemented. Other permitted reviewers may access authorized cases; “only Barbara can access anything” is not the design.
 
-## Execution choices from preparation review
+Credit must have a durable identifier and exact ledger entry. Use safe monetary representation. Prevent duplicate execution and reconcile uncertain results before retry. Verify the exact ledger/case effect, not only receipt/status. Displayed customer text is not a sent notification unless an actual outbox/send result is verified. No real financial or network action.
 
-- Named integration baseline: Responses API for text intake, schema-constrained intake with server validation and customer confirmation; Realtime API over WebRTC for browser voice; MCP Streamable HTTP for actual ChatGPT case/evidence tools; existing Apex HTTP/SQLite service for local deterministic case transitions. See reference-architecture.md. Exact model IDs/snapshots must be selected and recorded before model tests; no evaluation or model choice is claimed complete.
-- Proposed rehearsal default (not a replacement for locked discovery branching): text as primary live candidate, recording/simulation if not ready; voice as a clearly labeled prepared alternative. Customer answers still choose the path shown. Theo has not separately locked this execution default.
-- Rehearse ChatGPT tool-call permission separately from Apex execution authority. A stage tool that saves a draft is a write; do not mark it read-only to suppress confirmation.
-- Use the growth-capacity scenario in business-case.md alongside costs, without counting it as another additive monetary benefit. Keep portfolio scale and eligibility assumptions unvalidated until checked.
-- Stop expanding prose after these changes. The next proof is one actual ChatGPT read-tool call, then finished slides/diagram export and a timed rehearsal.
+## Model/data integration requirements
 
-## Accepted adversarial review actions
+Baseline candidates are Responses for text and Realtime for voice, plus an MCP Streamable HTTP adapter for actual ChatGPT. Verify current official SDK/API/account guidance before implementing; choose available supported model configurations and record versions. These named choices do not establish an existing connection.
 
-See [the approved review response](adversarial-review-response.md). The next action must carry a useful source-cited investigation brief: supported findings, conflicts, unresolved questions, and the specific specialist decision required. Analyst approval covers the exact brief and destination; separate read-back verifies the saved brief and request/assignment, not only status. This is required future behavior, not implemented functionality.
+Use cleared allowlisted transaction/case metadata and evidence, not full bank records or PAN/security codes. Read the full sensitive-data specification before implementing provider-bound inputs. Test request payloads, logs/error paths and accidental-input handling. Direct voice audio has a separate exposure boundary; the spoken warning is mandatory but is not proof that sensitive audio never reaches the provider.
 
-Use deterministic code for transaction associations; use the model for document interpretation, selecting what to verify, scoped investigation, and explaining evidence limits. Enrich evidence only for representative realism. Prepare both discovery branches; rehearse readable side-by-side surfaces as an option. Customer behavior and timing need validation; hiring scores are subjective and the proposed $1M–$3M+ uplift is unsupported. Keep economic claims tied to measured quality, effort, and costs.
+Keep credentials server-side/out of Git and outputs. Use existing approved identity/provider configuration where available; do not invent a new enterprise identity system for this demo. Never expose the unauthenticated local action service on a public tunnel.
 
-## Evidence and domain corrections
+## Review questions versus independent decisions
 
-Focus on a material source inconsistency, not an artificially decisive fraud signal. A requested internal lookup shows a processor-cited record belongs to a prior transaction. That undermines one supporting item but does not establish authorization or fraud. The existing DEMO-01 code permits specialist referral only. The newly selected synthetic credit policy and action remain to be implemented separately; missing proof alone does not justify the credit.
+Ask Theo only for a missing fact/access choice that materially blocks execution:
+- Intended presentation ChatGPT account/workspace and ability to install/link the custom MCP connection.
+- Available API project/credential configuration, identity provider/test identities and authorized deployment/tunnel access. Use secure configuration, never request secrets in chat or print them.
+- Any real blocker to voice/audio or a required choice that cannot be inferred from current scope.
 
-Do not mix credit/debit rules, assert cryptographic binding is universally required for CE3.0, treat absent SDK fields as failed authentication, assume network validation misses an incomplete history, or put a prewritten policy conclusion in raw evidence. Pin real rule versions before implementing network criteria.
+Inspect the environment first and bundle genuine questions. Continue independent implementation/tests while a live connection is blocked. Codex may choose routine code structure, official SDK, fixture IDs/dates/amount for the earlier purchase, schema migrations and test implementation. Do not ask Theo to decide every function name or field.
 
-## Public context
+## Verification and handoff
 
-Apex is our proposed application, not an OpenAI packaged dispute product. Related official examples:
-- https://openai.com/index/gradient-labs/ — banking procedure workflows and trajectory evaluations.
-- https://openai.com/index/morgan-stanley/ — expert evaluation, retrieval, human-reviewed outputs.
-- https://openai.com/index/introducing-chatgpt-financial-services/ — financial research/product context, not packaged dispute adjudication.
+Minimum meaningful coverage:
+- Same case/transaction from confirmed intake through retrieved evidence and customer outcome.
+- Unreleased/wrong-case sources denied; injection in evidence cannot grant tools or approvals.
+- Missing/invalid identity, wrong role/case, action outside authority and amount exactly $1,000 rejected for Barbara's below-threshold path.
+- Stale/expired/altered approvals; duplicate credits; timeouts and reconciliation; ledger/case mismatch or missing effect; no false completion.
+- Grounding and investigation variants including additional evidence, unsupported credit and changed conclusions.
+- Sensitive-data handling and provider-bound payload checks, plus voice behavior if live.
 
-These precedents do not substantiate Apex ROI or imply access to their implementations.
+Separate deterministic tests, browser checks, real ChatGPT/API traces and model evaluations. Report what ran, versions/case counts, failures and limits. Do not relabel fixed responses or historical test counts as new AI proof.
 
+Before handing back: update docs/START-HERE.md and docs/handoff.md with actual status, setup/run steps, migrations/reset instructions, remaining blockers and a live/simulated/unbuilt inventory. Preserve existing demo data with explicit reset/migration handling rather than silently deleting it. Keep useful short milestone commits.
+
+## Out of scope for this build pass
+
+Presentation/deck production, rehearsal, native iOS, production certification, real customer data, real credits, network recovery, broad autonomous adjudication and optional UI expansion before evidence. Business-case numbers remain assumptions; do not claim measured savings from the demo.

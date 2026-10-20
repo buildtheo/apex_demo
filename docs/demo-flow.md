@@ -95,13 +95,17 @@ The customer banking preview now opens at `/` (also `/banking`): iPhone-style ac
 
 The original analyst prototype is at `/ops`. A distinct assigned-case queue, live Realtime intake, actual ChatGPT integration, real authentication, case-level authorization, and shared case creation from intake remain pending. Do not describe the preseeded APX-001 investigation case as having been created by the banking preview. The implemented analyst sequence remains evidence review → approved request → simulated response → reassessment → approved specialist handoff → read-back verification. Consult handoff.md for recorded checks and their limits.
 
+## Build authorization - October 20
+
+Theo has authorized review and build resumption. Follow [the current ordered plan](plan.md) and [Codex handoff](build-handoff.md); older preparation-only notes do not require another approval. Slides and practice are on hold. Gate 0/fallback and truthful integration/control proof remain required.
+
 ## Build implications and scope control
 
 - Make customer banking/intake, DMS case management, and ChatGPT investigation visually and verbally distinct.
 - Use one shared case ID and authoritative case service across surfaces.
 - First get the local prototype accessible for review. Then prove authenticated case/evidence retrieval in actual ChatGPT; add customer entry and Realtime intake in small increments per plan.md.
 - Keep call/voice and in-app options as intended entry choices. Both conversational intake branches must be prepared for the locked discovery-driven demo, with explicit fallback labeling while building. Actual telephony transport remains an implementation choice; an in-app voice connection must not be presented as a working telephone call.
-- Show human approval and independent verification for both the evidence request and the later consequential action. The first gets the architectural explanation; the second is concise.
+- Show human approval and saved-effect verification for all three consequential actions: internal lookup request, processor follow-up request and synthetic credit. Explain the first; keep later cycles concise while retaining meaningful review.
 - Model tools may prepare actions; they must not grant human approval themselves. Apex owns authorization, execution, and authoritative results.
 - Label synthetic records, simulated arrivals, fixed responses, and pending integrations honestly.
 - Preserve the locked 30-minute meeting and 18-minute demo. This clarification explains the journey; it does not expand the demo into a complete banking or network-adjudication product.

@@ -4,6 +4,10 @@ A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Arc
 
 **Continuing as another agent? Start with [the consolidated handoff](docs/START-HERE.md).** It links the locked demo, current implementation, executed checks, source evidence, and next required step.
 
+## Current build handoff - October 20
+
+Theo has authorized Codex to review and resume implementation. Start with [the build handoff](docs/build-handoff.md) and [the consolidated current plan](docs/plan.md). Presentation materials and practice are on hold. The plan replaces older slides-first/specialist-endpoint milestones; it contains the credit ending, ordered increments, acceptance checks and genuine account/access questions. Current code/status below remain historical until the build agent records fresh results.
+
 ## October 20 decision - Barbara approves the supported credit
 
 Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](docs/case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.
