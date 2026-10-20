@@ -1,5 +1,7 @@
 # Apex implementation instructions
 
+October 20 setup decision: Theo approved simulated authentication for this synthetic demo and reuse of the existing M. Price OpenAI API credentials. Use explicit `APEX_AUTH_MODE=demo` for a fixed, labeled simulated Barbara role and ChatGPT's No authentication connection, not a fabricated OAuth provider. Default OAuth validation remains available; no externally verified identity/access proof is claimed. Do not expose the Python action service or secrets. See docs/build-progress.md and docs/adapter-setup.md. This supersedes external-IdP setup as a prerequisite for the demo, not production identity requirements or case/action/evidence checks. Presentation ChatGPT account/connection access is still unknown.
+
 Start with docs/START-HERE.md, docs/build-handoff.md and docs/plan.md for the current build scope and sequence. Theo explicitly authorized Codex to review and resume building on October 20. Presentation/deck work and practice are on hold. This supersedes older no-build-resumption and slides-first notes; it does not mark pending features or checks complete. Market sources and business-case limits are in docs/market-evidence.md. Do not turn source context or scenario assumptions into bank-specific facts.
 
 Read README.md, docs/plan.md, docs/demo-flow.md, docs/discovery-and-outcomes.md, and docs/decisions-and-artifacts.md before editing.

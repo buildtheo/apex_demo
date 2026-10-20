@@ -4,7 +4,7 @@
   "engines": {"node": ">=22"},
   "scripts": {
     "mcp": "node adapter/server.mjs",
-    "test:adapter": "node --test tests/adapter.test.mjs"
+    "test:adapter": "node --test tests/adapter.test.mjs tests/openai-config.test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",

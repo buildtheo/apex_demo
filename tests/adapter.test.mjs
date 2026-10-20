@@ -82,13 +82,13 @@ test('conservative outbound screening blocks card-like numbers and labeled secre
   assert.equal(screen('Purchase $648.50, source E-001.'), 'Purchase $648.50, source E-001.');
 });
 
-async function fixture(t, state = freshState()) {
+async function fixture(t, state = freshState(), options = {}) {
   let reads = 0;
   const server = createServer().listen(0, '127.0.0.1');
   await once(server, 'listening');
   const url = `http://127.0.0.1:${server.address().port}`;
   server.on('request', createAdapter({origin: url, issuer, assignments, verifyToken,
-    readState: async () => { reads++; return state; }}));
+    readState: async () => { reads++; return state; }, ...options}));
   t.after(async () => { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); });
   const headers = {};
   return {url, headers, reads: () => reads};
@@ -97,7 +97,7 @@ async function fixture(t, state = freshState()) {
 async function clientFor(t, f, bearer) {
   const client = new Client({name: 'apex-local-test', version: '1.0.0'});
   const transport = new StreamableHTTPClientTransport(new URL(`${f.url}/mcp`), {
-    requestInit: {headers: {...f.headers, Authorization: `Bearer ${bearer}`}},
+    requestInit: {headers: {...f.headers, ...(bearer ? {Authorization: `Bearer ${bearer}`} : {})}},
   });
   t.after(() => client.close());
   await client.connect(transport);
@@ -189,4 +189,33 @@ test('SDK rejects unauthorized case and malformed arguments before a DMS read', 
   const invalid = await client.callTool({name: 'get_evidence', arguments: {case_id: 'APX-001', source_id: 'E-001', snapshot: -1}});
   assert.equal(invalid.isError, true);
   assert.equal(f.reads(), 0);
+});
+
+const demoOptions = {authMode: 'demo', assignments: {'demo:barbara': {role: 'analyst', cases: ['APX-001']}}};
+
+test('explicit demo mode needs no token and discloses simulated identity', async t => {
+  const f = await fixture(t, freshState(), demoOptions);
+  const health = await fetch(`${f.url}/healthz`);
+  assert.equal((await health.json()).authentication, 'simulated_not_oauth');
+  assert.equal((await fetch(`${f.url}/.well-known/oauth-protected-resource`)).status, 404);
+  const client = await clientFor(t, f);
+  const result = await client.callTool({name: 'get_case', arguments: {case_id: 'APX-001'}});
+  assert.equal(result.structuredContent.identity_verification, 'simulated_not_oauth');
+  assert.equal(result.structuredContent.synthetic, true);
+});
+
+test('demo mode preserves case/release/version checks, never trusts caller identity', async t => {
+  const f = await fixture(t, freshState(), demoOptions);
+  const client = await clientFor(t, f);
+  const denied = await client.callTool({name: 'get_case', arguments: {case_id: 'APX-002', subject: 'admin', role: 'reviewer'}});
+  assert.equal(denied.content[0].text, 'access_denied');
+  assert.equal(f.reads(), 0);
+  for (const [source_id, snapshot, code] of [['E-004', 1, 'source_unavailable'], ['E-001', 2, 'stale_snapshot']]) {
+    const result = await client.callTool({name: 'get_evidence', arguments: {case_id: 'APX-001', source_id, snapshot}});
+    assert.equal(result.content[0].text, code);
+  }
+});
+
+test('unknown authentication mode fails closed', () => {
+  assert.throws(() => createAdapter({authMode: 'typo'}), /Unsupported authentication mode/);
 });

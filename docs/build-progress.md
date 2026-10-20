@@ -1,5 +1,13 @@
 # Build progress — October 20, 2026
 
+## Latest setup decision and executed follow-up
+
+Theo approved simulated authentication for the demo and reuse of M. Price API credentials. Added explicit `APEX_AUTH_MODE=demo`: fixed `demo:barbara` role, no OAuth challenge/discovery, no validated user identity, and `simulated_not_oauth` on health and successful tool results. Case assignment, source-release/snapshot checks and minimized screening still apply. Unknown auth modes fail closed; OAuth remains the default when no explicit mode is configured. The demo mode is not an unauthorized-user authentication proof and is for synthetic records only. No public tunnel has been opened.
+
+Configured the ignored local `.env` to reference the existing M. Price env file via `APEX_OPENAI_ENV_FILE`. The server-side credential helper imports only key/project/organization fields, not Twilio settings or old model choices. Confirmed a nonempty key loads without printing/copying it; validity, balance and provider requests have NOT been tested. The helper is preparation for API intake, not an implemented model conversation.
+
+Reran checks: 19 adapter/config tests and all 26 existing tests passed (45 total). New tests cover demo labeling, preserved resource/release/version restrictions, fail-closed mode selection and credential allowlisting/errors. A short startup/health smoke check also passed against the local demo configuration; the check stopped its temporary adapter process afterward. Actual ChatGPT connection still awaits account setup. A ChatGPT email address is not needed to identify whether the account/workspace permits a custom connection. External identity deployment is deferred rather than a current demo blocker; the sections below record the earlier OAuth increment.
+
 ## Baseline
 
 Reviewed source and current instructions at c07ec33. Ran the existing Python/Node suite locally: all 26 tests passed. These are deterministic workflow, HTTP, verifier and race checks; no model evaluation or live provider invocation was performed.

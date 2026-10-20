@@ -6,6 +6,8 @@ A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Arc
 
 ## Current build handoff - October 20
 
+Latest setup choice: simulated identity for this synthetic demo, not real OAuth, plus reuse of M. Price API credentials through ignored server-side configuration. The adapter has an explicit labeled demo mode; no public tunnel, actual ChatGPT connection or model call has been completed. All 19 adapter/config tests and 26 existing tests pass. See [setup](docs/adapter-setup.md) and [current progress](docs/build-progress.md). External identity deployment is deferred rather than a demo prerequisite.
+
 Theo has authorized Codex to review and resume implementation. Start with [the build handoff](docs/build-handoff.md) and [the consolidated current plan](docs/plan.md). Presentation materials and practice are on hold. The plan replaces older slides-first/specialist-endpoint milestones; it contains the credit ending, ordered increments, acceptance checks and genuine account/access questions. [Current build progress](docs/build-progress.md) now records the first implemented read adapter, 13 new adapter tests and 26 existing tests passing. Actual ChatGPT/external identity linking remains pending.
 
 ## October 20 decision - Barbara approves the supported credit

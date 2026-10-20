@@ -4,6 +4,8 @@
 
 Theo has now explicitly asked Codex to review and start building the agreed demo. **Presentation materials and practice are on hold.** This supersedes earlier “preparation only/no build resumption” notes as an authorization statement; it does not turn any pending feature into completed work or remove existing safety/readiness requirements.
 
+Latest setup clarification: Theo approved simulated identity (explicit fixed Barbara demo actor, no OAuth claim) and M. Price API credential reuse. The local ignored configuration and credential helper are ready; 19 adapter/config plus 26 existing tests pass. External IdP setup is deferred; actual ChatGPT access/connection still needs proof. Read build-progress.md and adapter-setup.md before acting on older external-OAuth prerequisites below.
+
 ## What changed since the original prototype
 
 The hero must no longer end at specialist referral. Martha disputes $648.50 at JCPenney; Barbara investigates in actual ChatGPT with scoped Apex tools. The weak packet is a fictional processor export. After an internal lookup reveals an earlier-purchase mismatch, Barbara requests transaction-specific processor evidence. A labeled later response corrects the citation. She reviews the complete record and can approve a supported synthetic credit under fictional authority **below $1,000**. Apex posts once, verifies the ledger/case record and shows Martha the approved explanation and resolution. Network recovery stays out of scope.

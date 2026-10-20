@@ -4,6 +4,8 @@ Updated October 20, 2026. **Theo has authorized resuming the build. Presentation
 
 ## Goal and locked scope
 
+October 20 setup update: Theo approved simulated identity for the synthetic demo and reuse of M. Price API credentials. Preserve case/action/release controls with an explicit demo actor; do not claim real OAuth or deployed two-user identity proof. Actual ChatGPT tools remain the target using its No authentication connection option, subject to account access. External IdP setup is deferred. See [build-progress.md](build-progress.md) for 45 passing local checks and precise integration status; earlier real-auth acceptance requirements below remain production-path targets, not the demo prerequisite.
+
 Build one coherent synthetic issuer-side dispute workflow for the OpenAI Applied AI Architect interview. Two selected OpenAI surfaces: Platform/APIs for customer intake and actual ChatGPT for analyst investigation. Text and voice are alternative intake modes, selected through discovery. Prepare both branches; both do not have to be live. Preserve the browser iPhone format, 30-minute customer meeting and 18-minute demo. No native iOS application or network-recovery product.
 
 - **Martha Rivera**, cardholder, disputes the **$648.50 JCPenney purchase** while acknowledging an earlier purchase.

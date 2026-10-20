@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## Latest setup clarification - October 20
+
+Theo approved simulated identity and M. Price API credential reuse. The read adapter now has explicit labeled demo mode, retains real OAuth as the default path, and exposes no execution tools. Ignored local config references the old API credential file through a backend-only allowlisted helper. All 19 adapter/config and 26 existing tests passed. No external sign-in, actual ChatGPT/model call or public tunnel was completed. See build-progress.md and adapter-setup.md. External IdP setup no longer blocks this synthetic demo; never claim deployed authentication from the simulation.
+
 ## Executed read-adapter increment - October 20
 
 Read [build-progress.md](build-progress.md) before the historical entries below. Codex added a separate loopback MCP read adapter with JWT validation, explicit role/case access, source-release/version checks and minimized screened results. All 13 adapter tests and all 26 existing tests passed. Gate 0 uses the documented sourced-table fallback; native UI/account/combined live proof is NOT RUN. No database reset, actual OpenAI call, external identity deployment or ChatGPT linking occurred. Setup is in [adapter-setup.md](adapter-setup.md). Continue the ordered plan while obtaining account/IdP/API-project configuration; do not mistake this increment for the shared-intake or credit milestones.

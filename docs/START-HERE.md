@@ -4,6 +4,8 @@ Updated October 20, 2026. Theo has authorized Codex to **review and start buildi
 
 The latest user direction and current build plan supersede older slides-first/no-build-resumption notes. Historical implementation records are not fresh proof.
 
+Latest setup decision: Theo approved simulated identity and M. Price API credential reuse. Explicit demo mode fixes/labels Barbara without claiming OAuth; ChatGPT linking should use No authentication for synthetic-only records. No public endpoint or actual ChatGPT/model call exists yet. All 19 adapter/config and 26 existing tests pass. See [current progress](build-progress.md) and [setup](adapter-setup.md); external IdP setup is deferred, not a demo blocker.
+
 ## Current target
 
 Martha Rivera disputes a $648.50 JCPenney purchase. Customer text OR voice intake in the browser iPhone app confirms her account and creates the shared Apex case. Barbara investigates the same case in actual ChatGPT using an Apex-owned MCP adapter around the legacy DMS stand-in.

@@ -1,6 +1,16 @@
 # Read adapter setup and proof
 
-Implemented increment: read-only Streamable HTTP MCP at `/mcp`. Actual ChatGPT connection and external identity-provider proof are pending. This is not a deployed OAuth service or the completed credit workflow. Current execution results and remaining work are in [build progress](build-progress.md).
+Implemented increment: read-only Streamable HTTP MCP at `/mcp`. Actual ChatGPT connection is pending. This is not a deployed OAuth service or the completed credit workflow. Current execution results and remaining work are in [build progress](build-progress.md).
+
+## Current demo choice: simulated identity, not OAuth
+
+Theo approved this simplification on October 20. The ignored local `.env` now selects `APEX_AUTH_MODE=demo` and loopback origin `http://127.0.0.1:8787`. `npm run mcp` can start without an IdP. This mode fixes the server-side actor to `demo:barbara`, allows only APX-001 reads and labels returned data `simulated_not_oauth`. It does not identify the person connecting. Source release, snapshot, minimization and case restrictions remain; no execution tools are exposed. There is no OAuth metadata/challenge in this mode. No public endpoint has been provisioned.
+
+For actual ChatGPT linking, configure the supported **No authentication** connection option, not OAuth with pretend client credentials. First verify account permissions and choose a supported tunnel/endpoint path. A no-auth endpoint is not private because a role is named Barbara: anyone who can reach it can use its read tools. Keep it limited to synthetic fixtures, never expose port 8080, and never call this deployed bank authentication or a two-user authorization demonstration. OpenAI documents the connection options [here](https://developers.openai.com/api/docs/guides/custom-mcp-server).
+
+Local `.env` references the existing M. Price credentials using `APEX_OPENAI_ENV_FILE`; `adapter/openai-config.mjs` reads only API key/project/organization fields on the backend. It does not import Twilio configuration or inherit old model choices, return keys through tools or call OpenAI itself. Model intake remains pending. No key has been printed or committed.
+
+The OAuth configuration below describes the retained real-auth path, not a prerequisite for this synthetic demo. Default auth mode is still OAuth if no explicit mode is set.
 
 ## Local components
 
