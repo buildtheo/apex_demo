@@ -2,6 +2,10 @@
 
 Recorded October 15, 2026 from Theo's clarification. Read alongside plan.md and handoff.md. This describes the intended experience, not a claim that pending integrations work.
 
+## October 20 decision - Barbara approves the supported credit
+
+Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.
+
 ## Product surfaces and build scope — brief verified
 
 The selected OpenAI product surfaces are **ChatGPT** and **Platform/APIs**. The three possible experiences below remain the design: voice and text are alternative API modes, followed by actual ChatGPT for the analyst. Discovery selects the experience and emphasis. Prepare both branches; the assignment does not require both modes to be live implementations. A clearly labeled simulated alternative can preserve the branch choice while reducing build/rehearsal risk. Keep the browser iPhone presentation.
@@ -61,8 +65,9 @@ See [the running discovery table and outcomes](discovery-and-outcomes.md). Ask w
 | 5. Investigate | Analyst opens actual ChatGPT and requests the same case by ID. ChatGPT retrieves authorized evidence, compares sources, and identifies a material inconsistency. | Connected Apex tools enforce identity and case-level access. ChatGPT provides cited investigation support; Apex remains the record authority. |
 | 6. Request more evidence | Analyst reviews and approves a scoped internal evidence request. | Apex executes the approved request; a separate authoritative read verifies its creation. |
 | 7. Reassess | A clearly labeled simulated response arrives, the evidence snapshot changes, and ChatGPT reassesses what the evidence supports and leaves unresolved. | Apex stores the response and history. New evidence must invalidate stale action drafts/approvals as applicable. |
-| 8. Approve and verify next action | Analyst reviews a supported next action and explicitly approves it. | Apex validates and executes it; an independent read checks the resulting state. Current prototype endpoint is specialist handoff. |
-| 9. Track outcome | Analyst can see updated status, assignment, evidence, and audit history in the DMS. | Apex retains the durable operational record. Final consumer disposition and network recovery remain separate and undecided. |
+| 8. Obtain transaction-specific evidence | Barbara approves the processor follow-up; show a labeled later corrected response and reassess the complete record. | Apex saves/verifies the request and releases the later source at the correct stage. No mismatch-alone verdict. |
+| 9. Approve the credit | Barbara reviews the cited rationale and approves the exact $648.50 credit under fictional below-$1,000 authority when evidence supports the dispute. | Apex validates authority/snapshot/payload, posts the synthetic credit and separately verifies ledger and case records. This target is unbuilt. |
+| 10. Explain the resolution | Martha sees the approved explanation and verified synthetic credit. | Apex retains the consumer decision, sources and financial entry. Network recovery remains separate; displayed text is not proof of a sent message. |
 
 ## People and evidence attribution — locked October 20
 
@@ -105,5 +110,5 @@ The original analyst prototype is at `/ops`. A distinct assigned-case queue, liv
 
 An observer should be able to answer: Where did the customer start? Where was the case created? Where does the analyst find it? What does ChatGPT retrieve? Who approves? Which system executes? What independently proves completion?
 
-The same case must remain identifiable across the journey. Source observations must remain separate from model conclusions and evaluator answer keys. Missing proof is not proof of fraud. Evidence requests do not pause external deadlines. The final financial outcome remains open; do not silently promote specialist handoff into a final consumer resolution.
+The same case must remain identifiable across the journey. Source observations must remain separate from model conclusions and evaluator answer keys. Missing proof is not proof of fraud. Evidence requests do not pause external deadlines. The current target explicitly includes a supported human-approved synthetic credit; the implemented specialist handoff alone does not satisfy that ending. See case-resolution.md.
 

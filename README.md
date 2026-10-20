@@ -4,6 +4,10 @@ A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Arc
 
 **Continuing as another agent? Start with [the consolidated handoff](docs/START-HERE.md).** It links the locked demo, current implementation, executed checks, source evidence, and next required step.
 
+## October 20 decision - Barbara approves the supported credit
+
+Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](docs/case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.
+
 ## Merchant naming — October 20
 
 Use JCPenney as the familiar merchant name in this fictional dispute. All purchases, customer statements, processor assertions and evidence are synthetic; they do not describe actual JCPenney conduct or records. Narration leads with “the $648.50 JCPenney purchase”; internal IDs remain available for traceability. Martha Rivera is the cardholder and Barbara is the fictional analyst in the talk track. E-003 is a synthetic export from a fictional merchant processor, not a JCPenney statement. Use the [spoken opening disclosure once](docs/meeting-outline.md#opening-discovery--october-20-preparation-decision). Earlier snapshots/review text may use superseded names.
@@ -55,7 +59,7 @@ See [the development handoff](docs/handoff.md) for completed checks, limitations
 5. Simulate a later response. Compare again to reassess the new evidence.
 6. Stage and approve the specialist handoff; verify the assignment and exact saved handoff payload.
 
-The handoff is a reversible prototype endpoint, not a locked final financial disposition. Consumer resolution and network recovery remain undecided. This build does not finalize credit, file network actions, or send messages.
+The handoff remains the implemented prototype endpoint, superseded as the target story by the human-approved synthetic credit ending in docs/case-resolution.md. This build does not yet finalize credit, file network actions, or send messages.
 
 ## Honest implementation boundaries
 

@@ -2,6 +2,10 @@
 
 Locked into Apex preparation at Theo's request October 20, 2026. This is the target design and rehearsal guidance, not configured Apex roles, verified presentation-account access or passing authorization tests.
 
+## October 20 decision - Barbara approves the supported credit
+
+Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.
+
 ## The two product surfaces
 
 1. OpenAI Platform/APIs powers customer intake inside Apex's banking experience. Discovery selects conversational text (Responses API) or the alternative voice route (Realtime).

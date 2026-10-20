@@ -55,7 +55,7 @@ The original assignment was checked. Our two selected product surfaces are ChatG
 
 The meeting should establish value (less investigation effort and rework with decision quality preserved), credibility (evidence retrieval, analyst judgment, approved execution and verification), and commitment (sponsor workflow observation and evaluation design with owners; a bounded pilot remains conditional on the findings and readiness).
 
-The executive close first earns sponsorship of workflow observation, baseline validation, boundaries and evaluation design. A pilot is a conditional proposal rather than an immediate launch commitment; see [the locked next-step language](discovery-to-pilot.md). A predetermined dispute verdict is not the meeting outcome. The operational demo ends in a verified supported next action; the implemented specialist handoff remains an iteration endpoint, not a locked financial disposition. Consumer resolution and network recovery stay separate.
+The executive close first earns sponsorship of workflow observation, baseline validation, boundaries and evaluation design. A pilot is a conditional proposal rather than an immediate launch commitment; see [the locked next-step language](discovery-to-pilot.md). A predetermined dispute verdict is not the meeting outcome. The October 20 operational endpoint is now a supported human-approved $648.50 synthetic credit and verified customer resolution after further evidence; see [the closed-case ending](case-resolution.md). The code still ends in specialist handoff. Consumer resolution and network recovery stay separate.
 
 ## Running discovery table
 

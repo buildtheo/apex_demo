@@ -2,6 +2,10 @@
 
 Prepared October 15, 2026. Target design; consult handoff.md for implemented behavior. The two selected OpenAI product surfaces are **Platform/APIs** for customer intake and **ChatGPT** for analyst investigation. Realtime voice and conversational text are alternative experiences within the first surface. Codex is a development aid, not a counted live surface.
 
+## October 20 decision - Barbara approves the supported credit
+
+Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.
+
 ## Intelligent UI feasibility check — Gate 0
 
 Required planning step before further feature building; requested by Theo. It is a test of whether to use an optional evidence-comparison presentation in the existing analyst scene. It does not change the case contract or execution controls.
@@ -86,7 +90,7 @@ flowchart TD
     G["Analyst: actual ChatGPT"] <-->|"Authenticated tools"| M["Apex MCP adapter"]
     M <-->|"Case-scoped reads and staged drafts"| C
     Q -->|"Human approves exact payload"| X["Apex authorization and executor"]
-    X -->|"Persist request or handoff"| C
+    X -->|"Persist request or approved synthetic credit"| C
     C -->|"Separate saved-effect read"| Q
 ```
 
@@ -105,8 +109,8 @@ Read [the access-control design, role matrix, Project restrictions and published
 | Customer confirmation -> case service | Attributed statement and confirmed structured report | Server validates session/transaction ownership and prevents duplicate submission |
 | Case -> analyst tools | Authorized source excerpts, IDs, availability, snapshot/version | Case-level permissions; unavailable evidence bodies stay excluded; merchant documents are untrusted content, not tool instructions |
 | Model -> staged action | Proposed request or cited investigation brief, exact destination and snapshot | Allowlisted schema; stage-only tools; deterministic identifiers and associations checked in code |
-| Human -> executor | Exact reviewed payload with actor, expiry, and snapshot | Fresh authorization, stale-draft rejection, idempotency; no credit or network filing in present scope |
-| Executor -> read-back | Saved request ID/scope or assignment/exact handoff | Verify persisted facts; distinguish failure, ambiguity, and later progression; do not infer success from status alone |
+| Human -> executor | Exact reviewed payload with actor, expiry, and snapshot | Fresh authorization, stale-draft rejection, idempotency; synthetic credit now selected as target scope but unimplemented; no network filing |
+| Executor -> read-back | Saved request ID/scope or exact synthetic credit and consumer decision | Verify persisted facts; distinguish failure, ambiguity, and later progression; do not infer success from status alone |
 
 ### Sensitive card data and voice requirement — October 20
 
@@ -114,11 +118,11 @@ Read [the locked field boundary, required voice opening, accidental-exposure han
 
 ### Tool confirmation versus business approval
 
-Official custom-MCP guidance says write tools require confirmation by default and honors readOnlyHint for reads. Mark get_case/get_evidence read-only only because they do not mutate state. Draft-persisting stage tools remain writes. In the full two-action demo there may be two ChatGPT staging confirmations plus two Apex approvals; rehearse the actual count and timing, rather than assuming one approval prompt per action. Account setup/OAuth consent is a separate preparation step.
+Official custom-MCP guidance says write tools require confirmation by default and honors readOnlyHint for reads. Mark get_case/get_evidence read-only only because they do not mutate state. Draft-persisting stage tools remain writes. In the revised three-action demo, internal lookup, processor follow-up and credit each require Apex approval, with separate ChatGPT staging permissions where applicable; rehearse the actual count and timing, rather than assuming one approval prompt per action. Account setup/OAuth consent is a separate preparation step.
 
 Narration: "ChatGPT is asking permission to call the staging tool. Apex's approval is the bank-authorized decision to execute this exact action." Do not suppress necessary prompts by mislabeling tools or treat a remembered tool permission as business authority. Installation/confirmation behavior must be rehearsed on the presentation account.
 
-Minimal proposed tools: get_case(case_id), get_evidence(case_id, source_id, snapshot), stage_evidence_request(case_id, snapshot, scope), stage_handoff(case_id, snapshot, brief), and get_action_result(case_id, action_id). Names/contracts are proposed, not implemented MCP tools. Execution approval remains an Apex human operation; it is not exposed as a model approval tool.
+Minimal proposed tools: get_case(case_id), get_evidence(case_id, source_id, snapshot), stage_evidence_request(case_id, snapshot, scope), stage_credit(case_id, snapshot, amount, rationale, customer_message), and get_action_result(case_id, action_id). Names/contracts are proposed, not implemented MCP tools. Execution approval remains an Apex human operation; it is not exposed as a model approval tool.
 
 ## Current versus target
 

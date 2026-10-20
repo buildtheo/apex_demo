@@ -1,5 +1,9 @@
 # Locked direction and implementation sequence
 
+## October 20 decision - Barbara approves the supported credit
+
+Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.
+
 ## Preparation update — verified assignment scope
 
 The original assignment has been checked. The selected product surfaces are ChatGPT and Platform/APIs. Realtime voice and conversational text are alternative experiences within Platform/APIs, not separate counted product surfaces. Discovery still selects the intake experience; prepare both, but a clearly labeled simulated alternative is permitted and both need not be live implementations. The customer experience still runs in the browser iPhone frame.
@@ -12,7 +16,7 @@ Explicit baseline and before/after assumptions are appropriate; unsupported stat
 
 Fictional US consumer-credit issuer Apex. Thirty-minute meeting: 3 minutes customer/discovery, 6 solution, 18 demo with questions, 3 value/pilot/ask. Separate 15-minute reflection.
 
-Demo direction: discovery selects voice (Realtime) or conversational text intake in the web/iPhone banking app (OpenAI API); explicit later investigation stage; actual ChatGPT opens the same case; analyst compares evidence, asks a follow-up, requests a scoped internal record, reassesses, and approves a defined next action with independent verification. First approval explained in depth, second concise. Final consumer disposition is still open.
+Demo direction: discovery selects voice (Realtime) or conversational text intake in the web/iPhone banking app (OpenAI API); explicit later investigation stage; actual ChatGPT opens the same case; analyst compares evidence, asks a follow-up, requests a scoped internal record, reassesses, and approves a defined next action with independent verification. The mismatch triggers a further processor request and a labeled later response; Barbara then approves a supported $648.50 synthetic credit under the below-$1,000 fictional policy. Apex verifies the credit and case update before showing the customer resolution. Explain the first approval in depth and keep later cycles concise. See case-resolution.md.
 
 Executive outcome, clarified October 20: sponsorship of workflow observation and evaluation design, operations and technology owners, risk participation, and an agreed review of findings. Present a bounded pilot as a conditional proposal, not an immediate launch commitment. See [discovery-to-pilot sequencing](discovery-to-pilot.md). The illustrative six-week outline covers baseline/access/evals, shadow testing, then limited assisted use only if gates pass; its duration is not a customer commitment. Illustrative assumptions: 60,000 eligible cases/year, 20 minutes baseline, 5 minutes saved, $60/hour = 5,000 hours / $300,000 gross capacity value before costs. These are not measured results. Test quality, follow-up workload, cost, adoption, and controls alongside time.
 
@@ -66,7 +70,7 @@ Use deterministic code for transaction associations; use the model for document 
 
 ## Evidence and domain corrections
 
-Focus on a material source inconsistency, not an artificially decisive fraud signal. A requested internal lookup shows a processor-cited record belongs to a prior transaction. That undermines one supporting item but does not establish authorization or fraud. DEMO-01 permits a specialist referral, not a liability conclusion.
+Focus on a material source inconsistency, not an artificially decisive fraud signal. A requested internal lookup shows a processor-cited record belongs to a prior transaction. That undermines one supporting item but does not establish authorization or fraud. The existing DEMO-01 code permits specialist referral only. The newly selected synthetic credit policy and action remain to be implemented separately; missing proof alone does not justify the credit.
 
 Do not mix credit/debit rules, assert cryptographic binding is universally required for CE3.0, treat absent SDK fields as failed authentication, assume network validation misses an incomplete history, or put a prewritten policy conclusion in raw evidence. Pin real rule versions before implementing network criteria.
 

@@ -17,6 +17,7 @@ Theo requested a real, memorable merchant name. Use JCPenney in the synthetic sc
 | Target business unit | Consumer Card Operations |
 | Case class | Unrecognized online credit-card purchase requiring evidence review |
 | Customer | Martha Rivera; JCPenney transaction T-204, $648.50; synthetic details match the prototype |
+| Analyst credit authority | Fictional policy selected October 20: Barbara may approve a supported credit below $1,000; human approval, Apex execution and read-back required. The threshold alone does not justify credit; this action remains unbuilt. |
 | Analyst | Barbara, the fictional dispute analyst in the talk track; not a new authenticated prototype user |
 | Entry | Apex banking app displayed in a browser iPhone frame; text or voice conversation selected through discovery |
 | Operational record | Legacy Apex DMS with supported integration interfaces and no native MCP; Python/SQLite/HTTP stand-in in this repo. Apex builds/operates the adapter; fictional assumption locked October 20. |

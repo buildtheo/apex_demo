@@ -2,6 +2,10 @@
 
 Last consolidated October 15, 2026, 11 p.m. America/Los_Angeles. Theo is ending the session and wants any agent to continue from repository state. Read AGENTS.md, then this page. The repo contains the consolidated decisions and work; the complete chat and original interview uploads are not archived here.
 
+## October 20 decision - Barbara approves the supported credit
+
+Theo selected a completed consumer outcome: after further evidence, Barbara explicitly approves the $648.50 credit under a **fictional Apex analyst-authority policy for amounts below $1,000 when the reviewed evidence supports the dispute**. The threshold grants authority, not automatic entitlement or a fraud finding. Apex validates the action, posts a synthetic ledger credit, and separately reads the saved credit and case decision before displaying completion and the approved customer explanation. This supersedes the October 19 specialist-referral ending. Network recovery stays separate. Read [the current ending and proof requirements](case-resolution.md). Code still implements the earlier handoff; additional evidence, credit posting and customer-resolution flow remain unbuilt. No new runtime/model test or Gate 0 completion is implied.
+
 ## October 20 clarification — Martha, Barbara and fictional processor
 
 Theo chose Martha as the cardholder's first name (Martha Rivera in the synthetic fixture) and Barbara as the analyst's first name in the talk track. Keep JCPenney as the purchase merchant. Attribute the weak E-003 packet and its recognized-device claim to a fictional merchant-processor export throughout source labels, fixed analysis and narration; it is not a JCPenney statement/submission. The [meeting opening](meeting-outline.md#opening-discovery--october-20-preparation-decision) gives the brief spoken synthetic-case disclosure once. Raw source observations do not contain the later association conclusion; E-004 supplies that lookup. Barbara does not replace the current local-demo-operator approval/audit identity. Existing demo.sqlite needs an explicit development reset to load the new seed; no automatic migration/deletion. Static saved-file verification only; runtime/browser checks were unavailable. These requested fixture/text edits do not resume broader feature work or complete Gate 0.
@@ -45,8 +49,8 @@ Theo requested a substantive enterprise buying rationale in the interview brief.
 - Three possible experiences: Realtime voice OR an API-powered text conversation in the banking app, followed by ChatGPT. Discovery selects the intake path. Prepare both; both need not be live. Label any recording/simulation. Text-primary is a rehearsal proposal, not a replacement for discovery.
 - Show the customer app in a browser iPhone frame. No native iOS build is required.
 - Customer confirms intake; Apex owns the case, queue, records, permissions, and execution. Use the same returned case ID across surfaces and an explicit time jump before later merchant evidence.
-- Analyst investigates, requests one scoped record, reassesses, and approves a supported next action. Show approval and persisted-effect verification for both actions; explain the first and keep the second concise.
-- Current endpoint is specialist review. Final consumer disposition and network recovery remain separate and open. Missing proof does not establish fraud.
+- Analyst investigates, requests the internal association lookup, reassesses, obtains transaction-specific processor follow-up and approves a supported synthetic credit. Show human approval and saved-effect verification for each of the three actions; explain the first and keep later cycles concise.
+- Target endpoint is Barbara's approved $648.50 synthetic credit after further evidence, with ledger/case read-back and a customer explanation. The code still ends at specialist review. Network recovery remains separate; missing proof does not establish fraud.
 - Executive close: sponsor workflow observation and evaluation design with proposed owners and a review of the findings. Present the bounded pilot conditionally; launch follows baseline/access/boundary validation, evaluation results and readiness gates. Keep assumptions explicit.
 
 ## Implemented and checked
