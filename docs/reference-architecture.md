@@ -30,6 +30,31 @@ Proposed timebox: one 20-minute readiness session, not a requirement to solve ev
 
 Model IDs/snapshots are not interchangeable with API selection. Before model evaluation, choose candidates supported by the actual account and required tools/schema, record exact IDs/versions and inference settings, then pin the evaluated configuration. The actual ChatGPT model/mode must also work with the tool connection and any native UI. None of these account-level combinations has yet been verified.
 
+## Legacy DMS integration — locked October 20
+
+**Fictional scenario assumption approved by Theo:** Apex retains a legacy dispute-management system with supported integration interfaces and existing enterprise identity. The DMS has no native MCP server. Its exact vendor and REST/SOAP/middleware interface remain unspecified; discovery validates actual interface coverage, permissions, cost and reliability.
+
+Apex builds and operates an MCP adapter in front of those interfaces. ChatGPT calls focused tools such as get_case/get_evidence; the adapter validates delegated identity and case/source/action permissions, invokes the existing DMS/evidence services, minimizes the returned fields and produces a structured result. The DMS itself does not need to understand MCP. Consequential execution remains through Apex's separately authorized services and human approval, not a model-granted permission.
+
+| Component | Responsibility |
+| --- | --- |
+| Actual ChatGPT | Interpret the request, invoke permitted tools and synthesize source-supported findings |
+| Apex-owned MCP adapter | Expose narrow tool contracts; validate identity and resource/action authority; translate to supported existing interfaces; return permitted fields and source metadata |
+| Existing DMS/integration services | Keep operational records, supported business operations and durable effects; remain authoritative |
+| Current demo stand-in | Python/SQLite plus existing HTTP case/action services represent those systems; the MCP adapter and authenticated connection remain unbuilt |
+
+This extends the existing system through a controlled integration layer. It does not assume the DMS vendor supplies MCP, require replacing the DMS or give ChatGPT unrestricted database/SQL access. If a backend uses a service credential rather than delegated user credentials, Apex must still enforce the requesting user's case/action entitlements; a shared credential cannot be treated as authorization for every employee.
+
+A vendor supplying MCP does not by itself prove it embeds AI: MCP exposes capabilities to external AI clients. If native vendor AI also exists, compare whether it meets the same task, quality, control and total-cost requirements before adding another solution.
+
+Customer-facing wording:
+
+“We keep your existing DMS and add a controlled integration layer so ChatGPT can work with the records and actions you permit.”
+
+Published OpenAI customer examples are precedents for parts of this operating pattern; they need not have Apex's exact fictional architecture. Do not infer private implementation details or transplant their results. [OpenAI's MCP server guidance](https://developers.openai.com/plugins/build/mcp-server) describes focused tools with authorizing operation handlers; checked October 20.
+
+This is an approved scenario/design assumption, not evidence of a real bank integration, executed adapter, working identity or passing evaluation. Gate 0 and build sequencing remain unchanged.
+
 ## Target reference architecture
 
 ```mermaid

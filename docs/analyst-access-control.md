@@ -11,6 +11,10 @@ Chat and Work are possible experiences within the ChatGPT surface, not two disti
 
 Use actual ChatGPT on the web as the primary presentation candidate, proving the Apex connection on the intended account before rehearsal. Work is not a new requirement; its exact combination with the account, tools and optional UI remains unverified. Account entitlement, authentication and connection proof remain open.
 
+## Legacy DMS connection — locked October 20
+
+Apex's fictional DMS is legacy, has supported integration interfaces and does not provide native MCP. The bank owns the MCP adapter translating focused ChatGPT tool calls into existing DMS/evidence-service operations. Identity, per-case/source/action permission and field minimization are enforced in that integration path; the DMS remains authoritative. Our Python/SQLite/HTTP service stands in for those systems. See [the architecture decision](reference-architecture.md#legacy-dms-integration--locked-october-20). The adapter and authenticated connection remain unbuilt. Public customer precedents need not match this exact fictional design; native MCP also does not imply embedded vendor AI.
+
 ## Project choice and copied content
 
 No Project is required for the minimal demo. Start with a private case conversation. A private or restricted case Project may be useful only after verifying tool compatibility, membership and sharing behavior.

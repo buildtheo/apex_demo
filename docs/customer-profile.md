@@ -14,10 +14,14 @@ Apex is a fictional US regional bank with a consumer credit-card business. For r
 | Case class | Unrecognized online credit-card purchase requiring evidence review |
 | Customer | Elena Rivera; VeloCraft transaction T-204, $648.50; synthetic details match the prototype |
 | Entry | Apex banking app displayed in a browser iPhone frame; text or voice conversation selected through discovery |
-| Operational record | Existing Apex dispute-management system (DMS), mocked by this repository |
+| Operational record | Legacy Apex DMS with supported integration interfaces and no native MCP; Python/SQLite/HTTP stand-in in this repo. Apex builds/operates the adapter; fictional assumption locked October 20. |
 | Evidence systems | Card ledger, customer intake transcript, merchant documents, internal authentication-reference service |
 | Identity and governance | Existing enterprise identity provider, case assignment/ACLs, privacy/security review, QA and risk owners; target integrations pending |
 | Shared workflow | Customer-confirmed intake -> case and queue -> explicit later evidence stage -> actual ChatGPT investigation -> approved evidence request -> reassessment -> approved next action -> saved-effect verification |
+
+## Legacy integration assumption — locked October 20
+
+Assume Apex keeps its legacy DMS, supported APIs or approved integration middleware, and enterprise identity. It has no native MCP endpoint. Apex owns the adapter connecting actual ChatGPT to scoped DMS/evidence operations, enforcing delegated-user and case/action permissions and minimizing returned fields. Existing records and execution authority remain with the bank. Exact vendor/interface coverage is unspecified and must be validated in discovery. Read [the architecture decision](reference-architecture.md#legacy-dms-integration--locked-october-20). This is fictional scenario authorship, not a real-bank finding or completed implementation. MCP support alone would not establish embedded vendor AI; evaluate native AI separately if present.
 
 ## Existing AI footprint and why OpenAI
 
