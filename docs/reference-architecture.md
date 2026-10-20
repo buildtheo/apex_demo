@@ -47,6 +47,10 @@ flowchart TD
 
 The same Apex case ID spans intake, queue, investigation, and execution. ChatGPT does not create a second case store. The MCP adapter enforces authenticated case access; the model cannot grant its own approval. Existing deadlines and durable operational records belong to Apex. Prototype saved-effect checks read the same SQLite store and are not confirmation from an external bank or second system.
 
+## Analyst access and presentation surface — locked October 20
+
+Read [the access-control design, role matrix, Project restrictions and published precedents](analyst-access-control.md). Actual ChatGPT on the web is the primary presentation candidate; Work/Project use requires account/tool proof and is not a new surface requirement. Workspace roles restrict app/tool access, while Apex validates delegated identity and enforces role plus case/source/action permission on every request. Project sharing can expose copied evidence; do not use a broadly shared cross-case workspace as the authorization boundary. A two-identity allowed/denied case retrieval remains required proof, not an executed result.
+
 ## Data and trust boundaries
 
 | Stage | Data crossing the boundary | Authority and control |

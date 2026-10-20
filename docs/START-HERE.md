@@ -2,6 +2,10 @@
 
 Last consolidated October 15, 2026, 11 p.m. America/Los_Angeles. Theo is ending the session and wants any agent to continue from repository state. Read AGENTS.md, then this page. The repo contains the consolidated decisions and work; the complete chat and original interview uploads are not archived here.
 
+## Preparation update — October 20: analyst access and published precedents
+
+Theo locked [the proposed role/case authorization design and presentation approach](analyst-access-control.md): actual ChatGPT web is the primary candidate, Project optional/private by default, workspace app permissions separate from bank-side identity and case/source/action checks. Do not expose cross-case retrieved content through a broad shared Project. Required two-identity allowed/denied retrieval proof remains unbuilt. Published BBVA, Morgan Stanley and Itaú examples support parts of the approach, not our exact implementation. The other selected surface remains Platform/APIs for customer text OR voice intake. No account configuration, connection, authorization test or Gate 0 was completed by this update.
+
 ## Preparation update — October 20: sensitive card data and voice warning
 
 Theo locked [the field boundary, mandatory voice opening and accidental-exposure requirements](sensitive-data-and-voice.md). Full PAN/security codes are unnecessary: use the selected transaction reference and optional last-four. Voice must tell customers never to provide those secrets and must not request or repeat them. Current free text has no PAN detector; voice/model connections remain unbuilt. A spoken warning or transcript masking does not prevent raw Realtime audio from reaching the provider. Read the specification before implementing or claiming these controls; no new runtime/eval proof or build authorization is established.

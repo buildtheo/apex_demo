@@ -26,6 +26,10 @@ Example text intake: Customer says, "I've bought from VeloCraft before, but this
 
 This supersedes the earlier option of a plain form as the complete in-app demo branch. The existing form may remain a temporary development scaffold or clearly labeled fallback; it does not satisfy the locked conversational in-app capability. Neither new capability is claimed implemented by this documentation update. Exact APIs, model selection, call transport, and integration mechanisms remain implementation choices.
 
+## Analyst ChatGPT experience and authorization — locked October 20
+
+Use actual ChatGPT on the web as the primary presentation candidate, with an Apex MCP connection and the same case ID. A Project is optional; start with a private case conversation and do not put unrelated cases in a broadly shared Project. ChatGPT app access does not grant bank-record access: Apex must validate identity and enforce role plus case/source/action permission per request. Show inspectable retrieval and source-referenced findings, with denied access tested using a distinct authenticated identity. See [the role matrix, visible flow, future proof and real-world precedents](analyst-access-control.md). These requirements are not yet implemented or demonstrated; Chat/Work/Projects do not count as extra selected surfaces.
+
 ## Sensitive-data instruction for intake — locked October 20
 
 If voice is shown, the assistant must open before collecting the narrative: “Please do not say your full card number, card security code—CVV or CVC—PIN, or password. I will never ask for those details in this conversation. We can work from the transaction you've selected.” Never request or repeat those secrets. Read [the complete data boundary and volunteered-data response](sensitive-data-and-voice.md). Selected transaction references and optional last-four are sufficient for this task. The warning is not a guarantee against raw-audio exposure in direct Realtime; transcript masking happens after receipt. Voice and sensitive-data enforcement are not yet implemented or evaluated.
