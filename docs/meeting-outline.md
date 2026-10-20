@@ -12,6 +12,10 @@ Proposed default for preparation: text intake as the primary live candidate, a l
 
 Apex's card team needs capacity without weakening customer treatment. An API-powered customer conversation preserves the selected charge and confirmed statement. Later, an analyst uses ChatGPT to assemble evidence, check a material inconsistency, and prepare a supported next action. Apex authorizes, executes, and verifies. The executive decision is sponsorship for a bounded, measured pilot, not acceptance of a predetermined liability verdict.
 
+## Opening discovery — October 20 preparation decision
+
+Use the [locked discovery approach and unexpected-answer responses](discovery-and-outcomes.md#discovery-approach--locked-october-20-2026). Start with channels/friction across the current process, not a forced phone-versus-app choice. Then understand analyst effort, test the evidence-gathering hypothesis with room for correction, and establish pilot value. Pause and adapt; choose a relevant prepared route only after understanding the answer. If the priority is external waiting, quality, existing automation or an out-of-scope issue, change emphasis or revisit scope honestly. This stays within the three-minute opening and does not establish actual customer answers or new integrations.
+
 ## Six-slide main deck skeleton
 
 | Time | Slide / screen | Main message and speaker cue | Discovery or proof |

@@ -1,6 +1,10 @@
 # Decisions and artifact index
 
-Updated October 15, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
+Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
+
+## October 20 preparation decision — correctable discovery and unexpected answers
+
+Theo requested locking the [focused discovery approach](discovery-and-outcomes.md#discovery-approach--locked-october-20-2026): broaden intake discovery beyond the two prepared demo modes, test the analyst-effort hypothesis with room for correction, listen and adapt. Saved responses for external merchant waiting, incomplete intake, quality-first priorities, existing evidence automation and problems outside scope. These change emphasis, metrics or the proposed next step rather than force the same pitch. Theo reaffirmed Apex as the fictional issuer; Visa remains network context and Apex volumes/growth remain assumptions. More workload per analyst does not itself imply increased effort per case. No AI-driven-fraud forecast or customer dissatisfaction claim was adopted. This is documentation-only preparation; no actual discovery, build resumption, runtime result, Gate 0 or model evaluation is established.
 
 ## October 19 preparation decision — customer selection rationale
 

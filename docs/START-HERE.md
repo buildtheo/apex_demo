@@ -2,6 +2,10 @@
 
 Last consolidated October 15, 2026, 11 p.m. America/Los_Angeles. Theo is ending the session and wants any agent to continue from repository state. Read AGENTS.md, then this page. The repo contains the consolidated decisions and work; the complete chat and original interview uploads are not archived here.
 
+## Preparation update — October 20: discovery and unexpected answers
+
+Theo locked the [focused, correctable discovery approach](discovery-and-outcomes.md#discovery-approach--locked-october-20-2026). Ask about the full intake process before selecting a relevant prepared phone/in-app route; understand analyst effort and pilot value; adapt if the priority is waiting, intake quality, investigation quality, existing automation or another problem. Apex remains the fictional issuer. These are preparation decisions, not collected customer answers or new execution proof. The feature-building gate and implementation status below are unchanged.
+
 ## Preparation update — October 19: Why OpenAI
 
 Theo requested a substantive enterprise buying rationale in the interview brief. Read [Why OpenAI for Apex](why-openai.md), then the updated customer profile, objection prep and slide 2 cue. Security, governance and safety are central alongside capability, adoption, integration and total cost. Existing ChatGPT Enterprise productivity use and the original selection rationale are explicitly fictional premeeting context; new case-data/API/action approvals remain separate. No implementation, connection, model evaluation or readiness gate changed.
