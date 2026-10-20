@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## October 20 clarification — Martha, Barbara and fictional processor
+
+Theo chose Martha as the cardholder's first name (Martha Rivera in the synthetic fixture) and Barbara as the analyst's first name in the talk track. Keep JCPenney as the purchase merchant. Attribute the weak E-003 packet and its recognized-device claim to a fictional merchant-processor export throughout source labels, fixed analysis and narration; it is not a JCPenney statement/submission. The [meeting opening](meeting-outline.md#opening-discovery--october-20-preparation-decision) gives the brief spoken synthetic-case disclosure once. Raw source observations do not contain the later association conclusion; E-004 supplies that lookup. Barbara does not replace the current local-demo-operator approval/audit identity. Existing demo.sqlite needs an explicit development reset to load the new seed; no automatic migration/deletion. Static saved-file verification only; runtime/browser checks were unavailable. These requested fixture/text edits do not resume broader feature work or complete Gate 0.
+
 ## October 20 naming update
 
 Current seed/screens and active preparation use JCPenney as a familiar illustrative merchant in an entirely fictional dispute; VeloCraft below describes the historical preview. The current customer statement mentions an earlier clothing purchase. Narration leads with the disputed $648.50 purchase, with IDs secondary. Existing demo.sqlite must be explicitly reset to reload seed text. Runtime/browser tests were not rerun for this naming edit because no execution environment was available; do not treat the historical checks below as fresh results. Read START-HERE.md for current decisions.

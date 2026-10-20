@@ -64,13 +64,17 @@ See [the running discovery table and outcomes](discovery-and-outcomes.md). Ask w
 | 8. Approve and verify next action | Analyst reviews a supported next action and explicitly approves it. | Apex validates and executes it; an independent read checks the resulting state. Current prototype endpoint is specialist handoff. |
 | 9. Track outcome | Analyst can see updated status, assignment, evidence, and audit history in the DMS. | Apex retains the durable operational record. Final consumer disposition and network recovery remain separate and undecided. |
 
+## People and evidence attribution — locked October 20
+
+Martha Rivera is the fictional cardholder; Barbara is the fictional dispute analyst. Theo chose these first names for recall. Barbara is a story role, not a new authenticated user or a change to the local-demo-operator audit identity. Keep JCPenney as the purchase merchant, but attribute E-003's recognized-device claim to a fictional merchant-processor export. Its title, source label, fixed assessment and spoken narration must agree. Do not describe the packet as a JCPenney statement or submission. Give the [spoken disclosure once in the introduction](meeting-outline.md#opening-discovery--october-20-preparation-decision).
+
 ## Merchant and amount in narration — locked October 20
 
-Use “the $648.50 JCPenney purchase” rather than lead with T-204. JCPenney is a familiar real merchant name used only in a fictional, synthetic dispute. The customer acknowledges shopping there before and denies this purchase. An earlier purchase is relevant relationship context; an authentication record associated with it does not substantiate the merchant's claim about the new purchase. Preserve the distinction between the attributed customer statement and independently corroborated transaction history. The earlier purchase's amount/date and full corroborating ledger display are not yet in the fixture; do not invent an already-executed proof. Keep internal IDs in source details for transaction association and auditability.
+Use “the $648.50 JCPenney purchase” rather than lead with T-204. JCPenney is a familiar real merchant name used only in a fictional, synthetic dispute. The customer acknowledges shopping there before and denies this purchase. An earlier purchase is relevant relationship context; an authentication record associated with it does not substantiate the fictional processor's claim about the new purchase. Preserve the distinction between the attributed customer statement and independently corroborated transaction history. The earlier purchase's amount/date and full corroborating ledger display are not yet in the fixture; do not invent an already-executed proof. Keep internal IDs in source details for transaction association and auditability.
 
 ## Stage transition in the demonstration
 
-Show an explicit time jump between customer intake and later analyst investigation. Merchant documents and later evidence must not appear to have arrived during the initial call.
+Show an explicit time jump between customer intake and later analyst investigation. The fictional processor export and later evidence must not appear to have arrived during the initial call.
 
 Suggested narration: "Here is the case in the analyst's queue. Now let's investigate it in ChatGPT."
 

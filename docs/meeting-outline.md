@@ -14,6 +14,8 @@ Apex's card team needs capacity without weakening customer treatment. An API-pow
 
 ## Opening discovery — October 20 preparation decision
 
+Say once before discovery: “Synthetic case, real brand name used for familiarity only.” Keep synthetic-source labels visible during the demonstration.
+
 Use the [locked discovery approach and unexpected-answer responses](discovery-and-outcomes.md#discovery-approach--locked-october-20-2026). Start with channels/friction across the current process, not a forced phone-versus-app choice. Then understand analyst effort, test the evidence-gathering hypothesis with room for correction, and establish pilot value. Pause and adapt; choose a relevant prepared route only after understanding the answer. If the priority is external waiting, quality, existing automation or an out-of-scope issue, change emphasis or revisit scope honestly. This stays within the three-minute opening and does not establish actual customer answers or new integrations.
 
 ## Six-slide main deck skeleton
@@ -36,16 +38,18 @@ Before rehearsal, read the [provider-selection brief](why-openai.md). It supplie
 
 Within slide 3's existing architecture time, use the [20–30 second Codex talk track](reference-architecture.md#codex-in-the-implementation-talk-track--locked-october-20) if relevant to the technology leader: engineers can use Codex to build/test the adapter around existing DMS interfaces and identity controls, including allowed/denied access checks. Apex engineers own review, maintenance and release approval. This adds no live scene and no counted product surface; customer intake uses Platform/APIs, analyst investigation uses actual ChatGPT. No new build or test result is implied.
 
-Use JCPenney as the illustrative merchant in synthetic records. Narrate the disputed purchase by merchant and $648.50 amount; show internal transaction/source IDs as secondary traceability. Existing prior-customer purchase context is relevant without proving the new purchase was authorized. Earlier amount/date and corroborating ledger display remain fixture work. No actual merchant records or conduct are represented.
+Use JCPenney as the illustrative merchant in synthetic records. Narrate the disputed purchase by merchant and $648.50 amount; show internal transaction/source IDs as secondary traceability. Existing prior-customer purchase context is relevant without proving the new purchase was authorized. Earlier amount/date and corroborating ledger display remain fixture work. The weak packet is a synthetic export attributed to a fictional merchant processor, not to JCPenney. No actual merchant records or conduct are represented.
 
 ## Eighteen-minute workflow with Q&A
 
+Introduce the people as the workflow begins: “Martha is an Apex cardholder. She has shopped at JCPenney before, but says this $648.50 purchase wasn't hers. Barbara is the dispute analyst who needs to understand Martha's account, assess the supporting evidence and decide what still needs checking.” Barbara is a fictional narrative role; the current prototype still records approvals as local-demo-operator.
+
 | Time | Scene and narration | Observable proof |
 | --- | --- | --- |
-| 9:00-10:00 | Show the assumed current task: customer statement, ledger, merchant document, manual reconciliation | Before-state is illustrative, not a measured process study |
+| 9:00-10:00 | Show the assumed current task: Martha's statement, ledger, fictional merchant-processor export, manual reconciliation | Before-state is illustrative, not a measured process study |
 | 10:00-12:00 | Browser iPhone: select JCPenney charge; follow discovery-selected text or voice conversation; clarify and confirm intake | Model contribution, customer corrections, structured report, case ID |
-| 12:00-14:00 | Case appears in Apex queue; announce time jump before later merchant evidence; switch to actual ChatGPT | Same case ID and attributed intake; no instant merchant response |
-| 14:00-18:00 | Investigate claims with source references; ask what underlying record supports the merchant assertion | Model synthesis versus deterministic association checks; specific gap |
+| 12:00-14:00 | Case appears in Apex queue; announce time jump before the later processor export; switch to actual ChatGPT | Same case ID and attributed intake; no instant processor response |
+| 14:00-18:00 | Investigate claims with source references; ask what underlying record supports the fictional processor's assertion | Model synthesis versus deterministic association checks; specific gap |
 | 18:00-21:00 | Stage a scoped evidence request; distinguish ChatGPT's tool-call permission from Apex approval; Apex executes and saved request is read back | Exact scope, destination, action ID, persisted-effect verification |
 | 21:00-24:00 | Label the simulated later response; reassess the material inconsistency and remaining uncertainty | Raw observation separated from inference; no fraud verdict |
 | 24:00-26:00 | Review the cited package; keep second Apex approval/verification concise (60-90 seconds), with brief narration of any ChatGPT staging confirmation | Requested specialist decision, sources, open questions, human judgment |

@@ -66,7 +66,7 @@ Use deterministic code for transaction associations; use the model for document 
 
 ## Evidence and domain corrections
 
-Focus on a material source inconsistency, not an artificially decisive fraud signal. A requested internal lookup shows a merchant-cited record belongs to a prior transaction. That undermines one supporting item but does not establish authorization or fraud. DEMO-01 permits a specialist referral, not a liability conclusion.
+Focus on a material source inconsistency, not an artificially decisive fraud signal. A requested internal lookup shows a processor-cited record belongs to a prior transaction. That undermines one supporting item but does not establish authorization or fraud. DEMO-01 permits a specialist referral, not a liability conclusion.
 
 Do not mix credit/debit rules, assert cryptographic binding is universally required for CE3.0, treat absent SDK fields as failed authentication, assume network validation misses an incomplete history, or put a prewritten policy conclusion in raw evidence. Pin real rule versions before implementing network criteria.
 

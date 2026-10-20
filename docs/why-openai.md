@@ -14,7 +14,7 @@ Before a real meeting, review installed platforms, actual adoption, approved dat
 
 | Buying reason | Why OpenAI belongs in the consideration set | What it means for Apex |
 | --- | --- | --- |
-| Model capability and task fit | Models can interpret text and supported image inputs, use tools and produce structured outputs. Model selection balances quality, latency and cost. [S1–S4] | Read messy statements and merchant packets, identify an assertion needing verification, request a scoped record and explain evidence limits. Demonstrate this on representative cases; no task-specific vendor ranking exists yet. |
+| Model capability and task fit | Models can interpret text and supported image inputs, use tools and produce structured outputs. Model selection balances quality, latency and cost. [S1–S4] | Read messy statements and processor packets, identify an assertion needing verification, request a scoped record and explain evidence limits. Demonstrate this on representative cases; no task-specific vendor ranking exists yet. |
 | Privacy and data use | Business workspace protections include no training on business data by default and encryption in transit and at rest. API data also is not used for training by default unless opted in. [S5–S6] | A defensible starting point for confidential evidence workflows. Review actual data flows, minimization, retention, residency, subprocessors and contracts for the selected services. “No training” does not mean “no storage.” |
 | Security and identity | Enterprise supports managed identity/provisioning and roles; supported connections have their own authentication and permission boundaries. [S7, S10] | Give the intended analysts access and remove it when responsibilities change. Apex must still enforce case-level authorization on every request; signing into ChatGPT does not grant bank-record access. |
 | Governance and oversight | Workspace controls and supported compliance records help administrators govern enabled capabilities and investigate use. [S8–S9] | Name owners, restrict tools/actions, configure retention, collect the supported records and correlate them with Apex's case/action audit trail. Confirm exact plan and event coverage. |
@@ -50,7 +50,7 @@ For API data, default abuse-monitoring logs may retain content for up to 30 days
 Use the existing story to make trust observable:
 
 1. Retrieve only the authorized case and identify the sources used.
-2. Read the merchant assertion, identify the verification need, and use deterministic code to check transaction association.
+2. Read the fictional processor's assertion, identify the verification need, and use deterministic code to check transaction association.
 3. Explain that evidence linked to an earlier transaction weakens that supporting assertion; it does not establish fraud or liability.
 4. Treat merchant text as untrusted evidence. It cannot grant access, change policy or approve actions.
 5. Let the analyst inspect the cited brief, unresolved questions, exact action and specialist destination.

@@ -20,8 +20,8 @@ def find(s, evidence_id):
 # The second variant is returned only after E-004 has been released.
 ANALYSIS = {
     'compare': (
-        'E-001: the customer denies placing the order. E-003: the merchant asserts a recognized device, citing AUTH-77. E-002 identifies the disputed transaction as T-204. The packet does not establish that AUTH-77 belongs to T-204. Request the reference lookup before relying on that assertion.',
-        'E-004 links AUTH-77 to prior transaction T-198, not T-204 in E-002. This weakens the support offered for the merchant assertion in E-003. It does not prove fraud or establish authorization. Under synthetic DEMO-01, prepare a senior-review handoff with the unresolved question.'),
+        'E-001: the customer denies placing the order. E-003: the fictional merchant processor reports a recognized device, citing AUTH-77. E-002 identifies the disputed transaction as T-204. The packet does not establish that AUTH-77 belongs to T-204. Request the reference lookup before relying on that assertion.',
+        'E-004 links AUTH-77 to prior transaction T-198, not T-204 in E-002. This weakens the support offered for the processor assertion in E-003. It does not prove fraud or establish authorization. Under synthetic DEMO-01, prepare a senior-review handoff with the unresolved question.'),
     'gap': (
         'Missing: a verified association between AUTH-77 and T-204. Scope the request to that association; avoid requesting unrelated customer data.',
         'Still unresolved: what evidence establishes authorization of T-204? The lookup answers the record-association question only. Consumer liability and network recovery remain undecided.'),
@@ -40,10 +40,10 @@ class Store:
     def event(self, s, message):
         s['timeline'].append({'at': datetime.now(timezone.utc).isoformat(), 'message': message})
     def reset(self):
-        s = {'id':'APX-001','customer':'Elena Rivera','merchant':'JCPenney','amount':648.50,'status':'IN_REVIEW','version':1,'request':None,'handoff':None,'draft':None,'receipts':{},'timeline':[], 'evidence':[
+        s = {'id':'APX-001','customer':'Martha Rivera','merchant':'JCPenney','amount':648.50,'status':'IN_REVIEW','version':1,'request':None,'handoff':None,'draft':None,'receipts':{},'timeline':[], 'evidence':[
             {'id':'E-001','title':'Customer statement','source':'Synthetic voice intake transcript','kind':'Statement','text':'I recognize the store, but I did not place this order. I bought clothing there earlier this year.','available':True},
             {'id':'E-002','title':'Transaction record','source':'Synthetic Apex card ledger','kind':'Record','text':'Transaction T-204: $648.50, online purchase, JCPenney. Card ending 8821.','available':True},
-            {'id':'E-003','title':'Merchant supporting packet','source':'Synthetic merchant submission','kind':'Assertion','text':'Merchant statement: "The purchase originated from a recognized device." Export row: auth_record=AUTH-77, device_recognized=true, merchant=JCPenney.','available':True},
+            {'id':'E-003','title':'Merchant-processor export','source':'Synthetic export from a fictional merchant processor','kind':'Assertion','text':'Processor export claim: "The purchase originated from a recognized device." Export row: auth_record=AUTH-77, device_recognized=true.','available':True},
             {'id':'E-004','title':'Authentication reference lookup','source':'Synthetic Apex evidence operations','kind':'Record','text':'Lookup result: authentication record AUTH-77 is associated with transaction T-198.','available':False}
         ]}
         self.event(s, 'Demo case loaded at later evidence-review stage; all records are synthetic.')

@@ -8,7 +8,7 @@ Apex is a fictional US regional bank with a consumer credit-card business. For r
 
 ## Familiar merchant name — locked October 20
 
-Theo requested a real, memorable merchant name. Use JCPenney in the synthetic scenario; this is not an allegation about actual purchases, customer behavior, evidence or merchant practices. The current customer statement acknowledges an earlier clothing purchase while disputing the new $648.50 purchase. Lead with merchant/amount/date in narration; retain case/transaction/source IDs as secondary traceability. The prior purchase's amount/date and corroborating ledger detail still need to be defined before displaying them as verified evidence. Recognizing the merchant does not itself establish authorization of the new purchase.
+Theo requested a real, memorable merchant name. Use JCPenney in the synthetic scenario; this is not an allegation about actual purchases, customer behavior, evidence or merchant practices. The current customer statement acknowledges an earlier clothing purchase while disputing the new $648.50 purchase. Lead with merchant/amount/date in narration; retain case/transaction/source IDs as secondary traceability. The prior purchase's amount/date and corroborating ledger detail still need to be defined before displaying them as verified evidence. Recognizing the merchant does not itself establish authorization of the new purchase. The disputed purchase belongs to Martha Rivera; Barbara is the analyst following the case. The weak supporting packet is a fictional merchant-processor export, not a JCPenney statement or submission. See [the opening disclosure and story introduction](meeting-outline.md#opening-discovery--october-20-preparation-decision).
 
 ## Workflow and systems
 
@@ -16,10 +16,11 @@ Theo requested a real, memorable merchant name. Use JCPenney in the synthetic sc
 | --- | --- |
 | Target business unit | Consumer Card Operations |
 | Case class | Unrecognized online credit-card purchase requiring evidence review |
-| Customer | Elena Rivera; JCPenney transaction T-204, $648.50; synthetic details match the prototype |
+| Customer | Martha Rivera; JCPenney transaction T-204, $648.50; synthetic details match the prototype |
+| Analyst | Barbara, the fictional dispute analyst in the talk track; not a new authenticated prototype user |
 | Entry | Apex banking app displayed in a browser iPhone frame; text or voice conversation selected through discovery |
 | Operational record | Legacy Apex DMS with supported integration interfaces and no native MCP; Python/SQLite/HTTP stand-in in this repo. Apex builds/operates the adapter; fictional assumption locked October 20. |
-| Evidence systems | Card ledger, customer intake transcript, merchant documents, internal authentication-reference service |
+| Evidence systems | Card ledger, customer intake transcript, synthetic export from a fictional merchant processor, internal authentication-reference service |
 | Identity and governance | Existing enterprise identity provider, case assignment/ACLs, privacy/security review, QA and risk owners; target integrations pending |
 | Shared workflow | Customer-confirmed intake -> case and queue -> explicit later evidence stage -> actual ChatGPT investigation -> approved evidence request -> reassessment -> approved next action -> saved-effect verification |
 
