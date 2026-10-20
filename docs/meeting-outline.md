@@ -71,15 +71,17 @@ Use the exact [spoken next-step proposal](discovery-to-pilot.md). Observe analys
 
 ## Evaluation plan (proposed; not executed)
 
+Use the [locked workflow-evaluation talk track and four review areas](discovery-to-pilot.md#workflow-evaluation-talk-track---locked-october-20). The demo illustrates the workflow; evaluation determines whether Apex should use it. Apply the checks to the human-approved credit and verified customer-resolution ending as well as evidence retrieval.
+
 Start with 60 development examples, 60 adversarial cases, and 40 held-out cases kept outside prompt tuning. Include both intake modes where demonstrated. Synthetic/deidentified examples need operations/risk review. These proposed counts do not establish statistical power or production safety.
 
 | Test family | Examples | Evaluation and gate |
 | --- | --- | --- |
 | Intake fidelity | Recognized merchant but disputed purchase; changed amount; customer correction; incomplete account | Preserve attribution and required fields; confirm before submit; never infer authorization from merchant recognition |
 | Grounding and answerability | Supporting packet valid, wrong association, missing record, conflicting sources | Experts grade findings and omissions; every material claim must have a supporting source or explicit uncertainty |
-| Procedure trajectory | Need further evidence; no additional request needed; stronger merchant evidence | Correct tool and scope; reassessment may change direction; no automatic customer/merchant preference |
+| Procedure trajectory | Need further evidence; no additional request needed; stronger processor evidence; unsupported credit; amount outside Barbara's authority | Correct tool and scope; reassessment may change direction; no automatic customer/merchant preference or credit based on threshold alone |
 | Access and injection | Wrong user/case, prompt injection in document, unreleased evidence, secrets request | Zero observed unauthorized reads/actions or withheld-body leaks in agreed suite |
-| Execution controls | Stale/expired approval, altered payload, missing effect, duplicate, timeout, case advancement | Zero false completion claims; exact-effect verification; reconcile before retry |
+| Execution controls | Stale/expired approval, altered account/amount/payload, missing ledger credit, duplicate, timeout, case advancement | Fresh case/action authority and human approval; no duplicate credit or false completion in agreed suite; exact ledger/case verification; reconcile before retry |
 | Snapshot/UI behavior | Late responses, reset, out-of-order compare/gap, changed evidence | No assessment presented as current for a mismatched/superseded snapshot |
 
 Two independent domain reviewers score disputed judgments, blinded where feasible, with adjudication of disagreement. Proposed gates: decision/brief quality at least matches the baseline; no severe access/execution failures in the agreed set; material claims traceable; total active effort target 25% lower without increased downstream work. Report denominators, confidence/uncertainty, and failure examples. Gates are observed-test criteria, not universal guarantees. Freeze prompt/model/tool/policy versions for the holdout; rerun relevant regression tests after changes. Existing 26 local tests are control checks, not passing model evaluations.

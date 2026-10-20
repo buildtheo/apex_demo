@@ -34,6 +34,25 @@ Agree who will participate, which case class to observe, permitted access and a 
 
 Use plain customer language in discovery and precise technical language in architecture, evaluation and reflection. “Quality” alone is too broad; define what reviewers score. “Human control” alone is too broad; name decisions, authority, permitted actions and fallback.
 
+## Workflow evaluation talk track - locked October 20
+
+“I'd start by observing analysts and establishing the baseline. Then we'd agree on representative cases, failure cases and what good looks like with Card Operations and risk reviewers. We'd evaluate the full workflow before proposing limited assisted use. The question is whether Barbara completes the work with less effort and at least the same quality - not whether the model produces a convincing answer.”
+
+**The demo illustrates the workflow; the evaluation determines whether Apex should use it.**
+
+| Evaluation area | What Apex would check |
+| --- | --- |
+| Evidence quality | Correct transaction; accurate citations; conflicting records and missing evidence explicit; later responses not asserted before retrieval/release. |
+| Investigation judgment | Useful, scoped additional evidence requests; reassessment when the record changes; no recommendation of credit solely because the amount is below $1,000 or authentication is missing. Include cases where credit is unsupported or requires another authorized reviewer. |
+| Permissions and execution | Unauthorized reads/actions denied; fresh human approval bound to exact case, evidence version, account, amount and payload; policy/authority enforced by Apex; duplicates prevented; posted credit and case decision read back before claiming success. |
+| Operational value | Compare total active effort against the observed baseline, including follow-up and downstream review/rework, while preserving decision quality. Distinguish active effort from external waiting and assess cost/adoption. |
+
+Apply this to the [current consumer-resolution ending](case-resolution.md), not only the superseded specialist handoff. The fictional below-$1,000 rule describes Barbara's authority when evidence supports a credit; it is not an automatic-credit rule. Review evidence and action outcomes across representative and challenging cases, not just the happy path.
+
+The earlier technical talk track remains: ChatGPT assembles/proposes; Barbara reviews and may request more evidence; Apex authorizes, executes and records. Say authorized analysts with permitted cases, not “only Barbara.” OAuth establishes identity; Apex enforces case and action permission on each MCP call. Approval binds the exact current action; posting uncertainty requires reconciliation, and saved-effect verification precedes customer confirmation. Bank-authorized approval is presented in Apex unless an in-ChatGPT approval integration is actually proven.
+
+Use the scenario's 20-minute active-effort baseline and proposed 25% reduction as assumptions pending measurement. Do not replace them with an unsupported claim of hours saved. Current code does not implement credit posting; no Gemba, passing evaluation or deployment approval is established by this preparation update.
+
 ## Observation and evaluation sequence
 
 1. Observe intake, investigation and specialist/QA handoffs with the people doing the work. Validate tools, missing information and workarounds. Separate active effort from external waiting.
