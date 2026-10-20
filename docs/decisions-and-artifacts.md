@@ -2,6 +2,10 @@
 
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 20 - new-case ChatGPT proof and first controlled approval cycle
+
+Theo pasted the actual ChatGPT E-001/E-002 comparison for APX-3625B0CC/v1, completing user-observed new-case read/reason continuity (not an independently inspected raw trace). Built optional WRITE stage_evidence_request and read get_action_result, exact expiring draft review in separate Apex, saved-request verification and explicitly released deterministic association check. 82 deterministic tests and extended isolated browser/SDK approval flow pass. Current no-auth synthetic runtime exposes four tools but no approval/execution endpoint; actual ChatGPT staging confirmation/human approval remain pending. Theo's case was not advanced or approved. See request-actions.md and build-progress.md. Next build remains transaction-specific processor follow-up, then supported reviewed credit and customer verification; no slides or rehearsal.
+
 ## October 20 - Theo tested and submitted a new case
 
 Theo reported a successful banking-app submission. Codex verified saved case APX-3625B0CC (JCPenney, INTAKE_RECEIVED, v1) and public MCP readability of its intake, with only E-001/E-002 available and E-003 denied before the labeled later packet. No case state was changed during this check. This adds user-observed intake submission and saved/public-read proof, not new-case actual-ChatGPT or execution proof. See build-progress.md; scoped approved investigation/processor follow-up/credit remain next.

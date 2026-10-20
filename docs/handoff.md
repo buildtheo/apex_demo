@@ -1,5 +1,8 @@
 # Development handoff — October 15, 2026
 
+## First approval cycle - October 20
+
+Read request-actions.md and latest build-progress.md. MCP draft staging (WRITE), saved-request result read, separate private exact-payload approval and deterministic released association check now exist. 82 tests and isolated browser/SDK review-button flow pass. Theo supplied new-case actual ChatGPT reading; his live case stays intake/v1. Runtime enables four tools, never an approval/execution tool. Human review is still a synthetic local mechanism, not OAuth. Next build is processor follow-up, then credit; actual ChatGPT staging confirmation remains to capture. Historical read-only-only/approval-unbuilt statements below are superseded.
 ## Confirmed text intake implemented - October 20
 
 Responses conversation, corrections, exact-revision confirmation, persistent cases/queue, explicit later E-003 release and same-case MCP reads are implemented. 41 Python and 25 Node checks plus isolated deterministic/live browser runs pass. Live run made two model calls and returned gpt-5.4-mini-2026-03-17; it did not modify the user's demo database. See intake-setup.md and build-progress.md. New-case actual ChatGPT proof, MCP staging/approval, processor follow-up and credit remain next. Private worker apex-intake runs on 8788; never tunnel it or Python 8080. No real identity or money action is claimed.

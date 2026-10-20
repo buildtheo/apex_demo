@@ -70,4 +70,18 @@ class VerifyEffectTests(unittest.TestCase):
         res = run([[self.escalated, a], [bad_brief, a], [bad_assign, a], [no_handoff, a], [self.responded, a]])
         self.assertEqual([r['ok'] for r in res], [True, False, False, False, False], res)
 
+    def test_new_request_contract_requires_exact_scope_hash_version_and_simulated_approver(self):
+        approved = copy.deepcopy(self.req_draft)
+        approved.update(contract='mcp_request_v1', payload_hash='a' * 64)
+        approved['payload'].update(auth_record_id='AUTH-77', disputed_transaction_id='T-204')
+        state = copy.deepcopy(self.requested)
+        state['request'].update(auth_record_id='AUTH-77', disputed_transaction_id='T-204', payload_hash='a' * 64,
+                                evidence_version=approved['version'], approved_by='demo:barbara', approval_identity='simulated_not_oauth')
+        self.assertTrue(run([[state, approved]])[0]['ok'])
+        cases = []
+        for field, value in (('auth_record_id', 'OTHER'), ('disputed_transaction_id', 'OTHER'), ('payload_hash', 'b' * 64),
+                             ('evidence_version', 99), ('approved_by', 'other'), ('approval_identity', 'claimed_oauth')):
+            bad = copy.deepcopy(state); bad['request'][field] = value; cases.append([bad, approved])
+        self.assertFalse(any(r['ok'] for r in run(cases)))
+
 if __name__ == '__main__': unittest.main()

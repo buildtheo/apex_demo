@@ -9,6 +9,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
 from intake import IntakeStore, IntakeError
+from investigation import Investigation, ActionError
 
 ROOT = Path(__file__).parent
 LOCK = threading.RLock()
@@ -40,6 +41,7 @@ class Store:
         self.db = sqlite3.connect(path, check_same_thread=False)
         self.db.execute('CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY, body TEXT)')
         self.intake = IntakeStore(self.db, LOCK, self.fixture)
+        self.investigation = Investigation(self, LOCK)
         if not self.db.execute('SELECT body FROM state WHERE id=1').fetchone(): self.reset()
     def read(self, case_id=None):
         if case_id is not None and (not isinstance(case_id, str) or not case_id or len(case_id) > 80):
@@ -73,9 +75,15 @@ class Store:
             if action == 'reset':
                 if s['id'] != 'APX-001': raise Conflict('Reset applies only to the seeded demo case.')
                 return self.reset()
+            if s.get('intake_id') and action == 'draft':
+                if data.get('kind') != 'REQUEST_EVIDENCE': raise Conflict('This case requires the new reviewed resolution path, not the legacy specialist handoff.')
+                return self.investigation.stage(s['id'], s['version'], 'authentication_transaction_association', 'demo:barbara')
+            if s.get('intake_id') and action == 'approve':
+                raise Conflict('Use the separate exact-payload review endpoint for this case.')
             if action == 'review_packet':
                 if s['status'] != 'INTAKE_RECEIVED': raise Conflict('This case is not awaiting its later packet.')
                 find(s, 'E-003')['available'] = True
+                find(s, 'E-003')['record'] = {'auth_record_id': 'AUTH-77', 'transaction_reference': None, 'device_recognized': True}
                 s['version'] += 1
                 s['status'] = 'IN_REVIEW'
                 self.event(s, 'SIMULATION: later fictional processor packet attached for analyst review; snapshot advanced.')
@@ -107,11 +115,20 @@ class Store:
                 self.event(s, 'Local demo approval executed: '+d['kind'])
             elif action == 'response':
                 if s['status'] != 'PENDING_EVIDENCE': raise Conflict('An open evidence request is required.')
+                if s.get('intake_id'):
+                    verification = self.investigation.result(s['id'], s['request']['draft_id'], 'demo:barbara')
+                    if verification['status'] != 'VERIFIED_SAVED_REQUEST': raise Conflict('Verify the saved request before attaching a response.')
                 find(s, 'E-004')['available'] = True
                 s['version'] += 1
                 s['draft'] = None
                 s['request']['status'] = 'RESPONDED'
                 s['status'] = 'EVIDENCE_RECEIVED'
+                if s.get('intake_id'):
+                    record = {'auth_record_id': 'AUTH-77', 'transaction_id': 'T-198'}
+                    find(s, 'E-004')['record'] = record
+                    s['association_check'] = {'source_id': 'E-004', 'auth_record_id': record['auth_record_id'],
+                        'disputed_transaction_id': s['transaction_id'], 'returned_transaction_id': record['transaction_id'],
+                        'matches_disputed_transaction': record['transaction_id'] == s['transaction_id'], 'evidence_version': s['version']}
                 self.event(s, 'SIMULATION: later evidence response attached; snapshot advanced; pending draft invalidated.')
             else: raise Conflict('Unknown action.')
             self.save(s)
@@ -120,6 +137,7 @@ class Store:
         with LOCK:
             s = self.read(case_id)
         if kind not in ANALYSIS: raise KeyError(kind)
+        if s.get('intake_id'): raise Conflict('Use actual ChatGPT for this case; fixed assessments are legacy seed scaffolds only.')
         if not find(s, 'E-003')['available']: raise Conflict('Processor packet has not been received.')
         released = find(s, 'E-004')['available']
         return {'kind': kind, 'case_id': s['id'], 'evidence_version': s['version'], 'text': ANALYSIS[kind][1 if released else 0]}
@@ -152,12 +170,17 @@ class Handler(BaseHTTPRequestHandler):
                 return self.reply(200, {'demo:barbara': {'role': 'analyst', 'cases': [s['id'] for s in cases if s['id'] == 'APX-001' or s.get('assigned_to') == 'demo:barbara']}})
             return self.reply(200, [{'case_id': s['id'], 'customer': s['customer'], 'merchant': s['merchant'], 'amount': s['amount'],
                                      'status': s['status'], 'version': s['version'], 'assigned_to': s.get('assigned_to', 'local-demo-operator')} for s in cases])
+        if path == '/api/action-result':
+            try:
+                return self.reply(200, self.server.store.investigation.result(case_id, query.get('action_id', [''])[0], self.headers.get('X-Apex-Actor')))
+            except ActionError as e: return self.reply(e.status, {'error': e.code})
+            except KeyError: return self.reply(404, {'error': 'case_unavailable'})
         if path == '/api/case':
             with LOCK:
                 try: s = self.server.store.read(case_id)
                 except KeyError: return self.reply(404, {'error': 'case_unavailable'})
                 # Unreleased evidence bodies must never reach the initial browser response.
-                s['evidence'] = [e if e['available'] else {k:v for k,v in e.items() if k!='text'} for e in s['evidence']]
+                s['evidence'] = [e if e['available'] else {k:v for k,v in e.items() if k in ('id', 'title', 'source', 'kind', 'available')} for e in s['evidence']]
                 return self.reply(200,s)
         if path.startswith('/api/analysis/'):
             try: return self.reply(200,self.server.store.analysis(path.rsplit('/',1)[1], case_id))
@@ -171,7 +194,7 @@ class Handler(BaseHTTPRequestHandler):
         self.reply(404,{'error':'Not found'})
     def do_POST(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm'): return self.reply(404,{'error':'Not found'})
+        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/review-action'): return self.reply(404,{'error':'Not found'})
         # Local demo CSRF boundary, not production identity/authentication.
         if self.headers.get('X-Apex-Demo') != 'local': return self.reply(403,{'error':'Missing demo request header'})
         origin = self.headers.get('Origin')
@@ -181,6 +204,10 @@ class Handler(BaseHTTPRequestHandler):
             if not 0 < size <= 8192: return self.reply(400,{'error':'Invalid request size'})
             data = json.loads(self.rfile.read(size))
             if not isinstance(data,dict): raise ValueError()
+            if path == '/api/stage-request':
+                return self.reply(200, self.server.store.investigation.stage(data.get('case_id'), data.get('snapshot'), data.get('scope'), self.headers.get('X-Apex-Actor')))
+            if path == '/api/review-action':
+                return self.reply(200, self.server.store.investigation.approve(data, 'demo:barbara'))
             if path.startswith('/api/intake/'):
                 intake = self.server.store.intake
                 if path.endswith('/start'): return self.reply(200, intake.start(data.get('transaction_id')))
@@ -204,6 +231,7 @@ class Handler(BaseHTTPRequestHandler):
             self.reply(200,{'accepted':True})
         except Conflict as e: self.reply(409,{'error':str(e)})
         except IntakeError as e: self.reply(e.status, {'error': e.code})
+        except ActionError as e: self.reply(e.status, {'error': e.code})
         except KeyError: self.reply(404, {'error': 'case_unavailable'})
         except (ValueError,TypeError): self.reply(400,{'error':'Invalid request'})
 

@@ -1,6 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {createAdapter} from './app.mjs';
 import {tokenVerifier} from './access.mjs';
+import {AccessError} from './access.mjs';
 
 try { process.loadEnvFile('.env'); } catch (error) { if (error.code !== 'ENOENT') throw error; }
 function required(name) {
@@ -8,6 +9,8 @@ function required(name) {
   return process.env[name];
 }
 const authMode = process.env.APEX_AUTH_MODE || 'oauth';
+const staging = process.env.APEX_ENABLE_STAGING === '1';
+if (staging && authMode !== 'demo') throw Error('Staging is implemented only for explicitly simulated demo identity.');
 if (!['oauth', 'demo'].includes(authMode)) throw Error('Unsupported APEX_AUTH_MODE.');
 function configuredOrigin(value) {
   const url = new URL(value);
@@ -35,7 +38,21 @@ const localRead = async path => {
   if (!response.ok) throw Error('DMS read failed');
   return response.json();
 };
+async function actionCall(path, actor, data) {
+  const response = await fetch(`http://127.0.0.1:8080${path}`, {
+    method: data ? 'POST' : 'GET', headers: {'Content-Type': 'application/json', 'X-Apex-Demo': 'local', 'X-Apex-Actor': actor.subject},
+    ...(data ? {body: JSON.stringify(data)} : {}), signal: AbortSignal.timeout(5000), redirect: 'error',
+  });
+  const result = await response.json();
+  if (!response.ok) {
+    const codes = new Set(['stale_snapshot', 'scope_denied', 'request_not_permitted', 'source_unavailable', 'draft_conflict', 'action_denied', 'action_unavailable']);
+    throw new AccessError(codes.has(result.error) ? result.error : 'service_unavailable');
+  }
+  return result;
+}
 const app = createAdapter({origin, issuer, assignments, verifyToken, authMode,
   readAssignments: authMode === 'demo' ? () => localRead('/api/demo-assignments') : undefined,
-  readState: caseId => localRead(`/api/case?case_id=${encodeURIComponent(caseId)}`)});
-app.listen(8787, '127.0.0.1', () => console.log(`Apex read-only MCP on 127.0.0.1:8787 (${authMode === 'demo' ? 'SIMULATED IDENTITY, NO OAUTH' : 'OAuth'}); ChatGPT linking unverified.`));
+  readState: caseId => localRead(`/api/case?case_id=${encodeURIComponent(caseId)}`),
+  ...(staging ? {stageRequest: (args, actor) => actionCall('/api/stage-request', actor, args),
+    getActionResult: (caseId, actionId, actor) => actionCall(`/api/action-result?case_id=${encodeURIComponent(caseId)}&action_id=${encodeURIComponent(actionId)}`, actor)} : {})});
+app.listen(8787, '127.0.0.1', () => console.log(`Apex MCP on 127.0.0.1:8787 (${authMode === 'demo' ? 'SIMULATED IDENTITY, NO OAUTH' : 'OAuth'}); draft staging ${staging ? 'enabled' : 'disabled'}; no execution tool.`));

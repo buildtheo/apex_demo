@@ -25,6 +25,11 @@ function verifyEffect(state, approved) {
     if (r.queue !== p.queue) return fail('the saved request has a different destination');
     if (r.question !== p.question) return fail('the saved request asks a different question');
     if (!deepEqual(r.source_ids, p.source_ids)) return fail('the saved request cites different sources');
+    if (approved.contract === 'mcp_request_v1') {
+      if (!Object.keys(p).every(key => deepEqual(r[key], p[key]))) return fail('the saved request scope differs from the approved payload');
+      if (r.payload_hash !== approved.payload_hash || r.evidence_version !== approved.version) return fail('the saved request has a different reviewed payload or version');
+      if (r.approved_by !== 'demo:barbara' || r.approval_identity !== 'simulated_not_oauth') return fail('the saved request has a different approval identity');
+    }
     return {ok: true, summary: 'request ' + r.id + ' to ' + r.queue + ' is saved with the approved question and sources'};
   }
   if (approved.kind === 'ESCALATE_REVIEW') {

@@ -1,5 +1,13 @@
 # Build progress — October 20, 2026
 
+## First scoped approval cycle implemented - October 20
+
+Theo supplied the actual ChatGPT response reading E-001/E-002 for APX-3625B0CC at snapshot 1. It cites the confirmed denial and transaction, keeps authorization unresolved, reports no E-003/E-004 use and labels simulated identity. This closes user-observed new-case intake-to-ChatGPT evidence continuity; raw tool trace was not independently inspected.
+
+Implemented optional MCP stage_evidence_request (write) and get_action_result (read), separate private exact-payload human approval and deterministic released association comparison. Drafts cannot execute themselves; immutable archive/hash, evidence snapshot, explicit demo assignment, canonical scope/references, expiry and saved operational facts are rechecked. No generic execution/approval MCP tool. Local runtime enables the new tools; callers can stage only eligible synthetic drafts, not execute them. See [request-actions.md](request-actions.md) for the flow, controls and limits.
+
+53 Python plus 29 Node tests pass (82 total). Extended isolated browser/SDK check passed MCP staging -> local human review button -> separate saved-request read -> duplicate approval -> explicit later E-004 response -> deterministic mismatch. No new model call or user-case mutation occurred in this increment. Public four-tool listing and premature-stage denial were checked; private stage/review/result HTTP paths returned 404 on the tunnel. APX-3625B0CC remains INTAKE_RECEIVED/v1; Theo must explicitly advance its later-packet step before staging. Actual ChatGPT write-tool invocation/confirmation and human approval on that case are not yet user-observed. Processor follow-up and verified synthetic credit remain pending.
+
 ## User submission observed and saved-case read verified - October 20
 
 Theo reported testing and submitting through the banking app. The saved queue contains APX-3625B0CC, JCPenney, INTAKE_RECEIVED, version 1, assigned to simulated Barbara. A public SDK read of that exact case and its E-001 succeeded; available sources are E-001/E-002. A get_evidence request for E-003 returned source_unavailable, as expected before the later packet step. No raw customer statement was printed, no state was modified by verification and APX-001 remains unchanged. Actual ChatGPT retrieval of this new case is the remaining account-side continuity proof; the older APX-001 ChatGPT read/reason proof already exists. No approval, processor response or credit has been executed for this submitted case.

@@ -236,3 +236,63 @@ test('live assignment map and requested case ID are rechecked for newly submitte
   assert.equal(denied.content[0].text, 'access_denied');
   assert.equal(requested, undefined);
 });
+
+function actionFixture() {
+  const state = freshState();
+  state.evidence.push(...['E-002', 'E-003'].map(id => ({id, title: 'Released record', source: 'Synthetic', kind: 'Record', text: 'Released', available: true})));
+  const staged = {case_id: state.id, action_id: 'a'.repeat(24), evidence_version: 1, status: 'AWAITING_HUMAN_APPROVAL',
+    payload: {queue: 'Apex evidence operations', question: 'Which transaction is AUTH-77 associated with?', source_ids: ['E-002', 'E-003'], auth_record_id: 'AUTH-77', disputed_transaction_id: 'T-204'},
+    payload_hash: '1'.repeat(64), expires_at: 9999999999};
+  return {state, staged};
+}
+
+test('staging is a write; four tools include result reads but never an approval/execution tool', async t => {
+  const {state, staged} = actionFixture();
+  let actor, calls = 0;
+  const f = await fixture(t, state, {...demoOptions, stageRequest: async (_args, principal) => { actor = principal.subject; calls++; return staged; },
+    getActionResult: async () => ({case_id: state.id, action_id: staged.action_id, status: 'AWAITING_HUMAN_APPROVAL', approved_snapshot: 1, observed_snapshot: 1})});
+  const client = await clientFor(t, f);
+  const {tools} = await client.listTools();
+  assert.deepEqual(tools.map(tool => tool.name).sort(), ['get_action_result', 'get_case', 'get_evidence', 'stage_evidence_request']);
+  assert.equal(tools.find(tool => tool.name === 'stage_evidence_request').annotations.readOnlyHint, false);
+  const result = await client.callTool({name: 'stage_evidence_request', arguments: {case_id: state.id, snapshot: 1, scope: 'authentication_transaction_association'}});
+  assert.equal(result.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
+  assert.equal(result.structuredContent.payload_hash, '1'.repeat(64));
+  assert.equal(actor, 'demo:barbara'); assert.equal(calls, 1);
+  const readback = await client.callTool({name: 'get_action_result', arguments: {case_id: state.id, action_id: staged.action_id}});
+  assert.equal(readback.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
+});
+
+test('unassigned identity, wrong scope, stale snapshot and unreleased source never reach staging', async t => {
+  const {state, staged} = actionFixture(); let calls = 0;
+  const f = await fixture(t, state, {stageRequest: async () => { calls++; return staged; }, getActionResult: async () => ({})});
+  const denied = await clientFor(t, f, await token({sub: 'denied-user'}));
+  const args = {case_id: state.id, snapshot: 1, scope: 'authentication_transaction_association'};
+  assert.equal((await denied.callTool({name: 'stage_evidence_request', arguments: args})).isError, true);
+  const allowed = await clientFor(t, f, await token());
+  for (const changed of [{scope: 'all_customer_records'}, {snapshot: 2}]) {
+    assert.equal((await allowed.callTool({name: 'stage_evidence_request', arguments: {...args, ...changed}})).isError, true);
+  }
+  state.evidence.find(e => e.id === 'E-003').available = false;
+  assert.equal((await allowed.callTool({name: 'stage_evidence_request', arguments: args})).content[0].text, 'source_unavailable');
+  assert.equal(calls, 0);
+});
+
+test('new result views discard extra fields and fail mismatched action identity', async t => {
+  const {state, staged} = actionFixture();
+  const f = await fixture(t, state, {...demoOptions, stageRequest: async () => ({...staged, internal: 'PRIVATE DATA'}),
+    getActionResult: async () => ({case_id: 'APX-OTHER', action_id: staged.action_id, status: 'VERIFIED_SAVED_REQUEST'})});
+  const client = await clientFor(t, f);
+  const result = await client.callTool({name: 'stage_evidence_request', arguments: {case_id: state.id, snapshot: 1, scope: 'authentication_transaction_association'}});
+  assert.doesNotMatch(JSON.stringify(result), /PRIVATE DATA/);
+  const bad = await client.callTool({name: 'get_action_result', arguments: {case_id: state.id, action_id: staged.action_id}});
+  assert.equal(bad.isError, true);
+  assert.equal(bad.content[0].text, 'invalid_action_result');
+});
+
+test('optional staging requires verification and hidden association metadata cannot leak', () => {
+  assert.throws(() => createAdapter({authMode: 'demo', stageRequest: async () => ({})}), /configured together/);
+  const state = freshState();
+  state.association_check = {returned_transaction_id: 'HIDDEN ANSWER'};
+  assert.doesNotMatch(JSON.stringify(caseView(state)), /HIDDEN ANSWER/);
+});

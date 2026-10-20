@@ -74,15 +74,20 @@ try {
   await row.locator('a').click();
   await page.waitForFunction(id => document.getElementById('facts').textContent.includes(id), caseId);
   assert.equal(new URL(page.url()).searchParams.get('case_id'), caseId);
-  await page.click('#request');
-  await page.locator('#approval').waitFor({state: 'visible'});
-  assert.equal((await readCase()).draft.case_id, caseId);
-  assert.equal((await (await fetch(base + '/api/case')).json()).draft, null, 'Scoped analyst action must not change seeded case');
   mcp = createServer().listen(0, '127.0.0.1'); await once(mcp, 'listening');
   const mcpOrigin = `http://127.0.0.1:${mcp.address().port}`;
+  const actionCall = async (path, data) => {
+    const response = await fetch(base + path, {method: data ? 'POST' : 'GET',
+      headers: {'Content-Type': 'application/json', 'X-Apex-Demo': 'local', 'X-Apex-Actor': 'demo:barbara'},
+      ...(data ? {body: JSON.stringify(data)} : {})});
+    assert.equal(response.status, 200, 'Private action call must succeed');
+    return response.json();
+  };
   mcp.on('request', createAdapter({origin: mcpOrigin, authMode: 'demo',
     readAssignments: async () => (await fetch(base + '/api/demo-assignments')).json(),
-    readState: async id => (await fetch(`${base}/api/case?case_id=${encodeURIComponent(id)}`)).json()}));
+    readState: async id => (await fetch(`${base}/api/case?case_id=${encodeURIComponent(id)}`)).json(),
+    stageRequest: args => actionCall('/api/stage-request', args),
+    getActionResult: (id, actionId) => actionCall(`/api/action-result?case_id=${id}&action_id=${actionId}`)}));
   client = new Client({name: 'browser-continuity-check', version: '1'});
   await client.connect(new StreamableHTTPClientTransport(new URL(mcpOrigin + '/mcp')));
   const retrieved = await client.callTool({name: 'get_case', arguments: {case_id: caseId}});
@@ -91,9 +96,31 @@ try {
   assert.match(evidence.structuredContent.text, /Correction: my earlier clothing purchase was in May/);
   const hidden = await client.callTool({name: 'get_evidence', arguments: {case_id: caseId, source_id: 'E-004', snapshot: 2}});
   assert.equal(hidden.content[0].text, 'source_unavailable');
+  const staged = await client.callTool({name: 'stage_evidence_request', arguments: {case_id: caseId, snapshot: 2, scope: 'authentication_transaction_association'}});
+  assert.equal(staged.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
+  const draft = staged.structuredContent;
+  assert.equal((await readCase()).request, null);
+  const before = await client.callTool({name: 'get_action_result', arguments: {case_id: caseId, action_id: draft.action_id}});
+  assert.equal(before.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
+  await page.click('#refresh-case');
+  await page.locator('#approval').waitFor({state: 'visible'});
+  await page.screenshot({path: '.local/request-review.png', fullPage: true});
+  await page.click('#approve');
+  await page.waitForFunction(() => document.getElementById('notice').textContent.startsWith('Verified against the saved case record:'));
+  const verified = await client.callTool({name: 'get_action_result', arguments: {case_id: caseId, action_id: draft.action_id}});
+  assert.equal(verified.structuredContent.status, 'VERIFIED_SAVED_REQUEST');
+  assert.equal((await (await fetch(base + '/api/case')).json()).request, null, 'Approval must not change seeded case');
+  const duplicate = await actionCall('/api/review-action', {case_id: caseId, draft_id: draft.action_id, version: 2, payload_hash: draft.payload_hash});
+  assert.equal(duplicate.duplicate, true);
+  await page.click('#response');
+  await page.waitForFunction(() => document.getElementById('snapshot').textContent === 'Evidence v3');
+  const reassessed = await client.callTool({name: 'get_case', arguments: {case_id: caseId}});
+  assert.equal(reassessed.structuredContent.association_check.matches_disputed_transaction, false);
+  assert.equal(reassessed.structuredContent.association_check.returned_transaction_id, 'T-198');
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser_check: 'passed', mode: live ? 'live_responses' : 'mock_model', model_calls: modelCalls,
     model: initial.model_meta?.model || 'mock', same_case_through_queue_and_mcp: true, hidden_evidence_denied: true,
+    mcp_staging_and_human_approval: true, separate_request_verification: true, deterministic_association_check: true,
     live_database_modified: false}));
 } finally {
   if (client) await client.close();

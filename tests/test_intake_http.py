@@ -23,11 +23,12 @@ class IntakeHttpTests(unittest.TestCase):
         self.srv.server_close()
         self.srv.store.db.close()
 
-    def request(self, method, path, data=None, token=None, origin=None, demo=True):
+    def request(self, method, path, data=None, token=None, origin=None, demo=True, actor=None):
         headers = {'Content-Type': 'application/json'}
         if demo: headers['X-Apex-Demo'] = 'local'
         if token: headers['X-Apex-Session'] = token
         if origin: headers['Origin'] = origin
+        if actor: headers['X-Apex-Actor'] = actor
         c = http.client.HTTPConnection('127.0.0.1', self.port, timeout=5)
         c.request(method, path, json.dumps(data) if data is not None else None, headers)
         r = c.getresponse()
@@ -103,3 +104,36 @@ class IntakeHttpTests(unittest.TestCase):
                 'nonce': review['review']['nonce']}, s['token'])
             self.assertEqual(status, 200 if index == 0 else 409)
         self.assertEqual(len(self.request('GET', '/api/cases')[1]), 2)
+
+    def submitted_case(self):
+        s = self.start(); _, review = self.turn(s)
+        _, receipt = self.request('POST', '/api/intake/confirm', {'session_id': s['session_id'], 'revision': review['revision'], 'nonce': review['review']['nonce']}, s['token'])
+        case_id = receipt['case_id']
+        self.request('POST', '/api/action', {'action': 'review_packet', 'case_id': case_id})
+        return case_id
+
+    def test_staging_and_result_routes_require_assigned_actor_and_review_is_separate(self):
+        case_id = self.submitted_case()
+        args = {'case_id': case_id, 'snapshot': 2, 'scope': 'authentication_transaction_association'}
+        self.assertEqual(self.request('POST', '/api/stage-request', args)[0], 403)
+        self.assertEqual(self.request('POST', '/api/stage-request', args, actor='other')[0], 403)
+        status, draft = self.request('POST', '/api/stage-request', args, actor='demo:barbara')
+        self.assertEqual(status, 200)
+        self.assertEqual(self.request('POST', '/api/action', {'action': 'approve', 'case_id': case_id, 'draft_id': draft['action_id']})[0], 409)
+        review = {'case_id': case_id, 'draft_id': draft['action_id'], 'version': 2, 'payload_hash': draft['payload_hash']}
+        self.assertEqual(self.request('POST', '/api/review-action', review, demo=False)[0], 403)
+        self.assertEqual(self.request('POST', '/api/review-action', review, origin='https://evil.example')[0], 403)
+        self.assertEqual(self.request('POST', '/api/review-action', {**review, 'payload_hash': '0' * 64})[0], 409)
+        self.assertEqual(self.request('POST', '/api/review-action', review)[0], 200)
+        path = '/api/action-result?case_id=' + case_id + '&action_id=' + draft['action_id']
+        self.assertEqual(self.request('GET', path)[0], 403)
+        self.assertEqual(self.request('GET', path, actor='demo:barbara')[1]['status'], 'VERIFIED_SAVED_REQUEST')
+
+    def test_unreleased_structured_metadata_is_not_in_the_browser_case(self):
+        case_id = self.submitted_case()
+        case = self.srv.store.read(case_id)
+        case['evidence'][3]['record'] = {'transaction_id': 'WITHHELD-REFERENCE'}
+        self.srv.store.save(case)
+        status, result = self.request('GET', '/api/case?case_id=' + case_id)
+        self.assertEqual(status, 200)
+        self.assertNotIn('WITHHELD-REFERENCE', json.dumps(result))

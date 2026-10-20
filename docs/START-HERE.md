@@ -4,7 +4,9 @@ Updated October 20, 2026. Theo has authorized Codex to **review and start buildi
 
 The latest user direction and current build plan supersede older slides-first/no-build-resumption notes. Historical implementation records are not fresh proof.
 
-Latest implementation: Responses text intake now captures corrections and creates a persistent case only after customer confirmation. The new case follows the same ID through the queue, later fictional processor packet and MCP reads. New cases use Martha/JCPenney; older APX-001 was preserved. All 41 Python and 25 Node tests pass, plus isolated deterministic and live-Responses browser checks. See [intake setup](intake-setup.md) and [current progress](build-progress.md). Identity remains explicitly simulated and the public adapter has only two read tools; external IdP setup is deferred.
+Latest approval increment: MCP can now stage one narrow internal lookup draft (write) and read its saved result. Separate local human approval rechecks exact payload/snapshot/assignment/expiry; no execution MCP tool exists. 82 deterministic tests and isolated browser/SDK approval flow pass. Theo's actual ChatGPT response for the new submitted case is now observed; his case remains intake/v1 until he explicitly advances the later packet. See [request actions](request-actions.md) and current progress. Processor follow-up and credit remain unbuilt; prior read-only/pending-approval descriptions below refer to earlier increments.
+
+Responses intake captures corrections and creates a persistent case only after customer confirmation. The same ID follows through the queue, later fictional packet, MCP reads and controlled request path. New cases use Martha/JCPenney; old APX-001 is intact. See [intake setup](intake-setup.md) and [current progress](build-progress.md). Identity is simulated; public tools may read or stage an eligible draft, never approve/execute. External IdP setup is deferred.
 
 Current connection proof includes Theo's pasted, source-cited ChatGPT comparison on APX-001 with unresolved authorization and reported non-use of E-004. This is user-observed evidence reasoning, not an independently inspected raw trace or action execution. Newly created case continuity is SDK/browser-tested; capture that returned ID in actual ChatGPT next. The next build milestones are scoped MCP staging/approved investigation, processor follow-up and verified synthetic credit.
 
@@ -27,7 +29,7 @@ Confirmed intake is now implemented and live-provider browser-tested; see intake
 - Python/SQLite case service, browser banking shell at / and analyst scaffold at /ops.
 - Persistent confirmed text intake and queue; disabled voice; separately preserved seeded APX-001.
 - Fixed server assessment text, internal request, simulated association response and old specialist handoff.
-- Actual ChatGPT linking/old-case sourced reasoning are user-observed; new-case actual-ChatGPT proof, external identity, MCP staging, processor follow-up, full resolution brief and credit ledger remain pending.
+- Actual ChatGPT old/new-case sourced reasoning is user-observed. First request staging/private approval/result verification is isolated-browser/SDK-tested; actual ChatGPT staging confirmation, external identity, processor follow-up, full resolution brief and credit ledger remain pending.
 - All 66 deterministic tests pass; these and one live browser example are not a passing model evaluation.
 - Gate 0 fallback is recorded; actual account/rendering and combined live-tool proof remain NOT RUN.
 

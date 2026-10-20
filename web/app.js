@@ -33,13 +33,34 @@ function render(){
  $('merchant').textContent=state.merchant;
  $('facts').innerHTML=[['Cardholder',state.customer],['Case',state.id],['Status',state.status.replaceAll('_',' ')],['Owner',state.assigned_to||'Local demo operator']].map(([k,v])=>`<dt>${safe(k)}</dt><dd>${safe(v)}</dd>`).join('');
  $('snapshot').textContent='Evidence v'+state.version;
+ $('case-label').textContent='YOUR WORK QUEUE / '+state.id;
+ $('reset').hidden=Boolean(state.intake_id);$('escalate').hidden=Boolean(state.intake_id);
+ $('legacy-aids').hidden=Boolean(state.intake_id);
  $('evidence').innerHTML=state.evidence.map(e=>`<details ${e.available?'':'class="unavailable"'}><summary><span class="source">${safe(e.id)}</span> ${safe(e.title)} <span class="pill">${e.available?safe(e.kind):'Not received'}</span></summary><p>${safe(e.available?e.text:'Request this record to verify the supporting reference.')}</p><small>${safe(e.source)}</small></details>`).join('');
  $('timeline').innerHTML=state.timeline.map(t=>`<div class="event"><small>${safe(new Date(t.at).toLocaleTimeString())}</small><p>${safe(t.message)}</p></div>`).reverse().join('');
  $('request').disabled=state.status!=='IN_REVIEW';$('response').disabled=state.status!=='PENDING_EVIDENCE';$('escalate').disabled=state.status!=='EVIDENCE_RECEIVED';
  const d=state.draft;$('approval').hidden=!d;
- if(d){$('approval').innerHTML=`<p class="eyebrow">REVIEW EXACT ACTION · LOCAL DEMO APPROVAL</p><h2>${safe(d.kind.replaceAll('_',' '))}</h2><p>Case ${safe(d.case_id)} · Evidence v${d.version}</p><pre>${safe(JSON.stringify(d.payload,null,2))}</pre><p class="small">This action changes only the local synthetic case. Production identity and authorization are not implemented.</p><button id="approve">Approve & execute in demo</button>`;$('approve').onclick=()=>act('approve',{draft_id:d.id},d);}
+ if(d){
+  const note=d.contract?'This saves a synthetic request only. It does not return evidence or approve credit. Production identity is not implemented.':'This action changes only the local synthetic case. Production identity and authorization are not implemented.';
+  $('approval').innerHTML=`<p class="eyebrow">REVIEW EXACT ACTION · ${d.contract?'BARBARA / SIMULATED IDENTITY':'LOCAL DEMO APPROVAL'}</p><h2>${safe(d.kind.replaceAll('_',' '))}</h2><p>Case ${safe(d.case_id)} · Evidence v${d.version}</p><pre>${safe(JSON.stringify(d.payload,null,2))}</pre>${d.expires_at?`<p>Review expires: ${safe(new Date(d.expires_at*1000).toLocaleTimeString())}</p>`:''}<p class="small">${safe(note)}</p><button id="approve">Approve & execute in demo</button>`;
+  $('approve').onclick=()=>act('approve',{draft_id:d.id},d);
+ }
 }
-async function act(action,extra={},approved=null){invalidateAssessment();try{document.querySelectorAll('button').forEach(b=>b.disabled=true);const r=await fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json','X-Apex-Demo':'local'},body:JSON.stringify({action,...extra,...(selectedCase?{case_id:selectedCase}:{})})});const j=await r.json();if(!r.ok)throw Error(j.error);await load();if(action==='approve'){const v=verifyEffect(state,approved);if(!v.ok)throw Error('Execution acknowledged, but the saved case record could not be verified: '+v.reason+'.');$('notice').textContent='Verified against the saved case record: '+v.summary+'.';}else $('notice').textContent=action==='response'?'Simulated response received. Re-run the comparison to reassess.':'Case updated.';}catch(e){$('notice').textContent=e.message;}finally{document.querySelectorAll('button').forEach(b=>b.disabled=false);if(state)render();}}
+async function act(action,extra={},approved=null){
+ invalidateAssessment();
+ try{
+  document.querySelectorAll('button').forEach(b=>b.disabled=true);
+  const reviewed=action==='approve'&&approved?.contract==='mcp_request_v1';
+  const r=await fetch(reviewed?'/api/review-action':'/api/action',{method:'POST',headers:{'Content-Type':'application/json','X-Apex-Demo':'local'},
+   body:JSON.stringify({action,...extra,...(selectedCase?{case_id:selectedCase}:{}),...(reviewed?{case_id:approved.case_id,version:approved.version,payload_hash:approved.payload_hash}:{})})});
+  const j=await r.json();if(!r.ok)throw Error(j.error);await load();
+  if(action==='approve'){
+   const v=verifyEffect(state,approved);if(!v.ok)throw Error('Execution acknowledged, but the saved case record could not be verified: '+v.reason+'.');
+   $('notice').textContent='Verified against the saved case record: '+v.summary+'.';
+  }else $('notice').textContent=action==='response'?'Simulated response received. Re-run the comparison to reassess.':'Case updated.';
+ }catch(e){$('notice').textContent=e.message;}
+ finally{document.querySelectorAll('button').forEach(b=>b.disabled=false);if(state)render();}
+}
 async function ask(kind) {
   if (!state || caseLoading) return;
   const generation = caseGeneration, request = ++assessmentRequest;
@@ -64,6 +85,7 @@ async function ask(kind) {
   }
 }
 $('compare').onclick=()=>ask('compare');
+$('refresh-case').onclick=()=>load().catch(e=>$('notice').textContent=e.message);
 $('gap').onclick=()=>ask('gap');
 $('request').onclick=()=>act('draft',{kind:'REQUEST_EVIDENCE'});$('response').onclick=()=>act('response');$('escalate').onclick=()=>act('draft',{kind:'ESCALATE_REVIEW'});$('reset').onclick=()=>{if(confirm('Reset this local demo case and its history?'))act('reset');};
 load().catch(e=>$('notice').textContent=e.message);

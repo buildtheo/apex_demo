@@ -1,6 +1,6 @@
 # Confirmed text intake and shared cases
 
-Implemented October 20. The banking app now runs a Responses API conversation rather than a browser-local form. The current synthetic hero is Martha / JCPenney / $648.50 / T-204. This increment creates and reads cases, not credits or a complete dispute decision.
+Implemented October 20. The banking app runs a Responses API conversation, not a browser-local form. The synthetic hero is Martha / JCPenney / $648.50 / T-204. The first scoped lookup approval cycle is now implemented too; see request-actions.md. This is not credit or a complete dispute decision.
 
 ## Run and try
 
@@ -34,7 +34,7 @@ In the existing actual ChatGPT Apex connection, retrieve the returned case ID, u
 | --- | --- | --- |
 | 8080 | Browser banking, queue, private DMS, intake state and local actions | Loopback only; never tunnel |
 | 8788 | Stateless Responses worker, credentials held server-side | Loopback only; never tunnel |
-| 8787 | Two read-only MCP tools | Current temporary development tunnel; synthetic records only, identity simulated |
+| 8787 | Reads plus opt-in draft staging/result tools; no approval/execution | Temporary development tunnel; synthetic records only, identity simulated |
 
 Current user services are apex-dms, apex-intake, apex-mcp and apex-mcp-tunnel. They run outside command sessions but are transient and require an awake machine/network. Tunnel URL/runtime details are ignored in `.local/runtime.json`. Public paths /respond, /api/intake/start, /api/cases and /api/demo-assignments returned 404; they do not proxy through the public adapter.
 
@@ -55,6 +55,6 @@ APEX_LIVE_INTAKE=1 node tests/browser_intake.mjs
 
 Local execution reused the already installed Playwright package from M. Price. Deterministic browser and live Responses checks passed; the live run made two model calls. Actual ChatGPT read/reason on APX-001 was separately user-observed. A newly created case being read in Theo's actual ChatGPT session is still a user-side proof to capture, not established by the SDK check.
 
-Sensitive-text tests inspect the actual constructed provider payload and ensure known PAN-like numbers, labeled secrets and long spelled-number sequences fail before fetch/persistence. This is conservative heuristic screening, not complete DLP, and it does not filter raw voice audio. Voice remains disabled. MCP write/stage tools, processor follow-up, supported credit approval/posting and final customer resolution remain pending.
+Sensitive-text tests inspect the actual constructed provider payload and ensure known PAN-like numbers, labeled secrets and long spelled-number sequences fail before fetch/persistence. This is conservative heuristic screening, not complete DLP, and does not filter raw audio. Voice remains disabled. MCP first-request staging/private human approval is implemented; actual ChatGPT staging confirmation, processor follow-up and supported credit/customer resolution remain pending.
 
 Official API reference: [Structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
