@@ -2,6 +2,10 @@
 
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 20 - creation UI and remote read transport observed
+
+Screenshots show the personal Plus account's Add custom MCP server option and creation dialog; no longer treat creation UI access as unknown. Prepared a temporary synthetic-only read-adapter HTTPS tunnel, with Python/action endpoints kept private. Public SDK initialization/list/get_case passed, hidden E-004 was denied, and backend/credential routes returned 404. Actual ChatGPT creation/installation/invocation remains pending; remote SDK proof is not model execution or verified identity. Existing older seed was preserved. See build-progress.md; changing runtime URL/services live only in ignored .local/runtime.json and local configuration.
+
 ## October 20 - presentation account confirmed
 
 Theo will present from his personal ChatGPT Plus account, not a work workspace. Email not needed. Actual custom-MCP creation/access and Apex invocation still require account-side proof; do not assume Plus guarantees the feature or ask for a paid upgrade before checking the available UI. Preserve the synthetic No authentication connection and simulated-identity disclosure. See build-progress.md. Documentation-only update; no new runtime or model check.

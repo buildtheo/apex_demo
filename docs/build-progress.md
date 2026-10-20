@@ -1,5 +1,17 @@
 # Build progress — October 20, 2026
 
+## Connection endpoint prepared - October 20
+
+Theo's screenshots confirm that the personal Plus account shows Add custom MCP server and its creation form. Creation UI availability is now observed; plugin creation, installation and actual ChatGPT invocation are still pending.
+
+Started user-managed transient services `apex-dms`, `apex-mcp` and `apex-mcp-tunnel`. Python stays on loopback 8080. The development Cloudflare tunnel forwards only to the read adapter on loopback 8787, with a fixed upstream Host; the ignored local origin configuration matches the public hostname. Runtime URL/unit details are in ignored `.local/runtime.json`, not committed. Anyone who can reach this no-auth endpoint can read the allowed synthetic case: the simulated Barbara role is not real authentication.
+
+Executed an official-SDK client against the public HTTPS endpoint: initialization, two-tool listing and APX-001 retrieval succeeded; E-004 remained denied. Public `/api/case`, `/api/action`, `/.env` and `/adapter/server.mjs` returned 404. This is genuine remote transport/read-tool proof, not an actual ChatGPT/model trace or a security audit. No OpenAI API request or financial action was made.
+
+The saved SQLite case still contains the older VeloCraft synthetic merchant at version 1. It was deliberately preserved, not reset; connection preflight uses the case ID. Reloading/migrating the current Martha/JCPenney fixture remains separate from successful connectivity.
+
+The quick-tunnel address can change if its service is restarted/recreated; machine sleep/network loss can interrupt it. Services run outside the command session and restart on failure, but are transient, not boot-persistent deployment. Stop with `systemctl --user stop apex-mcp-tunnel apex-mcp apex-dms` when finished. Earlier "no public tunnel" statements below describe the previous increment.
+
 ## Latest setup decision and executed follow-up
 
 Presentation account confirmed by Theo: **personal ChatGPT Plus**, not a work workspace. No email address is needed. Custom-MCP creation/connection permissions on that specific account and an actual Apex tool call remain unverified; do not equate plan selection with proven entitlement or advise an upgrade without checking. Current official connection instructions describe ChatGPT web -> Plugins -> plus -> Add custom MCP server; ask for a screenshot if the option is missing. Demo connection remains No authentication with explicitly simulated identity. This account confirmation changes no runtime code or test results.
