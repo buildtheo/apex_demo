@@ -2,6 +2,10 @@
 
 Last consolidated October 15, 2026, 11 p.m. America/Los_Angeles. Theo is ending the session and wants any agent to continue from repository state. Read AGENTS.md, then this page. The repo contains the consolidated decisions and work; the complete chat and original interview uploads are not archived here.
 
+## Preparation update — October 20: sensitive card data and voice warning
+
+Theo locked [the field boundary, mandatory voice opening and accidental-exposure requirements](sensitive-data-and-voice.md). Full PAN/security codes are unnecessary: use the selected transaction reference and optional last-four. Voice must tell customers never to provide those secrets and must not request or repeat them. Current free text has no PAN detector; voice/model connections remain unbuilt. A spoken warning or transcript masking does not prevent raw Realtime audio from reaching the provider. Read the specification before implementing or claiming these controls; no new runtime/eval proof or build authorization is established.
+
 ## Preparation update — October 20: discovery, boundaries and evaluations before pilot launch
 
 Theo locked the [discovery-to-pilot sequence and spoken language](discovery-to-pilot.md): establish meaningful improvement in the opening; close by asking for Gemba/ride-along observation, baseline validation, permitted data/action boundaries and evaluation design. A pilot remains a conditional proposal. Representative and failure-case evaluations, domain review and release gates determine progression to shadow mode and limited assisted use. No real Apex Gemba, permitted-data approval or passing evaluation is established.

@@ -12,6 +12,8 @@ Keep these documents current when implementation or user decisions change. Do no
 Read docs/adversarial-review-response.md for accepted review actions; the original adversarial review is subjective critique, not an official hiring rubric or permission to inflate claims.
 Read docs/handoff.md for the latest verification results, preview limitations, and next-session starting point.
 
+Read docs/sensitive-data-and-voice.md before implementing either intake or model-facing tools. The voice agent must open by telling customers not to provide full card numbers/security codes and never request or repeat them. Enforce the model-facing field boundary in Apex; the warning does not prove PAN exclusion from direct Realtime audio. Preserve current-versus-target status and test actual provider-bound payloads before claiming a control works.
+
 Keep every data item synthetic and every integration status explicit. Never present fixed responses as AI output or a custom API chat UI as actual ChatGPT. Do not add real customer data, credentials, proprietary documents, or interview uploads to this public repository.
 
 Preserve separation of evidence assessment, consumer disposition, and network recovery. Missing proof is not proof of fraud. Do not encode unverified regulatory deadlines or CE eligibility rules. Requests do not pause external deadlines.

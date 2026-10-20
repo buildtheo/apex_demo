@@ -26,6 +26,10 @@ Example text intake: Customer says, "I've bought from VeloCraft before, but this
 
 This supersedes the earlier option of a plain form as the complete in-app demo branch. The existing form may remain a temporary development scaffold or clearly labeled fallback; it does not satisfy the locked conversational in-app capability. Neither new capability is claimed implemented by this documentation update. Exact APIs, model selection, call transport, and integration mechanisms remain implementation choices.
 
+## Sensitive-data instruction for intake — locked October 20
+
+If voice is shown, the assistant must open before collecting the narrative: “Please do not say your full card number, card security code—CVV or CVC—PIN, or password. I will never ask for those details in this conversation. We can work from the transaction you've selected.” Never request or repeat those secrets. Read [the complete data boundary and volunteered-data response](sensitive-data-and-voice.md). Selected transaction references and optional last-four are sufficient for this task. The warning is not a guarantee against raw-audio exposure in direct Realtime; transcript masking happens after receipt. Voice and sensitive-data enforcement are not yet implemented or evaluated.
+
 ## Locked customer presentation format
 
 Theo will run the Apex iPhone app experience in a browser as an iPhone-style simulator. This is a browser-rendered mobile banking demo, not a native iOS build or the Apple iOS Simulator. Keep the customer flow usable and readable inside the phone viewport; actual ChatGPT and the DMS remain separate analyst surfaces. Do not add native-app packaging, App Store distribution, or an iOS toolchain to deliver this demo. The existing banking preview is the starting shell; live conversational/voice capabilities remain pending. Rehearse customer text input and, when connected, browser microphone permission/audio on the presentation machine.

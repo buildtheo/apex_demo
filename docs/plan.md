@@ -42,9 +42,13 @@ Customer-entry preview now exists at `/`: iPhone-style banking → charge detail
 3. Implement the smallest read-only MCP adapter (get_case and get_evidence) after Gate 0, then add approved read tools for case/evidence behind real authentication and case-level permissions. Prove one actual ChatGPT connection. REST endpoints in this version are not an MCP implementation.
 4. Replace fixed review text with grounded model investigation; retain sources and evidence snapshots. Put evaluator expectations outside model-visible records.
 5. Add authenticated approval bound to actor, exact payload, case, snapshot and expiration. Stage-only model tools must not execute approvals. Add audit, timeout reconciliation and failure tests.
-6. Build the alternative Realtime voice intake branch with the same confirmation and case-creation contract. Use server-side credentials and a shared case service; never ship API secrets to browser or GitHub.
+6. Build the alternative Realtime voice intake branch with the same confirmation and case-creation contract. Include the mandatory no-full-card-number/no-security-code opening and volunteered-data behavior in [sensitive-data-and-voice.md](sensitive-data-and-voice.md). Validate the raw-audio processing boundary separately from transcript masking; warning alone does not prove pre-transmission exclusion. Use server-side credentials and a shared case service; never ship API secrets to browser or GitHub.
 7. Finalize a grounded customer disposition and separately track network recovery if in scope.
 8. Execute adversarial evals, record model/tool/policy versions and traces, then rehearse with a labeled fallback.
+
+## Sensitive-data requirement — October 20
+
+Model-facing data is limited to necessary case/transaction references, metadata, optional last-four and cleared evidence/narrative. Full PAN/security codes are unnecessary. Implement and verify pre-transmission screening for text/tool/document content before claiming exclusion; define containment for accidental exposure. Direct voice needs a separate approved boundary or validated upstream audio controls. See [the locked specification and required checks](sensitive-data-and-voice.md). These are future requirements; Gate 0/build sequencing remains unchanged.
 
 ## Execution choices from preparation review
 

@@ -51,13 +51,17 @@ The same Apex case ID spans intake, queue, investigation, and execution. ChatGPT
 
 | Stage | Data crossing the boundary | Authority and control |
 | --- | --- | --- |
-| Selected charge -> intake | Case context, amount, merchant, transaction reference; tokenized customer identity | Bank session supplies context; no PAN, CVV, passwords, or unrelated accounts in the model payload |
-| Intake backend -> Platform | Only needed conversation and approved transaction fields | Server credentials; disclose assistant use; preserve customer corrections; voice consent/retention policy must be approved |
+| Selected charge -> intake | Needed amount, merchant, date, transaction/case references; opaque customer reference and optional last-four | Target: Apex constructs an allowlisted payload and excludes full PAN, CVV/CVC, PIN, passwords and unrelated accounts before model transmission. Filtering remains unimplemented; see sensitive-data-and-voice.md. |
+| Intake backend -> Platform | Cleared text and approved transaction fields; direct Realtime voice sends raw microphone audio | Server credentials, customer corrections and approved data/retention boundary. Voice must warn never to give full PAN/security code; warning or later transcript masking does not prevent raw-audio exposure. Strict exclusion needs validated upstream controls. |
 | Customer confirmation -> case service | Attributed statement and confirmed structured report | Server validates session/transaction ownership and prevents duplicate submission |
 | Case -> analyst tools | Authorized source excerpts, IDs, availability, snapshot/version | Case-level permissions; unavailable evidence bodies stay excluded; merchant documents are untrusted content, not tool instructions |
 | Model -> staged action | Proposed request or cited investigation brief, exact destination and snapshot | Allowlisted schema; stage-only tools; deterministic identifiers and associations checked in code |
 | Human -> executor | Exact reviewed payload with actor, expiry, and snapshot | Fresh authorization, stale-draft rejection, idempotency; no credit or network filing in present scope |
 | Executor -> read-back | Saved request ID/scope or assignment/exact handoff | Verify persisted facts; distinguish failure, ambiguity, and later progression; do not infer success from status alone |
+
+### Sensitive card data and voice requirement — October 20
+
+Read [the locked field boundary, required voice opening, accidental-exposure handling and future verification](sensitive-data-and-voice.md). The current fixture uses card last-four, but free text has no PAN detector and model connections remain unbuilt. In the voice branch, explicitly tell the customer not to give a full card number or security code and never request them. Direct Realtime audio can still contain volunteered numbers; model instructions are not a pre-transmission data boundary. The specification and tests are requirements, not executed controls or a production assurance claim.
 
 ### Tool confirmation versus business approval
 
