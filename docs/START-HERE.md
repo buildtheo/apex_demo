@@ -4,7 +4,7 @@ Updated October 20, 2026. Theo has authorized Codex to **review and start buildi
 
 The latest user direction and current build plan supersede older slides-first/no-build-resumption notes. Historical implementation records are not fresh proof.
 
-Latest setup decision: Theo approved simulated identity and M. Price API credential reuse. Explicit demo mode fixes/labels Barbara without claiming OAuth; ChatGPT linking should use No authentication for synthetic-only records. A temporary adapter-only public endpoint passes SDK reads and negative checks; personal Plus creation UI is confirmed, actual ChatGPT invocation/model calls remain pending. Existing older saved fixture was preserved. All 19 adapter/config and 26 existing tests pass. See [current progress](build-progress.md) and [setup](adapter-setup.md); external IdP setup is deferred, not a demo blocker.
+Latest setup decision: Theo approved simulated identity and M. Price API credential reuse. Explicit demo mode fixes/labels Barbara without claiming OAuth; ChatGPT linking uses No authentication for synthetic-only records. A temporary adapter-only public endpoint passes SDK reads and negative checks. Theo has now reported successful actual ChatGPT APX-001 case-metadata retrieval on personal Plus; Codex has not inspected the raw trace. Actual evidence-body comparison is next; direct API intake remains unbuilt. Existing older saved fixture was preserved. All 19 adapter/config and 26 existing tests pass. See [current progress](build-progress.md) and [setup](adapter-setup.md); external IdP setup is deferred, not a demo blocker.
 
 ## Current target
 

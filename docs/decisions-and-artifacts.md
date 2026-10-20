@@ -2,6 +2,10 @@
 
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 20 - user-observed actual ChatGPT case retrieval
+
+Theo pasted the successful actual ChatGPT response for APX-001: snapshot 1, available E-001/E-002/E-003, E-004 unavailable and synthetic disclosure. Record this as user-observed case-metadata retrieval through Apex, not an independently inspected raw trace or a completed evidence-body comparison. Identity is still simulated; actual source-body reading/cited comparison is the next connection check. The old E-003 label confirms the preserved saved fixture remains in use. API intake/full workflow/approvals/credit remain pending; see build-progress.md.
+
 ## October 20 - creation UI and remote read transport observed
 
 Screenshots show the personal Plus account's Add custom MCP server option and creation dialog; no longer treat creation UI access as unknown. Prepared a temporary synthetic-only read-adapter HTTPS tunnel, with Python/action endpoints kept private. Public SDK initialization/list/get_case passed, hidden E-004 was denied, and backend/credential routes returned 404. Actual ChatGPT creation/installation/invocation remains pending; remote SDK proof is not model execution or verified identity. Existing older seed was preserved. See build-progress.md; changing runtime URL/services live only in ignored .local/runtime.json and local configuration.

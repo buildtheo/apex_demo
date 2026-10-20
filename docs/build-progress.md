@@ -1,5 +1,11 @@
 # Build progress — October 20, 2026
 
+## Actual ChatGPT case read - user-observed October 20
+
+Theo connected Apex Dispute Operations on personal ChatGPT Plus and pasted the result of requesting APX-001 with the Apex tools. The response reported evidence version 1, available E-001/E-002/E-003 and unavailable E-004, with a synthetic-case disclosure and no conclusion from the hidden source. This is user-observed actual-ChatGPT case-metadata retrieval, not just local SDK proof. Codex has not independently inspected that conversation's raw tool trace; an evidence-body retrieval/comparison in ChatGPT remains the next check. The response's E-003 title, Merchant supporting packet, is from the preserved older SQLite fixture.
+
+Do not mark full investigation, authenticated identity, native rendering, API intake, approvals or credit execution complete. Identity remains simulated and the read connection is unauthenticated. The user-observed ChatGPT call does not validate the reused M. Price API key for the separate intake path. Earlier pending-connection statements below record prior increments.
+
 ## Connection endpoint prepared - October 20
 
 Theo's screenshots confirm that the personal Plus account shows Add custom MCP server and its creation form. Creation UI availability is now observed; plugin creation, installation and actual ChatGPT invocation are still pending.
