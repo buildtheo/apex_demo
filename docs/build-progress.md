@@ -1,5 +1,11 @@
 # Build progress — October 20, 2026
 
+## Actual ChatGPT evidence comparison - user-observed October 20
+
+Theo pasted the follow-up ChatGPT response to the get_evidence request for E-001/E-002/E-003 at snapshot 1. It compared their contents with source IDs, distinguished the customer denial and device assertion from ledger facts, identified the missing AUTH-77/T-204 association, and left authorization unresolved. It explicitly stated E-004 was neither accessed nor used. The helmet reference and merchant-packet label match the preserved older fixture, not the updated Martha/JCPenney story. This is user-observed sourced reasoning in actual ChatGPT; Codex has not inspected raw tool arguments/results or independently verified the claimed absence of an E-004 call in that conversation. SDK source-release denial was separately tested.
+
+The connection/read-and-reason demonstration is now user-observed. This is one favorable synthetic example, not a model-evaluation pass, proof of deployed identity, or execution proof. Native rendering is still deferred. No additional account setup question is needed at this point. Continue the ordered implementation with shared confirmed intake/case continuity, then scoped human-approved internal lookup, processor follow-up and verified synthetic credit. The immediate investigation request should be the narrow AUTH-77 association lookup; the model's broader evidence suggestions are not approved requests. The endpoint still exposes only the two read tools, not staging or approval.
+
 ## Actual ChatGPT case read - user-observed October 20
 
 Theo connected Apex Dispute Operations on personal ChatGPT Plus and pasted the result of requesting APX-001 with the Apex tools. The response reported evidence version 1, available E-001/E-002/E-003 and unavailable E-004, with a synthetic-case disclosure and no conclusion from the hidden source. This is user-observed actual-ChatGPT case-metadata retrieval, not just local SDK proof. Codex has not independently inspected that conversation's raw tool trace; an evidence-body retrieval/comparison in ChatGPT remains the next check. The response's E-003 title, Merchant supporting packet, is from the preserved older SQLite fixture.

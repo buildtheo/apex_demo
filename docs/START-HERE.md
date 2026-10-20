@@ -6,6 +6,8 @@ The latest user direction and current build plan supersede older slides-first/no
 
 Latest setup decision: Theo approved simulated identity and M. Price API credential reuse. Explicit demo mode fixes/labels Barbara without claiming OAuth; ChatGPT linking uses No authentication for synthetic-only records. A temporary adapter-only public endpoint passes SDK reads and negative checks. Theo has now reported successful actual ChatGPT APX-001 case-metadata retrieval on personal Plus; Codex has not inspected the raw trace. Actual evidence-body comparison is next; direct API intake remains unbuilt. Existing older saved fixture was preserved. All 19 adapter/config and 26 existing tests pass. See [current progress](build-progress.md) and [setup](adapter-setup.md); external IdP setup is deferred, not a demo blocker.
 
+Current connection proof now includes Theo's pasted, source-cited ChatGPT comparison of E-001/E-002/E-003 at snapshot 1, with unresolved authorization and reported non-use of E-004. This is user-observed evidence reasoning, not an independently inspected raw trace or action execution. The next build milestone is shared confirmed intake/case continuity, followed by the scoped approved investigation actions. See build-progress.md for exact proof limits.
+
 ## Current target
 
 Martha Rivera disputes a $648.50 JCPenney purchase. Customer text OR voice intake in the browser iPhone app confirms her account and creates the shared Apex case. Barbara investigates the same case in actual ChatGPT using an Apex-owned MCP adapter around the legacy DMS stand-in.
