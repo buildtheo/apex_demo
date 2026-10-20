@@ -2,7 +2,11 @@
 
 Locked by Theo October 20, 2026. Applies to the fictional Apex demo's target design. This records requirements for future implementation and interview wording; the controls and voice behavior below are not implemented or tested merely because this document exists.
 
-## Current verified state
+## Implemented text-boundary update - October 20
+
+Confirmed text intake now screens messages before persistence/provider handoff and reconstructs an allowlisted Responses payload with fixed selected transaction and permitted user/assistant turns, not the full case or customer profile. Known card-like numbers, labeled secrets and long English spelled-digit sequences are blocked; tests assert provider fetch is not called. Model outputs are validated/screened before a review can be confirmed. User corrections and original statements remain attributed in E-001. The live browser check used only synthetic data. This is conservative heuristic screening, not complete DLP; other encodings/languages, documents/images and raw audio are not covered. No zero-retention or production-compliance claim follows from store:false. Voice remains disabled. Current proof and setup: build-progress.md and intake-setup.md. The baseline below records the pre-implementation inspection, not current text-intake status.
+
+## Baseline inspected before implementation
 
 Code inspected at commit 836c3a562dbfbe1ef69d25e4dd2d6a198a95a5ed:
 - The synthetic case and banking preview contain card last-four 8821, not a full PAN field.

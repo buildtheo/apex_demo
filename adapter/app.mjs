@@ -4,7 +4,7 @@ import {StreamableHTTPServerTransport} from '@modelcontextprotocol/sdk/server/st
 import {z} from 'zod';
 import {AccessError, authorize, caseView, evidenceView} from './access.mjs';
 
-export function createAdapter({origin, issuer, assignments, verifyToken, readState, authMode = 'oauth'}) {
+export function createAdapter({origin, issuer, assignments, verifyToken, readState, readAssignments, authMode = 'oauth'}) {
   if (!['oauth', 'demo'].includes(authMode)) throw Error('Unsupported authentication mode.');
   const simulated = authMode === 'demo';
   const app = express();
@@ -45,8 +45,8 @@ export function createAdapter({origin, issuer, assignments, verifyToken, readSta
     });
     const transport = new StreamableHTTPServerTransport({sessionIdGenerator: undefined, enableJsonResponse: true});
     const read = async caseId => {
-      authorize(req.principal, caseId, assignments);
-      const state = await readState();
+      authorize(req.principal, caseId, readAssignments ? await readAssignments() : assignments);
+      const state = await readState(caseId);
       if (state.id !== caseId) throw new AccessError('case_unavailable');
       return state;
     };

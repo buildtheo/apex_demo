@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## Confirmed text intake implemented - October 20
+
+Responses conversation, corrections, exact-revision confirmation, persistent cases/queue, explicit later E-003 release and same-case MCP reads are implemented. 41 Python and 25 Node checks plus isolated deterministic/live browser runs pass. Live run made two model calls and returned gpt-5.4-mini-2026-03-17; it did not modify the user's demo database. See intake-setup.md and build-progress.md. New-case actual ChatGPT proof, MCP staging/approval, processor follow-up and credit remain next. Private worker apex-intake runs on 8788; never tunnel it or Python 8080. No real identity or money action is claimed.
+
 ## Latest setup clarification - October 20
 
 Theo approved simulated identity and M. Price API credential reuse. The read adapter now has explicit labeled demo mode, retains real OAuth as the default path, and exposes no execution tools. Ignored local config references the old API credential file through a backend-only allowlisted helper. All 19 adapter/config and 26 existing tests passed. No external sign-in, actual ChatGPT/model call or public tunnel was completed. See build-progress.md and adapter-setup.md. External IdP setup no longer blocks this synthetic demo; never claim deployed authentication from the simulation.

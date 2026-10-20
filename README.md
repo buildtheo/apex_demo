@@ -6,7 +6,7 @@ A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Arc
 
 ## Current build handoff - October 20
 
-Latest setup choice: simulated identity for this synthetic demo, not real OAuth, plus reuse of M. Price API credentials through ignored server-side configuration. A temporary read-adapter-only HTTPS tunnel now passes SDK retrieval and negative-path checks; actual ChatGPT creation/installation/invocation and model calls remain pending. The personal Plus creation UI is confirmed. All 19 adapter/config tests and 26 existing tests pass. See [setup](docs/adapter-setup.md) and [current progress](docs/build-progress.md). External identity deployment is deferred rather than a demo prerequisite.
+Latest build: live Responses text intake, customer corrections/confirmation, persistent case creation, queue, explicit later packet and same-case MCP reads. All 41 Python and 25 Node tests pass, plus isolated deterministic and live-provider browser checks. Actual ChatGPT sourced reasoning on the preserved APX-001 is user-observed; new-case actual-ChatGPT proof is still to capture. Identity remains simulated, not OAuth; only the two read tools are public. See [intake setup](docs/intake-setup.md), [adapter setup](docs/adapter-setup.md) and [current progress](docs/build-progress.md). No credit or final resolution is implemented yet.
 
 Theo has authorized Codex to review and resume implementation. Start with [the build handoff](docs/build-handoff.md) and [the consolidated current plan](docs/plan.md). Presentation materials and practice are on hold. The plan replaces older slides-first/specialist-endpoint milestones; it contains the credit ending, ordered increments, acceptance checks and genuine account/access questions. [Current build progress](docs/build-progress.md) now records the first implemented read adapter, 13 new adapter tests and 26 existing tests passing. Actual ChatGPT/external identity linking remains pending.
 
@@ -24,7 +24,7 @@ Existing demo.sqlite state retains its old seeded text until the local demo is e
 
 Discovery selects either OpenAI Realtime voice support or an OpenAI API-powered conversational text agent in the banking web/iPhone app. Both clarify the selected charge, prepare intake for customer confirmation, and create the same Apex case for analyst investigation in actual ChatGPT. That is three potential OpenAI experiences, with two on each demonstrated path. Apex DMS owns the case and approved execution. See [demo flow](docs/demo-flow.md) and [running discovery](docs/discovery-and-outcomes.md).
 
-The current form and fixed analyst responses are scaffolds; the integrations below remain pending. Locking the target does not mean it has been implemented.
+Text intake now uses the Responses API and creates a shared case after confirmation. The local analyst assessments remain fixed scaffolds; actual ChatGPT performs the source-based reasoning through the read adapter. Voice, MCP action staging, processor follow-up and credit remain pending.
 
 The customer banking app will be presented in the browser as an iPhone-style simulator. A native iOS build or Apple iOS Simulator is not required. ChatGPT and Apex DMS remain separate analyst surfaces.
 
@@ -36,13 +36,13 @@ Start with [the timed meeting and criteria map](docs/meeting-outline.md), then [
 
 ## Run
 
-The existing local browser prototype requires Python 3.10+; no packages, API keys, or build step. The separate MCP adapter requires Node 22+, dependencies and external OAuth configuration; see [adapter setup](docs/adapter-setup.md). Only the authenticated read adapter may eventually be tunneled, never the Python action service.
+The banking shell/DMS requires Python 3.10+. Conversational intake also requires Node 22+, `npm ci`, local server-side API configuration and a separate `npm run intake` worker. MCP reads require `npm run mcp`. Demo mode uses explicitly simulated identity rather than an external IdP. See [intake setup](docs/intake-setup.md) and [adapter setup](docs/adapter-setup.md). Never tunnel the Python action service or intake worker.
 
 ```sh
 python3 server.py
 ```
 
-Open http://127.0.0.1:8080 for the iPhone-style customer banking preview. Select JCPenney, then Dispute this charge to choose voice support or an in-app report. The form saves a browser-local draft only; voice connection and case submission remain pending. Open http://127.0.0.1:8080/ops for the existing analyst investigation prototype. Case state persists in local `demo.sqlite` (ignored by Git).
+Open http://127.0.0.1:8080 for the iPhone-style banking app. Select JCPenney, Dispute this charge, then Report in the app. With `npm run intake` running, converse, correct the captured statement and explicitly confirm submission. The new case appears at http://127.0.0.1:8080/queue; use its returned ID with the actual ChatGPT Apex connection. Voice is still disabled. /ops remains the local analyst scaffold, now scoped by the queue's case link. State persists in local `demo.sqlite` (ignored by Git); APX-001 is not silently reset.
 
 ## Continue in VS Code
 
@@ -71,7 +71,7 @@ The handoff remains the implemented prototype endpoint, superseded as the target
 
 - SQLite-backed transitions, draft version binding, duplicate handling, and separate read-back checks of saved request/handoff facts are implemented. Verification reads the same local database; it does not establish external execution or independent-system confirmation.
 - Fixed assessments are served only for the available evidence snapshot. The UI checks case/version metadata and discards superseded responses after refresh, actions, or reset. Raw records remain separate from assessment text.
-- Investigation text is fixed demo content. No model, actual ChatGPT, Realtime, bank, Visa, or external evidence service is connected. MCP read code exists and has local SDK/signed-token tests; live linking is not yet verified.
+- /ops investigation text is fixed scaffold content. Responses text intake has a live browser check, and actual ChatGPT case/evidence reasoning on APX-001 is user-observed. New-case SDK continuity is verified; capture that new ID in actual ChatGPT next. No Realtime, real bank, Visa or external evidence service is connected.
 - Approval is performed by the local demo operator. This is not OAuth, real identity verification, or production role authorization.
 - Server binds only to localhost. Do not expose it to the internet as a production service.
 - All names, transactions, sources, and DEMO-01 policy are synthetic. No legal or network eligibility conclusion is encoded.

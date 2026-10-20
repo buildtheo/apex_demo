@@ -30,9 +30,12 @@ if (authMode === 'oauth') {
 } else {
   assignments = {'demo:barbara': {role: 'analyst', cases: ['APX-001']}};
 }
-const app = createAdapter({origin, issuer, assignments, verifyToken, authMode, readState: async () => {
-  const response = await fetch('http://127.0.0.1:8080/api/case', {signal: AbortSignal.timeout(5000), redirect: 'error'});
+const localRead = async path => {
+  const response = await fetch(`http://127.0.0.1:8080${path}`, {signal: AbortSignal.timeout(5000), redirect: 'error'});
   if (!response.ok) throw Error('DMS read failed');
   return response.json();
-}});
+};
+const app = createAdapter({origin, issuer, assignments, verifyToken, authMode,
+  readAssignments: authMode === 'demo' ? () => localRead('/api/demo-assignments') : undefined,
+  readState: caseId => localRead(`/api/case?case_id=${encodeURIComponent(caseId)}`)});
 app.listen(8787, '127.0.0.1', () => console.log(`Apex read-only MCP on 127.0.0.1:8787 (${authMode === 'demo' ? 'SIMULATED IDENTITY, NO OAUTH' : 'OAuth'}); ChatGPT linking unverified.`));

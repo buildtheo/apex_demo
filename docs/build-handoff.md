@@ -1,5 +1,7 @@
 # Codex build handoff - October 20, 2026
 
+Latest executed build: live Responses text intake now persists corrections/review, requires explicit confirmation, creates one assigned case and shares its returned ID through the queue and MCP reads. 41 Python and 25 Node tests plus isolated mock/live browser checks pass. Read intake-setup.md/build-progress.md. The old seeded APX-001 is intact; new cases use the current story. Actual ChatGPT source reasoning on the old case is user-observed; new-case account-side proof and MCP staging/approved investigation/processor follow-up/credit are next. Identity is simulated; 8080/8788 stay private. Earlier unbuilt-intake statements below are history.
+
 **Start here:** read AGENTS.md, then [the current build plan](plan.md), [current resolution](case-resolution.md), [access design](analyst-access-control.md) and [sensitive-data/voice requirements](sensitive-data-and-voice.md).
 
 Theo has now explicitly asked Codex to review and start building the agreed demo. **Presentation materials and practice are on hold.** This supersedes earlier “preparation only/no build resumption” notes as an authorization statement; it does not turn any pending feature into completed work or remove existing safety/readiness requirements.

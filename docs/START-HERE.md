@@ -4,9 +4,9 @@ Updated October 20, 2026. Theo has authorized Codex to **review and start buildi
 
 The latest user direction and current build plan supersede older slides-first/no-build-resumption notes. Historical implementation records are not fresh proof.
 
-Latest setup decision: Theo approved simulated identity and M. Price API credential reuse. Explicit demo mode fixes/labels Barbara without claiming OAuth; ChatGPT linking uses No authentication for synthetic-only records. A temporary adapter-only public endpoint passes SDK reads and negative checks. Theo has now reported successful actual ChatGPT APX-001 case-metadata retrieval on personal Plus; Codex has not inspected the raw trace. Actual evidence-body comparison is next; direct API intake remains unbuilt. Existing older saved fixture was preserved. All 19 adapter/config and 26 existing tests pass. See [current progress](build-progress.md) and [setup](adapter-setup.md); external IdP setup is deferred, not a demo blocker.
+Latest implementation: Responses text intake now captures corrections and creates a persistent case only after customer confirmation. The new case follows the same ID through the queue, later fictional processor packet and MCP reads. New cases use Martha/JCPenney; older APX-001 was preserved. All 41 Python and 25 Node tests pass, plus isolated deterministic and live-Responses browser checks. See [intake setup](intake-setup.md) and [current progress](build-progress.md). Identity remains explicitly simulated and the public adapter has only two read tools; external IdP setup is deferred.
 
-Current connection proof now includes Theo's pasted, source-cited ChatGPT comparison of E-001/E-002/E-003 at snapshot 1, with unresolved authorization and reported non-use of E-004. This is user-observed evidence reasoning, not an independently inspected raw trace or action execution. The next build milestone is shared confirmed intake/case continuity, followed by the scoped approved investigation actions. See build-progress.md for exact proof limits.
+Current connection proof includes Theo's pasted, source-cited ChatGPT comparison on APX-001 with unresolved authorization and reported non-use of E-004. This is user-observed evidence reasoning, not an independently inspected raw trace or action execution. Newly created case continuity is SDK/browser-tested; capture that returned ID in actual ChatGPT next. The next build milestones are scoped MCP staging/approved investigation, processor follow-up and verified synthetic credit.
 
 ## Current target
 
@@ -20,15 +20,15 @@ Keep JCPenney for familiarity; the weak evidence is explicitly from a fictional 
 
 ## Latest executed increment - October 20
 
-Codex reviewed c07ec33 and implemented the separate authenticated read-only MCP adapter. All 13 new local adapter tests and 26 existing workflow/HTTP/JavaScript tests passed. Optional native UI is deferred with the sourced-table fallback; account/rendering proof is NOT RUN. Read [build-progress.md](build-progress.md) for precise status and [adapter-setup.md](adapter-setup.md) for configuration and live acceptance. No actual ChatGPT/provider connection is claimed.
+Confirmed intake is now implemented and live-provider browser-tested; see intake-setup.md. MCP read code retains OAuth validation, but the configured demo uses No authentication and fixed simulated Barbara with explicit saved case assignments. Optional native UI is deferred with the sourced-table fallback; native rendering proof is NOT RUN. Precise results and limitations are in build-progress.md.
 
 ## Remaining prototype and integration boundaries
 
 - Python/SQLite case service, browser banking shell at / and analyst scaffold at /ops.
-- Browser-local intake draft only; disabled voice; seeded APX-001.
+- Persistent confirmed text intake and queue; disabled voice; separately preserved seeded APX-001.
 - Fixed server assessment text, internal request, simulated association response and old specialist handoff.
-- Shared case creation/queue, OpenAI API conversation, actual ChatGPT linking, external-identity deployment, processor follow-up, full resolution brief and credit ledger remain pending. MCP read code and local signed-identity/case-permission tests now exist; no external-user proof exists yet.
-- The 26 existing tests were rerun successfully; none of these or the 13 adapter tests is a passing model evaluation.
+- Actual ChatGPT linking/old-case sourced reasoning are user-observed; new-case actual-ChatGPT proof, external identity, MCP staging, processor follow-up, full resolution brief and credit ledger remain pending.
+- All 66 deterministic tests pass; these and one live browser example are not a passing model evaluation.
 - Gate 0 fallback is recorded; actual account/rendering and combined live-tool proof remain NOT RUN.
 
 Existing demo.sqlite retains old seed text until an explicit development reset; do not silently delete user state. Preserve data and use deliberate reset/migration handling.

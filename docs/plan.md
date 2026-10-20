@@ -20,6 +20,8 @@ Detailed narrative and credit controls: [case-resolution.md](case-resolution.md)
 
 ## What is actually implemented
 
+Latest increment: confirmed Responses text intake/shared queue/new-case continuity are implemented and tested (41 Python plus 25 Node tests, isolated deterministic browser and two-call live Responses browser check). New-case SDK continuity is verified; actual ChatGPT old-case read/reason is user-observed. Preserve the old seed. See intake-setup.md and build-progress.md. Milestone 2 is implemented under simulated identity; milestone 3 still needs model-side staging/human-approved scoped actions, followed by processor follow-up and credit. Do not return to account setup or slides instead of those next build steps.
+
 October 20 executed increment: read-only MCP adapter code and local signed-token/role/case/source/version checks now exist; all 13 adapter tests and 26 existing tests passed. Gate 0 is DEFER with the sourced-table fallback, not proof of native rendering. Actual ChatGPT/external identity linking remains pending. See [build-progress.md](build-progress.md) and [adapter-setup.md](adapter-setup.md). Milestone 1 is partial, not complete.
 
 Recorded state before this build:

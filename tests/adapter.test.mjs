@@ -219,3 +219,20 @@ test('demo mode preserves case/release/version checks, never trusts caller ident
 test('unknown authentication mode fails closed', () => {
   assert.throws(() => createAdapter({authMode: 'typo'}), /Unsupported authentication mode/);
 });
+
+test('live assignment map and requested case ID are rechecked for newly submitted cases', async t => {
+  const state = freshState(); state.id = 'APX-NEWCASE';
+  let entitled = true, requested;
+  const f = await fixture(t, state, {...demoOptions,
+    readAssignments: async () => ({'demo:barbara': {role: 'analyst', cases: entitled ? ['APX-NEWCASE'] : []}}),
+    readState: async caseId => { requested = caseId; return state; },
+  });
+  const client = await clientFor(t, f);
+  const result = await client.callTool({name: 'get_case', arguments: {case_id: state.id}});
+  assert.equal(result.structuredContent.case_id, state.id);
+  assert.equal(requested, state.id);
+  entitled = false; requested = undefined;
+  const denied = await client.callTool({name: 'get_case', arguments: {case_id: state.id}});
+  assert.equal(denied.content[0].text, 'access_denied');
+  assert.equal(requested, undefined);
+});
