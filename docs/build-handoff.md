@@ -22,7 +22,7 @@ The plan contains acceptance criteria, implementation discretion, failure tests 
 
 ## Status at this handoff
 
-The recorded implementation remains local Python/SQLite, browser banking form/local draft, disabled voice, seeded APX-001, fixed analyst assessments and the old specialist-handoff action. Real APIs/MCP/identity and the new credit ending are not implemented by this handoff. Historical checks are not current execution proof. The planning assistant's execution environment was unavailable; verify Codex's actual environment independently.
+Codex has now added the read-only MCP adapter and locally tested signed identity/case/source/version controls: 13 adapter tests and all 26 existing checks passed. [Build progress](build-progress.md) records the Gate 0 sourced-table fallback and precise proof limits; [adapter setup](adapter-setup.md) documents configuration. External identity/ChatGPT connection remain pending. The underlying workflow still has local Python/SQLite, browser banking form/local draft, disabled voice, seeded APX-001, fixed analyst assessments and the old specialist-handoff action. API conversation, shared new cases, real authenticated approvals and the new credit ending remain unbuilt. Do not confuse local signed-token tests with external OAuth deployment or actual ChatGPT execution.
 
 ## Other preparation already saved
 

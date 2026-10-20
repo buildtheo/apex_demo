@@ -16,7 +16,7 @@ Official announcement checked October 15, 2026: native Intelligent UI is a Chat-
 | --- | --- | --- |
 | Presentation-account availability | Identify actual account/workspace, Chat mode/model and browser; confirm native rendering is available. Do not assume Work/Codex behaves the same. | Not run |
 | Useful evidence comparison | With a clearly labeled synthetic available-evidence snapshot, compare assertion/source/uncertainty, expand a source, and inspect legibility. Preserve source IDs/version and exclude unreleased findings. | Not run; snapshot rendering alone would not prove tools |
-| Combined case retrieval and presentation | Once the minimal adapter is available, invoke get_case/get_evidence in the same Chat experience, render the comparison, verify references and changes after additional evidence. Record the actual tool trace and rendering. | Adapter/linking unbuilt; unproven |
+| Combined case retrieval and presentation | Invoke get_case/get_evidence in the same Chat experience, render the comparison, verify references and changes after additional evidence. Record the actual tool trace and rendering. | Read adapter locally tested; linking/combined proof NOT RUN. Sourced-table fallback selected; see build-progress.md. |
 | Failure and timing | Check stale or mismatched evidence, unavailable UI, refresh, and failed source links; retain a plain sourced table. Fit the comparison into the existing scene, proposed maximum 60 seconds. | Not run |
 
 Proposed timebox: one 20-minute readiness session, not a requirement to solve every UI issue. Record one outcome before further feature building: USE AFTER PROOF (native rendering useful, with combined tool proof still explicitly pending if no adapter), DEFER (use sourced table), or UNAVAILABLE (use sourced table). Do not mark an untested combination as working. An availability/rendering decision permits only the minimal read-adapter proof next; repeat the combined check before investing in custom UI. If tool compatibility fails, keep the table and continue the core demo. This gate must not force a new Chat mode or weaker access control merely to obtain visuals.
@@ -45,7 +45,7 @@ Apex builds and operates an MCP adapter in front of those interfaces. ChatGPT ca
 | Actual ChatGPT | Interpret the request, invoke permitted tools and synthesize source-supported findings |
 | Apex-owned MCP adapter | Expose narrow tool contracts; validate identity and resource/action authority; translate to supported existing interfaces; return permitted fields and source metadata |
 | Existing DMS/integration services | Keep operational records, supported business operations and durable effects; remain authoritative |
-| Current demo stand-in | Python/SQLite plus existing HTTP case/action services represent those systems; the MCP adapter and authenticated connection remain unbuilt |
+| Current demo stand-in | Python/SQLite plus existing HTTP case/action services represent those systems; read-only MCP adapter has local signed-token tests, external authenticated connection remains pending. See build-progress.md. |
 
 This extends the existing system through a controlled integration layer. It does not assume the DMS vendor supplies MCP, require replacing the DMS or give ChatGPT unrestricted database/SQL access. If a backend uses a service credential rather than delegated user credentials, Apex must still enforce the requesting user's case/action entitlements; a shared credential cannot be treated as authorization for every employee.
 
@@ -122,7 +122,7 @@ Official custom-MCP guidance says write tools require confirmation by default an
 
 Narration: "ChatGPT is asking permission to call the staging tool. Apex's approval is the bank-authorized decision to execute this exact action." Do not suppress necessary prompts by mislabeling tools or treat a remembered tool permission as business authority. Installation/confirmation behavior must be rehearsed on the presentation account.
 
-Minimal proposed tools: get_case(case_id), get_evidence(case_id, source_id, snapshot), stage_evidence_request(case_id, snapshot, scope), stage_credit(case_id, snapshot, amount, rationale, customer_message), and get_action_result(case_id, action_id). Names/contracts are proposed, not implemented MCP tools. Execution approval remains an Apex human operation; it is not exposed as a model approval tool.
+Minimal tools: get_case(case_id) and get_evidence(case_id, source_id, snapshot) now have locally tested MCP implementations. stage_evidence_request(case_id, snapshot, scope), stage_credit(case_id, snapshot, amount, rationale, customer_message), and get_action_result(case_id, action_id) remain proposed/unbuilt MCP contracts. Execution approval remains an Apex human operation; it is not exposed as a model approval tool. Actual ChatGPT connection is pending.
 
 ## Current versus target
 

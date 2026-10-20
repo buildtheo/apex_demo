@@ -6,7 +6,7 @@ A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Arc
 
 ## Current build handoff - October 20
 
-Theo has authorized Codex to review and resume implementation. Start with [the build handoff](docs/build-handoff.md) and [the consolidated current plan](docs/plan.md). Presentation materials and practice are on hold. The plan replaces older slides-first/specialist-endpoint milestones; it contains the credit ending, ordered increments, acceptance checks and genuine account/access questions. Current code/status below remain historical until the build agent records fresh results.
+Theo has authorized Codex to review and resume implementation. Start with [the build handoff](docs/build-handoff.md) and [the consolidated current plan](docs/plan.md). Presentation materials and practice are on hold. The plan replaces older slides-first/specialist-endpoint milestones; it contains the credit ending, ordered increments, acceptance checks and genuine account/access questions. [Current build progress](docs/build-progress.md) now records the first implemented read adapter, 13 new adapter tests and 26 existing tests passing. Actual ChatGPT/external identity linking remains pending.
 
 ## October 20 decision - Barbara approves the supported credit
 
@@ -34,7 +34,7 @@ Start with [the timed meeting and criteria map](docs/meeting-outline.md), then [
 
 ## Run
 
-Requires Python 3.10+; no packages, API keys, or build step.
+The existing local browser prototype requires Python 3.10+; no packages, API keys, or build step. The separate MCP adapter requires Node 22+, dependencies and external OAuth configuration; see [adapter setup](docs/adapter-setup.md). Only the authenticated read adapter may eventually be tunneled, never the Python action service.
 
 ```sh
 python3 server.py
@@ -69,7 +69,7 @@ The handoff remains the implemented prototype endpoint, superseded as the target
 
 - SQLite-backed transitions, draft version binding, duplicate handling, and separate read-back checks of saved request/handoff facts are implemented. Verification reads the same local database; it does not establish external execution or independent-system confirmation.
 - Fixed assessments are served only for the available evidence snapshot. The UI checks case/version metadata and discards superseded responses after refresh, actions, or reset. Raw records remain separate from assessment text.
-- Investigation text is fixed demo content. No model, ChatGPT, Realtime, MCP, bank, Visa, or external evidence service is connected.
+- Investigation text is fixed demo content. No model, actual ChatGPT, Realtime, bank, Visa, or external evidence service is connected. MCP read code exists and has local SDK/signed-token tests; live linking is not yet verified.
 - Approval is performed by the local demo operator. This is not OAuth, real identity verification, or production role authorization.
 - Server binds only to localhost. Do not expose it to the internet as a production service.
 - All names, transactions, sources, and DEMO-01 policy are synthetic. No legal or network eligibility conclusion is encoded.
@@ -79,8 +79,10 @@ The handoff remains the implemented prototype endpoint, superseded as the target
 
 ```sh
 python3 -m unittest discover -s tests -v
+npm ci
+npm run test:adapter
 ```
 
-The suite includes workflow, HTTP, persisted-effect verification, and delayed-assessment race checks. Node is optional for running the app but required for the JavaScript verifier and UI-race tests; those tests are explicitly skipped without it. These test local workflow controls, not model quality or production security. See `docs/plan.md` for the locked meeting baseline and next integration milestones.
+The Python suite includes workflow, HTTP, persisted-effect verification, and delayed-assessment race checks. Node is optional for running the browser prototype but required for its JavaScript verifier/UI-race tests and for the separate adapter suite. The adapter tests cover local signed-token validation, role/case access, evidence release/snapshots, minimized outputs and SDK HTTP calls. These test local controls, not actual ChatGPT connectivity, model quality or production security. See `docs/plan.md` for the locked meeting baseline and next integration milestones.
 
 

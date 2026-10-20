@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## Executed read-adapter increment - October 20
+
+Read [build-progress.md](build-progress.md) before the historical entries below. Codex added a separate loopback MCP read adapter with JWT validation, explicit role/case access, source-release/version checks and minimized screened results. All 13 adapter tests and all 26 existing tests passed. Gate 0 uses the documented sourced-table fallback; native UI/account/combined live proof is NOT RUN. No database reset, actual OpenAI call, external identity deployment or ChatGPT linking occurred. Setup is in [adapter-setup.md](adapter-setup.md). Continue the ordered plan while obtaining account/IdP/API-project configuration; do not mistake this increment for the shared-intake or credit milestones.
+
 ## Current authorization and build entry point - October 20
 
 Theo has now asked Codex to review and start building. Read [build-handoff.md](build-handoff.md), [plan.md](plan.md) and [case-resolution.md](case-resolution.md). Build the complete synthetic credit/customer-resolution target; presentation production and practice are on hold. Inspect and run the current checkout first, record fresh results and provider/account blockers, then implement authorized increments without repeated broad approval. The entries below preserve prior code/check history; they are not new execution proof or the current specialist-referral target.

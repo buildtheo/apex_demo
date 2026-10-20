@@ -18,6 +18,8 @@ Detailed narrative and credit controls: [case-resolution.md](case-resolution.md)
 
 ## What is actually implemented
 
+October 20 executed increment: read-only MCP adapter code and local signed-token/role/case/source/version checks now exist; all 13 adapter tests and 26 existing tests passed. Gate 0 is DEFER with the sourced-table fallback, not proof of native rendering. Actual ChatGPT/external identity linking remains pending. See [build-progress.md](build-progress.md) and [adapter-setup.md](adapter-setup.md). Milestone 1 is partial, not complete.
+
 Recorded state before this build:
 - Python/SQLite case service; browser banking shell at / and analyst scaffold at /ops.
 - Banking form saves a browser-local draft; voice is disabled; intake does not create the backend case.

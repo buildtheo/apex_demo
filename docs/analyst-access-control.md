@@ -1,6 +1,6 @@
 # Analyst access control, presentation surface and published precedents
 
-Locked into Apex preparation at Theo's request October 20, 2026. This is the target design and rehearsal guidance, not configured Apex roles, verified presentation-account access or passing authorization tests.
+Locked into Apex preparation at Theo's request October 20, 2026. This is the target design and rehearsal guidance. Update: [build-progress.md](build-progress.md) records implemented read-adapter controls and passing local signed-token tests; external roles/identity deployment and presentation-account proof remain pending.
 
 ## October 20 decision - Barbara approves the supported credit
 
@@ -89,4 +89,4 @@ OpenAI's [ChatGPT for Financial Services announcement](https://openai.com/index/
 - [Custom MCP tool invocation and inspectable call details](https://developers.openai.com/api/docs/guides/custom-mcp-server).
 - [Managed account data access](https://help.openai.com/en/articles/20001067).
 
-Current repo code still lacks actual ChatGPT/API/MCP connections and authenticated case-level authorization. This documentation update does not resume building, complete Intelligent UI Gate 0, configure workspace permissions or execute evaluations. See [START-HERE](START-HERE.md) and [sensitive-data-and-voice.md](sensitive-data-and-voice.md).
+Current code includes the read adapter and local signed-token/case-access tests, not actual ChatGPT/API connections or deployed external identity. Workspace permissions, external allowed/denied-user proof, model evaluations and native rendering remain pending. Earlier unbuilt statements describe the planning baseline; use [build-progress.md](build-progress.md) for current implementation and [sensitive-data-and-voice.md](sensitive-data-and-voice.md) for data requirements.

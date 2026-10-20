@@ -14,14 +14,18 @@ This replaces the original specialist-referral target. Missing authentication or
 
 Keep JCPenney for familiarity; the weak evidence is explicitly from a fictional merchant processor. Give the synthetic-case/real-brand disclosure once in the intro and retain source labels. Narrate merchant/amount first, IDs second.
 
-## Recorded implementation, not new execution proof
+## Latest executed increment - October 20
+
+Codex reviewed c07ec33 and implemented the separate authenticated read-only MCP adapter. All 13 new local adapter tests and 26 existing workflow/HTTP/JavaScript tests passed. Optional native UI is deferred with the sourced-table fallback; account/rendering proof is NOT RUN. Read [build-progress.md](build-progress.md) for precise status and [adapter-setup.md](adapter-setup.md) for configuration and live acceptance. No actual ChatGPT/provider connection is claimed.
+
+## Remaining prototype and integration boundaries
 
 - Python/SQLite case service, browser banking shell at / and analyst scaffold at /ops.
 - Browser-local intake draft only; disabled voice; seeded APX-001.
 - Fixed server assessment text, internal request, simulated association response and old specialist handoff.
-- Shared case creation/queue, OpenAI API conversation, actual ChatGPT/MCP, real identity/case permissions, processor follow-up, full resolution brief and credit ledger remain pending.
-- Historical 26 local workflow/verifier/race checks are not passing model evaluations or fresh build results.
-- Gate 0 remains NOT RUN at handoff. The planning assistant's execution environment was unavailable; Codex must check its own environment.
+- Shared case creation/queue, OpenAI API conversation, actual ChatGPT linking, external-identity deployment, processor follow-up, full resolution brief and credit ledger remain pending. MCP read code and local signed-identity/case-permission tests now exist; no external-user proof exists yet.
+- The 26 existing tests were rerun successfully; none of these or the 13 adapter tests is a passing model evaluation.
+- Gate 0 fallback is recorded; actual account/rendering and combined live-tool proof remain NOT RUN.
 
 Existing demo.sqlite retains old seed text until an explicit development reset; do not silently delete user state. Preserve data and use deliberate reset/migration handling.
 
@@ -59,6 +63,7 @@ Review first, then implement. Routine reversible choices and synthetic fixture c
 | PAN/voice contract and future checks | sensitive-data-and-voice.md |
 | Latest decisions and history | decisions-and-artifacts.md |
 | Historical checks and next executed results | handoff.md |
+| Current build results and read-adapter setup | build-progress.md; adapter-setup.md |
 | Customer context and buying rationale | customer-profile.md; why-openai.md |
 | Discovery, evaluation and executive close | discovery-and-outcomes.md; discovery-to-pilot.md |
 | Assumed capacity economics and primary context | business-case.md; market-evidence.md |

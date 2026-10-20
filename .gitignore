@@ -3,3 +3,7 @@ __pycache__/
 *.sqlite
 .env
 .venv/
+node_modules/
+.env.*
+!.env.example
+.local/
