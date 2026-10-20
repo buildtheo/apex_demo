@@ -14,13 +14,21 @@ Let the customer identify the priority before proposing a target. Capacity is th
 
 The immediate ask is sponsorship of workflow observation and evaluation design, with operations and technology owners and risk participation. A pilot can be presented as a conditional proposal; do not ask for an unconditional launch commitment before validating the work, access, economics and controls.
 
-Locked spoken wording:
+### Executive close - locked October 20
 
-“I'd start by observing the work alongside analysts and specialist reviewers. Together, we'd establish the baseline, define permitted data access and actions, and identify where human judgment must remain.
+“My next step would be to spend time alongside your Card Operations team - a day in the life - to understand how they actually handle these cases. We'd establish realistic volumes and handling times, capture the judgment and workarounds behind those numbers, and identify outcomes beyond what we showed today.
 
-“We'd then agree an evaluation set and success criteria: evidence fidelity, investigation quality, total handling effort and behavior when something goes wrong. Those results would determine whether we proceed to shadow mode and a limited pilot.”
+“Alongside your technology and risk teams, we'd work through the connections, permitted data and actions, and evaluation criteria. That would give us a grounded pilot scope and timeframe.
 
-Agree who will participate, which case class to observe, permitted access and a follow-up review of the findings. Observation can justify a revised approach or no pilot. Exact dates, owners and thresholds remain to be agreed; none are customer commitments.
+“Before we agree that next step, where does what you saw today differ from how your team works? What important step or constraint have we missed?
+
+“Who should join that working session, and could we find time next week?”
+
+Pause and listen to their assessment before moving to scheduling. Ask about the actual workflow rather than offering to change “the story.” Their answer can change the proposed scope, priority outcome, integration approach or whether a pilot is appropriate.
+
+The immediate commitment sought is the discovery/working session, proposed participants and timing - not pilot launch. A day alongside the team and “next week” are proposed asks, not approved access or a booked date. Validate active handling time separately from external waiting, volume and case mix, qualitative judgment/workarounds, follow-up/rework, existing automation and additional outcomes. Use findings with technology/risk teams to scope connections, permitted data/actions, evaluations and a realistic pilot timeframe.
+
+Agree the case class and permitted access for observation, then a review of findings. Observation may justify a revised approach or no pilot. Named owners, dates and thresholds remain unconfirmed. Read the locked evaluation talk track below for progression to shadow mode and limited assisted use.
 
 ## What the technical terms mean
 

@@ -32,7 +32,7 @@ Use the [locked discovery approach and unexpected-answer responses](discovery-an
 | 7:00-9:00 | 4. Adoption with controls | Three points: bank-owned deadlines and decisions; scoped evidence and verified actions; shadow evaluation before limited use. | Concise legal/privacy context, evaluation and rollout thesis |
 | 9:00-27:00 | Live / clearly labeled simulated workflow | One coherent customer-to-analyst case, as detailed below. | Visible before/after and the role of both OpenAI product surfaces |
 | 27:00-28:15 | 5. Value hypothesis and break-even | Assumed 15% growth: 23,000 hours without change versus 18,687.5 with adoption, below today's 20,000. Keep the $225k constant-volume capacity and cost/downside model as backup, not an additive benefit. | Pilot validates total-role effort, quality, and costs |
-| 28:15-30:00 | 6. Discovery next step and conditional pilot | Ask for a workflow ride-along, baseline validation, permitted-data/action boundaries and evaluation-design session, with operations/technology owners and risk participation. Present the six-week outline only as contingent. | Agreed discovery work and review of findings; no unconditional pilot launch or invented customer commitment |
+| 28:15-30:00 | 6. Discovery next step and conditional pilot | Use the locked executive close: day alongside Card Ops; realistic volumes/times plus judgment/workarounds and further outcomes; technology/risk connection and evaluation review; ask where the demo differs and what is missing, then who should join and whether next week works. Scope/timeframe follow discovery. | Pause for feedback; seek participants/timing for the working session, not immediate pilot launch. No booked date or access is implied. |
 
 Keep each main slide to one visual and a few talking points. Full tables stay in backup material. This skeleton has not been rendered or rehearsed.
 
@@ -67,7 +67,7 @@ Do not assume stage tools avoid confirmation. Saving drafts changes state; only 
 
 ## Discovery before pilot commitment — locked October 20
 
-Use the exact [spoken next-step proposal](discovery-to-pilot.md). Observe analysts and specialist reviewers before finalizing scope. Define permitted data access/actions, retained human decisions, expected behavior and domain-reviewed cases. Separate active effort from waiting and count downstream rework. Evaluation results and readiness determine progression to shadow mode and limited assisted use; workflow observation or the demonstration alone does not authorize either. No real Apex ride-along has occurred. The plan below remains proposed and unexecuted.
+Use the exact [executive close](discovery-to-pilot.md#executive-close---locked-october-20). Observe analysts and specialist reviewers before finalizing scope. Define permitted data access/actions, retained human decisions, expected behavior and domain-reviewed cases. Separate active effort from waiting and count downstream rework. Evaluation results and readiness determine progression to shadow mode and limited assisted use; workflow observation or the demonstration alone does not authorize either. No real Apex ride-along has occurred. The plan below remains proposed and unexecuted.
 
 ## Evaluation plan (proposed; not executed)
 
