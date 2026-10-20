@@ -102,6 +102,8 @@ Enablement proposal: a one-hour workflow session, practice with valid and mislea
 
 Rehearse both intake choices, the full 30-minute run, and interruption recovery. Test actual presentation account, auth expiry, audio permission, legibility, case reset/draft cleanup, network loss, and action reconciliation. A single brief retry is sufficient before a labeled prerecorded/simulated fallback; do not consume the demo troubleshooting a connector. Prepare traces/screens only from synthetic cases and record what was live versus simulated. No such fallback or recording exists yet.
 
+Use the [locked reflection points](reflection.md): observe real work first; explain the value and limits of an executive art-of-the-possible demo; name the one-case/favorable-policy simplifications; deepen evidence and reliability before adding scope; and establish the existing ChatGPT Enterprise adoption/approval context. The executive reaction should lead to a discovery commitment, not an assumed pilot approval.
+
 For the 15-minute reflection, address: why this workflow and the two surfaces; what is live versus simulated; deterministic versus model responsibilities; tradeoffs and remaining security/domain limits; what the pilot could disprove; and the next build improvement. Do not claim an integration merely because architecture is drawn.
 
 ## Criteria coverage and remaining evidence
