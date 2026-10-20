@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## October 20 naming update
+
+Current seed/screens and active preparation use JCPenney as a familiar illustrative merchant in an entirely fictional dispute; VeloCraft below describes the historical preview. The current customer statement mentions an earlier clothing purchase. Narration leads with the disputed $648.50 purchase, with IDs secondary. Existing demo.sqlite must be explicitly reset to reload seed text. Runtime/browser tests were not rerun for this naming edit because no execution environment was available; do not treat the historical checks below as fresh results. Read START-HERE.md for current decisions.
+
 ## End-of-session starting point
 
 Theo is ending the session. Start with [START-HERE.md](START-HERE.md) for the consolidated locked demo, implementation/tests, next action, economics, source limits, and linked artifacts. [market-evidence.md](market-evidence.md) records verified primary Visa/Mastercard context and the unresolved cost/mix reconciliation. Gate 0 is NOT RUN. No extra live capability, model evaluation, browser validation, slide deck, or rehearsal was completed in this source/documentation update.

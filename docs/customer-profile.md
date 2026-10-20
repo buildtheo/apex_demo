@@ -6,13 +6,17 @@ Prepared October 15, 2026; provider-selection context updated October 19. Rehear
 
 Apex is a fictional US regional bank with a consumer credit-card business. For rehearsal, assume $40 billion in bank assets, one million active credit-card accounts, and a card-operations group of 40 analysts plus specialist and quality reviewers. Assume 120,000 annual disputes, of which 60,000 are in the selected evidence-intensive investigation class. Apex earns interest and fees from its card business; customer trust, service cost, and defensible treatment of disputed charges matter. These scale assumptions explain the audience and economics; do not imply all disputes require this investigation or that the whole operations group serves only this case class.
 
+## Familiar merchant name — locked October 20
+
+Theo requested a real, memorable merchant name. Use JCPenney in the synthetic scenario; this is not an allegation about actual purchases, customer behavior, evidence or merchant practices. The current customer statement acknowledges an earlier clothing purchase while disputing the new $648.50 purchase. Lead with merchant/amount/date in narration; retain case/transaction/source IDs as secondary traceability. The prior purchase's amount/date and corroborating ledger detail still need to be defined before displaying them as verified evidence. Recognizing the merchant does not itself establish authorization of the new purchase.
+
 ## Workflow and systems
 
 | Item | Proposed scenario |
 | --- | --- |
 | Target business unit | Consumer Card Operations |
 | Case class | Unrecognized online credit-card purchase requiring evidence review |
-| Customer | Elena Rivera; VeloCraft transaction T-204, $648.50; synthetic details match the prototype |
+| Customer | Elena Rivera; JCPenney transaction T-204, $648.50; synthetic details match the prototype |
 | Entry | Apex banking app displayed in a browser iPhone frame; text or voice conversation selected through discovery |
 | Operational record | Legacy Apex DMS with supported integration interfaces and no native MCP; Python/SQLite/HTTP stand-in in this repo. Apex builds/operates the adapter; fictional assumption locked October 20. |
 | Evidence systems | Card ledger, customer intake transcript, merchant documents, internal authentication-reference service |

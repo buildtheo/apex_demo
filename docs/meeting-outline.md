@@ -36,12 +36,14 @@ Before rehearsal, read the [provider-selection brief](why-openai.md). It supplie
 
 Within slide 3's existing architecture time, use the [20–30 second Codex talk track](reference-architecture.md#codex-in-the-implementation-talk-track--locked-october-20) if relevant to the technology leader: engineers can use Codex to build/test the adapter around existing DMS interfaces and identity controls, including allowed/denied access checks. Apex engineers own review, maintenance and release approval. This adds no live scene and no counted product surface; customer intake uses Platform/APIs, analyst investigation uses actual ChatGPT. No new build or test result is implied.
 
+Use JCPenney as the illustrative merchant in synthetic records. Narrate the disputed purchase by merchant and $648.50 amount; show internal transaction/source IDs as secondary traceability. Existing prior-customer purchase context is relevant without proving the new purchase was authorized. Earlier amount/date and corroborating ledger display remain fixture work. No actual merchant records or conduct are represented.
+
 ## Eighteen-minute workflow with Q&A
 
 | Time | Scene and narration | Observable proof |
 | --- | --- | --- |
 | 9:00-10:00 | Show the assumed current task: customer statement, ledger, merchant document, manual reconciliation | Before-state is illustrative, not a measured process study |
-| 10:00-12:00 | Browser iPhone: select VeloCraft charge; follow discovery-selected text or voice conversation; clarify and confirm intake | Model contribution, customer corrections, structured report, case ID |
+| 10:00-12:00 | Browser iPhone: select JCPenney charge; follow discovery-selected text or voice conversation; clarify and confirm intake | Model contribution, customer corrections, structured report, case ID |
 | 12:00-14:00 | Case appears in Apex queue; announce time jump before later merchant evidence; switch to actual ChatGPT | Same case ID and attributed intake; no instant merchant response |
 | 14:00-18:00 | Investigate claims with source references; ask what underlying record supports the merchant assertion | Model synthesis versus deterministic association checks; specific gap |
 | 18:00-21:00 | Stage a scoped evidence request; distinguish ChatGPT's tool-call permission from Apex approval; Apex executes and saved request is read back | Exact scope, destination, action ID, persisted-effect verification |

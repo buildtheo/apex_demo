@@ -4,6 +4,12 @@ A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Arc
 
 **Continuing as another agent? Start with [the consolidated handoff](docs/START-HERE.md).** It links the locked demo, current implementation, executed checks, source evidence, and next required step.
 
+## Merchant naming — October 20
+
+Use JCPenney as the familiar merchant name in this fictional dispute. All purchases, customer statements, merchant assertions and evidence are synthetic; they do not describe actual JCPenney conduct or records. Narration leads with “the $648.50 JCPenney purchase”; internal IDs remain available for traceability. Earlier snapshots/review text may use the superseded VeloCraft name.
+
+Existing demo.sqlite state retains its old seeded text until the local demo is explicitly reset. Use the existing development reset when ready to reload the new fixture; no automatic deletion or migration is introduced.
+
 ## Locked target demo
 
 Discovery selects either OpenAI Realtime voice support or an OpenAI API-powered conversational text agent in the banking web/iPhone app. Both clarify the selected charge, prepare intake for customer confirmation, and create the same Apex case for analyst investigation in actual ChatGPT. That is three potential OpenAI experiences, with two on each demonstrated path. Apex DMS owns the case and approved execution. See [demo flow](docs/demo-flow.md) and [running discovery](docs/discovery-and-outcomes.md).
@@ -26,7 +32,7 @@ Requires Python 3.10+; no packages, API keys, or build step.
 python3 server.py
 ```
 
-Open http://127.0.0.1:8080 for the iPhone-style customer banking preview. Select VeloCraft, then Dispute this charge to choose voice support or an in-app report. The form saves a browser-local draft only; voice connection and case submission remain pending. Open http://127.0.0.1:8080/ops for the existing analyst investigation prototype. Case state persists in local `demo.sqlite` (ignored by Git).
+Open http://127.0.0.1:8080 for the iPhone-style customer banking preview. Select JCPenney, then Dispute this charge to choose voice support or an in-app report. The form saves a browser-local draft only; voice connection and case submission remain pending. Open http://127.0.0.1:8080/ops for the existing analyst investigation prototype. Case state persists in local `demo.sqlite` (ignored by Git).
 
 ## Continue in VS Code
 

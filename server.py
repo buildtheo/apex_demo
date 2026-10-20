@@ -40,10 +40,10 @@ class Store:
     def event(self, s, message):
         s['timeline'].append({'at': datetime.now(timezone.utc).isoformat(), 'message': message})
     def reset(self):
-        s = {'id':'APX-001','customer':'Elena Rivera','merchant':'VeloCraft Demo Store','amount':648.50,'status':'IN_REVIEW','version':1,'request':None,'handoff':None,'draft':None,'receipts':{},'timeline':[], 'evidence':[
-            {'id':'E-001','title':'Customer statement','source':'Synthetic voice intake transcript','kind':'Statement','text':'I recognize the store, but I did not place this order. I bought a helmet there earlier this year.','available':True},
-            {'id':'E-002','title':'Transaction record','source':'Synthetic Apex card ledger','kind':'Record','text':'Transaction T-204: $648.50, online purchase, VeloCraft Demo Store. Card ending 8821.','available':True},
-            {'id':'E-003','title':'Merchant supporting packet','source':'Synthetic merchant submission','kind':'Assertion','text':'Merchant statement: "The purchase originated from a recognized device." Export row: auth_record=AUTH-77, device_recognized=true, merchant=VeloCraft Demo Store.','available':True},
+        s = {'id':'APX-001','customer':'Elena Rivera','merchant':'JCPenney','amount':648.50,'status':'IN_REVIEW','version':1,'request':None,'handoff':None,'draft':None,'receipts':{},'timeline':[], 'evidence':[
+            {'id':'E-001','title':'Customer statement','source':'Synthetic voice intake transcript','kind':'Statement','text':'I recognize the store, but I did not place this order. I bought clothing there earlier this year.','available':True},
+            {'id':'E-002','title':'Transaction record','source':'Synthetic Apex card ledger','kind':'Record','text':'Transaction T-204: $648.50, online purchase, JCPenney. Card ending 8821.','available':True},
+            {'id':'E-003','title':'Merchant supporting packet','source':'Synthetic merchant submission','kind':'Assertion','text':'Merchant statement: "The purchase originated from a recognized device." Export row: auth_record=AUTH-77, device_recognized=true, merchant=JCPenney.','available':True},
             {'id':'E-004','title':'Authentication reference lookup','source':'Synthetic Apex evidence operations','kind':'Record','text':'Lookup result: authentication record AUTH-77 is associated with transaction T-198.','available':False}
         ]}
         self.event(s, 'Demo case loaded at later evidence-review stage; all records are synthetic.')

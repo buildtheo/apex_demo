@@ -22,7 +22,7 @@ Discovery selects voice OR conversational in-app intake. Both converge on the SA
 
 Apex DMS remains the system of record and execution authority, not an additional OpenAI surface. The customer confirms the prepared intake before Apex creates the case. The analyst separately approves consequential investigation actions. Customer intake does not determine liability, issue credit, or initiate network recovery.
 
-Example text intake: Customer says, "I've bought from VeloCraft before, but this charge isn't mine." The agent may clarify whether this specific $648.50 purchase is disputed while earlier purchases are recognized. Ask only useful questions, retain the customer's wording and corrections, and present the structured report for confirmation. Do not imply recognition of a merchant proves authorization.
+Example text intake: Customer says, "I've bought from JCPenney before, but this charge isn't mine." The agent may clarify whether this specific $648.50 purchase is disputed while earlier purchases are recognized. Ask only useful questions, retain the customer's wording and corrections, and present the structured report for confirmation. Do not imply recognition of a merchant proves authorization.
 
 This supersedes the earlier option of a plain form as the complete in-app demo branch. The existing form may remain a temporary development scaffold or clearly labeled fallback; it does not satisfy the locked conversational in-app capability. Neither new capability is claimed implemented by this documentation update. Exact APIs, model selection, call transport, and integration mechanisms remain implementation choices.
 
@@ -64,6 +64,10 @@ See [the running discovery table and outcomes](discovery-and-outcomes.md). Ask w
 | 8. Approve and verify next action | Analyst reviews a supported next action and explicitly approves it. | Apex validates and executes it; an independent read checks the resulting state. Current prototype endpoint is specialist handoff. |
 | 9. Track outcome | Analyst can see updated status, assignment, evidence, and audit history in the DMS. | Apex retains the durable operational record. Final consumer disposition and network recovery remain separate and undecided. |
 
+## Merchant and amount in narration — locked October 20
+
+Use “the $648.50 JCPenney purchase” rather than lead with T-204. JCPenney is a familiar real merchant name used only in a fictional, synthetic dispute. The customer acknowledges shopping there before and denies this purchase. An earlier purchase is relevant relationship context; an authentication record associated with it does not substantiate the merchant's claim about the new purchase. Preserve the distinction between the attributed customer statement and independently corroborated transaction history. The earlier purchase's amount/date and full corroborating ledger display are not yet in the fixture; do not invent an already-executed proof. Keep internal IDs in source details for transaction association and auditability.
+
 ## Stage transition in the demonstration
 
 Show an explicit time jump between customer intake and later analyst investigation. Merchant documents and later evidence must not appear to have arrived during the initial call.
@@ -78,7 +82,7 @@ A direct Investigate in ChatGPT button or deep link is optional and unvalidated.
 
 The initial custom browser workspace combines case details with fixed guided investigation responses. It is a local workflow scaffold, not the final discovery-selected experience and not actual ChatGPT. An API-backed custom chat panel would also not meet the actual ChatGPT milestone by itself.
 
-The customer banking preview now opens at `/` (also `/banking`): iPhone-style accounts → selected VeloCraft transaction T-204 → Dispute this charge → Talk to support OR Report in the app. The voice route builds on the M. Price demo concept, but does not reuse its live connection or imply that Twilio is configured for Apex. Its connection button is disabled and labeled pending. The in-app form captures a reason and statement and saves a browser-local draft; it does not create or update an Apex case. The confirmation explicitly identifies the result as a draft.
+The customer banking preview now opens at `/` (also `/banking`): iPhone-style accounts → selected JCPenney transaction T-204 → Dispute this charge → Talk to support OR Report in the app. The voice route builds on the M. Price demo concept, but does not reuse its live connection or imply that Twilio is configured for Apex. Its connection button is disabled and labeled pending. The in-app form captures a reason and statement and saves a browser-local draft; it does not create or update an Apex case. The confirmation explicitly identifies the result as a draft.
 
 The original analyst prototype is at `/ops`. A distinct assigned-case queue, live Realtime intake, actual ChatGPT integration, real authentication, case-level authorization, and shared case creation from intake remain pending. Do not describe the preseeded APX-001 investigation case as having been created by the banking preview. The implemented analyst sequence remains evidence review → approved request → simulated response → reassessment → approved specialist handoff → read-back verification. Consult handoff.md for recorded checks and their limits.
 

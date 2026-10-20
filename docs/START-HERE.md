@@ -2,6 +2,10 @@
 
 Last consolidated October 15, 2026, 11 p.m. America/Los_Angeles. Theo is ending the session and wants any agent to continue from repository state. Read AGENTS.md, then this page. The repo contains the consolidated decisions and work; the complete chat and original interview uploads are not archived here.
 
+## Scenario update — October 20: familiar merchant and amount-led narration
+
+Theo requested a familiar real merchant name. Current demo seed/screens and active talk track now use JCPenney for the fictional $648.50 disputed purchase; the earlier customer purchase is described as clothing. All statements, assertions and records remain synthetic. Narrate merchant/amount first and keep IDs in source details. Prior snapshots/original review text retain VeloCraft as the former name. Existing demo.sqlite state needs an explicit development reset to load revised seed text; no automatic migration/deletion was added. Earlier-purchase amount/date and fuller corroborating ledger evidence are still undefined/unbuilt. Static edits were checked; runtime/browser tests were not run because the execution environment was unavailable. This naming change does not complete integrations or bypass Gate 0 for feature work.
+
 ## Preparation update — October 20: Codex engineering cue
 
 Theo locked a [brief architecture talk track](reference-architecture.md#codex-in-the-implementation-talk-track--locked-october-20) explaining how Apex engineers can use Codex to build/test and maintain the MCP adapter around existing interfaces and identity controls. Engineering review, release approval and bank responsibility remain explicit. Keep it within existing solution time; no new scene, third counted surface, build authorization or test result is implied.
