@@ -1,4 +1,12 @@
-# Build progress — October 20, 2026
+# Build progress — October 21, 2026
+
+## Reviewed credit and customer ending implemented - October 21
+
+Built stage_credit (WRITE), bank-owned amount/account/fictional policy, cited rationale and exact customer explanation, separate affirmative evidence-support review, atomic idempotent synthetic ledger/case posting and independent saved-effect verification. The customer session-scoped endpoint exposes resolution only after separately checking the ledger and case decision. Martha's same banking tab now shows the credit, reviewed explanation and credit activity, with a lower synthetic card balance. Success is hidden on failed verification; request/evidence history is preserved. See credit-workflow.md for exact flow, policy/semantic limits and recovery boundaries.
+
+76 Python tests plus 35 Node tests pass (111 deterministic tests); extended isolated mock-intake browser/official SDK run passed all three review cycles, duplicate credit handling, separate ledger/case read, original banking-session restoration, visible resolution/activity/balance and hiding prior success on a read failure. Screenshots inspected. No live provider/model request, passing model eval or actual money movement. Citation-presence checks do not prove the generated rationale is correct; human review is required. PDF artifacts, voice and broader readiness/evals remain pending.
+
+Created an ignored SQLite backup and reloaded only Apex DMS/MCP. Public six-tool listing and same-case v4 read passed; private credit/review/customer paths return 404 on the public adapter. APX-3625B0CC remains PROCESSOR_EVIDENCE_RECEIVED/v4, no draft or decision: Codex did not stage or credit it. Actual ChatGPT stage_credit and Theo's final approval/customer observation are the next account-side walkthrough. Keep current tunnel/connection, refresh tool definitions; no hostname replacement needed for this build.
 
 ## Actual ChatGPT second-cycle walkthrough complete - October 21
 

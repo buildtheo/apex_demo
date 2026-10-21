@@ -6,7 +6,7 @@ import {generateKeyPair, exportJWK, createLocalJWKSet, SignJWT} from 'jose';
 import {Client} from '@modelcontextprotocol/sdk/client/index.js';
 import {StreamableHTTPClientTransport} from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import {createAdapter} from '../adapter/app.mjs';
-import {authorize, caseView, evidenceView, screen, tokenVerifier} from '../adapter/access.mjs';
+import {authorize, caseView, evidenceView, screen, tokenVerifier, actionResultView} from '../adapter/access.mjs';
 
 // Locally generated credentials exercise validation, not an external OAuth deployment.
 const issuer = 'https://identity.example/';
@@ -329,4 +329,75 @@ test('corrected response provenance is returned only for released evidence at th
   assert.equal(view.provenance.simulated_arrival, true);
   assert.equal(view.provenance.correction_of, 'E-003');
   assert.equal(view.provenance.corrected_at, '2026-10-21T11:59:00Z');
+});
+
+function creditFixture() {
+  const {state} = actionFixture();
+  state.evidence.find(e => e.id === 'E-004').available = true;
+  state.evidence.push({id: 'E-001', available: true}, {id: 'E-005', available: true});
+  const payload = {amount_cents: 64850, currency: 'USD', account_ref: 'demo:martha:card-8821', transaction_id: 'T-204',
+    policy_id: 'DEMO-CREDIT-01', disposition: 'CUSTOMER_FAVORABLE', source_ids: ['E-001', 'E-002', 'E-003', 'E-004', 'E-005'],
+    rationale: 'Human-reviewed recommendation.', customer_explanation: 'Your dispute is resolved in your favor.'};
+  const staged = {case_id: state.id, action_kind: 'POST_CREDIT', action_id: 'a'.repeat(24), evidence_version: 1,
+    status: 'AWAITING_HUMAN_APPROVAL', payload, payload_hash: 'b'.repeat(64), expires_at: 9999999999};
+  return {state, payload, staged};
+}
+
+test('credit draft is a sixth WRITE tool with no approval/posting tool and fixed payload boundary', async t => {
+  const {state, staged} = creditFixture();
+  let received, actor;
+  const f = await fixture(t, state, {...demoOptions, stageRequest: async () => ({}), getActionResult: async () => ({}),
+    stageCredit: async (args, principal) => {received = args; actor = principal.subject; return {...staged, private: 'SECRET'};}});
+  const client = await clientFor(t, f);
+  const list = await client.listTools();
+  assert.equal(list.tools.length, 6);
+  assert.equal(list.tools.find(tool => tool.name === 'stage_credit').annotations.readOnlyHint, false);
+  assert.ok(!list.tools.some(tool => /approve|execute|post_credit/.test(tool.name)));
+  const args = {case_id: state.id, snapshot: 1, source_ids: staged.payload.source_ids, rationale: 'Cited analysis', customer_explanation: 'Explanation'};
+  const result = await client.callTool({name: 'stage_credit', arguments: {...args, amount_cents: 1, approved_by: 'admin'}});
+  assert.equal(result.structuredContent.payload.amount_cents, 64850);
+  assert.equal(actor, 'demo:barbara');
+  assert.deepEqual(received, args);
+  assert.doesNotMatch(JSON.stringify(result), /SECRET/);
+});
+
+test('credit source/snapshot/access and sensitive-text failures never reach backend', async t => {
+  const {state, staged} = creditFixture(); let calls = 0;
+  const f = await fixture(t, state, {...demoOptions, stageRequest: async () => ({}), getActionResult: async () => ({}),
+    stageCredit: async () => {calls++; return staged;}});
+  const client = await clientFor(t, f);
+  const args = {case_id: state.id, snapshot: 1, source_ids: staged.payload.source_ids, rationale: 'Cited analysis', customer_explanation: 'Explanation'};
+  for (const changed of [{case_id: 'OTHER'}, {snapshot: 2}, {customer_explanation: 'PIN: 1234'}, {source_ids: ['E-001']}]) {
+    assert.equal((await client.callTool({name: 'stage_credit', arguments: {...args, ...changed}})).isError, true);
+  }
+  state.evidence.find(e => e.id === 'E-005').available = false;
+  assert.equal((await client.callTool({name: 'stage_credit', arguments: args})).content[0].text, 'source_unavailable');
+  assert.equal(calls, 0);
+});
+
+test('verified credit result requires matching ledger and reviewed decision; extra data stays private', () => {
+  const {payload, staged} = creditFixture();
+  const common = {...payload, case_id: staged.case_id, draft_id: staged.action_id, evidence_version: 1, payload_hash: staged.payload_hash,
+    approved_by: 'demo:barbara', approval_identity: 'simulated_not_oauth'};
+  const credit = {...common, id: 'CR-' + staged.action_id, status: 'POSTED', posted_at: '2026-10-21T12:00:00Z', private: 'SECRET'};
+  const decision = {...common, credit_id: credit.id, reviewed_support: true, brief_version: 1};
+  const data = {case_id: staged.case_id, action_id: staged.action_id, approved_snapshot: 1, observed_snapshot: 1,
+    status: 'VERIFIED_POSTED_CREDIT', credit, decision};
+  const view = actionResultView(data, data.case_id, data.action_id);
+  assert.equal(view.credit.amount_cents, 64850);
+  assert.doesNotMatch(JSON.stringify(view), /SECRET/);
+  for (const changed of [{credit: {...credit, amount_cents: 1}}, {decision: {...decision, customer_explanation: 'Changed'}},
+    {decision: {...decision, reviewed_support: false}}, {credit: {...credit, id: 'CR-other'}}]) {
+    assert.throws(() => actionResultView({...data, ...changed}, data.case_id, data.action_id));
+  }
+});
+
+test('credit configuration requires result verification and policy metadata is released with the corrected response', () => {
+  assert.throws(() => createAdapter({authMode: 'demo', stageCredit: async () => ({})}), /requires verification/);
+  const state = freshState(); state.intake_id = 'synthetic-intake';
+  state.evidence.push({id: 'E-005', title: 'Corrected processor response', source: 'Synthetic processor', available: false});
+  assert.equal(caseView(state).credit_policy, undefined);
+  state.evidence.at(-1).available = true;
+  assert.equal(caseView(state).credit_policy.authority_limit_cents_exclusive, 100000);
+  assert.equal(caseView(state).credit_policy.fictional, true);
 });

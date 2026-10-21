@@ -54,7 +54,20 @@ async function saved() {
   const record = await api(`/api/customer-case?session_id=${encodeURIComponent(session.session_id)}`);
   if (!record.case_id || record.case_id !== session.case_id) throw Error('Submission could not be verified. Check status before retrying.');
   $('saved-case').textContent = `Case reference: ${record.case_id}`;
-  $('saved-status').textContent = record.status === 'INTAKE_RECEIVED' ? 'Received by the dispute team' : 'Under review';
+  const resolution=record.resolution;
+  const posted=record.status==='CREDIT_POSTED'&&resolution?.amount_cents===64850&&resolution.currency==='USD'&&resolution.id;
+  $('resolution').hidden=!posted;
+  $('credit-activity').hidden=!posted;
+  $('view-report').hidden=false;
+  $('saved-label').textContent=posted?'DISPUTE RESOLVED':'REPORT SUBMITTED';
+  $('saved-title').textContent=posted?'Your credit is here.':"We've received your report.";
+  $('saved-intro').textContent=posted?'Your dispute has been resolved. You can see the credit in your account activity.':'Your report is with our dispute team. Submission is not a decision or a credit.';
+  $('saved-status').textContent=posted?'Resolved · Credit posted':record.status === 'INTAKE_RECEIVED' ? 'Received by the dispute team' : 'Under review';
+  $('card-balance').textContent=posted?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(resolution.card_balance_cents/100):'$2,184.72';
+  if(posted){
+    $('resolution-explanation').textContent=resolution.customer_explanation;
+    $('resolution-reference').textContent=`Credit reference: ${resolution.id}`;
+  }
   show('saved');
 }
 document.querySelectorAll('[data-back]').forEach(button => button.onclick = () => show(button.dataset.back));
@@ -98,8 +111,22 @@ $('confirm-report').onclick = async () => {
   } catch (error) { notice(error.message); }
   finally { setBusy(false); }
 };
-$('check-report').onclick = () => saved().catch(error => { $('saved-status').textContent = error.message; });
+function hideUnverifiedCredit(error){
+  $('resolution').hidden=true; $('credit-activity').hidden=true;
+  $('card-balance').textContent='Balance unavailable';
+  $('saved-title').textContent='We could not confirm the latest status.';
+  $('saved-status').textContent=error.message;
+  $('saved-intro').textContent='Please check again. No completion is being claimed while verification is unavailable.';
+}
+$('check-report').onclick = () => saved().catch(hideUnverifiedCredit);
+$('view-report').onclick = () => saved().catch(error=>{show('saved');hideUnverifiedCredit(error);});
+window.addEventListener('focus',()=>{
+  if(session?.case_id&&!$('saved').hidden)saved().catch(hideUnverifiedCredit);
+});
 try {
   const stored = JSON.parse(sessionStorage.getItem('apex-intake-session'));
   if (stored?.session_id && stored?.token) { session = {session_id: stored.session_id}; sessionToken = stored.token; }
 } catch { /* A new session remains available when browser storage is unavailable. */ }
+if(session){
+  refreshSession().then(()=>{if(session.case_id)return saved();}).catch(hideUnverifiedCredit);
+}

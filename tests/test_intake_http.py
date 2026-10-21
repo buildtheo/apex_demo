@@ -166,3 +166,35 @@ class IntakeHttpTests(unittest.TestCase):
         for draft in (first, followup):
             path = '/api/action-result?case_id=' + case_id + '&action_id=' + draft['action_id']
             self.assertEqual(self.request('GET', path, actor='demo:barbara')[1]['status'], 'VERIFIED_SAVED_REQUEST')
+
+    def test_credit_routes_require_actor_review_and_customer_capability_then_verify_saved_effect(self):
+        from test_credit import RATIONALE, EXPLANATION, SOURCES
+        session = self.start(); _, reviewed = self.turn(session)
+        _, submitted = self.request('POST', '/api/intake/confirm', {'session_id': session['session_id'], 'revision': reviewed['revision'],
+            'nonce': reviewed['review']['nonce']}, session['token'])
+        case_id = submitted['case_id']; store = self.srv.store
+        store.act('review_packet', {'case_id': case_id})
+        for version, scope, response in ((2, 'authentication_transaction_association', 'response'), (3, 'processor_transaction_evidence', 'processor_response')):
+            draft = store.investigation.stage(case_id, version, scope, 'demo:barbara')
+            store.review_action({'case_id': case_id, 'draft_id': draft['action_id'], 'version': version, 'payload_hash': draft['payload_hash']}, 'demo:barbara')
+            store.act(response, {'case_id': case_id})
+        payload = {'case_id': case_id, 'snapshot': 4, 'source_ids': SOURCES, 'rationale': RATIONALE, 'customer_explanation': EXPLANATION}
+        self.assertEqual(self.request('POST', '/api/stage-credit', payload)[0], 403)
+        self.assertEqual(self.request('POST', '/api/stage-credit', payload, actor='other')[0], 403)
+        status, draft = self.request('POST', '/api/stage-credit', payload, actor='demo:barbara')
+        self.assertEqual(status, 200)
+        approve = {'case_id': case_id, 'draft_id': draft['action_id'], 'version': 4, 'payload_hash': draft['payload_hash']}
+        self.assertEqual(self.request('POST', '/api/review-action', approve)[0], 400)
+        customer_url = '/api/customer-case?session_id=' + session['session_id']
+        self.assertIsNone(self.request('GET', customer_url, token=session['token'])[1]['resolution'])
+        self.assertEqual(self.request('POST', '/api/review-action', {**approve, 'supports_dispute': True}, origin='https://evil.example')[0], 403)
+        self.assertEqual(self.request('POST', '/api/review-action', {**approve, 'supports_dispute': True})[0], 200)
+        self.assertEqual(self.request('GET', customer_url)[0], 403)
+        result = self.request('GET', customer_url, token=session['token'])[1]
+        self.assertEqual(result['resolution']['amount_cents'], 64850)
+        self.assertEqual(result['resolution']['customer_explanation'], EXPLANATION)
+        self.assertEqual(self.request('GET', '/api/action-result?case_id=' + case_id + '&action_id=' + draft['action_id'], actor='demo:barbara')[1]['status'], 'VERIFIED_POSTED_CREDIT')
+        store.db.execute('DELETE FROM synthetic_credits'); store.db.commit()
+        status, result = self.request('GET', customer_url, token=session['token'])
+        self.assertEqual(status, 409)
+        self.assertNotIn('resolution', result)

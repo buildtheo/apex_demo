@@ -15,6 +15,8 @@
   scrollbar-width: thin;
 }
 nav { position: static; flex-shrink: 0; }
+[hidden]{display:none!important}
+#resolution h2{font-size:28px;color:#1d5e4c}#resolution p{font-size:16px;line-height:1.6}#resolution-reference{overflow-wrap:anywhere}
 @media (max-width: 450px) {
   .phone { height: 100dvh; min-height: 0; }
 }

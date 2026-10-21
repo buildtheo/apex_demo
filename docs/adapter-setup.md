@@ -2,7 +2,7 @@
 
 ## October 21 tool-list update
 
-With staging enabled, the runtime now exposes five tools: get_case, get_evidence, stage_evidence_request, stage_processor_followup and get_action_result. Both stage tools are WRITEs that persist drafts only. Refresh the installed ChatGPT connection to discover stage_processor_followup. No MCP tool approves or executes. See [processor-followup.md](processor-followup.md). Existing read-only deployments still expose only two tools. Earlier four-tool counts below describe the previous increment; credit is not implemented.
+With staging enabled, the runtime now exposes six tools: get_case, get_evidence, stage_evidence_request, stage_processor_followup, stage_credit and get_action_result. All three stage tools are WRITEs that persist drafts only. Refresh the installed ChatGPT connection to discover stage_credit. No MCP tool approves or executes. See [credit-workflow.md](credit-workflow.md) and [processor-followup.md](processor-followup.md). Existing read-only deployments still expose only two tools. Earlier four/five-tool counts and unbuilt-credit notes below describe prior increments.
 
 Streamable HTTP MCP at `/mcp` supports reads plus optional draft staging (a write, not execution). Actual ChatGPT case/evidence reasoning is user-observed; the new staging confirmation still needs account-side proof. This is not deployed OAuth or the completed credit workflow. See [request actions](request-actions.md) and [build progress](build-progress.md).
 

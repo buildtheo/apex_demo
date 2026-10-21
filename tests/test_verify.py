@@ -3,7 +3,7 @@ from pathlib import Path
 from server import Store
 
 VERIFY = Path(__file__).parent.parent / 'web' / 'verify.js'
-RUNNER = "const {verifyEffect}=require(process.argv[1]);const c=JSON.parse(require('fs').readFileSync(0,'utf8'));console.log(JSON.stringify(c.map(([s,a])=>verifyEffect(s,a))));"
+RUNNER = "const {verifyEffect}=require(process.argv[1]);const c=JSON.parse(require('fs').readFileSync(0,'utf8'));console.log(JSON.stringify(c.map(([s,a,r])=>verifyEffect(s,a,r))));"
 
 def run(cases):
     out = subprocess.run(['node', '-e', RUNNER, str(VERIFY)], input=json.dumps(cases), capture_output=True, text=True, check=True)
@@ -95,5 +95,23 @@ class VerifyEffectTests(unittest.TestCase):
         bad = copy.deepcopy(state); bad['processor_request']['preserve_original'] = False
         missing = copy.deepcopy(state); del missing['processor_request']
         self.assertFalse(any(r['ok'] for r in run([[bad, approved], [missing, approved]])))
+
+    def test_credit_requires_independently_verified_ledger_and_matching_reviewed_decision(self):
+        from test_credit import prepared_store, RATIONALE, EXPLANATION, SOURCES
+        store, case_id = prepared_store()
+        try:
+            draft = store.credit.stage({'case_id': case_id, 'snapshot': 4, 'rationale': RATIONALE,
+                'customer_explanation': EXPLANATION, 'source_ids': SOURCES}, 'demo:barbara')
+            store.review_action({'case_id': case_id, 'draft_id': draft['action_id'], 'version': 4,
+                'payload_hash': draft['payload_hash'], 'supports_dispute': True}, 'demo:barbara')
+            state = store.read(case_id); approved = state['staged_actions'][draft['action_id']]
+            result = store.action_result(case_id, draft['action_id'], 'demo:barbara')
+            self.assertTrue(run([[state, approved, result]])[0]['ok'])
+            cases = [[state, approved], [state, approved, {'status': 'POSTED'}]]
+            for key, value in (('amount_cents', 1), ('customer_explanation', 'Changed'), ('payload_hash', '0' * 64)):
+                bad = copy.deepcopy(result); bad['credit'][key] = value; cases.append([state, approved, bad])
+            bad = copy.deepcopy(state); bad['decision']['reviewed_support'] = False; cases.append([bad, approved, result])
+            self.assertFalse(any(r['ok'] for r in run(cases)))
+        finally: store.db.close()
 
 if __name__ == '__main__': unittest.main()

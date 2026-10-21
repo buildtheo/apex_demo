@@ -10,6 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
 from intake import IntakeStore, IntakeError
 from investigation import Investigation, ActionError
+from credit import Credit
 
 ROOT = Path(__file__).parent
 LOCK = threading.RLock()
@@ -42,6 +43,7 @@ class Store:
         self.db.execute('CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY, body TEXT)')
         self.intake = IntakeStore(self.db, LOCK, self.fixture)
         self.investigation = Investigation(self, LOCK)
+        self.credit = Credit(self, LOCK)
         if not self.db.execute('SELECT body FROM state WHERE id=1').fetchone(): self.reset()
     def read(self, case_id=None):
         if case_id is not None and (not isinstance(case_id, str) or not case_id or len(case_id) > 80):
@@ -56,6 +58,19 @@ class Store:
         self.db.commit()
     def event(self, s, message):
         s['timeline'].append({'at': datetime.now(timezone.utc).isoformat(), 'message': message})
+    def action_result(self, case_id, action_id, actor):
+        with LOCK:
+            case = self.read(case_id)
+            draft = case.get('staged_actions', {}).get(action_id) if isinstance(action_id, str) else None
+            handler = self.credit if draft and draft.get('kind') == 'POST_CREDIT' else self.investigation
+            return handler.result(case_id, action_id, actor)
+    def review_action(self, data, actor):
+        with LOCK:
+            case = self.read(data.get('case_id'))
+            action_id = data.get('draft_id')
+            draft = case.get('staged_actions', {}).get(action_id) if isinstance(action_id, str) else None
+            handler = self.credit if draft and draft.get('kind') == 'POST_CREDIT' else self.investigation
+            return handler.approve(data, actor)
     def fixture(self):
         s = {'id':'APX-001','customer':'Martha Rivera','merchant':'JCPenney','amount':648.50,'status':'IN_REVIEW','version':1,'request':None,'handoff':None,'draft':None,'receipts':{},'timeline':[], 'evidence':[
             {'id':'E-001','title':'Customer statement','source':'Synthetic voice intake transcript','kind':'Statement','text':'I recognize the store, but I did not place this order. I bought clothing there earlier this year.','available':True},
@@ -164,8 +179,11 @@ class Handler(BaseHTTPRequestHandler):
                 if path == '/api/intake/session': return self.reply(200, session)
                 if not session['case_id']: return self.reply(200, {'case_id': None})
                 with LOCK: case = self.server.store.read(session['case_id'])
-                return self.reply(200, {'case_id': case['id'], 'status': case['status'], 'merchant': case['merchant'], 'amount': case['amount']})
+                with LOCK: resolution = self.server.store.credit.customer_resolution(case)
+                return self.reply(200, {'case_id': case['id'], 'status': case['status'], 'merchant': case['merchant'], 'amount': case['amount'],
+                                        'resolution': resolution})
             except IntakeError as e: return self.reply(e.status, {'error': e.code})
+            except ActionError as e: return self.reply(e.status, {'error': e.code})
         if path in ('/api/cases', '/api/demo-assignments'):
             with LOCK:
                 cases = [self.server.store.read()] + self.server.store.intake.cases()
@@ -175,7 +193,7 @@ class Handler(BaseHTTPRequestHandler):
                                      'status': s['status'], 'version': s['version'], 'assigned_to': s.get('assigned_to', 'local-demo-operator')} for s in cases])
         if path == '/api/action-result':
             try:
-                return self.reply(200, self.server.store.investigation.result(case_id, query.get('action_id', [''])[0], self.headers.get('X-Apex-Actor')))
+                return self.reply(200, self.server.store.action_result(case_id, query.get('action_id', [''])[0], self.headers.get('X-Apex-Actor')))
             except ActionError as e: return self.reply(e.status, {'error': e.code})
             except KeyError: return self.reply(404, {'error': 'case_unavailable'})
         if path == '/api/case':
@@ -197,7 +215,7 @@ class Handler(BaseHTTPRequestHandler):
         self.reply(404,{'error':'Not found'})
     def do_POST(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/review-action'): return self.reply(404,{'error':'Not found'})
+        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action'): return self.reply(404,{'error':'Not found'})
         # Local demo CSRF boundary, not production identity/authentication.
         if self.headers.get('X-Apex-Demo') != 'local': return self.reply(403,{'error':'Missing demo request header'})
         origin = self.headers.get('Origin')
@@ -209,8 +227,10 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(data,dict): raise ValueError()
             if path == '/api/stage-request':
                 return self.reply(200, self.server.store.investigation.stage(data.get('case_id'), data.get('snapshot'), data.get('scope'), self.headers.get('X-Apex-Actor')))
+            if path == '/api/stage-credit':
+                return self.reply(200, self.server.store.credit.stage(data, self.headers.get('X-Apex-Actor')))
             if path == '/api/review-action':
-                return self.reply(200, self.server.store.investigation.approve(data, 'demo:barbara'))
+                return self.reply(200, self.server.store.review_action(data, 'demo:barbara'))
             if path.startswith('/api/intake/'):
                 intake = self.server.store.intake
                 if path.endswith('/start'): return self.reply(200, intake.start(data.get('transaction_id')))

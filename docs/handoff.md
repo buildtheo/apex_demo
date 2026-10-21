@@ -2,7 +2,7 @@
 
 ## October 21 current handoff
 
-Second processor-evidence request cycle is implemented. Start with docs/START-HERE.md, docs/processor-followup.md and the newest docs/build-progress.md entry. Five MCP tools; stage_processor_followup is a WRITE, never approval/execution. 60 Python and 31 Node tests plus isolated browser/SDK both-cycle checks pass. New-tool account-side invocation is pending; current live case is preserved at v3 until Theo acts. Verified credit/customer ending and PDF artifacts remain pending. Older handoff statuses below are historical.
+All three human-reviewed cycles are implemented, including synthetic credit, independent saved ledger/case verification and Martha's customer-app resolution/activity. Start with docs/START-HERE.md, docs/credit-workflow.md and newest docs/build-progress.md. Six MCP tools, three WRITEs, never an approval/execution tool. 76 Python and 35 Node tests plus isolated three-cycle browser/SDK check pass. Both actual ChatGPT investigation walkthroughs are complete; final actual ChatGPT credit recommendation, Theo's approval and live customer observation are next. Current live case remains uncredited at v4; never credit/advance it for a check. PDFs, voice and broader evals remain pending. Older handoff statuses below are historical.
 
 ## First approval cycle - October 20
 

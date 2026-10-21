@@ -8,13 +8,26 @@ function deepEqual(a, b) {
   const ka = Object.keys(a), kb = Object.keys(b);
   return ka.length === kb.length && ka.every(k => Object.prototype.hasOwnProperty.call(b, k) && deepEqual(a[k], b[k]));
 }
-function verifyEffect(state, approved) {
+function verifyEffect(state, approved, creditResult = null) {
   const fail = reason => ({ok: false, reason});
   if (!state || !approved || !approved.payload) return fail('the approved action or case record is missing');
   if (typeof approved.id !== 'string' || !approved.id.trim() ||
       typeof approved.case_id !== 'string' || !approved.case_id.trim()) return fail('the approval identity is missing');
   if (state.id !== approved.case_id) return fail('the read-back returned a different case');
   const p = approved.payload;
+  if (approved.kind === 'POST_CREDIT') {
+    const c = creditResult?.credit, d = state.decision;
+    if (creditResult?.status !== 'VERIFIED_POSTED_CREDIT' || creditResult.case_id !== state.id || creditResult.action_id !== approved.id
+        || !c || !d || state.status !== 'CREDIT_POSTED') return fail('ledger and decision have not both been verified');
+    if (c.id !== d.credit_id || c.case_id !== state.id || c.draft_id !== approved.id || d.draft_id !== approved.id
+        || c.status !== 'POSTED' || c.evidence_version !== approved.version || d.evidence_version !== approved.version
+        || c.payload_hash !== approved.payload_hash || d.payload_hash !== approved.payload_hash
+        || d.reviewed_support !== true || d.brief_version !== 1
+        || c.approved_by !== 'demo:barbara' || d.approved_by !== 'demo:barbara'
+        || c.approval_identity !== 'simulated_not_oauth' || d.approval_identity !== 'simulated_not_oauth'
+        || !Object.keys(p).every(key => deepEqual(c[key], p[key]) && deepEqual(d[key], p[key]))) return fail('posted credit or decision differs from the reviewed package');
+    return {ok: true, summary: '$648.50 synthetic credit and reviewed case decision are verified'};
+  }
   if (['REQUEST_EVIDENCE', 'REQUEST_PROCESSOR_EVIDENCE'].includes(approved.kind)) {
     const r = approved.kind === 'REQUEST_PROCESSOR_EVIDENCE' ? state.processor_request : state.request;
     if (!r) return fail('no evidence request is saved');

@@ -87,6 +87,7 @@ try {
     readAssignments: async () => (await fetch(base + '/api/demo-assignments')).json(),
     readState: async id => (await fetch(`${base}/api/case?case_id=${encodeURIComponent(id)}`)).json(),
     stageRequest: args => actionCall('/api/stage-request', args),
+    stageCredit: args => actionCall('/api/stage-credit', args),
     getActionResult: (id, actionId) => actionCall(`/api/action-result?case_id=${id}&action_id=${actionId}`)}));
   client = new Client({name: 'browser-continuity-check', version: '1'});
   await client.connect(new StreamableHTTPClientTransport(new URL(mcpOrigin + '/mcp')));
@@ -156,11 +157,55 @@ try {
   assert.equal(correction.structuredContent.provenance.correction_of, 'E-003');
   assert.equal(correction.structuredContent.provenance.request_id, savedFollowup.structuredContent.request.id);
   assert.equal(final.credit, undefined);
+  const recommendation = {
+    case_id: caseId, snapshot: 4, source_ids: ['E-001', 'E-002', 'E-003', 'E-004', 'E-005'],
+    rationale: 'The customer denies authorization [E-001]. The ledger records the purchase only [E-002]. The original device assertion [E-003] cited a record for another purchase [E-004]. The processor corrected that citation and could provide no purchase-specific support [E-005]. Recommend a customer-favorable decision for human review of this complete record, not an automatic credit or finding of fraud.',
+    customer_explanation: 'We reviewed your report and the corrected records for your JCPenney purchase. Your dispute has been resolved in your favor.'};
+  const creditDraft = await client.callTool({name: 'stage_credit', arguments: recommendation});
+  assert.equal(creditDraft.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
+  assert.equal(creditDraft.structuredContent.payload.amount_cents, 64850);
+  await page.goto(base);
+  await page.waitForFunction(() => document.getElementById('saved-status').textContent === 'Under review');
+  assert.equal(await page.locator('#resolution').isVisible(), false, 'A draft cannot produce customer success');
+  await page.goto(`${base}/ops?case_id=${caseId}`);
+  await page.locator('#supports-dispute').waitFor({state: 'visible'});
+  assert.equal(await page.locator('#approve').isDisabled(), true, 'Explicit evidence-support review is required');
+  assert.match(await page.locator('#approval').innerText(), /648.50/);
+  await page.locator('#supports-dispute').check();
+  await page.screenshot({path: '.local/credit-review.png', fullPage: true});
+  await page.click('#approve');
+  await page.waitForFunction(() => document.getElementById('notice').textContent.includes('credit and reviewed case decision are verified'));
+  const credit = await client.callTool({name: 'get_action_result', arguments: {case_id: caseId, action_id: creditDraft.structuredContent.action_id}});
+  assert.equal(credit.structuredContent.status, 'VERIFIED_POSTED_CREDIT');
+  assert.equal(credit.structuredContent.credit.amount_cents, 64850);
+  assert.equal(credit.structuredContent.credit.customer_explanation, recommendation.customer_explanation);
+  assert.equal(credit.structuredContent.decision.reviewed_support, true);
+  const repeated = await actionCall('/api/review-action', {case_id: caseId, draft_id: creditDraft.structuredContent.action_id,
+    version: 4, payload_hash: creditDraft.structuredContent.payload_hash, supports_dispute: true});
+  assert.equal(repeated.duplicate, true);
+  await page.goto(base);
+  await page.locator('#resolution').waitFor({state: 'visible'});
+  assert.equal(await page.locator('#saved-title').innerText(), 'Your credit is here.');
+  assert.equal(await page.locator('#resolution-explanation').innerText(), recommendation.customer_explanation);
+  await page.screenshot({path: '.local/customer-credit.png', fullPage: true});
+  await page.route('**/api/customer-case?*', route => route.fulfill({status: 409, json: {error: 'credit_verification_pending'}}));
+  await page.click('#check-report');
+  await page.waitForFunction(() => document.getElementById('saved-title').textContent.includes('could not confirm'));
+  assert.equal(await page.locator('#resolution').isVisible(), false, 'Failed verification must hide previously visible completion');
+  await page.unroute('**/api/customer-case?*');
+  await page.click('#check-report');
+  await page.locator('#resolution').waitFor({state: 'visible'});
+  await page.locator('#saved [data-back="home"]').click();
+  assert.equal(await page.locator('#card-balance').innerText(), '$1,536.22');
+  assert.equal(await page.locator('#credit-activity').isVisible(), true);
+  await page.screenshot({path: '.local/customer-credit-activity.png', fullPage: true});
+  assert.equal((await (await fetch(base + '/api/case')).json()).request, null, 'Credit flow must not change legacy seed');
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser_check: 'passed', mode: live ? 'live_responses' : 'mock_model', model_calls: modelCalls,
     model: initial.model_meta?.model || 'mock', same_case_through_queue_and_mcp: true, hidden_evidence_denied: true,
     mcp_staging_and_human_approval: true, separate_request_verification: true, deterministic_association_check: true,
     processor_followup_and_explicit_correction: true, original_evidence_preserved: true,
+    reviewed_credit_and_separate_ledger_case_verification: true, customer_resolution_and_activity: true,
     live_database_modified: false}));
 } finally {
   if (client) await client.close();

@@ -1,6 +1,6 @@
 # Closed-case ending - locked October 20, 2026
 
-October 21 implementation update: both investigation-request approval cycles now exist, including the corrected processor response E-005 released only after an explicit simulation. See processor-followup.md. The supported credit, verified synthetic ledger/case posting, final brief and Martha's resolved banking view remain unbuilt. Earlier descriptions of all follow-up work as unimplemented below are historical; they do not authorize auto-credit from a missing record.
+October 21 current implementation: both investigation-request cycles and the final human-reviewed credit now exist, with source-cited rationale/customer explanation, atomic idempotent synthetic ledger/case posting, independent saved-effect verification and Martha's banking-app resolution. See credit-workflow.md. 111 deterministic tests and an isolated three-cycle browser/SDK run pass; actual ChatGPT credit recommendation, Theo's approval and live customer observation remain pending. No auto-credit from missing evidence, no real auth or money movement. Older unbuilt statements below describe prior increments.
 
 Theo approved a complete customer outcome rather than stopping at an evidence request or specialist referral. This replaces the October 19 ending. All people, purchases, processor records, policy and financial entries in this scenario are synthetic. JCPenney is used for name familiarity only.
 
@@ -24,7 +24,7 @@ This is fictional bank policy, not a statement of law, network rules or actual b
 8. Apex rechecks authority and action freshness, posts the **synthetic** credit, and records the decision and evidence basis. A separate read verifies the ledger entry and case update.
 9. Only after verification, show Martha the approved resolution and posted credit. If demonstrating an actual message send, verify its saved delivery/outbox state separately; a displayed draft is not a sent message.
 
-The final packet's source fields and exact decision rationale remain fixture/build work. Raw evidence must contain attributed observations, not the evaluator's expected conclusion. Release later responses only at their intended stage.
+The corrected processor response and provenance now exist as synthetic record/excerpt data, released only at the intended stage. Source-document/PDF artifacts remain pending. The decision rationale and customer explanation are supplied by actual ChatGPT when staging, not embedded as an evidence answer key. Raw evidence contains attributed observations rather than a preordained credit decision.
 
 ## What Barbara approves
 
@@ -55,10 +55,8 @@ Credit is a customer financial remedy, not bank cost savings or additional ROI. 
 
 ## Implementation and timing status
 
-The current server and verification code still end in specialist handoff; they do not implement this ending. The named local-demo-operator audit identity remains unchanged. Barbara is the intended authenticated scenario role, not a completed identity integration.
-
-Required additions include released follow-up evidence and state transitions, scoped request and credit drafts, actual authorization, an idempotent synthetic ledger action, saved-effect verification and customer-resolution display. Do not overwrite the old workflow or claim tests passed in this documentation update.
+The ending is implemented for customer-created cases under explicitly simulated Barbara identity, not external authentication. The legacy seed retains its prior specialist-handoff scaffold. Credit-workflow.md describes current controls, executed tests and remaining actual-ChatGPT/customer proof. Do not treat citation-presence validation as semantic evaluation or simulated identity as production authorization.
 
 The 18-minute demonstration now includes three approval/verification cycles: initial internal lookup request, processor follow-up request and final credit. Explain the first and keep the later reviews concise while retaining exact amounts/scope and meaningful human review. Count ChatGPT staging confirmations separately. Record actual timing during later rehearsal. Gate 0 and existing implementation-readiness rules still apply.
 
-A live-versus-clearly-simulated plan is still needed; the execution environment is currently unavailable. This is approved scenario scope, not an executed financial action or full build completion.
+The local ledger, processor arrivals and identity are explicitly simulated. Intake has earlier live Responses proof; both actual ChatGPT investigation walkthroughs are user-observed complete. Final actual ChatGPT credit/live customer proof, source/PDF artifacts, voice alternative and broader evaluations/readiness are still pending. No executed real financial action or full production/demo-readiness claim.

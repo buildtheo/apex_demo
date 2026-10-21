@@ -21,6 +21,12 @@ async function load() {
     const r = await fetch(caseUrl('/api/case'));
     if (!r.ok) throw Error('Case read failed');
     const next = await r.json();
+    if(next.decision?.draft_id){
+      try{
+        const check=await fetch(`/api/action-result?case_id=${encodeURIComponent(next.id)}&action_id=${encodeURIComponent(next.decision.draft_id)}`,{headers:{'X-Apex-Actor':'demo:barbara'}});
+        if(check.ok)next.credit_check=await check.json();
+      }catch{/* Never show completion without the separate ledger/decision read. */}
+    }
     if (generation !== caseGeneration) return;
     state = next;
     render();
@@ -49,8 +55,21 @@ function render(){
   const waiting=pending.status==='OPEN', processor=Boolean(state.processor_request);
   $('request-status').innerHTML=`<p class="eyebrow">${waiting?'WAITING FOR EVIDENCE':'RESPONSE RECEIVED'}</p><h2>${waiting?(processor?'We have requested evidence for this purchase.':'We have requested the authentication lookup.'):(processor?'The processor has provided a corrected response.':'The authentication lookup has arrived.')}</h2><p>${waiting?'The request is saved. No response has arrived yet.':processor?'Open the corrected processor response below (E-005). The original export is unchanged.':'Open the lookup result above (E-004), then return to ChatGPT to review it.'}</p>${waiting?'<p class="small">For this demo, use the simulation button to move forward to the later response. No external processor is contacted.</p>':''}`;
  }
+ if(state.decision){
+  const approved=state.staged_actions?.[state.decision.draft_id];
+  const verified=verifyEffect(state,approved,state.credit_check).ok;
+  $('request-status').hidden=false;
+  $('request-status').innerHTML=verified?'<p class="eyebrow">CREDIT VERIFIED</p><h2>Martha\'s $648.50 credit is posted.</h2><p>The synthetic ledger and reviewed case decision match. Return to Martha\'s banking app to see her resolution.</p>':'<h2>Credit verification is pending.</h2><p>Do not report completion or retry posting. Refresh the case to reconcile the saved ledger and decision.</p>';
+ }
  const d=state.draft;$('approval').hidden=!d;
  if(d){
+  if(d.kind==='POST_CREDIT'){
+   const p=d.payload;
+   $('approval').innerHTML=`<p class="eyebrow">BARBARA'S REVIEW · SYNTHETIC CREDIT</p><h2>Credit Martha $${safe((p.amount_cents/100).toFixed(2))}?</h2><p>JCPenney · Card ending 8821 · Case ${safe(d.case_id)}</p><h3>Why this is recommended</h3><p>${safe(p.rationale)}</p><h3>What Martha will see</h3><p>${safe(p.customer_explanation)}</p><p>Sources: ${safe(p.source_ids.join(', '))}</p><p class="small">Fictional policy ${safe(p.policy_id)} permits Barbara to approve supported disputes strictly below $1,000. Missing evidence alone is not eligibility or proof of fraud. Identity and ledger are simulated.</p><label class="credit-attestation"><input id="supports-dispute" type="checkbox"> I reviewed the cited evidence and explanation and find that they support this customer-favorable decision under the fictional policy.</label><details class="technical-payload"><summary>Action details</summary><p>Action ${safe(d.id)} · Evidence v${d.version} · Account ${safe(p.account_ref)} · Expires ${safe(new Date(d.expires_at*1000).toLocaleTimeString())}</p><pre>${safe(JSON.stringify(p,null,2))}</pre></details><button id="approve" disabled>Approve $648.50 credit in demo</button>`;
+   $('supports-dispute').onchange=()=>{$('approve').disabled=!$('supports-dispute').checked;};
+   $('approve').onclick=()=>act('approve',{draft_id:d.id,supports_dispute:$('supports-dispute').checked},d);
+   return;
+  }
   const note=d.contract?'This saves a synthetic request only. It does not return evidence or approve credit. Production identity is not implemented.':'This action changes only the local synthetic case. Production identity and authorization are not implemented.';
   const request=d.contract==='mcp_request_v1';
   const payload=request?`<p class="request-question">${safe(d.payload.question)}</p><dl class="request-facts">${[
@@ -66,12 +85,12 @@ async function act(action,extra={},approved=null){
  invalidateAssessment();
  try{
   document.querySelectorAll('button').forEach(b=>b.disabled=true);
-  const reviewed=action==='approve'&&approved?.contract==='mcp_request_v1';
+  const reviewed=action==='approve'&&['mcp_request_v1','mcp_credit_v1'].includes(approved?.contract);
   const r=await fetch(reviewed?'/api/review-action':'/api/action',{method:'POST',headers:{'Content-Type':'application/json','X-Apex-Demo':'local'},
    body:JSON.stringify({action,...extra,...(selectedCase?{case_id:selectedCase}:{}),...(reviewed?{case_id:approved.case_id,version:approved.version,payload_hash:approved.payload_hash}:{})})});
   const j=await r.json();if(!r.ok)throw Error(j.error);await load();
   if(action==='approve'){
-   const v=verifyEffect(state,approved);if(!v.ok)throw Error('Execution acknowledged, but the saved case record could not be verified: '+v.reason+'.');
+   const v=verifyEffect(state,approved,state.credit_check);if(!v.ok)throw Error('Execution acknowledged, but the saved case record could not be verified: '+v.reason+'.');
    $('notice').textContent='Verified against the saved case record: '+v.summary+'.';
  }else $('notice').textContent=['response','processor_response'].includes(action)?'Later response received (simulation). Return to ChatGPT to review the new evidence.':'Case updated.';
  }catch(e){$('notice').textContent=e.message;}

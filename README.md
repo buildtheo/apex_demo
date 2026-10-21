@@ -1,12 +1,14 @@
 # Apex — dispute investigation prototype
 
-October 21: the second human-reviewed processor evidence request and explicit later corrected response are implemented. Read [processor follow-up](docs/processor-followup.md) for the next actual-ChatGPT walkthrough. 91 deterministic tests plus the isolated browser/SDK flow pass. Credit/Martha's resolved banking view and document/PDF artifacts remain pending. Identity and processor responses are simulated; no external processor contact or money movement.
+October 21 current build: all three human-reviewed action cycles are implemented, ending in a verified synthetic $648.50 credit and Martha's banking-app resolution, explanation and activity. Read [the credit walkthrough](docs/credit-workflow.md). 111 deterministic tests plus an isolated three-cycle browser/SDK flow pass. Both actual ChatGPT investigation walkthroughs are user-observed complete; the credit recommendation/approval/customer walkthrough is next. Identity, processor responses and ledger are simulated. PDFs, voice and broader evals remain pending; no real money movement or production-readiness claim.
 
 A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Architect onsite demo.
 
 **Continuing as another agent? Start with [the consolidated handoff](docs/START-HERE.md).** It links the locked demo, current implementation, executed checks, source evidence, and next required step.
 
-## Current build handoff - October 20
+## Historical Build Notes - October 20
+
+These dated progress notes describe earlier increments; the October 21 status above and docs/credit-workflow.md are current.
 
 Latest approval increment: optional stage_evidence_request saves a bounded draft and is correctly marked WRITE; get_action_result verifies saved request facts. Actual execution requires the separate local Apex review button with exact payload/version/assignment/expiry checks. No approval/execution MCP tool. 82 deterministic tests plus isolated browser/SDK approval flow pass. Theo's submitted-case ChatGPT reading is user-observed; his live case was not advanced or approved. See [request actions](docs/request-actions.md). Processor follow-up and credit are still pending. Earlier two-read-tool descriptions below are historical; local runtime now enables four tools.
 Text intake, customer confirmation, shared queue and same-case MCP reads are implemented. Actual ChatGPT source reasoning on the old and new cases is user-observed. Identity remains simulated, not OAuth; public tools may read or stage a bounded draft, never approve/execute. See [intake setup](docs/intake-setup.md), [adapter setup](docs/adapter-setup.md) and [current progress](docs/build-progress.md). No credit or final resolution is implemented yet.

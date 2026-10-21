@@ -2,11 +2,12 @@ import express from 'express';
 import {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import {StreamableHTTPServerTransport} from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import {z} from 'zod';
-import {AccessError, authorize, caseView, evidenceView, stagedActionView, actionResultView} from './access.mjs';
+import {AccessError, authorize, caseView, evidenceView, stagedActionView, actionResultView, stagedCreditView, screen} from './access.mjs';
 
-export function createAdapter({origin, issuer, assignments, verifyToken, readState, readAssignments, stageRequest, getActionResult, authMode = 'oauth'}) {
+export function createAdapter({origin, issuer, assignments, verifyToken, readState, readAssignments, stageRequest, stageCredit, getActionResult, authMode = 'oauth'}) {
   if (!['oauth', 'demo'].includes(authMode)) throw Error('Unsupported authentication mode.');
   if (Boolean(stageRequest) !== Boolean(getActionResult)) throw Error('Staging and verification must be configured together.');
+  if (stageCredit && !getActionResult) throw Error('Credit staging requires verification.');
   const simulated = authMode === 'demo';
   const app = express();
   app.disable('x-powered-by');
@@ -92,11 +93,26 @@ export function createAdapter({origin, issuer, assignments, verifyToken, readSta
         return stagedActionView(await stageRequest({...args, scope: 'processor_transaction_evidence'}, req.principal), args.case_id);
       }));
       server.registerTool('get_action_result', {
-        description: 'Read saved request facts for a staged action. Only VERIFIED_SAVED_REQUEST establishes the approved request was saved; waiting, expired or unverified is not execution. No approval or action execution.',
+        description: 'Read saved operational facts for a staged action. VERIFIED_SAVED_REQUEST proves a saved request; VERIFIED_POSTED_CREDIT proves separately checked synthetic ledger and case decision. Waiting, expired or unverified is not execution. No approval or action execution.',
         inputSchema: {case_id: z.string().min(1).max(80), action_id: z.string().min(1).max(80)}, annotations,
       }, result(async ({case_id, action_id}) => {
         await read(case_id);
         return actionResultView(await getActionResult(case_id, action_id, req.principal), case_id, action_id);
+      }));
+    }
+    if (stageCredit) {
+      server.registerTool('stage_credit', {
+        description: 'Prepare a customer-favorable synthetic credit for human review after the corrected processor response. Supply your source-cited rationale and plain-language customer explanation. Apex fixes the purchase amount/account and fictional below-$1,000 authority. WRITE: saves a draft only. Missing evidence alone is not eligibility or proof of fraud. Barbara must review and separately approve in Apex; never claim a posted credit until get_action_result verifies ledger and case.',
+        inputSchema: {case_id: z.string().min(1).max(80), snapshot: z.number().int().positive(),
+          source_ids: z.array(z.enum(['E-001', 'E-002', 'E-003', 'E-004', 'E-005'])).length(5),
+          rationale: z.string().min(1).max(2400), customer_explanation: z.string().min(1).max(1200)},
+        annotations: {readOnlyHint: false, destructiveHint: false, openWorldHint: false, idempotentHint: true},
+      }, result(async args => {
+        const state = await read(args.case_id);
+        if (state.version !== args.snapshot) throw new AccessError('stale_snapshot');
+        if (!['E-001', 'E-002', 'E-003', 'E-004', 'E-005'].every(id => state.evidence.some(e => e.id === id && e.available === true))) throw new AccessError('source_unavailable');
+        screen(args.rationale); screen(args.customer_explanation);
+        return stagedCreditView(await stageCredit(args, req.principal), args.case_id);
       }));
     }
     res.on('close', () => { void transport.close(); void server.close(); });

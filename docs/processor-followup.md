@@ -1,6 +1,6 @@
 # Processor follow-up - October 21
 
-Implemented for customer-created synthetic cases after the completed internal lookup. This is the second approval cycle; credit and Martha's resolved banking view remain unbuilt. No external processor is contacted. Identity remains explicitly simulated, not OAuth.
+Implemented for customer-created synthetic cases after the completed internal lookup. This is the second approval cycle; Theo has now completed its actual ChatGPT walkthrough, including E-005 reassessment at v4. The final reviewed credit/customer cycle is now implemented in [credit-workflow.md](credit-workflow.md), with actual ChatGPT/live-case proof pending. No external processor is contacted. Identity remains explicitly simulated, not OAuth.
 
 ## What the audience should understand
 
@@ -31,4 +31,4 @@ The request covers authentication, authorization, timestamps, device verificatio
 
 60 Python tests and 31 Node tests pass (91 deterministic tests). The isolated mock-intake browser/SDK check passed both separate MCP draft/approval/result cycles, the visible waiting state, explicit E-005 arrival and provenance, and exact preservation of the original sources. It did not call OpenAI or alter Theo's live case. These tests are not model evaluations or actual ChatGPT invocation proof for the new tool.
 
-Actual account-side stage_processor_followup invocation and Theo's approval are the next walkthrough checks. Financial ledger/credit, final decision brief, customer resolution and document/PDF provenance are still pending.
+Actual account-side stage_processor_followup, Theo's approval, explicit later arrival and actual ChatGPT source-cited reassessment are now user-observed complete, aligned with independent saved-case/request checks. The financial ledger/credit, reviewed brief and customer resolution are implemented and isolated-tested; actual ChatGPT credit/live customer proof is next (credit-workflow.md). Document/PDF artifacts remain pending. The six-tool runtime includes stage_credit; older five-tool counts above refer to this earlier increment.

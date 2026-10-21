@@ -1,6 +1,6 @@
 # Scoped request, human approval and verification
 
-October 21: this document describes the first approval cycle. The second is now implemented in [processor-followup.md](processor-followup.md), with a fifth MCP tool stage_processor_followup. Existing first-cycle payload/approval behavior is preserved. Credit remains unbuilt; earlier four-tool/unbuilt-follow-up notes below are historical.
+October 21: this document describes the first approval cycle. The second is implemented in [processor-followup.md](processor-followup.md), and the final credit/customer cycle in [credit-workflow.md](credit-workflow.md). Runtime exposes six tools, all staging WRITEs and no approval/execution MCP tool. Existing first-cycle payload/approval behavior is preserved. Earlier four/five-tool and unbuilt-credit/follow-up notes below are historical.
 
 Implemented October 20 for customer-created synthetic cases, with explicitly simulated Barbara identity. This is the first approval cycle, not processor follow-up or credit. Theo has supplied actual ChatGPT evidence retrieval for APX-3625B0CC; the new action tools still need account-side invocation proof.
 
