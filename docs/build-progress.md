@@ -1,5 +1,13 @@
 # Build progress — October 21, 2026
 
+## First phone rehearsal: duplicate rejection no longer disconnects - October 21
+
+Theo reported that the call disconnected after submission and no new queue case appeared. Read-only persisted-state inspection found the call's selected practice run was the same run as completed APX-B355D834; the voice intake had no case, retained its draft, and ended immediately after a 409 at confirmation. The existing credited dispute prevented a duplicate, as intended. The bridge's uncaught rejection caused the abrupt disconnect. No report was recovered or invented, no demo reset, and no old case/credit was changed.
+
+Phone arm and claim now reject an already-reported purchase before taking a new report, with an actionable queue/Restart demo message. A race where another intake saves during the call still hits the original duplicate guard, now explained conversationally without disconnecting or claiming submission. Unknown save results remain uncertain with no blind retry. A stale confirmation requests a fresh readback. Successful submission disables further intake tools but preserves follow-up conversation. Rejection diagnostics log fixed reason categories only, not transcripts, capabilities or customer fields.
+
+Added regressions for arm/claim rejection, unchanged saved case, explicit fresh-run recovery, duplicate-race browser status, continued connection after rejection and after success, and no automatic repeat submission. 93 Python + 49 Node checks pass; isolated browser/SDK text and voice walkthrough passes. Deployed only DMS/MCP, preserving the working tunnel, Twilio route, completed proofs and user's current run. Live phone-arm preflight now returns duplicate_dispute before creating a session; updated browser guidance is served. Case count remains four and both preserved case/ledger hashes match. Successful physical-call resubmission remains to rehearse after Theo explicitly starts a fresh run.
+
 ## Authorized Apex phone deployment - October 21
 
 Theo explicitly authorized temporarily using the existing M. Price Twilio number. Implemented an Apex-owned signed webhook/WSS PCMU bridge, single-use tickets and configured-caller guard, Realtime prepare-only tool, private selected-purchase binding, screened ASR turns, revision/nonce draft binding, exact readback transcript check, Twilio playback acknowledgement and keypad-1 confirmation. Keypad 2/correction invalidates the old review. No model submission, credit or driver-recovery tools. The bank polls the linked session and reveals the separately verified same saved case, feeding the existing seven-tool ChatGPT/credit journey. No banking PIN or real identity claim. Speech-to-text is labeled as such in E-001.

@@ -28,7 +28,7 @@ async function api(path, data) {
       preview_expired: "This demo preview has expired. Reopen Martha's app from Apex review.",
       intake_model_unavailable: 'Support is temporarily unavailable. Your report has not been submitted. Please try again.',
       conversation_limit: 'This demo has reached its conversation limit. No report was submitted.',
-      duplicate_dispute: 'A report for this purchase already exists. Continue from the browser tab where you submitted it.',
+      duplicate_dispute: 'This practice run already has a report for this purchase. Open the Apex case queue to view it, or use Restart demo there before making a new report.',
       stale_confirmation: 'Your report changed. Review the latest details before confirming.'};
     throw Error(messages[result.error] || `Request could not be completed (${result.error || response.status}).`);
   }
@@ -87,7 +87,9 @@ async function pollVoice() {
     await refreshSession();
     if (session.case_id) {await saved(); return;}
     const labels = {ready: 'Ready for your call.', connected: 'Connected to support. Tell us what happened.',
-      reviewing: 'Listen to the report. Press 1 to submit, or 2 to correct it.', ended: 'The call ended. Your report has not been submitted.'};
+      reviewing: 'Listen to the report. Press 1 to submit, or 2 to correct it.',
+      duplicate: 'A report already exists in this practice run. No new report was created. View it in the Apex case queue, or restart there to rehearse again.',
+      ended: 'The call ended. Your report has not been submitted.'};
     $('voice-status').textContent = labels[session.voice_status] || labels.ready;
     $('voice-summary').textContent = session.review?.statement || '';
     $('retry-voice').hidden = session.voice_status !== 'ended';
@@ -95,7 +97,7 @@ async function pollVoice() {
 }
 async function startVoice() {
   if (busy) return;
-  show('voice'); setBusy(true); $('retry-voice').hidden = true;
+  show('voice'); setBusy(true); $('retry-voice').hidden = true; $('voice-number').hidden = true;
   try {
     const config = await api('/api/voice/config');
     if (!config.enabled) { $('voice-status').textContent = 'Phone support is not configured right now. Please report in the app.'; return; }

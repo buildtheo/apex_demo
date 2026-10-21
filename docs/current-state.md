@@ -7,7 +7,7 @@ Locked at Theo's request October 21, 2026; updated for the authorized phone-inta
 Martha disputes a $648.50 JCPenney online purchase. Barbara investigates the same case in actual ChatGPT, identifies a bad supporting-record association, obtains corrected evidence, then reviews a supported credit recommendation. She returns to Apex to approve the credit. Martha sees the verified result in the browser iPhone banking app.
 
 - Platform/APIs powers customer intake; actual ChatGPT plus Apex MCP powers Barbara's work. Text and Realtime voice are alternative intake modes, not extra product surfaces.
-- Discovery chooses voice OR text. Responses text intake works. Twilio/OpenAI Realtime phone intake is implemented and configured; the physical phone rehearsal remains pending.
+- Discovery chooses voice OR text. Responses text intake works. Twilio/OpenAI Realtime phone intake is implemented and configured. Theo's first call reached confirmation but was rejected as a duplicate of the existing credited dispute. The erroneous disconnect and missing early warning are fixed; successful physical-call submission remains pending.
 - Barbara uses Apex only at initial queue pickup and final credit approval. Bounded evidence requests and reassessment stay in her ChatGPT conversation.
 - Agreement to an evidence-gathering step includes that step's permitted labeled simulated response. No second time-jump question; honor pause/wait/existing-only requests and read the released source before assessment.
 - Keep the primary story short and conversational. Technical depth stays inspectable through source excerpts/provenance, exact approval and verification, not repeated tables or IDs.
@@ -42,7 +42,7 @@ Theo's user observation of the customer credit preceded the completion-copy poli
 
 ## Last Executed Verification
 
-- 92 Python + 46 Node tests pass: 138 deterministic checks, including private voice binding, stale/corrected readback, signed transport, interruption and keypad confirmation.
+- 93 Python + 49 Node tests pass: 142 deterministic checks, including private voice binding, stale/corrected readback, signed transport, interruption, keypad confirmation, early duplicate rejection and continued conversation after submission/rejection.
 - Isolated mock-model browser/official SDK walkthrough passes intake, copy/open/manual fallback, same-case investigation without evidence-request business approvals, separate credit approval, saved-effect verification, completed customer wording, lost-session preview and both restart buttons.
 - Tests cover 100 restart operations, repeated practice credits, duplicate/concurrent/stale/denied actions and false-success behavior. These are not 100 live calls.
 - Isolated browser/SDK flow also passes voice selection, private synthetic call events, draft without submission, keypad confirmation and same-case bank/queue/MCP visibility. Audio and model responses are mocked in that browser check.
@@ -58,7 +58,7 @@ Barbara uses Theo's personal Plus ChatGPT connection, labeled simulated identity
 
 ## Remaining Work
 
-- Rehearse the physical Apex phone call and actual model conversation, correction, interruption, readback and keypad confirmation. Implementation/configuration tests do not establish live model compliance or real phone audio quality. See phone-setup.md.
+- Rehearse a successful physical Apex phone submission in a fresh practice run, plus correction, interruption, readback and keypad confirmation. The failed first call is not successful end-to-end proof. Implementation/configuration tests do not establish live model compliance or real phone audio quality. See phone-setup.md.
 - Create inspectable clearly synthetic source PDFs where document-shaped evidence warrants them; record views/excerpts already exist. Do not invent original PDFs or provenance.
 - Run representative model/failure evaluations and recording/interview-readiness checks. Complete presentation work when Theo directs; the technical walkthrough is not full submission readiness.
 - Continue to distinguish fictional policy, customer/processor/ledger data, public merchant references and modeled business assumptions. Missing evidence is not fraud or automatic credit eligibility; below-$1,000 authority is not an eligibility rule. Network recovery stays out of scope.

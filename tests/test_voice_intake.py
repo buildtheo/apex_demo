@@ -80,11 +80,31 @@ class VoiceIntakeTests(unittest.TestCase):
         self.assertTrue(self.voice.transcript(self.sid, self.token, 'item-first', 'I shop at JCPenney, but I did not authorize this purchase.')['duplicate'])
         with self.assertRaises(IntakeError): self.voice.transcript(self.sid, self.token, 'item-first', 'A different statement')
         s = self.store.intake._session(self.sid, self.token); nonce = s['review']['nonce']
-        self.voice.played(self.sid, self.token, 1, nonce)
-        self.voice.confirm(self.sid, self.token, 1, nonce, '1')
         other = self.voice.arm('T-204'); linked = self.voice.claim('CA' + 'd' * 32)
         self.voice.transcript(linked['session_id'], linked['token'], 'another-item', 'I deny this purchase.')
         d = self.voice.prepare(linked['session_id'], linked['token'], 1, 'I deny this purchase.', 'unauthorized')
         self.voice.played(linked['session_id'], linked['token'], 1, d['review']['nonce'])
-        with self.assertRaises(IntakeError): self.voice.confirm(linked['session_id'], linked['token'], 1, d['review']['nonce'], '1')
+        self.voice.played(self.sid, self.token, 1, nonce)
+        self.voice.confirm(self.sid, self.token, 1, nonce, '1')
+        with self.assertRaises(IntakeError) as error:
+            self.voice.confirm(linked['session_id'], linked['token'], 1, d['review']['nonce'], '1')
+        self.assertEqual(error.exception.code, 'duplicate_dispute')
+        self.assertEqual(self.store.intake.get(other['session_id'], other['token'])['voice_status'], 'duplicate')
         self.assertEqual(len(self.store.intake.cases()), 1)
+
+    def test_existing_report_blocks_arming_and_claim_without_overwriting_saved_case(self):
+        draft = self.draft()
+        pending = self.voice.arm('T-204')
+        self.voice.played(self.sid, self.token, 1, draft['review']['nonce'])
+        result = self.voice.confirm(self.sid, self.token, 1, draft['review']['nonce'], '1')
+        case_before = copy.deepcopy(self.store.read(result['case_id']))
+        count = self.store.db.execute('SELECT COUNT(*) FROM intakes').fetchone()[0]
+        for operation in (lambda: self.voice.arm('T-204'), lambda: self.voice.claim('CA' + 'e' * 32)):
+            with self.assertRaises(IntakeError) as error: operation()
+            self.assertEqual(error.exception.code, 'duplicate_dispute')
+        self.assertEqual(self.store.db.execute('SELECT COUNT(*) FROM intakes').fetchone()[0], count)
+        self.assertEqual(self.store.read(result['case_id']), case_before)
+        self.assertEqual(self.store.intake.get(pending['session_id'], pending['token'])['voice_status'], 'ready')
+        self.store.intake.restart('explicit-fresh-voice-run')
+        self.assertEqual(self.voice.arm('T-204')['channel'], 'voice')
+        self.assertEqual(self.store.read(result['case_id']), case_before)

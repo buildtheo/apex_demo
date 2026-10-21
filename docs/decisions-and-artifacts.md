@@ -1,5 +1,9 @@
 # Decisions and artifact index
 
+## October 21 - first phone call rejected duplicate; preserve history and explain rejection
+
+The first actual phone rehearsal reached confirmation but did not create a case because the selected practice run already held the completed credited dispute. Keep the duplicate guard; do not silently restart or create a second dispute. Early arm/claim validation now directs the presenter to the existing queue/Restart demo control. Late duplicate or unverified submission outcomes are explained without disconnecting or inventing success. Verified success also leaves the call open for follow-up, with intake tools disabled. Regression proof and limits: build-progress.md and phone-setup.md. Successful fresh-run physical submission remains pending.
+
 ## October 21 - phone alternative implemented and shared number switched with permission
 
 Theo explicitly approved temporarily using the existing M. Price number. Implemented Apex-specific Realtime intake with a signed, caller-allowlisted Twilio transport and private selected-purchase session. Customer consent is keypad 1 only after completed current-draft playback; keypad 2 permits correction. This is not a PIN or identity verification. Model authority stops at preparing a draft. The same verified case appears in the banking app, queue and existing ChatGPT tools; only credit needs Barbara's business approval.

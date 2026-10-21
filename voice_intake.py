@@ -14,8 +14,15 @@ class VoiceIntake:
         intake.db.execute('CREATE TABLE IF NOT EXISTS voice_links (session_id TEXT PRIMARY KEY, call_sid TEXT UNIQUE, expires_at INTEGER NOT NULL)')
         intake.db.commit()
 
+    def _require_new_report(self):
+        run = self.intake.current_run()
+        if any(c.get('customer_ref') == 'demo:martha' and c.get('transaction_id') == 'T-204'
+               and c.get('demo_run') == run for c in self.intake.cases()):
+            raise IntakeError('duplicate_dispute')
+
     def arm(self, transaction_id):
         with self.intake.lock:
+            self._require_new_report()
             session = self.intake.start(transaction_id, channel='voice')
             self.intake.db.execute('DELETE FROM voice_links WHERE call_sid IS NULL')
             self.intake.db.execute('INSERT INTO voice_links VALUES (?,NULL,?)', (session['session_id'], int(time.time()) + 600))
@@ -27,6 +34,7 @@ class VoiceIntake:
         with self.intake.lock:
             if self.intake.db.execute('SELECT 1 FROM voice_links WHERE call_sid=?', (call_sid,)).fetchone():
                 raise IntakeError('call_already_claimed', 409)
+            self._require_new_report()
             rows = self.intake.db.execute('SELECT v.session_id,i.body FROM voice_links v JOIN intakes i ON i.id=v.session_id WHERE v.call_sid IS NULL AND v.expires_at>?', (time.time(),)).fetchall()
             eligible = [(sid, json.loads(body)) for sid, body in rows if json.loads(body).get('demo_run') == self.intake.current_run()]
             if len(eligible) != 1: raise IntakeError('no_armed_call', 409)
@@ -90,7 +98,13 @@ class VoiceIntake:
         with self.intake.lock:
             s = self.session(sid, token)
             if digit != '1' or not s.get('readback_played'): raise IntakeError('keypad_confirmation_required', 403)
-            result = self.intake.confirm(sid, token, revision, nonce, voice_confirmation=True)
+            try:
+                result = self.intake.confirm(sid, token, revision, nonce, voice_confirmation=True)
+            except IntakeError as error:
+                if error.code == 'duplicate_dispute':
+                    s.update(voice_status='duplicate', readback_played=False)
+                    self.intake._save(s)
+                raise
             # Separate persisted read before returning a receipt.
             saved = self.intake._session(sid, token)
             case = self.intake.read_case(result['case_id'])

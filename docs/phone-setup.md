@@ -1,6 +1,6 @@
 # Apex Phone Intake
 
-October 21, 2026. Theo authorized temporarily using the existing M. Price Twilio number. Transport, session binding and bank updates are implemented. Automated tests and a live OpenAI session-configuration handshake pass. The actual phone call and model conversation still need Theo's rehearsal.
+October 21, 2026. Theo authorized temporarily using the existing M. Price Twilio number. Transport, session binding and bank updates are implemented. Theo's first call reached the confirmation flow but failed because that practice run already contained a credited dispute. Duplicate prevention worked; the bridge incorrectly disconnected on rejection. That handling is corrected and regression-tested. A successful physical-call submission still needs Theo's rehearsal.
 
 ## Rehearse
 
@@ -12,6 +12,8 @@ October 21, 2026. Theo authorized temporarily using the existing M. Price Twilio
 6. The computer's banking app shows the verified saved receipt for that same case. Hang up naturally, then continue Barbara's existing queue -> actual ChatGPT investigation -> Apex credit approval -> Martha's verified credit flow. Voice does not decide or post credit.
 
 Calls are limited to five minutes and one active caller. A hangup, provider failure, stale session or incomplete confirmation does not create a new case. Refresh can resume the browser's linked session. After an ended unsubmitted call, prepare another call in the app. Do not arm competing browser tabs or call before selecting Talk to support.
+
+A run allows only one dispute for the selected purchase, including an already credited dispute. Phone preparation and call claim now reject that situation before collecting a report. Use Restart demo in the queue for a new rehearsal; the application never silently resets financial history. If another channel saves a report during the call, the agent explains the duplicate rejection and stays connected for questions instead of claiming success or disconnecting. Unverified save results are explained as uncertain and must be checked before retrying. After a verified submission, follow-up conversation has no intake tools and the call stays open for the caller's answer.
 
 ## Architecture
 

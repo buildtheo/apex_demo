@@ -57,9 +57,12 @@ export function attachPhone(server, {config, backend, connectModel}) {
           xml.say(warning);
           xml.connect().stream({url: config.origin.replace('https:', 'wss:') + '/twilio/media'}).parameter({name: 'ticket', value: ticket});
           xml.hangup();
-        } catch {
+        } catch (error) {
           if (slot === owned) slot = undefined;
-          xml.say('Please select Talk to support in the Apex demo app, then call again.'); xml.hangup();
+          xml.say(error.code === 'duplicate_dispute'
+            ? 'This demo already has a report for the selected purchase. No new report was created. For another rehearsal, use Restart demo on the Apex case queue, then select Talk to support and call again.'
+            : 'Please select Talk to support in the Apex demo app, then call again.');
+          xml.hangup();
         }
       }
       res.writeHead(200, {'Content-Type': 'text/xml', 'Cache-Control': 'no-store'}).end(xml.toString());
@@ -74,6 +77,7 @@ export function attachPhone(server, {config, backend, connectModel}) {
     sockets.add(phone);
     let session, owned, model, streamSid, ready = false, ended = false, work = Promise.resolve();
     let revision = 0, review, mark, played = false, pendingReadback = false, readbackId, outputText = '';
+    let intakeClosed = false;
     let latestTimestamp = 0, audioStart = 0, audioBytes = 0, itemId, responseActive = false, pendingUser = false, userSpeaking = false, readbackAttempts = 0;
     const buffered = [], processed = new Set();
     const sendModel = data => {if (model?.readyState === WebSocket.OPEN) model.send(JSON.stringify(data));};
@@ -88,7 +92,8 @@ export function attachPhone(server, {config, backend, connectModel}) {
       model?.close(); phone.close(); sockets.delete(phone);
       schedule(() => {model?.terminate(); phone.terminate();}, 1000);
     }
-    function speak(instructions) {sendModel({type: 'response.create', response: {instructions}});}
+    function respond() {sendModel({type: 'response.create', ...(intakeClosed ? {response: {tools: [], tool_choice: 'none'}} : {})});}
+    function speak(instructions) {sendModel({type: 'response.create', response: {instructions, tools: [], tool_choice: 'none'}});}
     function readBack() {
       if (++readbackAttempts > 2) {end(); return;}
       pendingReadback = true; played = false; mark = undefined;
@@ -107,7 +112,7 @@ export function attachPhone(server, {config, backend, connectModel}) {
         if (!saved.submitted) {review = undefined; played = false; mark = undefined;}
         userSpeaking = false;
         if (responseActive) pendingUser = true;
-        else sendModel({type: 'response.create'});
+        else respond();
       } else if (event.type === 'conversation.item.input_audio_transcription.failed') end();
       else if (event.type === 'response.created') {
         responseActive = true;
@@ -117,7 +122,7 @@ export function attachPhone(server, {config, backend, connectModel}) {
       else if (event.type === 'response.done') {
         responseActive = false;
         if (event.response?.status === 'failed') {end(); return;}
-        if (pendingUser) {pendingUser = false; readbackId = undefined; sendModel({type: 'response.create'}); return;}
+        if (pendingUser) {pendingUser = false; readbackId = undefined; respond(); return;}
         if (event.response?.id === readbackId) {
           readbackId = undefined;
           if (event.response.status === 'completed' && review && readbackMatches(outputText, review.statement)) {
@@ -130,7 +135,7 @@ export function attachPhone(server, {config, backend, connectModel}) {
         for (const item of calls) {
           if (processed.has(item.call_id)) return;
           processed.add(item.call_id);
-          if (item.name !== 'prepare_intake' || typeof item.arguments !== 'string' || item.arguments.length > 4000) {end(); return;}
+          if (intakeClosed || item.name !== 'prepare_intake' || typeof item.arguments !== 'string' || item.arguments.length > 4000) {end(); return;}
           const args = JSON.parse(item.arguments);
           try {
             const prepared = await call('prepare', {revision, statement: args.statement, reason: args.reason});
@@ -199,8 +204,24 @@ export function attachPhone(server, {config, backend, connectModel}) {
           if (!session || !review || responseActive) return;
           if (event.dtmf?.digit === '2') {await call('correct'); review = undefined; played = false; speak('Ask what the customer wants to correct. No report has been submitted.');}
           else if (event.dtmf?.digit === '1' && played) {
-            const receipt = await call('confirm', {revision: review.revision, nonce: review.nonce, digit: '1'});
-            if (receipt.verified_saved_case !== true) {end(); return;}
+            try {
+              const receipt = await call('confirm', {revision: review.revision, nonce: review.nonce, digit: '1'});
+              if (receipt.verified_saved_case !== true) throw Error('Submission not verified');
+            } catch (error) {
+              const expected = new Set(['duplicate_dispute', 'stale_confirmation', 'keypad_confirmation_required']);
+              console.warn(JSON.stringify({event: 'apex_phone_submission_rejected', reason: expected.has(error.code) ? error.code : 'unverified_result'}));
+              review = undefined; played = false; mark = undefined;
+              if (error.code === 'stale_confirmation' || error.code === 'keypad_confirmation_required') {
+                speak('The report changed before confirmation. Say no new report has been confirmed. Ask the customer to clarify their account so a fresh readback can be prepared, then wait.');
+              } else {
+                intakeClosed = true;
+                speak(error.code === 'duplicate_dispute'
+                  ? 'Trusted application result: a report for this purchase already exists in this demo run. No new report was created. Explain that plainly; do not claim this call submitted it. For a new rehearsal, the presenter can use Restart demo on the Apex queue after hanging up. Ask if they have another question and wait; do not end the call.'
+                  : 'The application could not verify this submission. Tell the customer you cannot confirm whether it was received and to check the app before trying again. Do not claim success or failure, create another report, promise a credit or end the call. Ask if they need clarification, then wait.');
+              }
+              return;
+            }
+            intakeClosed = true;
             review = undefined; played = false;
             speak('Trusted saved-case verification succeeded. Tell the customer their report was received by the dispute team, not decided or credited. Ask whether they need anything else, then wait.');
           }

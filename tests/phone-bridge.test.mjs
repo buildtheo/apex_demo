@@ -9,7 +9,7 @@ import {attachPhone, readbackMatches, realtimeSession} from '../adapter/phone-br
 const config = {origin: 'https://phone.example', accountSid: 'AC' + 'a'.repeat(32), authToken: 'test-token-only',
   number: '+15555550100', caller: '+15555550101', apiKey: 'test-key-only', model: 'gpt-realtime-2.1', voice: 'cedar'};
 const wait = async predicate => {for (let i = 0; i < 200; i++) {if (predicate()) return; await new Promise(r => setTimeout(r, 10));} throw Error('Phone test timed out');};
-async function fixture(t) {
+async function fixture(t, {confirmError} = {}) {
   const calls = [], modelEvents = [], phoneEvents = [];
   const modelServer = new WebSocketServer({port: 0, host: '127.0.0.1'}); await once(modelServer, 'listening');
   let peer;
@@ -23,7 +23,10 @@ async function fixture(t) {
     if (action === 'claim') return {session_id: 'private-session', token: 'private-capability', revision: 0, transaction: {transaction_id: 'T-204'}};
     if (action === 'transcript') return {revision: 1};
     if (action === 'prepare') return {revision: 1, review: {statement: data.statement, nonce: 'private-review-nonce'}};
-    if (action === 'confirm') return {verified_saved_case: true, case_id: 'APX-TEST'};
+    if (action === 'confirm') {
+      if (confirmError) throw Object.assign(Error('Private operation rejected'), {code: confirmError});
+      return {verified_saved_case: true, case_id: 'APX-TEST'};
+    }
     return {ok: true};
   };
   const bridge = attachPhone(server, {config, backend, connectModel: () => new WebSocket(`ws://127.0.0.1:${modelServer.address().port}`)});
@@ -89,8 +92,40 @@ test('readback playback acknowledgement plus keypad are required; private capabi
   assert.equal(f.calls.find(c => c.action === 'confirm').data.nonce, 'private-review-nonce');
   assert.doesNotMatch(JSON.stringify(f.modelEvents), /private-capability|private-review-nonce/);
   assert.equal(f.calls.filter(c => c.action === 'confirm').length, 1);
+  await wait(() => f.modelEvents.some(e => e.response?.instructions?.includes('Trusted saved-case verification succeeded')));
+  assert.equal(phone.readyState, WebSocket.OPEN);
+  assert.equal(f.calls.some(c => c.action === 'end'), false);
+  f.emit({type: 'response.created', response: {id: 'receipt'}});
+  f.emit({type: 'response.done', response: {id: 'receipt', status: 'completed', output: []}});
+  f.emit({type: 'conversation.item.input_audio_transcription.completed', item_id: 'item-thanks', transcript: 'Thank you. Is that everything?'});
+  await wait(() => f.modelEvents.at(-1)?.type === 'response.create');
+  assert.equal(f.modelEvents.at(-1).response.tool_choice, 'none');
+  assert.deepEqual(f.modelEvents.at(-1).response.tools, []);
+  assert.equal(phone.readyState, WebSocket.OPEN);
   phone.close();
 });
+
+for (const code of ['duplicate_dispute', 'service_unavailable', 'stale_confirmation']) {
+  test(`submission rejection ${code} explains the outcome without hanging up or retrying`, async t => {
+    const f = await fixture(t, {confirmError: code}), phone = await f.start(), mark = await f.draft();
+    phone.send(JSON.stringify({event: 'mark', mark: {name: mark}}));
+    await wait(() => f.calls.some(c => c.action === 'played'));
+    phone.send(JSON.stringify({event: 'dtmf', dtmf: {digit: '1'}}));
+    await wait(() => f.calls.some(c => c.action === 'confirm'));
+    await wait(() => f.modelEvents.some(e => e.response?.instructions?.includes(code === 'duplicate_dispute'
+      ? 'No new report was created' : code === 'stale_confirmation' ? 'report changed' : 'cannot confirm whether it was received')));
+    assert.equal(phone.readyState, WebSocket.OPEN);
+    assert.equal(f.calls.some(c => c.action === 'end'), false);
+    assert.equal(f.calls.filter(c => c.action === 'confirm').length, 1);
+    const recovery = f.modelEvents.at(-1).response;
+    assert.equal(recovery.tool_choice, 'none');
+    assert.deepEqual(recovery.tools, []);
+    phone.send(JSON.stringify({event: 'dtmf', dtmf: {digit: '1'}}));
+    await new Promise(r => setTimeout(r, 30));
+    assert.equal(f.calls.filter(c => c.action === 'confirm').length, 1);
+    phone.close();
+  });
+}
 
 test('interrupted readback cannot be acknowledged and hangup does not submit', async t => {
   const f = await fixture(t), phone = await f.start(), mark = await f.draft();
