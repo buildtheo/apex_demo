@@ -153,7 +153,7 @@ try {
   const recommendation = {
     case_id: caseId, snapshot: 4, source_ids: ['E-001', 'E-002', 'E-003', 'E-004', 'E-005'],
     rationale: 'The customer denies authorization [E-001]. The ledger records the purchase only [E-002]. The original device assertion [E-003] cited a record for another purchase [E-004]. The processor corrected that citation and could provide no purchase-specific support [E-005]. Recommend a customer-favorable decision for human review of this complete record, not an automatic credit or finding of fraud.',
-    customer_explanation: 'We reviewed your report and the corrected processor records for the JCPenney purchase.'};
+    customer_explanation: 'We reviewed your report and the corrected processor records. Our findings have been submitted for review; any credit will be confirmed separately if approved and posted.'};
   const creditDraft = await client.callTool({name: 'stage_credit', arguments: recommendation});
   assert.equal(creditDraft.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
   assert.equal(creditDraft.structuredContent.payload.amount_cents, 64850);
@@ -181,7 +181,8 @@ try {
   await page.goto(base);
   await page.locator('#resolution').waitFor({state: 'visible'});
   assert.equal(await page.locator('#saved-title').innerText(), 'Your credit is here.');
-  assert.equal(await page.locator('#resolution-explanation').innerText(), recommendation.customer_explanation);
+  assert.equal(await page.locator('#resolution-explanation').innerText(), "We've completed our review and credited $648.50 to your card ending 8821.");
+  assert.doesNotMatch(await page.locator('#resolution').innerText(), /submitted for review|if approved/);
   await page.screenshot({path: '.local/customer-credit.png', fullPage: true});
   await page.route('**/api/customer-case?*', route => route.fulfill({status: 409, json: {error: 'credit_verification_pending'}}));
   await page.click('#check-report');

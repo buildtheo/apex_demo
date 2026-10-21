@@ -1,5 +1,9 @@
 # Decisions and artifact index
 
+## October 21 - streamlined walkthrough observed and verified customer completion copy
+
+Theo confirmed credit approval and the iPhone result for APX-B355D834/action 354e66a479674d0d2c472b8d after actual ChatGPT's complete bounded investigation and recommendation. Independent saved-effect read verifies VERIFIED_POSTED_CREDIT/v4/$648.50. Preserve both this and original proof; don't replay financial actions. Fixed customer presentation without rewriting the approved summary: the verified bank-generated completion message replaces pending proposal wording on the customer screen, while exact decision/ledger/audit text stays unchanged. This is not a broad model-eval or voice-readiness claim. See credit-workflow.md and newest build-progress.md.
+
 ## October 21 - remove duplicate evidence/time-jump confirmation
 
 Theo observed ChatGPT asking whether to advance demo time after he already agreed to gather evidence. Corrected the conflicting server instructions, receive_demo_evidence description and launch prompt: that agreement covers the same evidence step's permitted labeled later response, without a second time-jump question. Pause/wait/existing-source-only instructions still apply; unrelated assent does not authorize a new step. No automatic credit, backend release-gate bypass or suppression of ChatGPT host permissions. The response remains explicitly simulated and must be read before assessment. See barbara-workflow.md; old extra-confirmation instructions are historical.

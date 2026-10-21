@@ -79,6 +79,7 @@ class CreditTests(unittest.TestCase):
         self.assertTrue(case['decision']['reviewed_support'])
         resolution = self.credit.customer_resolution(case)
         self.assertEqual(resolution['customer_explanation'], EXPLANATION)
+        self.assertEqual(resolution['resolution_message'], "We've completed our review and credited $648.50 to your card ending 8821.")
         self.assertEqual(resolution['card_balance_cents'], 153622)
         self.assertEqual(self.store.db.execute('SELECT COUNT(*) FROM synthetic_credits').fetchone()[0], 1)
         for slot in ('request', 'processor_request'):
@@ -192,3 +193,20 @@ class CreditTests(unittest.TestCase):
         self.assertEqual(self.credit.result(self.case_id, draft['action_id'], 'demo:barbara')['status'], 'NOT_VERIFIED')
         with self.assertRaises(ActionError): self.store.review_action(self.approval(draft), 'demo:barbara')
         self.assertIsNone(self.credit.ledger(self.case_id))
+
+    def test_posted_message_replaces_pending_presentation_without_rewriting_approved_summary(self):
+        pending = 'Our findings have been submitted for review; any credit will be confirmed separately if approved and posted.'
+        draft = self.stage(customer_explanation=pending)
+        self.assertIsNone(self.credit.customer_resolution(self.store.read(self.case_id)))
+        self.store.review_action(self.approval(draft), 'demo:barbara')
+        case = self.store.read(self.case_id); ledger = self.credit.ledger(self.case_id)
+        resolution = self.credit.customer_resolution(case)
+        self.assertEqual(resolution['resolution_message'], "We've completed our review and credited $648.50 to your card ending 8821.")
+        self.assertNotIn('submitted for review', resolution['resolution_message'])
+        self.assertEqual(resolution['customer_explanation'], pending)
+        self.assertEqual(case['decision']['customer_explanation'], pending)
+        self.assertEqual(ledger['customer_explanation'], pending)
+        self.assertEqual(self.store.read(self.case_id), case)
+        self.assertEqual(self.credit.ledger(self.case_id), ledger)
+        self.store.db.execute('DELETE FROM synthetic_credits'); self.store.db.commit()
+        with self.assertRaises(ActionError): self.credit.customer_resolution(case)

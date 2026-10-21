@@ -61,7 +61,8 @@ async function saved() {
   $('saved-case').textContent = `Case reference: ${record.case_id}`;
   $('preview-notice').hidden=!session.customer_preview;
   const resolution=record.resolution;
-  const posted=record.status==='CREDIT_POSTED'&&resolution?.amount_cents===64850&&resolution.currency==='USD'&&resolution.id;
+  const posted=record.status==='CREDIT_POSTED'&&resolution?.amount_cents===64850&&resolution.currency==='USD'&&resolution.id
+    &&typeof resolution.resolution_message==='string'&&resolution.resolution_message.trim();
   $('resolution').hidden=!posted;
   $('credit-activity').hidden=!posted;
   $('view-report').hidden=false;
@@ -71,7 +72,7 @@ async function saved() {
   $('saved-status').textContent=posted?'Resolved · Credit posted':record.status === 'INTAKE_RECEIVED' ? 'Received by the dispute team' : 'Under review';
   $('card-balance').textContent=posted?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(resolution.card_balance_cents/100):'$2,184.72';
   if(posted){
-    $('resolution-explanation').textContent=resolution.customer_explanation;
+    $('resolution-explanation').textContent=resolution.resolution_message;
     $('resolution-reference').textContent=`Credit reference: ${resolution.id}`;
   }
   show('saved');

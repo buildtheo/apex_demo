@@ -2,6 +2,8 @@
 
 Implemented October 21. This supersedes the earlier three-business-approval workflow for new rehearsals. Only credit requires business approval in Apex. Simulated identity, scoped authority and synthetic evidence/ledger limits remain unchanged.
 
+User-side proof: Theo completed this actual-ChatGPT journey for APX-B355D834, approved the credit in Apex and saw it in the iPhone app. A separate saved-result read confirms posting. The customer completion message is now bank-generated only after verification; the original reviewed summary remains unchanged in the audit record even if it used pending wording. This does not establish a broad model-eval pass or connected voice.
+
 Latest conversation correction: asking to gather evidence, or agreeing to the immediately proposed evidence step, also permits that step's labeled simulated later response. Do not ask a second time-jump question. An unrelated yes is not permission for new work; pause/wait/review-existing-only requests must still be honored. This is model guidance, not a deterministic natural-language consent detector. Exact credit approval remains separate.
 
 ## One-Time Connection Update
@@ -33,7 +35,7 @@ The old stage_evidence_request/stage_processor_followup tools are absent from th
 7. Ask: "Request evidence for this purchase and an explanation of the incorrect reference. Keep the original record." The fixed processor follow-up saves/verifies the request, not a response or credit.
 8. The agreed processor evidence step includes its labeled processor_response simulation and source read. Ask: "What changed, and what do you recommend?" ChatGPT assesses E-005 and the complete evidence without equating missing records to fraud or automatic eligibility.
 9. Ask: "Prepare the credit recommendation for my review, with the evidence and a neutral summary for Martha. Don't approve or post it." ChatGPT stages a cited proposal and links to Apex. Now Barbara returns to Apex to review the exact amount, rationale, sources and customer explanation, affirm support and approve.
-10. In the same ChatGPT conversation, ask to verify what was saved and posted if needed. Finish in Martha's app with the verified credit, not a model's assertion of success. A lost customer tab can use the labeled read-only local preview after verification.
+10. In the same ChatGPT conversation, ask to verify what was saved and posted if needed. Finish in Martha's app with the verified credit and bank-generated completion message, not a model's assertion or stale proposal wording. The approved summary remains in Apex's audit record. A lost customer tab can use the labeled read-only local preview after verification.
 
 These prompts are conversational suggestions, not fixed outputs or a model-eval pass. The opening prompt asks for short findings and sources rather than repeated tables and identifiers. Do not skip useful customer/analyst clarification to hit a predetermined outcome.
 

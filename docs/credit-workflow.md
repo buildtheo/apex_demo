@@ -1,5 +1,7 @@
 # Reviewed credit and Martha's banking-app ending
 
+Latest customer-copy correction: after verification, the bank app displays a separate deterministic resolution_message confirming the saved credited amount. It does not show a proposal's "submitted for review" wording as current customer status. Exact approved customer_explanation remains immutable in decision/ledger/audit; no silent rewrite or new financial approval. The credit-review screen labels it Reviewed case summary. Theo confirmed actual approval and the iPhone credit for APX-B355D834/action 354e66a479674d0d2c472b8d; a separate saved-result read verifies the posting. Preserve this case and the original proof. Older customer-explanation-as-primary-display statements below are historical.
+
 Latest integration: [barbara-workflow.md](barbara-workflow.md) supersedes the old three-business-approval journey. The two investigation requests now run as bounded nonfinancial writes in ChatGPT, without separate Apex approval. Their saved results still feed the same complete-evidence credit checks. Exact human credit approval, atomic once-only posting and separate verification remain unchanged. Old request approval descriptions below are historical; new tool setup requires a one-time refresh.
 
 Implemented October 21, 2026. Synthetic local ledger and fictional bank policy only. No actual money movement, processor contact, production identity or legal/network eligibility rule.

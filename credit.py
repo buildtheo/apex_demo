@@ -184,4 +184,5 @@ class Credit:
             if result['status'] != 'VERIFIED_POSTED_CREDIT': raise ActionError('credit_verification_pending', 409)
             credit = result['credit']
             return {**{key: credit[key] for key in ('id', 'amount_cents', 'currency', 'posted_at', 'customer_explanation')},
+                    'resolution_message': f"We've completed our review and credited ${credit['amount_cents'] / 100:,.2f} to your card ending 8821.",
                     'card_balance_cents': 218472 - credit['amount_cents']}
