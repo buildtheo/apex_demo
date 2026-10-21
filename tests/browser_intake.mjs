@@ -160,7 +160,7 @@ try {
   const recommendation = {
     case_id: caseId, snapshot: 4, source_ids: ['E-001', 'E-002', 'E-003', 'E-004', 'E-005'],
     rationale: 'The customer denies authorization [E-001]. The ledger records the purchase only [E-002]. The original device assertion [E-003] cited a record for another purchase [E-004]. The processor corrected that citation and could provide no purchase-specific support [E-005]. Recommend a customer-favorable decision for human review of this complete record, not an automatic credit or finding of fraud.',
-    customer_explanation: 'We reviewed your report and the corrected records for your JCPenney purchase. Your dispute has been resolved in your favor.'};
+    customer_explanation: 'We reviewed your report and the corrected processor records for the JCPenney purchase.'};
   const creditDraft = await client.callTool({name: 'stage_credit', arguments: recommendation});
   assert.equal(creditDraft.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
   assert.equal(creditDraft.structuredContent.payload.amount_cents, 64850);

@@ -102,10 +102,11 @@ export function createAdapter({origin, issuer, assignments, verifyToken, readSta
     }
     if (stageCredit) {
       server.registerTool('stage_credit', {
-        description: 'Prepare a customer-favorable synthetic credit for human review after the corrected processor response. Supply your source-cited rationale and plain-language customer explanation. Apex fixes the purchase amount/account and fictional below-$1,000 authority. WRITE: saves a draft only. Missing evidence alone is not eligibility or proof of fraud. Barbara must review and separately approve in Apex; never claim a posted credit until get_action_result verifies ledger and case.',
+        description: 'Saves an unexecuted synthetic credit proposal containing an evidence rationale and customer-facing evidence summary. Returns a draft reference for separate human review in the local Apex app. The server supplies the amount, account and demo policy. This operation does not approve a decision, post funds or communicate with the customer.',
         inputSchema: {case_id: z.string().min(1).max(80), snapshot: z.number().int().positive(),
           source_ids: z.array(z.enum(['E-001', 'E-002', 'E-003', 'E-004', 'E-005'])).length(5),
-          rationale: z.string().min(1).max(2400), customer_explanation: z.string().min(1).max(1200)},
+          rationale: z.string().min(1).max(2400).describe('Evidence-based recommendation with source references, for human review.'),
+          customer_explanation: z.string().min(1).max(1200).describe('Plain-language summary of the evidence reviewed. This field is not an approval or posting confirmation; the banking app displays verified financial status separately.')},
         annotations: {readOnlyHint: false, destructiveHint: false, openWorldHint: false, idempotentHint: true},
       }, result(async args => {
         const state = await read(args.case_id);

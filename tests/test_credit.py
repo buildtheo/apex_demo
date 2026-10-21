@@ -13,7 +13,7 @@ RATIONALE = ('Martha denies this purchase [E-001]. The ledger records the charge
              'The processor claimed a recognized device [E-003], but the cited record belongs to another purchase [E-004]. '
              'The corrected response withdraws that association and provides no purchase-specific support [E-005]. '
              'Recommend a customer-favorable resolution for human review of the full record; missing evidence alone does not establish fraud.')
-EXPLANATION = "We reviewed your report and the corrected records for your JCPenney purchase. Your dispute has been resolved in your favor."
+EXPLANATION = "We reviewed your report and the corrected processor records for the JCPenney purchase."
 
 
 def prepared_store():

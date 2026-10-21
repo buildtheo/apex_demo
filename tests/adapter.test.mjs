@@ -352,6 +352,8 @@ test('credit draft is a sixth WRITE tool with no approval/posting tool and fixed
   const list = await client.listTools();
   assert.equal(list.tools.length, 6);
   assert.equal(list.tools.find(tool => tool.name === 'stage_credit').annotations.readOnlyHint, false);
+  assert.match(list.tools.find(tool => tool.name === 'stage_credit').description, /does not approve a decision, post funds or communicate/);
+  assert.match(list.tools.find(tool => tool.name === 'stage_credit').inputSchema.properties.customer_explanation.description, /not an approval or posting confirmation/);
   assert.ok(!list.tools.some(tool => /approve|execute|post_credit/.test(tool.name)));
   const args = {case_id: state.id, snapshot: 1, source_ids: staged.payload.source_ids, rationale: 'Cited analysis', customer_explanation: 'Explanation'};
   const result = await client.callTool({name: 'stage_credit', arguments: {...args, amount_cents: 1, approved_by: 'admin'}});

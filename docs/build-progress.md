@@ -1,5 +1,13 @@
 # Build progress — October 21, 2026
 
+## Credit confirmation warning and neutral customer-summary clarification - October 21
+
+Theo's screenshot confirms stage_credit is now discovered and actual ChatGPT prepared a source-cited recommendation, but a pending tool confirmation flags suspicious instructions and customer text claiming approved/posted before the draft executes. The raw tool parameters and classifier reasoning were not independently inspected; do not declare a complete root-cause diagnosis or promise the warning is gone. A read-only case check confirms v4, no draft or decision. Theo is advised to deny the pending call, not use Always allow or bypass the warning.
+
+Clarified stage_credit metadata as a factual description of draft persistence and non-effects; customer_explanation is an evidence summary, not a financial-status announcement. The banking UI already supplies its posted-credit heading/amount only after actual synthetic ledger/case verification. Updated the walkthrough to use a neutral summary rather than a prewritten approved/posted message. All WRITE annotations, user confirmations, separate human approval, policy checks and verification remain unchanged. This is not an instruction to override any safety classifier; no confirmation suppression or automatic execution is added. Actual account-side restaging/warning behavior remains to verify after refreshing tool metadata.
+
+Reran all 76 Python and 35 Node tests plus the isolated three-cycle browser/SDK check successfully (111 deterministic tests). Reloaded only the MCP adapter; a public SDK listing confirms the factual description, evidence-summary field documentation and readOnlyHint=false. No tunnel replacement, paid provider call, live-case draft or credit action performed by Codex.
+
 ## Reviewed credit and customer ending implemented - October 21
 
 Built stage_credit (WRITE), bank-owned amount/account/fictional policy, cited rationale and exact customer explanation, separate affirmative evidence-support review, atomic idempotent synthetic ledger/case posting and independent saved-effect verification. The customer session-scoped endpoint exposes resolution only after separately checking the ledger and case decision. Martha's same banking tab now shows the credit, reviewed explanation and credit activity, with a lower synthetic card balance. Success is hidden on failed verification; request/evidence history is preserved. See credit-workflow.md for exact flow, policy/semantic limits and recovery boundaries.

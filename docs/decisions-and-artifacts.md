@@ -4,6 +4,8 @@ Updated October 20, 2026. Consolidated from the available project conversation a
 
 ## October 21 - reviewed credit and customer-app ending implemented
 
+Later credit confirmation: actual ChatGPT now discovers stage_credit and prepares a cited recommendation, but Theo observed a suspicious-instruction confirmation warning and premature approved/posted customer wording. Keep the confirmation/approval boundary; deny that pending call. Customer explanation is clarified to a neutral evidence summary; the app's verified status displays the financial outcome separately. Tool metadata is factual, not a classifier override. Restaging and the warning's subsequent behavior remain unverified. See newest build-progress.md. No live credit or approval was performed by Codex.
+
 Following Theo's explicit request to lock the completed walkthrough and continue, built the final separate credit review/post/verify/customer cycle. ChatGPT supplies a source-cited recommendation and customer explanation; Apex fixes amount/account/policy, requires Barbara's evidence-support review and exact expiring approval, posts once atomically and separately verifies ledger/case before releasing the customer result. No missing-evidence/amount-alone auto-credit rule. 111 deterministic tests and an isolated three-cycle browser/SDK run pass. Live-case actual ChatGPT credit invocation/approval/customer proof are pending. See credit-workflow.md and newest build-progress.md. No PDF artifact, voice, broader model eval or production readiness claim. The current live case remains uncredited at v4, and no tunnel migration is made.
 
 ## October 21 - second evidence-request cycle implemented
