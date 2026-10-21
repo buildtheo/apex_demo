@@ -1,5 +1,11 @@
 # Build progress — October 20, 2026
 
+## Actual ChatGPT second-cycle walkthrough complete - October 21
+
+Theo connected the replacement temporary endpoint as iApex Dispute Operations1, pasted its successful processor-follow-up staging, and explicitly approved in Apex. A read-only result check verified action 39b65a400436073b3206353c / request REQ-39b65a40 as saved OPEN at v3 with preservation scope. The response initially remained unavailable, and actual ChatGPT correctly declined to infer E-005. Theo explicitly released the later simulation; read-only case verification confirmed PROCESSOR_EVIDENCE_RECEIVED/v4, request RESPONDED and E-005 present, no credit. Theo then pasted actual ChatGPT's source-cited E-005 reassessment distinguishing the mapping correction, unavailable purchase-specific evidence and unresolved authorization/fraud. This completes the second user-observed account-side walkthrough, aligned with independent saved-state checks, not a model-evaluation pass or production identity/contact proof.
+
+Theo chose to retain the temporary tunnel rather than set up ngrok. Do not migrate hosting or require a new account without a new instruction; preflight the current ignored runtime URL before the interview and label the remaining temporary-address/Chromebook availability risk. Next authorized build: reviewed supported credit, atomic synthetic ledger posting, separate saved ledger/case verification and Martha's banking-app ending. Do not approve or credit his live case on his behalf while testing.
+
 ## Processor follow-up implemented - October 21
 
 Implemented the second approved investigation cycle. New MCP WRITE stage_processor_followup prepares a fixed T-204 processor evidence/citation-correction request using released E-002/E-003/E-004 and a verified completed internal lookup. It saves only a draft. Separate exact local human approval checks current evidence, assigned simulated actor, immutable payload/hash, five-minute expiry and preservation scope, then saves processor_request without replacing the internal request. get_action_result and the browser verifier independently compare saved operational facts for either request. No general execution/approval MCP tool exists; OAuth action entitlements remain unbuilt.
