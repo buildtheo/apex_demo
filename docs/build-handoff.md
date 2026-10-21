@@ -12,7 +12,7 @@ Read [current-state.md](current-state.md) before changing anything. The streamli
 ## Resume
 
 1. Inspect the working tree and current services. Read the relevant workflow/security files, not just historical progress paragraphs.
-2. Follow Theo's next request. Physical phone rehearsal, synthetic document artifacts and representative model evals remain unfinished; do not call them complete from automated checks. Read phone-setup.md before phone/routing changes.
+2. Follow Theo's next request. The immediate pending check is a successful phone submission: Theo explicitly uses Restart demo on the queue, selects the purchase and Talk to support, then calls and confirms the readback with keypad 1. Verify the same saved case in the bank and queue and that follow-up conversation remains open. Do not reset for him, reuse the credited run, invent a recovered report or change a working MCP/tunnel. Read phone-setup.md. Synthetic document artifacts and representative model evals remain separate unfinished work.
 3. Use isolated tests or a deliberate new practice run. Preserve proof and report exactly what was checked; never silently reset the user's database.
 4. Update current-state.md in place plus the decision/progress history for meaningful changes. Do not stack contradictory "latest" notes in AGENTS.md or START-HERE.md.
 

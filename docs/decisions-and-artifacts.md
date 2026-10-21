@@ -1,5 +1,9 @@
 # Decisions and artifact index
 
+## October 21 - lock the deployed phone fix and truthful rehearsal status
+
+Theo requested that all current work be locked in the repo. Phone integration (46abcc9), first-call duplicate/disconnect correction (ff2f247), restore instructions, safety limits and 142-check/browser verification are recorded. Primary entry points now explicitly say successful fresh-run physical submission remains unconfirmed. Next agent must preserve the current cases/run and working connection, then help with Theo's deliberate fresh-run rehearsal rather than silently resetting or declaring the failed call successful. No runtime change accompanies this documentation checkpoint.
+
 ## October 21 - first phone call rejected duplicate; preserve history and explain rejection
 
 The first actual phone rehearsal reached confirmation but did not create a case because the selected practice run already held the completed credited dispute. Keep the duplicate guard; do not silently restart or create a second dispute. Early arm/claim validation now directs the presenter to the existing queue/Restart demo control. Late duplicate or unverified submission outcomes are explained without disconnecting or inventing success. Verified success also leaves the call open for follow-up, with intake tools disabled. Regression proof and limits: build-progress.md and phone-setup.md. Successful fresh-run physical submission remains pending.

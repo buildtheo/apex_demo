@@ -2,6 +2,8 @@
 
 Locked at Theo's request October 21, 2026; updated for the authorized phone-intake deployment. This is the current snapshot, not a claim of production readiness. Update this file in place as facts change; preserve chronology in build-progress.md and decisions-and-artifacts.md.
 
+Repository checkpoint: phone integration is committed in `46abcc9`; the first-call duplicate/disconnect fix is committed in `ff2f247`. Both are pushed to main. Theo requested this consolidated lock after that fix; no subsequent successful physical-call report has been supplied.
+
 ## Story and Experience
 
 Martha disputes a $648.50 JCPenney online purchase. Barbara investigates the same case in actual ChatGPT, identifies a bad supporting-record association, obtains corrected evidence, then reviews a supported credit recommendation. She returns to Apex to approve the credit. Martha sees the verified result in the browser iPhone banking app.

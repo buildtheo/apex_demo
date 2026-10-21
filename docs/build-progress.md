@@ -1,5 +1,9 @@
 # Build progress — October 21, 2026
 
+## Post-phone-fix repository lock - October 21
+
+At Theo's request, locked the current work after phone integration 46abcc9 and duplicate/disconnect fix ff2f247, both already pushed. Updated primary agent entry points and the handoff to distinguish the failed first physical call from a successful submission, preserve the seven-tool investigation and credit-only approval, and identify the next fresh-run phone check without silently resetting live state. Last executed proof remains 93 Python + 49 Node checks and isolated browser/SDK flow, not a new live-call success. This checkpoint changes documentation only; no service, tunnel, Twilio routing, case, credit, credentials or practice-run changes.
+
 ## First phone rehearsal: duplicate rejection no longer disconnects - October 21
 
 Theo reported that the call disconnected after submission and no new queue case appeared. Read-only persisted-state inspection found the call's selected practice run was the same run as completed APX-B355D834; the voice intake had no case, retained its draft, and ended immediately after a 409 at confirmation. The existing credited dispute prevented a duplicate, as intended. The bridge's uncaught rejection caused the abrupt disconnect. No report was recovered or invented, no demo reset, and no old case/credit was changed.

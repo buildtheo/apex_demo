@@ -1,6 +1,6 @@
 # Start Here
 
-The current text-intake -> actual ChatGPT investigation -> human-approved credit -> customer-app journey is implemented and user-observed. Only credit needs business approval. Alternative phone intake is implemented and configured; Theo's physical call rehearsal remains pending.
+The current text-intake -> actual ChatGPT investigation -> human-approved credit -> customer-app journey is implemented and user-observed. Only credit needs business approval. Alternative phone intake is implemented and configured. Theo's first physical call hit the existing-dispute guard; early detection and abrupt-disconnect handling are fixed. A successful fresh-run phone submission remains unconfirmed, not completed proof.
 
 Read [current state](current-state.md), then [build handoff](build-handoff.md). These replace the contradictory status stacks preserved in [history](history/).
 

@@ -4,7 +4,7 @@ Read docs/START-HERE.md and docs/current-state.md first. These are the locked cu
 
 ## Locked Experience
 
-- Two OpenAI surfaces: Platform/APIs for customer intake and actual ChatGPT for Barbara. Discovery selects conversational text OR voice. Both are implemented; physical phone rehearsal remains pending. Read docs/phone-setup.md. Use the browser iPhone view, not native iOS packaging.
+- Two OpenAI surfaces: Platform/APIs for customer intake and actual ChatGPT for Barbara. Discovery selects conversational text OR voice. Both are implemented. Theo's first physical call hit the existing-dispute guard; early duplicate detection and abrupt-disconnect handling are fixed. Successful fresh-run phone submission remains unconfirmed. Read docs/phone-setup.md. Use the browser iPhone view, not native iOS packaging.
 - Barbara uses Apex at queue pickup and final credit approval only. Investigation, bounded lookup, purchase-specific processor follow-up and reassessment stay in the same actual ChatGPT conversation. Evidence requests do not need separate business approval.
 - A request or yes to the immediately proposed evidence step includes its permitted labeled simulated later response. Do not ask a second time-jump question. Read the source before assessing it; honor pause/wait/existing-only requests. Unrelated assent does not authorize a new step.
 - Launch is copy/open/paste with visible fallback, not verified automatic ChatGPT prefill/app selection. Seven deployed MCP tools; all four writes remain labeled WRITE. Host tool permission is separate from business approval.
