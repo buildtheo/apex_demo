@@ -1,5 +1,9 @@
 # Decisions and artifact index
 
+## October 21 - streamlined Barbara workflow implemented
+
+Implemented Theo's credit-only business-approval choice. Queue Investigate in ChatGPT opens the real site and copies a case-scoped prompt with visible manual fallback; no undocumented automatic prompt handoff or tool selection. The deployed bounded configuration offers seven tools, replacing old request-staging tools with two scoped request operations and an explicit later-evidence simulation. Barbara stays in the same conversation until the separate exact credit approval; new-case UI hides old request controls. New request audits record simulated bounded authority, not fictional human approvals. Historic proof records and old compatibility tests remain unchanged. See barbara-workflow.md and latest build-progress.md for checks and remaining account-side proof. Voice/PDF/eval work remains separate.
+
 ## October 21 - credit-only approval and repeatable practice
 
 Theo superseded three business approvals: Barbara should use Apex only to pick up the dispute and approve the final credit. ChatGPT should handle bounded evidence requests and subsequent investigation without separate request-approval visits. An Apex button opening ChatGPT with case context is desired; supported prompt handoff must be verified or an explicit copy/open fallback used. These workflow changes remain pending.

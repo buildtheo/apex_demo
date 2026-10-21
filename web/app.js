@@ -49,12 +49,18 @@ function render(){
  $('request').disabled=state.status!=='IN_REVIEW'&&!followup;
  $('response').textContent=state.status==='PROCESSOR_PENDING'?'Show later processor response (simulation)':'Simulate later response';
  $('response').disabled=!['PENDING_EVIDENCE','PROCESSOR_PENDING'].includes(state.status);$('escalate').disabled=state.status!=='EVIDENCE_RECEIVED';
+ if(state.investigation_mode==='chatgpt_bounded'){
+  $('request').hidden=true;$('response').hidden=true;
+ }
  const pending=state.processor_request||state.request;
  $('customer-preview').hidden=true;
  $('request-status').hidden=!pending;
  if(pending){
   const waiting=pending.status==='OPEN', processor=Boolean(state.processor_request);
   $('request-status').innerHTML=`<p class="eyebrow">${waiting?'WAITING FOR EVIDENCE':'RESPONSE RECEIVED'}</p><h2>${waiting?(processor?'We have requested evidence for this purchase.':'We have requested the authentication lookup.'):(processor?'The processor has provided a corrected response.':'The authentication lookup has arrived.')}</h2><p>${waiting?'The request is saved. No response has arrived yet.':processor?'Open the corrected processor response below (E-005). The original export is unchanged.':'Open the lookup result above (E-004), then return to ChatGPT to review it.'}</p>${waiting?'<p class="small">For this demo, use the simulation button to move forward to the later response. No external processor is contacted.</p>':''}`;
+  if(waiting&&state.investigation_mode==='chatgpt_bounded'){
+   $('request-status').querySelector('.small').textContent='Continue in ChatGPT. Ask to show the later response when ready for the explicit demo time jump. No external processor is contacted.';
+  }
  }
  if(state.decision){
   const approved=state.staged_actions?.[state.decision.draft_id];

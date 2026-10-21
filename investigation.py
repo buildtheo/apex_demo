@@ -42,6 +42,68 @@ class Investigation:
         if kind == 'REQUEST_PROCESSOR_EVIDENCE': return 'processor_request'
         raise ActionError('scope_denied', 403)
 
+    def request(self, case_id, snapshot, scope, actor):
+        """Execute a fixed nonfinancial investigation request; no invented human approval."""
+        with self.lock:
+            case = self.case(case_id, actor)
+            kinds = {'authentication_transaction_association': 'REQUEST_EVIDENCE',
+                     'processor_transaction_evidence': 'REQUEST_PROCESSOR_EVIDENCE'}
+            if scope not in kinds: raise ActionError('scope_denied', 403)
+            if type(snapshot) is not int: raise ActionError('stale_snapshot')
+            kind = kinds[scope]
+            slot = self.request_slot(kind)
+            existing = case.get(slot)
+            if existing:
+                if existing.get('evidence_version') != snapshot: raise ActionError('stale_snapshot')
+                verified = self.result(case_id, existing.get('draft_id'), actor)
+                if verified['status'] != 'VERIFIED_SAVED_REQUEST': raise ActionError('reconciliation_required')
+                return verified
+            if case['version'] != snapshot: raise ActionError('stale_snapshot')
+            required = 'IN_REVIEW' if kind == 'REQUEST_EVIDENCE' else 'EVIDENCE_RECEIVED'
+            if case['status'] != required or case.get('draft'): raise ActionError('request_not_permitted')
+            self.require_context(case, kind)
+            payload = self.payload(kind)
+            action_id = secrets.token_hex(12)
+            action = {'id': action_id, 'kind': kind, 'contract': 'mcp_investigation_v2',
+                      'case_id': case_id, 'version': snapshot, 'payload': payload,
+                      'payload_hash': payload_hash(payload), 'requested_by': actor}
+            case.setdefault('staged_actions', {})[action_id] = action
+            case[slot] = {'id': 'REQ-' + action_id[:8], 'draft_id': action_id, 'case_id': case_id,
+                          'status': 'OPEN', **payload, 'evidence_version': snapshot,
+                          'requested_by': actor, 'authorization_mode': 'bounded_investigation',
+                          'identity_verification': 'simulated_not_oauth', 'payload_hash': action['payload_hash']}
+            case['receipts'][action_id] = {'id': action_id, 'action': kind, 'case_id': case_id, 'actor': actor}
+            case['status'] = 'PENDING_EVIDENCE' if kind == 'REQUEST_EVIDENCE' else 'PROCESSOR_PENDING'
+            self.store.event(case, 'Scoped investigation request saved under simulated analyst authority. No separate business approval, response, dispute decision or credit.')
+            self.store.save(case)
+            # A persisted read, not an acknowledgement, establishes the saved effect.
+            return self.result(case_id, action_id, actor)
+
+    def receive_demo_evidence(self, case_id, snapshot, stage, actor):
+        """Explicit synthetic later-arrival operation, never a financial action."""
+        with self.lock:
+            case = self.case(case_id, actor)
+            stages = {'initial_packet': ('INTAKE_RECEIVED', 'review_packet', 'E-003'),
+                      'authentication_lookup': ('PENDING_EVIDENCE', 'response', 'E-004'),
+                      'processor_response': ('PROCESSOR_PENDING', 'processor_response', 'E-005')}
+            if stage not in stages: raise ActionError('scope_denied', 403)
+            required, action, source_id = stages[stage]
+            arrivals = case.get('demo_arrivals', {})
+            if stage in arrivals:
+                saved = arrivals[stage]
+                if type(snapshot) is not int or saved['from_snapshot'] != snapshot: raise ActionError('stale_snapshot')
+                source = next((e for e in case['evidence'] if e['id'] == source_id and e['available']), None)
+                if not source or case['version'] < saved['evidence_version']: raise ActionError('reconciliation_required')
+                return {**saved, 'case_id': case_id, 'observed_snapshot': case['version'], 'simulation': True, 'duplicate': True}
+            if type(snapshot) is not int or snapshot != case['version']: raise ActionError('stale_snapshot')
+            if case['status'] != required or case.get('draft'): raise ActionError('request_not_permitted')
+            case = self.store.act(action, {'case_id': case_id}, persist=False)
+            arrival = {'stage': stage, 'source_id': source_id, 'from_snapshot': snapshot,
+                       'evidence_version': case['version'], 'notice': 'SIMULATION - later evidence has arrived. No external provider was contacted.'}
+            case.setdefault('demo_arrivals', {})[stage] = arrival
+            self.store.save(case)
+            return {**arrival, 'case_id': case_id, 'observed_snapshot': case['version'], 'simulation': True, 'duplicate': False}
+
     def require_context(self, case, kind='REQUEST_EVIDENCE'):
         if not all(any(e['id'] == source and e['available'] for e in case['evidence']) for source in ('E-002', 'E-003')):
             raise ActionError('source_unavailable')
@@ -99,6 +161,7 @@ class Investigation:
             if not isinstance(action_id, str): raise ActionError('invalid_action', 400)
             archived = case.get('staged_actions', {}).get(action_id)
             if not archived: raise ActionError('action_unavailable', 404)
+            if archived.get('contract') == 'mcp_investigation_v2': raise ActionError('approval_not_required')
             if (type(data.get('version')) is not int or data['version'] != archived['version']
                     or not isinstance(data.get('payload_hash'), str)
                     or not hmac.compare_digest(data['payload_hash'], archived['payload_hash'])):
@@ -137,9 +200,14 @@ class Investigation:
             kind = draft['kind']
             request = case.get(self.request_slot(kind))
             expected = {'draft_id': action_id, 'case_id': case_id, **draft['payload'],
-                        'evidence_version': draft['version'], 'approved_by': 'demo:barbara', 'approval_identity': 'simulated_not_oauth',
+                        'evidence_version': draft['version'],
                         'payload_hash': draft['payload_hash']}
+            if draft.get('contract') == 'mcp_investigation_v2':
+                expected.update(requested_by='demo:barbara', authorization_mode='bounded_investigation', identity_verification='simulated_not_oauth')
+            else:
+                expected.update(approved_by='demo:barbara', approval_identity='simulated_not_oauth')
             verified = (bool(request) and isinstance(request.get('id'), str) and bool(request['id'].strip())
+                        and (draft.get('contract') != 'mcp_investigation_v2' or draft.get('requested_by') == actor)
                         and draft['payload'] == self.payload(kind) and payload_hash(draft['payload']) == draft['payload_hash']
                         and request.get('status') in ('OPEN', 'RESPONDED')
                         and all(request.get(k) == v for k, v in expected.items()))
@@ -153,7 +221,7 @@ class Investigation:
                 return {**result, 'status': 'EXPIRED' if draft['expires_at'] <= time.time() else 'AWAITING_HUMAN_APPROVAL'}
             return {**result, 'status': 'SUPERSEDED'}
 
-    def attach_processor_response(self, case_id, actor):
+    def attach_processor_response(self, case_id, actor, persist=True):
         with self.lock:
             case = self.case(case_id, actor)
             request = case.get('processor_request') or {}
@@ -176,5 +244,5 @@ class Investigation:
             case['draft'] = None
             case['status'] = 'PROCESSOR_EVIDENCE_RECEIVED'
             self.store.event(case, 'SIMULATION - later: corrected processor response received. Original export retained unchanged. No dispute decision or credit issued.')
-            self.store.save(case)
+            if persist: self.store.save(case)
             return case

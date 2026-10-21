@@ -46,7 +46,7 @@ async function actionCall(path, actor, data) {
   const result = await response.json();
   if (!response.ok) {
     const codes = new Set(['stale_snapshot', 'scope_denied', 'request_not_permitted', 'source_unavailable', 'draft_conflict', 'action_denied', 'action_unavailable',
-      'credit_not_permitted', 'credit_context_changed', 'outside_credit_authority', 'rationale_requires_citations', 'source_scope_changed', 'content_blocked', 'reconciliation_required']);
+      'credit_not_permitted', 'credit_context_changed', 'outside_credit_authority', 'rationale_requires_citations', 'source_scope_changed', 'content_blocked', 'reconciliation_required', 'practice_run_archived', 'explicit_demo_time_jump_required']);
     throw new AccessError(codes.has(result.error) ? result.error : 'service_unavailable');
   }
   return result;
@@ -54,7 +54,8 @@ async function actionCall(path, actor, data) {
 const app = createAdapter({origin, issuer, assignments, verifyToken, authMode,
   readAssignments: authMode === 'demo' ? () => localRead('/api/demo-assignments') : undefined,
   readState: caseId => localRead(`/api/case?case_id=${encodeURIComponent(caseId)}`),
-  ...(staging ? {stageRequest: (args, actor) => actionCall('/api/stage-request', actor, args),
+  ...(staging ? {requestEvidence: (args, actor) => actionCall('/api/investigation-request', actor, args),
+    receiveDemoEvidence: (args, actor) => actionCall('/api/demo-evidence', actor, args),
     stageCredit: (args, actor) => actionCall('/api/stage-credit', actor, args),
     getActionResult: (caseId, actionId, actor) => actionCall(`/api/action-result?case_id=${encodeURIComponent(caseId)}&action_id=${encodeURIComponent(actionId)}`, actor)} : {})});
-app.listen(8787, '127.0.0.1', () => console.log(`Apex MCP on 127.0.0.1:8787 (${authMode === 'demo' ? 'SIMULATED IDENTITY, NO OAUTH' : 'OAuth'}); draft staging ${staging ? 'enabled' : 'disabled'}; no execution tool.`));
+app.listen(8787, '127.0.0.1', () => console.log(`Apex MCP on 127.0.0.1:8787 (${authMode === 'demo' ? 'SIMULATED IDENTITY, NO OAUTH' : 'OAuth'}); bounded investigation ${staging ? 'enabled' : 'disabled'}; credit requires separate Apex approval.`));

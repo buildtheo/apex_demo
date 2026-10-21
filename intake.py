@@ -170,7 +170,8 @@ class IntakeStore:
                 raise IntakeError('duplicate_dispute')
             case = self.fixture()
             case.update(id='APX-' + secrets.token_hex(4).upper(), status='INTAKE_RECEIVED', assigned_to='demo:barbara',
-                        intake_id=sid, customer_ref='demo:martha', transaction_id='T-204', identity_verification='simulated_not_oauth')
+                        intake_id=sid, customer_ref='demo:martha', transaction_id='T-204', identity_verification='simulated_not_oauth',
+                        investigation_mode='chatgpt_bounded')
             if s.get('demo_run'): case['demo_run'] = s['demo_run']
             if review['reason'] != 'unauthorized':
                 case['status'] = 'MANUAL_REVIEW_REQUIRED'

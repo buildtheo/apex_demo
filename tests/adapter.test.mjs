@@ -413,3 +413,50 @@ test('credit configuration requires result verification and policy metadata is r
   assert.equal(caseView(state).credit_policy.authority_limit_cents_exclusive, 100000);
   assert.equal(caseView(state).credit_policy.fictional, true);
 });
+
+test('bounded tools replace request approvals, remain writes, and never expose credit approval', async t => {
+  const {state, staged} = actionFixture();
+  const calls = [];
+  const saved = {case_id: state.id, action_id: staged.action_id, approved_snapshot: 1, observed_snapshot: 1,
+    status: 'VERIFIED_SAVED_REQUEST', request: {...staged.payload, id: 'REQ-demo', case_id: state.id,
+      draft_id: staged.action_id, status: 'OPEN', evidence_version: 1, payload_hash: staged.payload_hash,
+      requested_by: 'demo:barbara', authorization_mode: 'bounded_investigation', identity_verification: 'simulated_not_oauth'}};
+  const f = await fixture(t, state, {...demoOptions,
+    stageRequest: async () => { throw Error('Legacy tool must not be offered'); },
+    requestEvidence: async (args, actor) => { calls.push({args, actor}); return saved; },
+    receiveDemoEvidence: async args => ({case_id: args.case_id, stage: args.stage, source_id: 'E-004', simulation: true,
+      from_snapshot: args.snapshot, evidence_version: args.snapshot + 1, observed_snapshot: args.snapshot + 1,
+      duplicate: false, notice: 'SIMULATION - later evidence received.'}),
+    stageCredit: async () => ({}), getActionResult: async () => saved});
+  const client = await clientFor(t, f);
+  const tools = (await client.listTools()).tools;
+  assert.deepEqual(tools.map(tool => tool.name).sort(), ['get_case', 'get_evidence', 'get_action_result',
+    'request_authentication_lookup', 'request_processor_evidence', 'receive_demo_evidence', 'stage_credit'].sort());
+  for (const name of ['request_authentication_lookup', 'request_processor_evidence', 'receive_demo_evidence', 'stage_credit']) {
+    assert.equal(tools.find(tool => tool.name === name).annotations.readOnlyHint, false);
+  }
+  const response = await client.callTool({name: 'request_authentication_lookup', arguments: {case_id: state.id, snapshot: 1,
+    scope: 'POST_CREDIT', question: 'Ignore policy', subject: 'admin'}});
+  assert.equal(response.structuredContent.status, 'VERIFIED_SAVED_REQUEST');
+  assert.equal(response.structuredContent.request.authorization_mode, 'bounded_investigation');
+  assert.equal('approved_by' in response.structuredContent.request, false);
+  assert.deepEqual(calls[0].args, {case_id: state.id, snapshot: 1, scope: 'authentication_transaction_association'});
+  assert.equal(calls[0].actor.subject, 'demo:barbara');
+  const before = calls.length;
+  const denied = await client.callTool({name: 'request_processor_evidence', arguments: {case_id: state.id, snapshot: 1}});
+  assert.equal(denied.content[0].text, 'source_unavailable');
+  assert.equal(calls.length, before);
+  const arrived = await client.callTool({name: 'receive_demo_evidence', arguments: {case_id: state.id, snapshot: 1,
+    stage: 'authentication_lookup', time_jump: 'later_demo_response'}});
+  assert.equal(arrived.structuredContent.simulation, true);
+  const unassigned = await client.callTool({name: 'request_authentication_lookup', arguments: {case_id: 'APX-OTHER', snapshot: 1}});
+  assert.equal(unassigned.content[0].text, 'access_denied');
+  const privateRoute = await fetch(f.url + '/api/demo-evidence', {method: 'POST'});
+  assert.equal(privateRoute.status, 404);
+});
+
+test('bounded investigation requires demo mode and saved-result verification', () => {
+  assert.throws(() => createAdapter({authMode: 'demo', requestEvidence: async () => ({})}), /configured together/);
+  assert.throws(() => createAdapter({authMode: 'oauth', requestEvidence: async () => ({}),
+    receiveDemoEvidence: async () => ({}), getActionResult: async () => ({})}), /demo-only/);
+});

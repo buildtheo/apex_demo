@@ -16,8 +16,8 @@ No terminal command, database deletion, tunnel reset or credential reconfigurati
 
 The deterministic tests exercise 100 restarts, persistence across service reopening, repeated complete credit flows, original-case/ledger preservation, same-run duplicate disputes, stale intake/model/action rejection, idempotent restart and the local HTTP boundary. The isolated mock-model browser/SDK check exercises both buttons, a clean bank view, a fresh submitted case and preservation of the completed case. These are not 100 paid calls, a model evaluation or a production financial test.
 
-## Separate Workflow Change Still Pending
+## Streamlined Analyst Workflow
 
 Theo superseded the three-business-approval design: Barbara enters Apex at the initial queue and final credit approval only. Investigation, bounded evidence requests and reassessment belong in the same actual ChatGPT conversation. Evidence requests must retain scope/access/snapshot/idempotency/audit checks without separate business approvals. Later evidence remains an explicit simulated time transition, not an instant processor response. An Apex launch-to-ChatGPT control is desired, with an honest copy/open fallback if prompt handoff is not supported.
 
-This restart increment does not implement that tool/workflow change. Existing request staging and separate evidence-request approvals are still the deployed behavior. Do not present the new interaction contract as already working. Voice also remains prepared, not connected.
+The subsequent streamlined increment now implements this change: [barbara-workflow.md](barbara-workflow.md) documents seven tools, bounded evidence-request execution, explicit later-response simulation and the queue copy/open launch. Only credit has an Apex business approval. Installed ChatGPT confirmation behavior and new-flow rehearsal remain to verify. Voice remains prepared, not connected.

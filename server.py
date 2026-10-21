@@ -84,7 +84,7 @@ class Store:
         self.event(s, 'Demo case loaded at later evidence-review stage; all records are synthetic.')
         self.save(s)
         return s
-    def act(self, action, data):
+    def act(self, action, data, persist=True):
         with LOCK:
             s = self.read(data.get('case_id'))
             if s.get('demo_run') and s['demo_run'] != self.intake.current_run():
@@ -99,7 +99,7 @@ class Store:
             if s.get('intake_id') and action == 'approve':
                 raise Conflict('Use the separate exact-payload review endpoint for this case.')
             if action == 'processor_response':
-                return self.investigation.attach_processor_response(s['id'], 'demo:barbara')
+                return self.investigation.attach_processor_response(s['id'], 'demo:barbara', persist=persist)
             if action == 'review_packet':
                 if s['status'] != 'INTAKE_RECEIVED': raise Conflict('This case is not awaiting its later packet.')
                 find(s, 'E-003')['available'] = True
@@ -151,7 +151,7 @@ class Store:
                         'matches_disputed_transaction': record['transaction_id'] == s['transaction_id'], 'evidence_version': s['version']}
                 self.event(s, 'SIMULATION: later evidence response attached; snapshot advanced; pending draft invalidated.')
             else: raise Conflict('Unknown action.')
-            self.save(s)
+            if persist: self.save(s)
             return s
     def analysis(self, kind, case_id=None):
         with LOCK:
@@ -197,6 +197,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.reply(200, {'demo:barbara': {'role': 'analyst', 'cases': [s['id'] for s in cases
                     if (not s.get('demo_run') or s['demo_run'] == run) and (s['id'] == 'APX-001' or s.get('assigned_to') == 'demo:barbara')]}})
             return self.reply(200, [{'case_id': s['id'], 'customer': s['customer'], 'merchant': s['merchant'], 'amount': s['amount'],
+                                     'credit_review_pending': (s.get('draft') or {}).get('kind') == 'POST_CREDIT',
                                      'status': s['status'], 'version': s['version'], 'assigned_to': s.get('assigned_to', 'local-demo-operator')} for s in visible])
         if path == '/api/action-result':
             try:
@@ -216,6 +217,7 @@ class Handler(BaseHTTPRequestHandler):
             except Conflict as e: return self.reply(409, {'error': str(e)})
         files = {'/':('banking.html','text/html; charset=utf-8'),'/banking':('banking.html','text/html; charset=utf-8'),'/banking.js':('banking.js','text/javascript; charset=utf-8'),'/banking.css':('banking.css','text/css; charset=utf-8'),'/ops':('index.html','text/html; charset=utf-8'),'/app.js':('app.js','text/javascript; charset=utf-8'),'/verify.js':('verify.js','text/javascript; charset=utf-8'),'/style.css':('style.css','text/css; charset=utf-8')}
         files.update({'/queue': ('queue.html', 'text/html; charset=utf-8'), '/queue.js': ('queue.js', 'text/javascript; charset=utf-8'),
+                      '/chatgpt-launch.js': ('chatgpt-launch.js', 'text/javascript; charset=utf-8'),
                       '/demo-controls.js': ('demo-controls.js', 'text/javascript; charset=utf-8'),
                       '/intake.css': ('intake.css', 'text/css; charset=utf-8')})
         if path in files:
@@ -223,7 +225,7 @@ class Handler(BaseHTTPRequestHandler):
         self.reply(404,{'error':'Not found'})
     def do_POST(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action', '/api/customer-preview', '/api/restart-demo'): return self.reply(404,{'error':'Not found'})
+        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action', '/api/customer-preview', '/api/restart-demo', '/api/investigation-request', '/api/demo-evidence'): return self.reply(404,{'error':'Not found'})
         # Local demo CSRF boundary, not production identity/authentication.
         if self.headers.get('X-Apex-Demo') != 'local': return self.reply(403,{'error':'Missing demo request header'})
         origin = self.headers.get('Origin')
@@ -235,6 +237,11 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(data,dict): raise ValueError()
             if path == '/api/restart-demo':
                 return self.reply(200, self.server.store.intake.restart(data.get('request_id')))
+            if path == '/api/investigation-request':
+                return self.reply(200, self.server.store.investigation.request(data.get('case_id'), data.get('snapshot'), data.get('scope'), self.headers.get('X-Apex-Actor')))
+            if path == '/api/demo-evidence':
+                if data.get('time_jump') != 'later_demo_response': raise ActionError('explicit_demo_time_jump_required', 400)
+                return self.reply(200, self.server.store.investigation.receive_demo_evidence(data.get('case_id'), data.get('snapshot'), data.get('stage'), self.headers.get('X-Apex-Actor')))
             if path == '/api/customer-preview':
                 with LOCK:
                     case = self.server.store.investigation.case(data.get('case_id'), 'demo:barbara')

@@ -2,7 +2,7 @@
 
 October 21 direction from Theo. This is the presentation/interaction contract, not a claim that the remaining polish or voice integration has shipped.
 
-Latest superseding decision: Barbara enters Apex only at the initial queue and to approve credit. Bounded investigation requests execute from ChatGPT without separate business approval. The three-review wording below describes the older implementation, not the new target. Runtime conversion is pending; [restart-demo.md](restart-demo.md) records the implemented repeatable practice control and boundaries.
+Current superseding implementation: Barbara enters Apex only at the initial queue and to approve credit. Bounded investigation requests execute from ChatGPT without separate business approval. Read [barbara-workflow.md](barbara-workflow.md) for the deployed tools, explicit simulated later-arrival steps and copy/open handoff; [restart-demo.md](restart-demo.md) covers repeatable practice. Actual account-side rehearsal of the new flow remains pending.
 
 ## One Story
 
@@ -15,10 +15,10 @@ Lead with the purchase and the people. References, evidence versions, payloads a
 Use one actual ChatGPT conversation for the returned case. These are suggested natural requests, not scripted model outputs:
 
 - "Review Martha's case, [returned case reference]. What doesn't add up? Keep it brief and show me the sources."
-- "Check whether that authentication record belongs to this purchase. Prepare the lookup for my review."
-- After separate approval and explicit later arrival: "The lookup is back. What did we learn?"
-- "Ask the processor for evidence for this purchase and an explanation of the wrong reference. Keep the original record. Prepare it for my review."
-- After separate approval and explicit later arrival: "Review the new response. What changed, and what do you recommend?"
+- "Check whether that authentication record belongs to this purchase."
+- After the explicit simulated later arrival: "The lookup is back. What did we learn?"
+- "Ask the processor for evidence for this purchase and an explanation of the wrong reference. Keep the original record."
+- After the explicit simulated later arrival: "Review the new response. What changed, and what do you recommend?"
 - "Prepare the credit recommendation for my review, with the evidence and a neutral summary for Martha. Don't approve or post it."
 - After Barbara's explicit approval: "Verify what was actually saved and posted."
 
@@ -30,7 +30,7 @@ This guides style, not authority or truth. The live model must still retrieve cu
 
 The current technical proof has too much ceremony to call presentation-smooth. Tool refreshes, restaging, copied IDs, repeated evidence inventories and long snapshot tables were setup/debugging, not the intended analyst workflow.
 
-Stay in ChatGPT to investigate and prepare actions. Visit Apex only to inspect a source or approve an exact action, then return to the same conversation. Three separate reviews remain: internal lookup, processor follow-up and credit. Each review should answer: what are we doing, why, and what happens next? ChatGPT's host write confirmation is separate permission to save a draft, not Barbara's business approval.
+Stay in ChatGPT to investigate, inspect sources and request more evidence. Barbara visits Apex at queue pickup and exact credit approval only. Bounded internal lookup and processor follow-up need no separate business approval; they retain case/source/snapshot/scope/idempotency/audit checks. Credit review should answer: what are we doing, why, and what happens next? ChatGPT's host write permission is separate from Barbara's business approval and may still appear.
 
 Demonstrate external waiting honestly: "Later, the response arrives." Do not suggest the processor answered during the call or that the model removes elapsed external waiting. The local later-response controls are explicit simulations. End in Martha's app only after saved ledger/case verification, not a model's success sentence.
 

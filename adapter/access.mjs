@@ -84,6 +84,17 @@ export function stagedActionView(data, caseId) {
     review_url: `http://localhost:8080/ops?case_id=${encodeURIComponent(caseId)}`};
 }
 
+export function demoEvidenceView(data, caseId, stage) {
+  const sources = {initial_packet: 'E-003', authentication_lookup: 'E-004', processor_response: 'E-005'};
+  if (data.case_id !== caseId || data.stage !== stage || data.source_id !== sources[stage] || data.simulation !== true
+      || !Number.isSafeInteger(data.from_snapshot) || data.from_snapshot < 1
+      || data.evidence_version !== data.from_snapshot + 1 || !Number.isSafeInteger(data.observed_snapshot)
+      || data.observed_snapshot < data.evidence_version || typeof data.duplicate !== 'boolean') throw new AccessError('invalid_action_result');
+  return {case_id: screen(caseId), stage, source_id: data.source_id, simulation: true,
+    from_snapshot: data.from_snapshot, evidence_version: data.evidence_version, observed_snapshot: data.observed_snapshot,
+    duplicate: data.duplicate, notice: screen(data.notice)};
+}
+
 export function actionResultView(data, caseId, actionId) {
   if (data.case_id !== caseId || data.action_id !== actionId || !['VERIFIED_SAVED_REQUEST', 'VERIFIED_POSTED_CREDIT', 'NOT_VERIFIED', 'AWAITING_HUMAN_APPROVAL', 'EXPIRED', 'SUPERSEDED'].includes(data.status)) {
     throw new AccessError('invalid_action_result');
@@ -93,10 +104,19 @@ export function actionResultView(data, caseId, actionId) {
     approved_snapshot: data.approved_snapshot, observed_snapshot: data.observed_snapshot};
   if (data.status === 'VERIFIED_SAVED_REQUEST') {
     const r = data.request;
-    if (r.case_id !== caseId || r.draft_id !== actionId || !['OPEN', 'RESPONDED'].includes(r.status)) throw new AccessError('invalid_action_result');
+    if (r.case_id !== caseId || r.draft_id !== actionId || !['OPEN', 'RESPONDED'].includes(r.status)
+        || !Number.isSafeInteger(r.evidence_version) || r.evidence_version !== data.approved_snapshot) throw new AccessError('invalid_action_result');
     result.request = {...requestPayloadView(r), id: screen(r.id), case_id: screen(r.case_id), draft_id: hexId(r.draft_id, 24),
-      status: r.status, evidence_version: r.evidence_version, approved_by: screen(r.approved_by),
-      approval_identity: screen(r.approval_identity), payload_hash: hexId(r.payload_hash, 64)};
+      status: r.status, evidence_version: r.evidence_version, payload_hash: hexId(r.payload_hash, 64)};
+    if (r.authorization_mode === 'bounded_investigation') {
+      if (r.requested_by !== 'demo:barbara' || r.identity_verification !== 'simulated_not_oauth'
+          || 'approved_by' in r || 'approval_identity' in r) throw new AccessError('invalid_action_result');
+      Object.assign(result.request, {requested_by: r.requested_by, authorization_mode: r.authorization_mode,
+        identity_verification: r.identity_verification});
+    } else {
+      result.request.approved_by = screen(r.approved_by);
+      result.request.approval_identity = screen(r.approval_identity);
+    }
   }
   if (data.status === 'VERIFIED_POSTED_CREDIT') {
     const c = data.credit, d = data.decision;

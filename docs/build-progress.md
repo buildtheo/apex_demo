@@ -1,5 +1,19 @@
 # Build progress — October 21, 2026
 
+## Credit-only business approval and ChatGPT investigation deployed - October 21
+
+Implemented Theo's streamlined Barbara flow. Queue Investigate in ChatGPT opens the actual site and attempts to copy a case-scoped opening prompt, with visible select/copy/plain-link fallback. Nothing is automatically submitted and no undocumented prompt URL or automatic Apex tool selection is claimed. The browser test forces clipboard failure and verifies the fallback and exact case context.
+
+The deployed adapter now offers seven tools: get_case, get_evidence, request_authentication_lookup, request_processor_evidence, receive_demo_evidence, get_action_result and stage_credit. The two bounded request operations execute fixed synthetic nonfinancial requests without separate Apex business approval, validate scope/actor/assignment/active run/sources/version/state, reconcile repeated requests and read back saved facts. Audit records simulated requested_by/bounded_investigation, not an invented human approval. Legacy request tools are not listed; old Python/test compatibility preserves historic proof. All four writes are annotated as writes, so ChatGPT host permission may still appear.
+
+Explicit receive_demo_evidence releases one stage-appropriate source only after a separate presenter-requested synthetic time jump; requests/reads do not silently deliver later sources. Arrival and retry metadata persist together. Duplicate/concurrent requests, repeated arrivals, denied scopes/actors, stale evidence, unavailable sources, corrupted saved facts, failed arrival save and stale practices are covered. This simulation is not actual processor contact or authenticated proof of presenter intent. Model guidance asks it to wait for the presenter's instruction; host permissions remain separate.
+
+New-case Apex UI hides legacy request/arrival controls. Barbara stays in the ChatGPT investigation until the credit draft links her back to exact Apex review. Human evidence-support attestation, amount/authority/evidence checks, once-only atomic credit and separate ledger/case verification are unchanged. No public credit approval/posting tool. The bank reveal and restart remain supported. Canonical guide: barbara-workflow.md; older pending-conversion and three-approval target entries are historical.
+
+86 Python + 41 Node tests pass (127 deterministic checks). The isolated mock-model browser/official SDK run passes copy/open/fallback, same-case continuity, both bounded requests and explicit later arrivals without an investigation approval visit, exact credit review, posted-effect verification, customer credit and both restart buttons. This is not an actual-ChatGPT-account new-flow walkthrough or passing model evaluation; Theo still needs a one-time installed-tool refresh and rehearsal. No paid provider call was made.
+
+Reloaded only DMS/MCP, not the tunnel or Twilio. Public HTTPS SDK preflight confirms the seven expected tool names/annotations, reads the completed proof as CREDIT_POSTED/v4 and confirms private investigation/arrival/review/restart routes return 404 publicly. Original APX-3625B0CC case/credit body hashes match before/after deployment; no live-case draft, response, restart or financial action was executed. Voice/source PDFs/broader evals remain separate pending work.
+
 ## Repeatable practice restart deployed; interaction target simplified - October 21
 
 Theo changed the target to one business approval, for credit only. Barbara should enter Apex at the queue, investigate and request evidence in actual ChatGPT, then return only to approve the credit. The bounded investigation-tool conversion, later-response operation without analyst Apex visits and launch-to-ChatGPT control remain pending. Do not claim this restart increment removes the deployed evidence-request approvals.

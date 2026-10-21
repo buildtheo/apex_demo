@@ -67,13 +67,19 @@ try {
   if (live) assert.match(initial.model_meta.model, /^gpt-/);
   await page.goto(base + '/queue');
   const row = page.locator('tr').filter({hasText: caseId});
-  await row.locator('button').click();
-  await page.waitForFunction(() => document.getElementById('notice').textContent.startsWith('Simulated later processor packet saved.'));
-  const later = await readCase();
-  assert.equal(later.version, 2);
-  await row.locator('a').click();
-  await page.waitForFunction(id => document.getElementById('facts').textContent.includes(id), caseId);
-  assert.equal(new URL(page.url()).searchParams.get('case_id'), caseId);
+  await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', {configurable: true,
+    value: {writeText: async () => { throw Error('Clipboard unavailable in this test'); }}}));
+  await page.context().route('https://chatgpt.com/**', route => route.fulfill({body: '<title>Launch target test only</title>'}));
+  const opened = page.context().waitForEvent('page');
+  await row.getByRole('button', {name: 'Investigate in ChatGPT'}).click();
+  const chatTab = await opened;
+  await chatTab.waitForLoadState();
+  assert.equal(chatTab.url(), 'https://chatgpt.com/');
+  await chatTab.close(); await page.bringToFront();
+  assert.ok((await page.locator('#chatgpt-prompt').inputValue()).includes(caseId));
+  assert.match(await page.locator('#chatgpt-handoff').innerText(), /Nothing is sent automatically/);
+  assert.match(await page.locator('#handoff-status').innerText(), /Select and copy/);
+  assert.equal((await readCase()).version, 1, 'Opening ChatGPT does not release future evidence');
   mcp = createServer().listen(0, '127.0.0.1'); await once(mcp, 'listening');
   const mcpOrigin = `http://127.0.0.1:${mcp.address().port}`;
   const actionCall = async (path, data) => {
@@ -86,72 +92,59 @@ try {
   mcp.on('request', createAdapter({origin: mcpOrigin, authMode: 'demo',
     readAssignments: async () => (await fetch(base + '/api/demo-assignments')).json(),
     readState: async id => (await fetch(`${base}/api/case?case_id=${encodeURIComponent(id)}`)).json(),
-    stageRequest: args => actionCall('/api/stage-request', args),
+    requestEvidence: args => actionCall('/api/investigation-request', args),
+    receiveDemoEvidence: args => actionCall('/api/demo-evidence', args),
     stageCredit: args => actionCall('/api/stage-credit', args),
     getActionResult: (id, actionId) => actionCall(`/api/action-result?case_id=${id}&action_id=${actionId}`)}));
   client = new Client({name: 'browser-continuity-check', version: '1'});
   await client.connect(new StreamableHTTPClientTransport(new URL(mcpOrigin + '/mcp')));
   const retrieved = await client.callTool({name: 'get_case', arguments: {case_id: caseId}});
   assert.equal(retrieved.structuredContent.case_id, caseId);
-  const evidence = await client.callTool({name: 'get_evidence', arguments: {case_id: caseId, source_id: 'E-001', snapshot: 2}});
+  const evidence = await client.callTool({name: 'get_evidence', arguments: {case_id: caseId, source_id: 'E-001', snapshot: 1}});
   assert.match(evidence.structuredContent.text, /Correction: my earlier clothing purchase was in May/);
+  const receive = async (stage, snapshot) => {
+    const result = await client.callTool({name: 'receive_demo_evidence', arguments: {case_id: caseId, snapshot, stage, time_jump: 'later_demo_response'}});
+    assert.equal(result.structuredContent.simulation, true);
+    return result;
+  };
+  await receive('initial_packet', 1);
   const hidden = await client.callTool({name: 'get_evidence', arguments: {case_id: caseId, source_id: 'E-004', snapshot: 2}});
   assert.equal(hidden.content[0].text, 'source_unavailable');
-  const staged = await client.callTool({name: 'stage_evidence_request', arguments: {case_id: caseId, snapshot: 2, scope: 'authentication_transaction_association'}});
-  assert.equal(staged.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
+  const staged = await client.callTool({name: 'request_authentication_lookup', arguments: {case_id: caseId, snapshot: 2}});
+  assert.equal(staged.structuredContent.status, 'VERIFIED_SAVED_REQUEST');
   const draft = staged.structuredContent;
-  assert.equal((await readCase()).request, null);
+  assert.equal((await readCase()).draft, null);
   const before = await client.callTool({name: 'get_action_result', arguments: {case_id: caseId, action_id: draft.action_id}});
-  assert.equal(before.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
-  await page.click('#refresh-case');
-  await page.locator('#approval').waitFor({state: 'visible'});
-  assert.equal(await page.locator('.request-question').innerText(), 'Which transaction is AUTH-77 associated with?');
-  const requestFacts = await page.locator('.request-facts').innerText();
-  for (const value of ['Apex evidence operations', 'AUTH-77', 'T-204', 'E-002, E-003', draft.action_id]) assert.ok(requestFacts.includes(value));
-  assert.equal(await page.locator('#approval pre').isVisible(), false, 'Raw payload must be collapsed by default');
-  await page.locator('.technical-payload summary').click();
-  assert.equal(await page.locator('#approval pre').isVisible(), true);
-  assert.ok((await page.locator('.technical-payload').innerText()).includes(draft.payload_hash));
-  assert.deepEqual(JSON.parse(await page.locator('#approval pre').innerText()), draft.payload);
-  await page.locator('.technical-payload summary').click();
-  await page.screenshot({path: '.local/request-review.png', fullPage: true});
-  await page.click('#approve');
-  await page.waitForFunction(() => document.getElementById('notice').textContent.startsWith('Verified against the saved case record:'));
+  assert.equal(before.structuredContent.status, 'VERIFIED_SAVED_REQUEST');
+  assert.equal(before.structuredContent.request.authorization_mode, 'bounded_investigation');
+  assert.equal('approved_by' in before.structuredContent.request, false);
+  assert.equal((await readCase()).version, 2, 'Requesting evidence does not instantly release a response');
   const verified = await client.callTool({name: 'get_action_result', arguments: {case_id: caseId, action_id: draft.action_id}});
   assert.equal(verified.structuredContent.status, 'VERIFIED_SAVED_REQUEST');
-  assert.equal((await (await fetch(base + '/api/case')).json()).request, null, 'Approval must not change seeded case');
-  const duplicate = await actionCall('/api/review-action', {case_id: caseId, draft_id: draft.action_id, version: 2, payload_hash: draft.payload_hash});
-  assert.equal(duplicate.duplicate, true);
-  await page.click('#response');
-  await page.waitForFunction(() => document.getElementById('snapshot').textContent === 'Evidence v3');
+  assert.equal((await (await fetch(base + '/api/case')).json()).request, null, 'Investigation must not change seeded case');
+  const duplicate = await client.callTool({name: 'request_authentication_lookup', arguments: {case_id: caseId, snapshot: 2}});
+  assert.equal(duplicate.structuredContent.action_id, draft.action_id);
+  await receive('authentication_lookup', 2);
   const reassessed = await client.callTool({name: 'get_case', arguments: {case_id: caseId}});
   assert.equal(reassessed.structuredContent.association_check.matches_disputed_transaction, false);
   assert.equal(reassessed.structuredContent.association_check.returned_transaction_id, 'T-198');
   const originals = (await readCase()).evidence;
   const hiddenCorrection = await client.callTool({name: 'get_evidence', arguments: {case_id: caseId, source_id: 'E-005', snapshot: 3}});
   assert.equal(hiddenCorrection.content[0].text, 'source_unavailable');
-  const followup = await client.callTool({name: 'stage_processor_followup', arguments: {case_id: caseId, snapshot: 3}});
-  assert.equal(followup.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
-  assert.equal(followup.structuredContent.payload.preserve_original, true);
-  assert.equal((await readCase()).processor_request, undefined);
-  await page.click('#refresh-case');
-  await page.waitForFunction(() => document.getElementById('approval').textContent.includes('Ask the processor for more evidence'));
-  assert.match(await page.locator('.request-facts').innerText(), /Keep E-003 unchanged/);
-  await page.click('#approve');
-  await page.waitForFunction(() => document.getElementById('notice').textContent.startsWith('Verified against the saved case record:'));
-  assert.match(await page.locator('#request-status').innerText(), /No response has arrived yet/);
+  const followup = await client.callTool({name: 'request_processor_evidence', arguments: {case_id: caseId, snapshot: 3}});
+  assert.equal(followup.structuredContent.status, 'VERIFIED_SAVED_REQUEST');
+  assert.equal(followup.structuredContent.request.preserve_original, true);
+  assert.equal((await readCase()).draft, null);
   assert.equal((await readCase()).version, 3);
   const savedFollowup = await client.callTool({name: 'get_action_result', arguments: {case_id: caseId, action_id: followup.structuredContent.action_id}});
   assert.equal(savedFollowup.structuredContent.status, 'VERIFIED_SAVED_REQUEST');
   assert.equal(savedFollowup.structuredContent.request.preserve_original, true);
-  await page.screenshot({path: '.local/processor-waiting.png', fullPage: true});
-  await page.click('#response');
-  await page.waitForFunction(() => document.getElementById('snapshot').textContent === 'Evidence v4');
+  assert.equal(new URL(page.url()).pathname, '/queue', 'Barbara has not visited Apex approval during investigation');
+  await receive('processor_response', 3);
   const final = await readCase();
   assert.deepEqual(final.evidence.slice(0, 4), originals, 'Later response preserves all original evidence');
   assert.equal(final.status, 'PROCESSOR_EVIDENCE_RECEIVED');
   assert.equal(final.processor_request.status, 'RESPONDED');
-  assert.match(await page.locator('#request-status').innerText(), /original export is unchanged/);
   const correction = await client.callTool({name: 'get_evidence', arguments: {case_id: caseId, source_id: 'E-005', snapshot: 4}});
   assert.match(correction.structuredContent.text, /no additional authorization evidence/);
   assert.equal(correction.structuredContent.provenance.correction_of, 'E-003');
@@ -164,6 +157,8 @@ try {
   const creditDraft = await client.callTool({name: 'stage_credit', arguments: recommendation});
   assert.equal(creditDraft.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
   assert.equal(creditDraft.structuredContent.payload.amount_cents, 64850);
+  await page.goto(base + '/queue');
+  await page.locator('tr').filter({hasText: caseId}).getByRole('link', {name: 'Review credit'}).waitFor();
   await page.goto(base);
   await page.waitForFunction(() => document.getElementById('saved-status').textContent === 'Under review');
   assert.equal(await page.locator('#resolution').isVisible(), false, 'A draft cannot produce customer success');
@@ -242,7 +237,8 @@ try {
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser_check: 'passed', mode: live ? 'live_responses' : 'mock_model', model_calls: modelCalls,
     model: initial.model_meta?.model || 'mock', same_case_through_queue_and_mcp: true, hidden_evidence_denied: true,
-    mcp_staging_and_human_approval: true, separate_request_verification: true, deterministic_association_check: true,
+    bounded_investigation_without_business_approvals: true, credit_only_business_approval: true,
+    copy_open_chatgpt_handoff: true, separate_request_verification: true, deterministic_association_check: true,
     processor_followup_and_explicit_correction: true, original_evidence_preserved: true,
     reviewed_credit_and_separate_ledger_case_verification: true, customer_resolution_and_activity: true,
     lost_customer_session_operator_preview: true,

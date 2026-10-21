@@ -243,3 +243,27 @@ class IntakeHttpTests(unittest.TestCase):
         self.assertNotEqual(new_case, original)
         self.assertEqual([row['case_id'] for row in self.request('GET', '/api/cases')[1]], [new_case])
         self.assertEqual(self.srv.store.read(original), proof)
+
+    def test_bounded_investigation_and_explicit_later_arrivals_require_private_actor_and_scope(self):
+        case_id = self.submitted_case()
+        payload = {'case_id': case_id, 'snapshot': 2, 'scope': 'authentication_transaction_association'}
+        for kwargs in ({}, {'actor': 'other'}, {'actor': 'demo:barbara', 'demo': False},
+                       {'actor': 'demo:barbara', 'origin': 'https://evil.example'}):
+            self.assertEqual(self.request('POST', '/api/investigation-request', payload, **kwargs)[0], 403)
+        self.assertEqual(self.request('POST', '/api/investigation-request', {**payload, 'scope': 'POST_CREDIT'}, actor='demo:barbara')[0], 403)
+        status, saved = self.request('POST', '/api/investigation-request', payload, actor='demo:barbara')
+        self.assertEqual(status, 200)
+        self.assertEqual(saved['status'], 'VERIFIED_SAVED_REQUEST')
+        self.assertNotIn('approved_by', saved['request'])
+        self.assertEqual(self.request('POST', '/api/investigation-request', payload, actor='demo:barbara')[1]['action_id'], saved['action_id'])
+        self.assertEqual(self.srv.store.read(case_id)['version'], 2)
+        later = {'case_id': case_id, 'snapshot': 2, 'stage': 'authentication_lookup'}
+        self.assertEqual(self.request('POST', '/api/demo-evidence', later, actor='demo:barbara')[0], 400)
+        later['time_jump'] = 'later_demo_response'
+        self.assertEqual(self.request('POST', '/api/demo-evidence', later)[0], 403)
+        status, arrival = self.request('POST', '/api/demo-evidence', later, actor='demo:barbara')
+        self.assertEqual(status, 200)
+        self.assertTrue(arrival['simulation'])
+        self.assertEqual(arrival['evidence_version'], 3)
+        self.assertTrue(self.request('POST', '/api/demo-evidence', later, actor='demo:barbara')[1]['duplicate'])
+        self.assertIsNone(self.srv.store.read(case_id)['draft'])

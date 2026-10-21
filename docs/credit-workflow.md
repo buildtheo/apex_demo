@@ -1,5 +1,7 @@
 # Reviewed credit and Martha's banking-app ending
 
+Latest integration: [barbara-workflow.md](barbara-workflow.md) supersedes the old three-business-approval journey. The two investigation requests now run as bounded nonfinancial writes in ChatGPT, without separate Apex approval. Their saved results still feed the same complete-evidence credit checks. Exact human credit approval, atomic once-only posting and separate verification remain unchanged. Old request approval descriptions below are historical; new tool setup requires a one-time refresh.
+
 Implemented October 21, 2026. Synthetic local ledger and fictional bank policy only. No actual money movement, processor contact, production identity or legal/network eligibility rule.
 
 ## Current walkthrough state
