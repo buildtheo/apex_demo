@@ -1,5 +1,7 @@
 # Apex — dispute investigation prototype
 
+October 21: the second human-reviewed processor evidence request and explicit later corrected response are implemented. Read [processor follow-up](docs/processor-followup.md) for the next actual-ChatGPT walkthrough. 91 deterministic tests plus the isolated browser/SDK flow pass. Credit/Martha's resolved banking view and document/PDF artifacts remain pending. Identity and processor responses are simulated; no external processor contact or money movement.
+
 A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Architect onsite demo.
 
 **Continuing as another agent? Start with [the consolidated handoff](docs/START-HERE.md).** It links the locked demo, current implementation, executed checks, source evidence, and next required step.

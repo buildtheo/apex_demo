@@ -126,10 +126,41 @@ try {
   const reassessed = await client.callTool({name: 'get_case', arguments: {case_id: caseId}});
   assert.equal(reassessed.structuredContent.association_check.matches_disputed_transaction, false);
   assert.equal(reassessed.structuredContent.association_check.returned_transaction_id, 'T-198');
+  const originals = (await readCase()).evidence;
+  const hiddenCorrection = await client.callTool({name: 'get_evidence', arguments: {case_id: caseId, source_id: 'E-005', snapshot: 3}});
+  assert.equal(hiddenCorrection.content[0].text, 'source_unavailable');
+  const followup = await client.callTool({name: 'stage_processor_followup', arguments: {case_id: caseId, snapshot: 3}});
+  assert.equal(followup.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
+  assert.equal(followup.structuredContent.payload.preserve_original, true);
+  assert.equal((await readCase()).processor_request, undefined);
+  await page.click('#refresh-case');
+  await page.waitForFunction(() => document.getElementById('approval').textContent.includes('Ask the processor for more evidence'));
+  assert.match(await page.locator('.request-facts').innerText(), /Keep E-003 unchanged/);
+  await page.click('#approve');
+  await page.waitForFunction(() => document.getElementById('notice').textContent.startsWith('Verified against the saved case record:'));
+  assert.match(await page.locator('#request-status').innerText(), /No response has arrived yet/);
+  assert.equal((await readCase()).version, 3);
+  const savedFollowup = await client.callTool({name: 'get_action_result', arguments: {case_id: caseId, action_id: followup.structuredContent.action_id}});
+  assert.equal(savedFollowup.structuredContent.status, 'VERIFIED_SAVED_REQUEST');
+  assert.equal(savedFollowup.structuredContent.request.preserve_original, true);
+  await page.screenshot({path: '.local/processor-waiting.png', fullPage: true});
+  await page.click('#response');
+  await page.waitForFunction(() => document.getElementById('snapshot').textContent === 'Evidence v4');
+  const final = await readCase();
+  assert.deepEqual(final.evidence.slice(0, 4), originals, 'Later response preserves all original evidence');
+  assert.equal(final.status, 'PROCESSOR_EVIDENCE_RECEIVED');
+  assert.equal(final.processor_request.status, 'RESPONDED');
+  assert.match(await page.locator('#request-status').innerText(), /original export is unchanged/);
+  const correction = await client.callTool({name: 'get_evidence', arguments: {case_id: caseId, source_id: 'E-005', snapshot: 4}});
+  assert.match(correction.structuredContent.text, /no additional authorization evidence/);
+  assert.equal(correction.structuredContent.provenance.correction_of, 'E-003');
+  assert.equal(correction.structuredContent.provenance.request_id, savedFollowup.structuredContent.request.id);
+  assert.equal(final.credit, undefined);
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser_check: 'passed', mode: live ? 'live_responses' : 'mock_model', model_calls: modelCalls,
     model: initial.model_meta?.model || 'mock', same_case_through_queue_and_mcp: true, hidden_evidence_denied: true,
     mcp_staging_and_human_approval: true, separate_request_verification: true, deterministic_association_check: true,
+    processor_followup_and_explicit_correction: true, original_evidence_preserved: true,
     live_database_modified: false}));
 } finally {
   if (client) await client.close();

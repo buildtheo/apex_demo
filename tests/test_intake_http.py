@@ -137,3 +137,32 @@ class IntakeHttpTests(unittest.TestCase):
         status, result = self.request('GET', '/api/case?case_id=' + case_id)
         self.assertEqual(status, 200)
         self.assertNotIn('WITHHELD-REFERENCE', json.dumps(result))
+
+    def test_processor_followup_routes_preserve_lookup_and_only_release_correction_after_separate_approval(self):
+        case_id = self.submitted_case()
+        def stage(snapshot, scope):
+            status, draft = self.request('POST', '/api/stage-request', {'case_id': case_id, 'snapshot': snapshot, 'scope': scope}, actor='demo:barbara')
+            self.assertEqual(status, 200)
+            return draft
+        def approve(draft):
+            return self.request('POST', '/api/review-action', {'case_id': case_id, 'draft_id': draft['action_id'],
+                'version': draft['evidence_version'], 'payload_hash': draft['payload_hash']})
+        first = stage(2, 'authentication_transaction_association')
+        self.assertEqual(approve(first)[0], 200)
+        self.assertEqual(self.request('POST', '/api/action', {'case_id': case_id, 'action': 'response'})[0], 200)
+        followup = stage(3, 'processor_transaction_evidence')
+        self.assertEqual(self.request('POST', '/api/action', {'case_id': case_id, 'action': 'processor_response'})[0], 409)
+        self.assertEqual(approve(followup)[0], 200)
+        self.assertEqual(self.request('POST', '/api/action', {'case_id': case_id, 'action': 'processor_response'}, origin='https://evil.example')[0], 403)
+        case = self.request('GET', '/api/case?case_id=' + case_id)[1]
+        self.assertEqual(case['status'], 'PROCESSOR_PENDING')
+        self.assertFalse(any(e['id'] == 'E-005' for e in case['evidence']))
+        original = case['evidence']
+        self.assertEqual(self.request('POST', '/api/action', {'case_id': case_id, 'action': 'processor_response'})[0], 200)
+        case = self.request('GET', '/api/case?case_id=' + case_id)[1]
+        self.assertEqual(case['version'], 4)
+        self.assertEqual(case['evidence'][:4], original)
+        self.assertEqual(case['evidence'][4]['correction_of'], 'E-003')
+        for draft in (first, followup):
+            path = '/api/action-result?case_id=' + case_id + '&action_id=' + draft['action_id']
+            self.assertEqual(self.request('GET', path, actor='demo:barbara')[1]['status'], 'VERIFIED_SAVED_REQUEST')

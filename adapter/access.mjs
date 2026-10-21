@@ -57,8 +57,14 @@ export function caseView(state) {
 }
 
 export function requestPayloadView(payload) {
-  return {queue: screen(payload.queue), question: screen(payload.question), source_ids: payload.source_ids.map(screen),
+  const view = {queue: screen(payload.queue), question: screen(payload.question), source_ids: payload.source_ids.map(screen),
     auth_record_id: screen(payload.auth_record_id), disputed_transaction_id: screen(payload.disputed_transaction_id)};
+  if (Object.hasOwn(payload, 'preserve_original') || Object.hasOwn(payload, 'correction_of')) {
+    if (payload.preserve_original !== true || payload.correction_of !== 'E-003') throw new AccessError('invalid_action_result');
+    view.preserve_original = true;
+    view.correction_of = 'E-003';
+  }
+  return view;
 }
 
 function hexId(value, length) {
@@ -95,9 +101,15 @@ export function evidenceView(state, sourceId, snapshot) {
   if (state.version !== snapshot) throw new AccessError('stale_snapshot');
   const source = state.evidence.find(e => e.id === sourceId);
   if (!source || source.available !== true) throw new AccessError('source_unavailable');
-  return {
+  const result = {
     case_id: screen(state.id), evidence_version: state.version,
     source_id: screen(source.id), title: screen(source.title), source: screen(source.source),
     kind: screen(source.kind), text: screen(source.text), synthetic: true,
   };
+  if (source.id === 'E-005') {
+    if (source.document_version !== 2 || source.correction_of !== 'E-003') throw new AccessError('content_blocked');
+    result.provenance = {received_at: screen(source.received_at), corrected_at: screen(source.corrected_at), document_version: 2,
+      correction_of: 'E-003', request_id: screen(source.request_id), simulated_arrival: true};
+  }
+  return result;
 }

@@ -2,6 +2,10 @@
 
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
+## October 21 - second evidence-request cycle implemented
+
+Theo asked Codex to proceed with the previously agreed technical work. Implemented stage_processor_followup, separate exact review, saved processor_request verification, explicit waiting/later-arrival states and corrected E-005 with provenance, preserving all original evidence and first-request history. The scope is the settled purchase-specific evidence/citation correction, not arbitrary additional model-suggested records. 91 deterministic tests plus an isolated browser/SDK two-cycle check pass. See processor-followup.md and build-progress.md. No live-case approval/response or paid provider call performed by Codex; new-tool actual ChatGPT invocation is pending. Credit, customer ending and PDFs remain unbuilt. The expired temporary tunnel was replaced and public five-tool/case/hidden-source preflight passed; active connection details stay in ignored runtime configuration. Theo needs the new Server URL in the installed connection.
+
 ## October 20 - plain-language evidence journey and customer ending locked
 
 Walkthrough completion: Theo subsequently supplied actual ChatGPT saved-request verification and source-cited E-004 reassessment at v3, consistent with independent saved-state/public SDK checks. First-cycle account-side walkthrough is now user-observed complete under simulated identity. Next is implementation of the separately approved transaction-specific processor follow-up, not another setup or first-lookup rehearsal. See newest build-progress.md entry. No second request or credit has been staged/executed.

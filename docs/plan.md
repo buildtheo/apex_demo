@@ -1,5 +1,7 @@
 # Current Codex build plan
 
+October 21 executed milestone 4: processor follow-up draft, separate exact review, saved-request verification and explicit corrected-response arrival are implemented; see processor-followup.md and current build-progress.md. 91 deterministic tests and isolated browser/SDK both-cycle walkthrough pass. Actual ChatGPT invocation of stage_processor_followup is pending. Next build milestone is the supported human-reviewed synthetic credit, separate ledger/case verification and Martha's banking-app resolution; linked PDF artifacts and broader conversational polish remain pending. Earlier milestone-4-unbuilt statements below describe prior increments.
+
 Updated October 20, 2026. **Theo has authorized resuming the build. Presentation/deck work and practice are on hold.** This is the current implementation plan, replacing the older specialist-handoff roadmap and slides-first milestones. Read AGENTS.md and docs/START-HERE.md first. Dated preparation notes remain history where they conflict with this plan.
 
 ## Goal and locked scope

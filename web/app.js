@@ -36,9 +36,19 @@ function render(){
  $('case-label').textContent='YOUR WORK QUEUE / '+state.id;
  $('reset').hidden=Boolean(state.intake_id);$('escalate').hidden=Boolean(state.intake_id);
  $('legacy-aids').hidden=Boolean(state.intake_id);
- $('evidence').innerHTML=state.evidence.map(e=>`<details ${e.available?'':'class="unavailable"'}><summary><span class="source">${safe(e.id)}</span> ${safe(e.title)} <span class="pill">${e.available?safe(e.kind):'Not received'}</span></summary><p>${safe(e.available?e.text:'Request this record to verify the supporting reference.')}</p><small>${safe(e.source)}</small></details>`).join('');
+ $('evidence').innerHTML=state.evidence.map(e=>`<details ${e.available?'':'class="unavailable"'}><summary><span class="source">${safe(e.id)}</span> ${safe(e.title)} <span class="pill">${e.available?safe(e.kind):'Not received'}</span></summary><p>${safe(e.available?e.text:'Request this record to verify the supporting reference.')}</p><small>${safe(e.source)}${e.received_at?` · Received ${safe(new Date(e.received_at).toLocaleString())} · Response version ${safe(e.document_version)} · Corrects ${safe(e.correction_of)} · Request ${safe(e.request_id)}`:''}</small></details>`).join('');
  $('timeline').innerHTML=state.timeline.map(t=>`<div class="event"><small>${safe(new Date(t.at).toLocaleTimeString())}</small><p>${safe(t.message)}</p></div>`).reverse().join('');
- $('request').disabled=state.status!=='IN_REVIEW';$('response').disabled=state.status!=='PENDING_EVIDENCE';$('escalate').disabled=state.status!=='EVIDENCE_RECEIVED';
+ const followup=Boolean(state.intake_id)&&state.status==='EVIDENCE_RECEIVED';
+ $('request').textContent=followup||state.processor_request?'Prepare processor follow-up':'Stage evidence request locally';
+ $('request').disabled=state.status!=='IN_REVIEW'&&!followup;
+ $('response').textContent=state.status==='PROCESSOR_PENDING'?'Show later processor response (simulation)':'Simulate later response';
+ $('response').disabled=!['PENDING_EVIDENCE','PROCESSOR_PENDING'].includes(state.status);$('escalate').disabled=state.status!=='EVIDENCE_RECEIVED';
+ const pending=state.processor_request||state.request;
+ $('request-status').hidden=!pending;
+ if(pending){
+  const waiting=pending.status==='OPEN', processor=Boolean(state.processor_request);
+  $('request-status').innerHTML=`<p class="eyebrow">${waiting?'WAITING FOR EVIDENCE':'RESPONSE RECEIVED'}</p><h2>${waiting?(processor?'We have requested evidence for this purchase.':'We have requested the authentication lookup.'):(processor?'The processor has provided a corrected response.':'The authentication lookup has arrived.')}</h2><p>${waiting?'The request is saved. No response has arrived yet.':processor?'Open the corrected processor response below (E-005). The original export is unchanged.':'Open the lookup result above (E-004), then return to ChatGPT to review it.'}</p>${waiting?'<p class="small">For this demo, use the simulation button to move forward to the later response. No external processor is contacted.</p>':''}`;
+ }
  const d=state.draft;$('approval').hidden=!d;
  if(d){
   const note=d.contract?'This saves a synthetic request only. It does not return evidence or approve credit. Production identity is not implemented.':'This action changes only the local synthetic case. Production identity and authorization are not implemented.';
@@ -46,9 +56,9 @@ function render(){
   const payload=request?`<p class="request-question">${safe(d.payload.question)}</p><dl class="request-facts">${[
    ['Send to',d.payload.queue],['Authentication record',d.payload.auth_record_id],
    ['Disputed transaction',d.payload.disputed_transaction_id],['Evidence sources',d.payload.source_ids.join(', ')],
-   ['Action ID',d.id]
-  ].map(([label,value])=>`<div><dt>${safe(label)}</dt><dd>${safe(value)}</dd></div>`).join('')}</dl><p>Approve only this transaction-association lookup. This does not decide the dispute or issue a credit.</p><details class="technical-payload"><summary>Technical details</summary><p>Exact payload hash: ${safe(d.payload_hash)}</p><pre>${safe(JSON.stringify(d.payload,null,2))}</pre></details>`:`<pre>${safe(JSON.stringify(d.payload,null,2))}</pre>`;
-  $('approval').innerHTML=`<p class="eyebrow">REVIEW EXACT ACTION · ${d.contract?'BARBARA / SIMULATED IDENTITY':'LOCAL DEMO APPROVAL'}</p><h2>${request?'Review evidence request':safe(d.kind.replaceAll('_',' '))}</h2><p>Case ${safe(d.case_id)} · Evidence v${d.version}</p>${payload}${d.expires_at?`<p>Review expires: ${safe(new Date(d.expires_at*1000).toLocaleTimeString())}</p>`:''}<p class="small">${safe(note)}</p><button id="approve">Approve & execute in demo</button>`;
+   ['Action ID',d.id],...(d.payload.preserve_original?[['Original evidence','Keep E-003 unchanged; add a separately versioned correction']]:[])
+  ].map(([label,value])=>`<div><dt>${safe(label)}</dt><dd>${safe(value)}</dd></div>`).join('')}</dl><p>Approve only this evidence request. This does not decide the dispute or issue a credit.</p><details class="technical-payload"><summary>Technical details</summary><p>Exact payload hash: ${safe(d.payload_hash)}</p><pre>${safe(JSON.stringify(d.payload,null,2))}</pre></details>`:`<pre>${safe(JSON.stringify(d.payload,null,2))}</pre>`;
+  $('approval').innerHTML=`<p class="eyebrow">REVIEW EXACT ACTION · ${d.contract?'BARBARA / SIMULATED IDENTITY':'LOCAL DEMO APPROVAL'}</p><h2>${d.kind==='REQUEST_PROCESSOR_EVIDENCE'?'Ask the processor for more evidence':request?'Review evidence request':safe(d.kind.replaceAll('_',' '))}</h2><p>Case ${safe(d.case_id)} · Evidence v${d.version}</p>${payload}${d.expires_at?`<p>Review expires: ${safe(new Date(d.expires_at*1000).toLocaleTimeString())}</p>`:''}<p class="small">${safe(note)}</p><button id="approve">${d.kind==='REQUEST_PROCESSOR_EVIDENCE'?'Approve request in demo':'Approve & execute in demo'}</button>`;
   $('approve').onclick=()=>act('approve',{draft_id:d.id},d);
  }
 }
@@ -63,7 +73,7 @@ async function act(action,extra={},approved=null){
   if(action==='approve'){
    const v=verifyEffect(state,approved);if(!v.ok)throw Error('Execution acknowledged, but the saved case record could not be verified: '+v.reason+'.');
    $('notice').textContent='Verified against the saved case record: '+v.summary+'.';
-  }else $('notice').textContent=action==='response'?'Simulated response received. Re-run the comparison to reassess.':'Case updated.';
+ }else $('notice').textContent=['response','processor_response'].includes(action)?'Later response received (simulation). Return to ChatGPT to review the new evidence.':'Case updated.';
  }catch(e){$('notice').textContent=e.message;}
  finally{document.querySelectorAll('button').forEach(b=>b.disabled=false);if(state)render();}
 }
@@ -93,6 +103,6 @@ async function ask(kind) {
 $('compare').onclick=()=>ask('compare');
 $('refresh-case').onclick=()=>load().catch(e=>$('notice').textContent=e.message);
 $('gap').onclick=()=>ask('gap');
-$('request').onclick=()=>act('draft',{kind:'REQUEST_EVIDENCE'});$('response').onclick=()=>act('response');$('escalate').onclick=()=>act('draft',{kind:'ESCALATE_REVIEW'});$('reset').onclick=()=>{if(confirm('Reset this local demo case and its history?'))act('reset');};
+$('request').onclick=()=>act('draft',{kind:state.intake_id&&state.status==='EVIDENCE_RECEIVED'?'REQUEST_PROCESSOR_EVIDENCE':'REQUEST_EVIDENCE'});$('response').onclick=()=>act(state.status==='PROCESSOR_PENDING'?'processor_response':'response');$('escalate').onclick=()=>act('draft',{kind:'ESCALATE_REVIEW'});$('reset').onclick=()=>{if(confirm('Reset this local demo case and its history?'))act('reset');};
 load().catch(e=>$('notice').textContent=e.message);
 

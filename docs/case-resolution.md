@@ -1,5 +1,7 @@
 # Closed-case ending - locked October 20, 2026
 
+October 21 implementation update: both investigation-request approval cycles now exist, including the corrected processor response E-005 released only after an explicit simulation. See processor-followup.md. The supported credit, verified synthetic ledger/case posting, final brief and Martha's resolved banking view remain unbuilt. Earlier descriptions of all follow-up work as unimplemented below are historical; they do not authorize auto-credit from a missing record.
+
 Theo approved a complete customer outcome rather than stopping at an evidence request or specialist referral. This replaces the October 19 ending. All people, purchases, processor records, policy and financial entries in this scenario are synthetic. JCPenney is used for name familiarity only.
 
 ## Human authority and selected outcome

@@ -1,5 +1,7 @@
 # Demo flow and system ownership
 
+October 21 current implementation: the second request cycle is now built (processor-followup.md). Actual ChatGPT may stage the bounded follow-up via stage_processor_followup; Barbara approves separately in Apex, saved facts are verified, and an explicit later simulation releases a separately versioned E-005 without changing earlier evidence. 91 deterministic tests and an isolated browser/SDK walkthrough pass; actual account-side invocation of the new tool is pending. Credit, final customer outcome and original-document/PDF artifacts remain unbuilt. Older unbuilt-follow-up descriptions below are historical, not current status.
+
 Recorded October 15, 2026 from Theo's clarification. Read alongside plan.md and handoff.md. This describes the intended experience, not a claim that pending integrations work.
 
 ## October 20 decision - Barbara approves the supported credit

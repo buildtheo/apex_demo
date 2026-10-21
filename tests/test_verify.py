@@ -84,4 +84,16 @@ class VerifyEffectTests(unittest.TestCase):
             bad = copy.deepcopy(state); bad['request'][field] = value; cases.append([bad, approved])
         self.assertFalse(any(r['ok'] for r in run(cases)))
 
+    def test_processor_followup_verifies_its_separate_request_and_preservation_scope(self):
+        approved = copy.deepcopy(self.req_draft)
+        approved.update(kind='REQUEST_PROCESSOR_EVIDENCE', contract='mcp_request_v1', payload_hash='a' * 64)
+        approved['payload'].update(auth_record_id='AUTH-77', disputed_transaction_id='T-204', preserve_original=True, correction_of='E-003')
+        state = copy.deepcopy(self.requested)
+        state['processor_request'] = {**state['request'], **approved['payload'], 'payload_hash': approved['payload_hash'],
+            'evidence_version': approved['version'], 'approved_by': 'demo:barbara', 'approval_identity': 'simulated_not_oauth'}
+        self.assertTrue(run([[state, approved]])[0]['ok'])
+        bad = copy.deepcopy(state); bad['processor_request']['preserve_original'] = False
+        missing = copy.deepcopy(state); del missing['processor_request']
+        self.assertFalse(any(r['ok'] for r in run([[bad, approved], [missing, approved]])))
+
 if __name__ == '__main__': unittest.main()

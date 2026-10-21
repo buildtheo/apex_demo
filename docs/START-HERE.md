@@ -1,5 +1,7 @@
 # Start here: Apex build status and handoff
 
+Latest October 21: processor follow-up (second separate approval cycle) is implemented and isolated-browser/SDK-tested, with 91 deterministic tests passing. Read [processor-followup.md](processor-followup.md) and the newest progress entry. Five MCP tools, including new WRITE stage_processor_followup; no public approval/execution tool. Actual ChatGPT invocation of the new tool is pending. Original evidence retained; E-005 arrives only after explicit simulation. Credit/Martha's resolved banking view and PDFs remain pending. Earlier milestone states below describe prior increments.
+
 Updated October 20, 2026. Theo has authorized Codex to **review and start building the agreed demo**. Presentation materials and practice are on hold. Read AGENTS.md, [build-handoff.md](build-handoff.md), then [plan.md](plan.md).
 
 The latest user direction and current build plan supersede older slides-first/no-build-resumption notes. Historical implementation records are not fresh proof.

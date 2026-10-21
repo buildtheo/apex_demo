@@ -246,14 +246,15 @@ function actionFixture() {
   return {state, staged};
 }
 
-test('staging is a write; four tools include result reads but never an approval/execution tool', async t => {
+test('staging is a write; five tools include result reads but never an approval/execution tool', async t => {
   const {state, staged} = actionFixture();
   let actor, calls = 0;
   const f = await fixture(t, state, {...demoOptions, stageRequest: async (_args, principal) => { actor = principal.subject; calls++; return staged; },
     getActionResult: async () => ({case_id: state.id, action_id: staged.action_id, status: 'AWAITING_HUMAN_APPROVAL', approved_snapshot: 1, observed_snapshot: 1})});
   const client = await clientFor(t, f);
   const {tools} = await client.listTools();
-  assert.deepEqual(tools.map(tool => tool.name).sort(), ['get_action_result', 'get_case', 'get_evidence', 'stage_evidence_request']);
+  assert.deepEqual(tools.map(tool => tool.name).sort(), ['get_action_result', 'get_case', 'get_evidence', 'stage_evidence_request', 'stage_processor_followup']);
+  assert.equal(tools.find(tool => tool.name === 'stage_processor_followup').annotations.readOnlyHint, false);
   assert.equal(tools.find(tool => tool.name === 'stage_evidence_request').annotations.readOnlyHint, false);
   const result = await client.callTool({name: 'stage_evidence_request', arguments: {case_id: state.id, snapshot: 1, scope: 'authentication_transaction_association'}});
   assert.equal(result.structuredContent.status, 'AWAITING_HUMAN_APPROVAL');
@@ -295,4 +296,37 @@ test('optional staging requires verification and hidden association metadata can
   const state = freshState();
   state.association_check = {returned_transaction_id: 'HIDDEN ANSWER'};
   assert.doesNotMatch(JSON.stringify(caseView(state)), /HIDDEN ANSWER/);
+});
+
+test('processor follow-up enforces assignment, snapshot and released lookup before its fixed scope reaches backend', async t => {
+  const {state, staged} = actionFixture();
+  let received;
+  staged.payload = {...staged.payload, preserve_original: true, correction_of: 'E-003'};
+  const f = await fixture(t, state, {...demoOptions, stageRequest: async args => { received = args; return staged; }, getActionResult: async () => ({})});
+  const client = await clientFor(t, f);
+  const args = {case_id: state.id, snapshot: 1};
+  const call = arguments_ => client.callTool({name: 'stage_processor_followup', arguments: arguments_});
+  assert.equal((await call({...args, case_id: 'OTHER'})).content[0].text, 'access_denied');
+  assert.equal((await call({...args, snapshot: 2})).content[0].text, 'stale_snapshot');
+  assert.equal((await call(args)).content[0].text, 'source_unavailable');
+  assert.equal(received, undefined);
+  state.evidence.find(e => e.id === 'E-004').available = true;
+  const result = await call({...args, scope: 'all_customer_records'});
+  assert.deepEqual(received, {...args, scope: 'processor_transaction_evidence'});
+  assert.equal(result.structuredContent.payload.preserve_original, true);
+  assert.equal(result.structuredContent.payload.correction_of, 'E-003');
+});
+
+test('corrected response provenance is returned only for released evidence at the current snapshot', () => {
+  const state = freshState();
+  state.evidence.push({id: 'E-005', title: 'Correction', source: 'Synthetic processor', kind: 'Response', text: 'Corrected record.',
+    available: false, received_at: '2026-10-21T12:00:00Z', corrected_at: '2026-10-21T11:59:00Z', document_version: 2, correction_of: 'E-003', request_id: 'REQ-abcdef12'});
+  assert.doesNotMatch(JSON.stringify(caseView(state)), /Corrected record|2026-10-21/);
+  assert.throws(() => evidenceView(state, 'E-005', 1), error => error.code === 'source_unavailable');
+  state.evidence.at(-1).available = true;
+  const view = evidenceView(state, 'E-005', 1);
+  assert.equal(view.provenance.document_version, 2);
+  assert.equal(view.provenance.simulated_arrival, true);
+  assert.equal(view.provenance.correction_of, 'E-003');
+  assert.equal(view.provenance.corrected_at, '2026-10-21T11:59:00Z');
 });

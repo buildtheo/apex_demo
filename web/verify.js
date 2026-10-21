@@ -15,8 +15,8 @@ function verifyEffect(state, approved) {
       typeof approved.case_id !== 'string' || !approved.case_id.trim()) return fail('the approval identity is missing');
   if (state.id !== approved.case_id) return fail('the read-back returned a different case');
   const p = approved.payload;
-  if (approved.kind === 'REQUEST_EVIDENCE') {
-    const r = state.request;
+  if (['REQUEST_EVIDENCE', 'REQUEST_PROCESSOR_EVIDENCE'].includes(approved.kind)) {
+    const r = approved.kind === 'REQUEST_PROCESSOR_EVIDENCE' ? state.processor_request : state.request;
     if (!r) return fail('no evidence request is saved');
     if (typeof r.id !== 'string' || !r.id.trim()) return fail('the saved request has no valid identifier');
     if (!['OPEN', 'RESPONDED'].includes(r.status)) return fail('the saved request has no recognized operational state');

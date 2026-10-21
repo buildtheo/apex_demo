@@ -76,10 +76,13 @@ class Store:
                 if s['id'] != 'APX-001': raise Conflict('Reset applies only to the seeded demo case.')
                 return self.reset()
             if s.get('intake_id') and action == 'draft':
-                if data.get('kind') != 'REQUEST_EVIDENCE': raise Conflict('This case requires the new reviewed resolution path, not the legacy specialist handoff.')
-                return self.investigation.stage(s['id'], s['version'], 'authentication_transaction_association', 'demo:barbara')
+                scopes = {'REQUEST_EVIDENCE': 'authentication_transaction_association', 'REQUEST_PROCESSOR_EVIDENCE': 'processor_transaction_evidence'}
+                if data.get('kind') not in scopes: raise Conflict('This case requires the new reviewed resolution path, not the legacy specialist handoff.')
+                return self.investigation.stage(s['id'], s['version'], scopes[data['kind']], 'demo:barbara')
             if s.get('intake_id') and action == 'approve':
                 raise Conflict('Use the separate exact-payload review endpoint for this case.')
+            if action == 'processor_response':
+                return self.investigation.attach_processor_response(s['id'], 'demo:barbara')
             if action == 'review_packet':
                 if s['status'] != 'INTAKE_RECEIVED': raise Conflict('This case is not awaiting its later packet.')
                 find(s, 'E-003')['available'] = True

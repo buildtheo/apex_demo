@@ -1,5 +1,9 @@
 # Development handoff — October 15, 2026
 
+## October 21 current handoff
+
+Second processor-evidence request cycle is implemented. Start with docs/START-HERE.md, docs/processor-followup.md and the newest docs/build-progress.md entry. Five MCP tools; stage_processor_followup is a WRITE, never approval/execution. 60 Python and 31 Node tests plus isolated browser/SDK both-cycle checks pass. New-tool account-side invocation is pending; current live case is preserved at v3 until Theo acts. Verified credit/customer ending and PDF artifacts remain pending. Older handoff statuses below are historical.
+
 ## First approval cycle - October 20
 
 Read request-actions.md and latest build-progress.md. MCP draft staging (WRITE), saved-request result read, separate private exact-payload approval and deterministic released association check now exist. 82 tests and isolated browser/SDK review-button flow pass. Theo supplied new-case actual ChatGPT reading; his live case stays intake/v1. Runtime enables four tools, never an approval/execution tool. Human review is still a synthetic local mechanism, not OAuth. Next build is processor follow-up, then credit; actual ChatGPT staging confirmation remains to capture. Historical read-only-only/approval-unbuilt statements below are superseded.
