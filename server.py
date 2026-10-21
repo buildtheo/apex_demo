@@ -87,6 +87,8 @@ class Store:
     def act(self, action, data):
         with LOCK:
             s = self.read(data.get('case_id'))
+            if s.get('demo_run') and s['demo_run'] != self.intake.current_run():
+                raise Conflict('This practice run is archived. Open the current demo queue.')
             if action == 'reset':
                 if s['id'] != 'APX-001': raise Conflict('Reset applies only to the seeded demo case.')
                 return self.reset()
@@ -173,6 +175,8 @@ class Handler(BaseHTTPRequestHandler):
         path = urlsplit(self.path).path
         query = parse_qs(urlsplit(self.path).query, keep_blank_values=True)
         case_id = query.get('case_id', [None])[0]
+        if path == '/api/demo-run':
+            with LOCK: return self.reply(200, {'run_id': self.server.store.intake.current_run()})
         if path == '/api/intake/session' or path == '/api/customer-case':
             try:
                 session = self.server.store.intake.get(query.get('session_id', [''])[0], self.headers.get('X-Apex-Session'))
@@ -187,10 +191,13 @@ class Handler(BaseHTTPRequestHandler):
         if path in ('/api/cases', '/api/demo-assignments'):
             with LOCK:
                 cases = [self.server.store.read()] + self.server.store.intake.cases()
+                run = self.server.store.intake.current_run()
+                visible = [s for s in cases if s.get('demo_run') == run] if run else cases
             if path == '/api/demo-assignments':
-                return self.reply(200, {'demo:barbara': {'role': 'analyst', 'cases': [s['id'] for s in cases if s['id'] == 'APX-001' or s.get('assigned_to') == 'demo:barbara']}})
+                return self.reply(200, {'demo:barbara': {'role': 'analyst', 'cases': [s['id'] for s in cases
+                    if (not s.get('demo_run') or s['demo_run'] == run) and (s['id'] == 'APX-001' or s.get('assigned_to') == 'demo:barbara')]}})
             return self.reply(200, [{'case_id': s['id'], 'customer': s['customer'], 'merchant': s['merchant'], 'amount': s['amount'],
-                                     'status': s['status'], 'version': s['version'], 'assigned_to': s.get('assigned_to', 'local-demo-operator')} for s in cases])
+                                     'status': s['status'], 'version': s['version'], 'assigned_to': s.get('assigned_to', 'local-demo-operator')} for s in visible])
         if path == '/api/action-result':
             try:
                 return self.reply(200, self.server.store.action_result(case_id, query.get('action_id', [''])[0], self.headers.get('X-Apex-Actor')))
@@ -209,13 +216,14 @@ class Handler(BaseHTTPRequestHandler):
             except Conflict as e: return self.reply(409, {'error': str(e)})
         files = {'/':('banking.html','text/html; charset=utf-8'),'/banking':('banking.html','text/html; charset=utf-8'),'/banking.js':('banking.js','text/javascript; charset=utf-8'),'/banking.css':('banking.css','text/css; charset=utf-8'),'/ops':('index.html','text/html; charset=utf-8'),'/app.js':('app.js','text/javascript; charset=utf-8'),'/verify.js':('verify.js','text/javascript; charset=utf-8'),'/style.css':('style.css','text/css; charset=utf-8')}
         files.update({'/queue': ('queue.html', 'text/html; charset=utf-8'), '/queue.js': ('queue.js', 'text/javascript; charset=utf-8'),
+                      '/demo-controls.js': ('demo-controls.js', 'text/javascript; charset=utf-8'),
                       '/intake.css': ('intake.css', 'text/css; charset=utf-8')})
         if path in files:
             name,mime = files[path]; return self.reply(200,(ROOT/'web'/name).read_bytes(),mime)
         self.reply(404,{'error':'Not found'})
     def do_POST(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action', '/api/customer-preview'): return self.reply(404,{'error':'Not found'})
+        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action', '/api/customer-preview', '/api/restart-demo'): return self.reply(404,{'error':'Not found'})
         # Local demo CSRF boundary, not production identity/authentication.
         if self.headers.get('X-Apex-Demo') != 'local': return self.reply(403,{'error':'Missing demo request header'})
         origin = self.headers.get('Origin')
@@ -225,6 +233,8 @@ class Handler(BaseHTTPRequestHandler):
             if not 0 < size <= 8192: return self.reply(400,{'error':'Invalid request size'})
             data = json.loads(self.rfile.read(size))
             if not isinstance(data,dict): raise ValueError()
+            if path == '/api/restart-demo':
+                return self.reply(200, self.server.store.intake.restart(data.get('request_id')))
             if path == '/api/customer-preview':
                 with LOCK:
                     case = self.server.store.investigation.case(data.get('case_id'), 'demo:barbara')

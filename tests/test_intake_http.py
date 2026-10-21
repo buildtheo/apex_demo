@@ -227,3 +227,19 @@ class IntakeHttpTests(unittest.TestCase):
         self.assertEqual(self.request('POST', '/api/customer-preview', {'case_id': 'APX-001'})[0], 403)
         case = self.srv.store.read(case_id); case['assigned_to'] = 'other'; self.srv.store.save(case)
         self.assertEqual(self.request('POST', '/api/customer-preview', {'case_id': case_id})[0], 403)
+
+    def test_restart_is_private_idempotent_and_shows_only_current_run(self):
+        original = self.submitted_case()
+        proof = self.srv.store.read(original)
+        for kwargs in ({'demo': False}, {'origin': 'https://evil.example'}):
+            self.assertEqual(self.request('POST', '/api/restart-demo', {'request_id': 'http-restart-001'}, **kwargs)[0], 403)
+        self.assertEqual(self.request('POST', '/api/restart-demo', {'request_id': []})[0], 400)
+        status, result = self.request('POST', '/api/restart-demo', {'request_id': 'http-restart-001'})
+        self.assertEqual(status, 200)
+        self.assertEqual(self.request('GET', '/api/demo-run')[1]['run_id'], result['run_id'])
+        self.assertTrue(self.request('POST', '/api/restart-demo', {'request_id': 'http-restart-001'})[1]['duplicate'])
+        self.assertEqual(self.request('GET', '/api/cases')[1], [])
+        new_case = self.submitted_case()
+        self.assertNotEqual(new_case, original)
+        self.assertEqual([row['case_id'] for row in self.request('GET', '/api/cases')[1]], [new_case])
+        self.assertEqual(self.srv.store.read(original), proof)

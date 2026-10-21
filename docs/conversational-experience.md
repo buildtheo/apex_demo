@@ -2,6 +2,8 @@
 
 October 21 direction from Theo. This is the presentation/interaction contract, not a claim that the remaining polish or voice integration has shipped.
 
+Latest superseding decision: Barbara enters Apex only at the initial queue and to approve credit. Bounded investigation requests execute from ChatGPT without separate business approval. The three-review wording below describes the older implementation, not the new target. Runtime conversion is pending; [restart-demo.md](restart-demo.md) records the implemented repeatable practice control and boundaries.
+
 ## One Story
 
 Martha reports a purchase she does not recognize. Barbara investigates in ChatGPT, asks for the missing evidence, reviews the recommendation and approves a supported credit in Apex. Martha sees the verified result in her banking app.

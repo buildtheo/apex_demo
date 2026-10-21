@@ -117,7 +117,8 @@ export function actionResultView(data, caseId, actionId) {
 }
 
 export function creditPayloadView(p) {
-  if (p.amount_cents !== 64850 || p.currency !== 'USD' || p.account_ref !== 'demo:martha:card-8821'
+  if (p.amount_cents !== 64850 || p.currency !== 'USD' || typeof p.account_ref !== 'string'
+      || !/^demo:martha:card-8821(?::practice:[a-f0-9]{32})?$/.test(p.account_ref)
       || p.transaction_id !== 'T-204' || p.policy_id !== 'DEMO-CREDIT-01' || p.disposition !== 'CUSTOMER_FAVORABLE'
       || JSON.stringify(p.source_ids) !== JSON.stringify(['E-001', 'E-002', 'E-003', 'E-004', 'E-005'])) throw new AccessError('invalid_action_result');
   return {amount_cents: p.amount_cents, currency: p.currency, account_ref: p.account_ref, transaction_id: p.transaction_id,

@@ -6,7 +6,17 @@ import {generateKeyPair, exportJWK, createLocalJWKSet, SignJWT} from 'jose';
 import {Client} from '@modelcontextprotocol/sdk/client/index.js';
 import {StreamableHTTPClientTransport} from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import {createAdapter} from '../adapter/app.mjs';
-import {authorize, caseView, evidenceView, screen, tokenVerifier, actionResultView} from '../adapter/access.mjs';
+import {authorize, caseView, evidenceView, screen, tokenVerifier, actionResultView, creditPayloadView} from '../adapter/access.mjs';
+
+test('credit payload accepts bounded practice account namespaces, not arbitrary accounts', () => {
+  const payload = {amount_cents: 64850, currency: 'USD', account_ref: 'demo:martha:card-8821',
+    transaction_id: 'T-204', policy_id: 'DEMO-CREDIT-01', disposition: 'CUSTOMER_FAVORABLE',
+    source_ids: ['E-001', 'E-002', 'E-003', 'E-004', 'E-005'], rationale: 'Synthetic rationale', customer_explanation: 'Evidence reviewed.'};
+  assert.equal(creditPayloadView({...payload, account_ref: payload.account_ref + ':practice:' + 'ab'.repeat(16)}).amount_cents, 64850);
+  for (const account_ref of ['other', payload.account_ref + ':practice:short', payload.account_ref + ':practice:' + 'g'.repeat(32)]) {
+    assert.throws(() => creditPayloadView({...payload, account_ref}));
+  }
+});
 
 // Locally generated credentials exercise validation, not an external OAuth deployment.
 const issuer = 'https://identity.example/';

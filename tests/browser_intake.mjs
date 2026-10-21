@@ -214,6 +214,31 @@ try {
   await page.screenshot({path: '.local/customer-preview.png', fullPage: true});
   assert.deepEqual(await readCase(), beforePreview, 'Preview cannot change the case or financial record');
   assert.equal((await (await fetch(base + '/api/case')).json()).request, null, 'Credit flow must not change legacy seed');
+  await page.goto(base + '/queue');
+  page.once('dialog', dialog => dialog.accept());
+  await page.click('#restart-demo');
+  await page.waitForURL(base + '/');
+  await page.waitForFunction(() => !document.getElementById('choose-form').disabled);
+  assert.equal(await page.locator('#card-balance').innerText(), '$2,184.72');
+  assert.equal(await page.locator('#view-report').isVisible(), false);
+  assert.equal(await page.locator('#credit-activity').isVisible(), false);
+  assert.deepEqual(await (await fetch(base + '/api/cases')).json(), []);
+  await page.click('#open-charge'); await page.click('#dispute-charge'); await page.click('#choose-form');
+  await page.waitForFunction(() => !document.getElementById('send-message').disabled);
+  await send('I did not authorize this JCPenney purchase.');
+  if (!await page.locator('#review').isVisible()) await send('No one else had permission to use my card.');
+  await page.click('#confirm-report');
+  await page.locator('#saved').waitFor({state: 'visible'});
+  const practiceCaseId = (await page.locator('#saved-case').innerText()).replace('Case reference: ', '');
+  assert.notEqual(practiceCaseId, caseId);
+  assert.deepEqual((await (await fetch(base + '/api/cases')).json()).map(c => c.case_id), [practiceCaseId]);
+  assert.deepEqual(await readCase(), beforePreview, 'Restart preserves completed proof case');
+  await page.goto(`${base}/ops?case_id=${practiceCaseId}`);
+  page.once('dialog', dialog => dialog.accept());
+  await page.click('#restart-demo');
+  await page.waitForURL(base + '/');
+  await page.waitForFunction(() => !document.getElementById('choose-form').disabled);
+  assert.equal(await page.locator('#view-report').isVisible(), false);
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser_check: 'passed', mode: live ? 'live_responses' : 'mock_model', model_calls: modelCalls,
     model: initial.model_meta?.model || 'mock', same_case_through_queue_and_mcp: true, hidden_evidence_denied: true,
@@ -221,6 +246,7 @@ try {
     processor_followup_and_explicit_correction: true, original_evidence_preserved: true,
     reviewed_credit_and_separate_ledger_case_verification: true, customer_resolution_and_activity: true,
     lost_customer_session_operator_preview: true,
+    restart_from_queue_and_case: true,
     live_database_modified: false}));
 } finally {
   if (client) await client.close();

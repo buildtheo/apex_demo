@@ -11,7 +11,7 @@ function show(name) {
 function notice(text) { $('intake-notice').textContent = text; }
 function setBusy(value) {
   busy = value;
-  for (const id of ['send-message', 'confirm-report', 'statement']) $(id).disabled = value;
+  for (const id of ['choose-form', 'send-message', 'confirm-report', 'statement']) $(id).disabled = value;
 }
 async function api(path, data) {
   const response = await fetch(path, {method: data ? 'POST' : 'GET', headers: {
@@ -19,6 +19,10 @@ async function api(path, data) {
   }, ...(data ? {body: JSON.stringify(data)} : {})});
   const result = await response.json();
   if (!response.ok) {
+    if (result.error === 'demo_restarted') {
+      sessionStorage.removeItem('apex-intake-session'); sessionStorage.removeItem('apex-customer-preview');
+      location.reload(); throw Error('The demo restarted. Opening the fresh banking app.');
+    }
     const messages = {content_blocked: "That message couldn't be accepted. Remove card numbers, security codes or other secrets and try again.",
       preview_expired: "This demo preview has expired. Reopen Martha's app from Apex review.",
       intake_model_unavailable: 'Support is temporarily unavailable. Your report has not been submitted. Please try again.',
@@ -30,7 +34,7 @@ async function api(path, data) {
   return result;
 }
 function remember() {
-  try { sessionStorage.setItem('apex-intake-session', JSON.stringify({session_id: session.session_id, token: sessionToken})); }
+  try { sessionStorage.setItem('apex-intake-session', JSON.stringify({session_id: session.session_id, token: sessionToken, demo_run: session.demo_run})); }
   catch { /* The current flow works in memory; refreshing will not restore it. */ }
 }
 function renderConversation() {
@@ -123,12 +127,27 @@ function hideUnverifiedCredit(error){
 $('check-report').onclick = () => saved().catch(hideUnverifiedCredit);
 $('view-report').onclick = () => saved().catch(error=>{show('saved');hideUnverifiedCredit(error);});
 window.addEventListener('focus',()=>{
-  if(session?.case_id&&!$('saved').hidden)saved().catch(hideUnverifiedCredit);
+  if (!session) return;
+  api('/api/demo-run').then(current => {
+    if ((session.demo_run || null) !== current.run_id) {
+      sessionStorage.removeItem('apex-intake-session'); sessionStorage.removeItem('apex-customer-preview');
+      location.reload(); return;
+    }
+    if(session.case_id&&!$('saved').hidden)return saved();
+  }).catch(hideUnverifiedCredit);
 });
-try {
-  const stored = JSON.parse(sessionStorage.getItem('apex-customer-preview')||sessionStorage.getItem('apex-intake-session'));
-  if (stored?.session_id && stored?.token) { session = {session_id: stored.session_id}; sessionToken = stored.token; }
-} catch { /* A new session remains available when browser storage is unavailable. */ }
-if(session){
-  refreshSession().then(()=>{if(session.case_id)return saved();}).catch(hideUnverifiedCredit);
+async function restoreBankingSession() {
+  setBusy(true);
+  try {
+    const current = await api('/api/demo-run');
+    const stored = JSON.parse(sessionStorage.getItem('apex-customer-preview')||sessionStorage.getItem('apex-intake-session'));
+    if (stored && (stored.demo_run || null) !== current.run_id) {
+      sessionStorage.removeItem('apex-customer-preview'); sessionStorage.removeItem('apex-intake-session');
+    } else if (stored?.session_id && stored?.token) {
+      session = {session_id: stored.session_id}; sessionToken = stored.token;
+      await refreshSession(); if (session.case_id) await saved();
+    }
+  } catch (error) { notice(error.message); }
+  finally { setBusy(false); }
 }
+restoreBankingSession();

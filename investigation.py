@@ -24,6 +24,8 @@ class Investigation:
         case = self.store.read(case_id)
         if actor != 'demo:barbara' or case.get('assigned_to') != actor or not case.get('intake_id'):
             raise ActionError('action_denied', 403)
+        if case.get('demo_run') and case['demo_run'] != self.store.intake.current_run():
+            raise ActionError('practice_run_archived', 409)
         return case
 
     def payload(self, kind='REQUEST_EVIDENCE'):

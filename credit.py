@@ -1,6 +1,7 @@
 """Human-reviewed synthetic credit. No external bank or payment integration."""
 import hmac
 import json
+import re
 import secrets
 import sqlite3
 import time
@@ -13,6 +14,14 @@ from investigation import ActionError, payload_hash
 SOURCES = ['E-001', 'E-002', 'E-003', 'E-004', 'E-005']
 POLICY = 'DEMO-CREDIT-01'
 ACCOUNT = 'demo:martha:card-8821'
+
+
+def account_ref(case):
+    run = case.get('demo_run')
+    if run is None: return ACCOUNT
+    if not isinstance(run, str) or not re.fullmatch(r'[a-f0-9]{32}', run):
+        raise ActionError('credit_context_changed')
+    return ACCOUNT + ':practice:' + run
 
 
 class Credit:
@@ -59,7 +68,7 @@ class Credit:
         rationale, explanation = screened(rationale, 2400), screened(explanation, 1200)
         if not all(source in rationale for source in SOURCES):
             raise ActionError('rationale_requires_citations', 400)
-        return {'amount_cents': amount, 'currency': 'USD', 'account_ref': ACCOUNT, 'transaction_id': 'T-204',
+        return {'amount_cents': amount, 'currency': 'USD', 'account_ref': account_ref(case), 'transaction_id': 'T-204',
                 'policy_id': POLICY, 'source_ids': SOURCES.copy(), 'rationale': rationale,
                 'customer_explanation': explanation, 'disposition': 'CUSTOMER_FAVORABLE'}
 
@@ -135,7 +144,7 @@ class Credit:
             try:
                 with self.store.db:
                     self.store.db.execute('INSERT INTO synthetic_credits VALUES (?,?,?,?,?)',
-                        (record['id'], case['id'], ACCOUNT, 'T-204', json.dumps(record)))
+                        (record['id'], case['id'], p['account_ref'], 'T-204', json.dumps(record)))
                     changed = self.store.db.execute('UPDATE submitted_cases SET body=? WHERE id=?', (json.dumps(case), case['id']))
                     if changed.rowcount != 1: raise ActionError('reconciliation_required')
             except sqlite3.IntegrityError: raise ActionError('reconciliation_required')
@@ -154,7 +163,7 @@ class Credit:
             decision = case.get('decision') or {}
             common = {**p, 'draft_id': action, 'case_id': case_id, 'evidence_version': draft['version'],
                       'payload_hash': draft['payload_hash'], 'approved_by': 'demo:barbara', 'approval_identity': 'simulated_not_oauth'}
-            valid_payload = (p.get('amount_cents') == 64850 and p.get('currency') == 'USD' and p.get('account_ref') == ACCOUNT
+            valid_payload = (p.get('amount_cents') == 64850 and p.get('currency') == 'USD' and p.get('account_ref') == account_ref(case)
                 and p.get('transaction_id') == 'T-204' and p.get('policy_id') == POLICY and p.get('source_ids') == SOURCES
                 and p.get('disposition') == 'CUSTOMER_FAVORABLE' and payload_hash(p) == draft['payload_hash'])
             if (record and valid_payload and case['status'] == 'CREDIT_POSTED' and case['amount'] == 648.5

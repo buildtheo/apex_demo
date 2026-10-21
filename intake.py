@@ -26,7 +26,25 @@ class IntakeStore:
         self.db, self.lock, self.fixture = db, lock, fixture
         db.execute('CREATE TABLE IF NOT EXISTS intakes (id TEXT PRIMARY KEY, token_hash TEXT, body TEXT NOT NULL)')
         db.execute('CREATE TABLE IF NOT EXISTS submitted_cases (id TEXT PRIMARY KEY, intake_id TEXT UNIQUE NOT NULL, body TEXT NOT NULL)')
+        db.execute('CREATE TABLE IF NOT EXISTS demo_restarts (request_id TEXT PRIMARY KEY, run_id TEXT UNIQUE NOT NULL)')
         db.commit()
+
+    def current_run(self):
+        row = self.db.execute('SELECT run_id FROM demo_restarts ORDER BY rowid DESC LIMIT 1').fetchone()
+        return row[0] if row else None
+
+    def restart(self, request_id):
+        if not isinstance(request_id, str) or not re.fullmatch(r'[A-Za-z0-9-]{8,80}', request_id):
+            raise IntakeError('invalid_restart', 400)
+        with self.lock:
+            existing = self.db.execute('SELECT run_id FROM demo_restarts WHERE request_id=?', (request_id,)).fetchone()
+            if existing:
+                if existing[0] != self.current_run(): raise IntakeError('restart_superseded')
+                return {'run_id': existing[0], 'duplicate': True}
+            run_id = secrets.token_hex(16)
+            self.db.execute('INSERT INTO demo_restarts VALUES (?,?)', (request_id, run_id))
+            self.db.commit()
+            return {'run_id': run_id, 'duplicate': False}
 
     def _save(self, s):
         self.db.execute('UPDATE intakes SET body=? WHERE id=?', (json.dumps(s), s['session_id']))
@@ -39,12 +57,15 @@ class IntakeStore:
         if not row or not hmac.compare_digest(row[0], hashlib.sha256(token.encode()).hexdigest()):
             raise IntakeError('session_denied', 403)
         session = json.loads(row[1])
+        if session.get('demo_run') != self.current_run():
+            raise IntakeError('demo_restarted', 409)
         if session.get('preview_only') and session.get('expires_at', 0) <= time.time():
             raise IntakeError('preview_expired', 403)
         return session
 
     def view(self, s):
         result = {key: s[key] for key in ('session_id', 'revision', 'messages', 'review', 'case_id')}
+        result['demo_run'] = s.get('demo_run')
         if s.get('preview_only'): result['customer_preview'] = True
         return result
 
@@ -57,6 +78,7 @@ class IntakeStore:
             token = secrets.token_urlsafe(32)
             session = {'session_id': secrets.token_hex(16), 'revision': 0, 'messages': [], 'review': None,
                        'case_id': case_id, 'turns': {}, 'pending': None, 'preview_only': True,
+                       'demo_run': self.current_run(),
                        'expires_at': int(time.time()) + 3600}
             self.db.execute('INSERT INTO intakes VALUES (?,?,?)', (session['session_id'], hashlib.sha256(token.encode()).hexdigest(), json.dumps(session)))
             self.db.commit()
@@ -70,6 +92,7 @@ class IntakeStore:
              'messages': [{'role': 'assistant', 'content': "You selected the $648.50 JCPenney purchase. What happened? Please don't share your full card number, security code, PIN or password."}],
              'turns': {}, 'pending': None}
         with self.lock:
+            s['demo_run'] = self.current_run()
             self.db.execute('INSERT INTO intakes VALUES (?,?,?)', (s['session_id'], hashlib.sha256(token.encode()).hexdigest(), json.dumps(s)))
             self.db.commit()
         return {**self.view(s), 'token': token}
@@ -142,11 +165,13 @@ class IntakeStore:
                 raise IntakeError('stale_confirmation')
             if s['case_id']:
                 return {'case_id': s['case_id'], 'duplicate': True}
-            if any(c.get('customer_ref') == 'demo:martha' and c.get('transaction_id') == 'T-204' for c in self.cases()):
+            if any(c.get('customer_ref') == 'demo:martha' and c.get('transaction_id') == 'T-204'
+                   and c.get('demo_run') == s.get('demo_run') for c in self.cases()):
                 raise IntakeError('duplicate_dispute')
             case = self.fixture()
             case.update(id='APX-' + secrets.token_hex(4).upper(), status='INTAKE_RECEIVED', assigned_to='demo:barbara',
                         intake_id=sid, customer_ref='demo:martha', transaction_id='T-204', identity_verification='simulated_not_oauth')
+            if s.get('demo_run'): case['demo_run'] = s['demo_run']
             if review['reason'] != 'unauthorized':
                 case['status'] = 'MANUAL_REVIEW_REQUIRED'
             case['customer_confirmed_intake'] = {k: v for k, v in review.items() if k != 'nonce'}

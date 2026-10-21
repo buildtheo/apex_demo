@@ -1,5 +1,7 @@
 # Apex — dispute investigation prototype
 
+**Practice:** click **Restart demo** on the [queue](http://localhost:8080/queue) or case screen. It opens a fresh banking-app run without deleting earlier cases/credits. Use the newly returned case reference in a fresh ChatGPT conversation. See [restart behavior and limits](docs/restart-demo.md). Theo's latest credit-only business-approval flow supersedes the older three-approval target; conversion of investigation tools and the launch-to-ChatGPT button remains pending.
+
 October 21 locked build: Theo confirmed the displayed customer credit, completing the user-observed synthetic technical walkthrough through actual ChatGPT, all three separate approvals and the independently verified $648.50 posting for APX-3625B0CC. Preserve the resolved case; do not repost/reset it. The customer reveal uses the labeled read-only demo preview, not production login recovery. Read [the credit walkthrough](docs/credit-workflow.md). 112 deterministic tests plus isolated three-cycle browser/SDK and lost-session recovery checks pass. Source/PDF artifacts, voice/fallback, model evals and interview-readiness remain separate work; no real money movement, measured savings or production-readiness claim.
 
 A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Architect onsite demo.

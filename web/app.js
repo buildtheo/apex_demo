@@ -129,7 +129,7 @@ $('customer-preview').onclick=async()=>{
  try{
   const r=await fetch('/api/customer-preview',{method:'POST',headers:{'Content-Type':'application/json','X-Apex-Demo':'local'},body:JSON.stringify({case_id:state.id})});
   const preview=await r.json();if(!r.ok)throw Error(preview.error||'Customer preview unavailable');
-  sessionStorage.setItem('apex-customer-preview',JSON.stringify({session_id:preview.session_id,token:preview.token}));
+  sessionStorage.setItem('apex-customer-preview',JSON.stringify({session_id:preview.session_id,token:preview.token,demo_run:preview.demo_run}));
   location.assign('/');
  }catch(error){$('notice').textContent=error.message;$('customer-preview').disabled=false;}
 };

@@ -1,5 +1,11 @@
 # Decisions and artifact index
 
+## October 21 - credit-only approval and repeatable practice
+
+Theo superseded three business approvals: Barbara should use Apex only to pick up the dispute and approve the final credit. ChatGPT should handle bounded evidence requests and subsequent investigation without separate request-approval visits. An Apex button opening ChatGPT with case context is desired; supported prompt handoff must be verified or an explicit copy/open fallback used. These workflow changes remain pending.
+
+Implemented the separately requested Restart demo button on both Apex screens. It creates a new persisted isolated practice run, clears the current tab's old capabilities and opens the bank at the beginning; old cases/credits are preserved. Same-run duplicate protections stay enforced, practice accounts are server-namespaced per run, old practice actions are blocked and model assignments exclude old practice runs. Original proof remains untouched. See restart-demo.md and latest build-progress.md. No tunnel or Twilio change.
+
 ## October 21 - simple conversational flow and voice reuse
 
 Theo reaffirmed simple customer/analyst screens with inspectable technical depth, conversational Barbara, voice as a discovery-selected alternative reusing M. Price Twilio hooks, and fewer purposeless ChatGPT/Apex transitions. The technical proof works but is not yet presentation-smooth. [conversational-experience.md](conversational-experience.md) records the short analyst prompts, purposeful separate approvals and exact transport/domain reuse boundaries. `adapter/voice-profile.mjs` prepares Apex-only intake instructions; it is not wired to a call or shared-case tools. M. Price routing and completed Apex state remain untouched. No live Apex voice/readiness claim.
