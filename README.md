@@ -1,6 +1,6 @@
 # Apex — dispute investigation prototype
 
-**Locked current state:** read [the consolidated snapshot](docs/current-state.md) and [current handoff](docs/build-handoff.md). Theo completed the streamlined actual-ChatGPT investigation, approved the credit and saw it in Martha's app. Only credit needs business approval. 129 deterministic checks and isolated browser/SDK flow are the last executed verification; voice/source PDFs/broader evals remain unfinished. Older dated status paragraphs below are historical.
+**Locked current state:** read [the consolidated snapshot](docs/current-state.md) and [current handoff](docs/build-handoff.md). Theo completed the streamlined actual-ChatGPT investigation, approved the credit and saw it in Martha's app. Only credit needs business approval. Phone intake is implemented and temporarily routed to Apex; [phone rehearsal and restore](docs/phone-setup.md). 138 deterministic checks and isolated text/voice browser/SDK flows pass. OpenAI accepted the voice configuration, but a physical phone rehearsal, source PDFs and broader evals remain pending. Older dated status paragraphs below are historical.
 
 **Barbara's current workflow:** queue -> Investigate in ChatGPT (copy/open) -> bounded evidence requests and explicit later responses in the same conversation -> Apex for credit approval only -> verified customer app. See [the current walkthrough and one-time tool refresh](docs/barbara-workflow.md). Old three-approval/pending-conversion paragraphs below are historical.
 
@@ -35,7 +35,7 @@ Existing demo.sqlite state retains its old seeded text until the local demo is e
 
 Discovery selects either OpenAI Realtime voice support or an OpenAI API-powered conversational text agent in the banking web/iPhone app. Both clarify the selected charge, prepare intake for customer confirmation, and create the same Apex case for analyst investigation in actual ChatGPT. That is three potential OpenAI experiences, with two on each demonstrated path. Apex DMS owns the case and approved execution. See [demo flow](docs/demo-flow.md) and [running discovery](docs/discovery-and-outcomes.md).
 
-Text intake uses Responses and creates a shared case after confirmation. Local analyst assessment text remains a fixed scaffold; actual ChatGPT reasons through the MCP connection and may now stage the first lookup draft. Processor follow-up, credit and voice remain pending.
+Text intake uses Responses; alternative phone intake uses Realtime. Both create a shared case after customer confirmation. Actual ChatGPT handles the bounded investigation through MCP, followed by separate human credit approval in Apex. Earlier dated implementation notes below are historical; consult current-state.md.
 
 The customer banking app will be presented in the browser as an iPhone-style simulator. A native iOS build or Apple iOS Simulator is not required. ChatGPT and Apex DMS remain separate analyst surfaces.
 
@@ -53,7 +53,7 @@ The banking shell/DMS requires Python 3.10+. Conversational intake also requires
 python3 server.py
 ```
 
-Open http://127.0.0.1:8080 for the iPhone-style banking app. Select JCPenney, Dispute this charge, then Report in the app. With `npm run intake` running, converse, correct the captured statement and explicitly confirm submission. The new case appears at http://127.0.0.1:8080/queue; use its returned ID with the actual ChatGPT Apex connection. Voice is still disabled. /ops remains the local analyst scaffold, now scoped by the queue's case link. State persists in local `demo.sqlite` (ignored by Git); APX-001 is not silently reset.
+Open http://127.0.0.1:8080 for the iPhone-style banking app. Select JCPenney, Dispute this charge, then Report in the app. With `npm run intake` running, converse, correct the captured statement and explicitly confirm submission. Alternatively, use Talk to support after [phone configuration](docs/phone-setup.md). The new case appears at http://127.0.0.1:8080/queue; use its returned ID with the actual ChatGPT Apex connection. State persists in local `demo.sqlite` (ignored by Git); APX-001 is not silently reset.
 
 ## Continue in VS Code
 

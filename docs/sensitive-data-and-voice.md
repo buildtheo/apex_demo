@@ -1,10 +1,16 @@
 # Sensitive card data and voice intake boundary
 
-Locked by Theo October 20, 2026. Applies to the fictional Apex demo's target design. This records requirements for future implementation and interview wording; the controls and voice behavior below are not implemented or tested merely because this document exists.
+Locked by Theo October 20, 2026; updated October 21 for implemented synthetic phone intake. Read phone-setup.md for deployed behavior and current-state.md for proof. Historical baseline observations below are explicitly pre-implementation, not current capability claims.
 
 ## Implemented text-boundary update - October 20
 
-Confirmed text intake now screens messages before persistence/provider handoff and reconstructs an allowlisted Responses payload with fixed selected transaction and permitted user/assistant turns, not the full case or customer profile. Known card-like numbers, labeled secrets and long English spelled-digit sequences are blocked; tests assert provider fetch is not called. Model outputs are validated/screened before a review can be confirmed. User corrections and original statements remain attributed in E-001. The live browser check used only synthetic data. This is conservative heuristic screening, not complete DLP; other encodings/languages, documents/images and raw audio are not covered. No zero-retention or production-compliance claim follows from store:false. Voice remains disabled. Current proof and setup: build-progress.md and intake-setup.md. The baseline below records the pre-implementation inspection, not current text-intake status.
+Confirmed text intake now screens messages before persistence/provider handoff and reconstructs an allowlisted Responses payload with fixed selected transaction and permitted user/assistant turns, not the full case or customer profile. Known card-like numbers, labeled secrets and long English spelled-digit sequences are blocked; tests assert provider fetch is not called. Model outputs are validated/screened before a review can be confirmed. User corrections and original statements remain attributed in E-001. The browser check used only synthetic data. This is conservative heuristic screening, not complete DLP; other encodings/languages, documents/images and raw audio are not covered. No zero-retention or production-compliance claim follows from store:false. Current proof and setup: current-state.md and intake-setup.md. The baseline below records the pre-implementation inspection, not current text-intake status.
+
+## Implemented phone boundary - October 21
+
+Signed Twilio webhook/media, caller allowlist, single-use stream ticket, private selected-purchase capability, screened ASR persistence, current-draft binding, checked exact readback and completed-playback mark, keypad consent, correction, hangup rejection and separately verified shared case are implemented. Model instructions never grant submission authority: only the transport can accept keypad 1 after readback. Keypad 1 is consent, not a PIN or authentication. The opening warning plays before the customer media stream. No application audio recording is created. E-001 labels saved ASR text as speech-to-text, not original audio.
+
+Deterministic backend/transport tests and isolated browser/session/MCP integration pass; OpenAI accepted the Realtime session configuration. Physical phone audio and actual conversational compliance remain unverified. Known sensitive transcript patterns stop further tool/persistence work, but raw audio has already reached OpenAI. There is no upstream audio-redaction gate or implemented human transfer; a blocked flow ends instead. Use only synthetic speech. No production PAN-exclusion, complete DLP, external identity, retention or compliance claim is justified.
 
 ## Baseline inspected before implementation
 
@@ -57,7 +63,7 @@ Pattern/checksum checks can help detect PAN-like strings, but do not establish c
 
 ## Direct Realtime voice limitation
 
-The selected candidate uses Realtime over WebRTC. A direct browser-to-OpenAI audio path sends microphone audio to OpenAI; masking the resulting transcript afterward does not prevent receipt of a spoken PAN.
+The implemented phone branch uses Twilio media streams through the Apex bridge to OpenAI Realtime WebSockets. Caller audio reaches OpenAI before its transcript can be screened; masking the resulting transcript afterward does not prevent receipt of a spoken PAN. The earlier WebRTC candidate is not the deployed phone transport.
 
 A strict requirement that PAN never reach the model provider requires an upstream audio-control design that is itself validated. Transcribing raw audio with an external provider first does not establish that no provider received it. Alternatively, review and explicitly approve the voice processing boundary and incident/retention controls. Neither decision is established here.
 
@@ -87,4 +93,4 @@ Use only synthetic/nonproduction test data:
 - [OpenAI Realtime WebRTC](https://developers.openai.com/api/docs/guides/voice-webrtc): direct media connection and microphone track behavior checked October 20.
 - [OpenAI API data controls](https://developers.openai.com/api/docs/guides/your-data): nontraining, abuse-monitoring and application-state retention are distinct; checked October 20. Actual entitlement/configuration and ChatGPT retention remain separate.
 
-This preparation update does not resume feature building, complete Gate 0, configure a provider account or establish a working sensitive-data control.
+The future-verification list includes unfulfilled production/privacy requirements. Passing synthetic transport and text-screen tests does not satisfy an upstream audio-redaction gate or establish production compliance.

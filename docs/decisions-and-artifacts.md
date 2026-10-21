@@ -1,5 +1,11 @@
 # Decisions and artifact index
 
+## October 21 - phone alternative implemented and shared number switched with permission
+
+Theo explicitly approved temporarily using the existing M. Price number. Implemented Apex-specific Realtime intake with a signed, caller-allowlisted Twilio transport and private selected-purchase session. Customer consent is keypad 1 only after completed current-draft playback; keypad 2 permits correction. This is not a PIN or identity verification. Model authority stops at preparing a draft. The same verified case appears in the banking app, queue and existing ChatGPT tools; only credit needs Barbara's business approval.
+
+See [phone setup and restore](phone-setup.md), voice_intake.py, adapter/phone-bridge.mjs, adapter/phone-config.mjs and scripts/phone-routing.mjs. Original M. Price route is backed up privately, never committed. The old temporary tunnel was invalidated upstream and had to be replaced; active hostname stays local and must be updated in the actual ChatGPT connection. 138 deterministic checks, isolated browser/SDK integration and live Realtime configuration acceptance pass; actual physical call/model conversation remains pending. Both completed case/ledger records are unchanged. Raw audio reaches OpenAI; transcript screening is not upstream audio DLP.
+
 ## October 21 - consolidated repository lock
 
 At Theo's request, consolidated the shipped flow, observed proof, latest 129-check/browser results, safety/runtime boundaries and unfinished work in [current-state.md](current-state.md). Replaced the stacked AGENTS.md, START-HERE.md and build-handoff.md entry points with concise current guidance, preserving their prior contents under docs/history/. Detailed chronology remains in this register and build-progress.md. README, plan, demo-flow and old handoff point to the snapshot. No app/data/service/tunnel change, new test run or expanded readiness claim accompanies this documentation lock.

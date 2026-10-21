@@ -11,6 +11,7 @@ from urllib.parse import urlsplit, parse_qs
 from intake import IntakeStore, IntakeError
 from investigation import Investigation, ActionError
 from credit import Credit
+from voice_intake import VoiceIntake
 
 ROOT = Path(__file__).parent
 LOCK = threading.RLock()
@@ -42,6 +43,7 @@ class Store:
         self.db = sqlite3.connect(path, check_same_thread=False)
         self.db.execute('CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY, body TEXT)')
         self.intake = IntakeStore(self.db, LOCK, self.fixture)
+        self.voice = VoiceIntake(self.intake)
         self.investigation = Investigation(self, LOCK)
         self.credit = Credit(self, LOCK)
         if not self.db.execute('SELECT body FROM state WHERE id=1').fetchone(): self.reset()
@@ -177,6 +179,12 @@ class Handler(BaseHTTPRequestHandler):
         case_id = query.get('case_id', [None])[0]
         if path == '/api/demo-run':
             with LOCK: return self.reply(200, {'run_id': self.server.store.intake.current_run()})
+        if path == '/api/voice/config':
+            try:
+                config = getattr(self.server, 'voice_config', None)
+                if config is None: config = json.loads((ROOT / '.local/phone-runtime.json').read_text())
+                return self.reply(200, {'enabled': config.get('routed') is True, 'number': config.get('number') if config.get('routed') else None})
+            except (OSError, ValueError): return self.reply(200, {'enabled': False, 'number': None})
         if path == '/api/intake/session' or path == '/api/customer-case':
             try:
                 session = self.server.store.intake.get(query.get('session_id', [''])[0], self.headers.get('X-Apex-Session'))
@@ -225,7 +233,7 @@ class Handler(BaseHTTPRequestHandler):
         self.reply(404,{'error':'Not found'})
     def do_POST(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action', '/api/customer-preview', '/api/restart-demo', '/api/investigation-request', '/api/demo-evidence'): return self.reply(404,{'error':'Not found'})
+        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action', '/api/customer-preview', '/api/restart-demo', '/api/investigation-request', '/api/demo-evidence', '/api/voice/start', '/api/voice/call'): return self.reply(404,{'error':'Not found'})
         # Local demo CSRF boundary, not production identity/authentication.
         if self.headers.get('X-Apex-Demo') != 'local': return self.reply(403,{'error':'Missing demo request header'})
         origin = self.headers.get('Origin')
@@ -235,6 +243,21 @@ class Handler(BaseHTTPRequestHandler):
             if not 0 < size <= 8192: return self.reply(400,{'error':'Invalid request size'})
             data = json.loads(self.rfile.read(size))
             if not isinstance(data,dict): raise ValueError()
+            if path == '/api/voice/start':
+                return self.reply(200, self.server.store.voice.arm(data.get('transaction_id')))
+            if path == '/api/voice/call':
+                voice = self.server.store.voice
+                action = data.get('action')
+                if action == 'claim': return self.reply(200, voice.claim(data.get('call_sid')))
+                args = (data.get('session_id'), self.headers.get('X-Apex-Session'))
+                if action == 'transcript': result = voice.transcript(*args, data.get('item_id'), data.get('text'))
+                elif action == 'prepare': result = voice.prepare(*args, data.get('revision'), data.get('statement'), data.get('reason'))
+                elif action == 'played': result = voice.played(*args, data.get('revision'), data.get('nonce'))
+                elif action == 'confirm': result = voice.confirm(*args, data.get('revision'), data.get('nonce'), data.get('digit'))
+                elif action == 'correct': result = voice.correct(*args)
+                elif action == 'end': result = voice.end(*args)
+                else: raise IntakeError('call_action_denied', 403)
+                return self.reply(200, result)
             if path == '/api/restart-demo':
                 return self.reply(200, self.server.store.intake.restart(data.get('request_id')))
             if path == '/api/investigation-request':

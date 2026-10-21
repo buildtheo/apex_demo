@@ -235,6 +235,29 @@ try {
   await page.waitForURL(base + '/');
   await page.waitForFunction(() => !document.getElementById('choose-form').disabled);
   assert.equal(await page.locator('#view-report').isVisible(), false);
+  await page.route('**/api/voice/config', route => route.fulfill({json: {enabled: true, number: '+15555550100'}}));
+  await page.click('#open-charge'); await page.click('#dispute-charge'); await page.click('#choose-voice');
+  await page.locator('#voice-number').waitFor({state: 'visible'});
+  assert.equal(await page.locator('#voice-number').innerText(), '+15555550100');
+  const phoneSession = await actionCall('/api/voice/call', {action: 'claim', call_sid: 'CA' + 'e'.repeat(32)});
+  const voiceCall = async (action, data = {}) => {
+    const response = await fetch(base + '/api/voice/call', {method: 'POST', headers: {
+      'Content-Type': 'application/json', 'X-Apex-Demo': 'local', 'X-Apex-Session': phoneSession.token},
+      body: JSON.stringify({action, session_id: phoneSession.session_id, ...data})});
+    assert.equal(response.status, 200); return response.json();
+  };
+  await voiceCall('transcript', {item_id: 'voice-browser-item', text: 'I did not authorize the selected purchase.'});
+  const phoneDraft = await voiceCall('prepare', {revision: 1, statement: 'I did not authorize the selected purchase.', reason: 'unauthorized'});
+  assert.equal((await (await fetch(base + '/api/cases')).json()).length, 0, 'Voice draft is not a submitted case');
+  await voiceCall('played', {revision: 1, nonce: phoneDraft.review.nonce});
+  const phoneReceipt = await voiceCall('confirm', {revision: 1, nonce: phoneDraft.review.nonce, digit: '1'});
+  await page.locator('#saved').waitFor({state: 'visible', timeout: 10000});
+  assert.equal(await page.locator('#saved-case').innerText(), 'Case reference: ' + phoneReceipt.case_id);
+  assert.equal(await page.locator('#resolution').isVisible(), false);
+  const voiceCase = await (await fetch(base + '/api/case?case_id=' + phoneReceipt.case_id)).json();
+  assert.equal(voiceCase.intake_channel, 'voice');
+  const voiceMcp = await client.callTool({name: 'get_case', arguments: {case_id: phoneReceipt.case_id}});
+  assert.equal(voiceMcp.structuredContent.case_id, phoneReceipt.case_id);
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser_check: 'passed', mode: live ? 'live_responses' : 'mock_model', model_calls: modelCalls,
     model: initial.model_meta?.model || 'mock', same_case_through_queue_and_mcp: true, hidden_evidence_denied: true,
@@ -244,6 +267,7 @@ try {
     reviewed_credit_and_separate_ledger_case_verification: true, customer_resolution_and_activity: true,
     lost_customer_session_operator_preview: true,
     restart_from_queue_and_case: true,
+    voice_case_visible_in_same_bank_and_mcp: true,
     live_database_modified: false}));
 } finally {
   if (client) await client.close();

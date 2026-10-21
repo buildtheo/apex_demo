@@ -1,8 +1,9 @@
 const screens = ['home', 'charge', 'choose', 'voice', 'report', 'saved'];
 const $ = id => document.getElementById(id);
-let session, sessionToken, busy = false, retryTurn;
+let session, sessionToken, busy = false, retryTurn, voicePoll;
 const reasons = {unauthorized: "I didn't authorize this purchase", duplicate: 'Duplicate charge', amount: 'Incorrect amount', goods: 'Goods or services issue'};
 function show(name) {
+  if (name !== 'voice') {clearInterval(voicePoll); voicePoll = undefined;}
   for (const screen of screens) $(screen).hidden = screen !== name;
   $(name).scrollTop = 0;
   const heading = document.querySelector(`#${name} h1`);
@@ -80,12 +81,46 @@ async function saved() {
 document.querySelectorAll('[data-back]').forEach(button => button.onclick = () => show(button.dataset.back));
 $('open-charge').onclick = () => show('charge');
 $('dispute-charge').onclick = () => show('choose');
-$('choose-voice').onclick = () => show('voice');
+async function pollVoice() {
+  if (busy || !session || session.channel !== 'voice') return;
+  try {
+    await refreshSession();
+    if (session.case_id) {await saved(); return;}
+    const labels = {ready: 'Ready for your call.', connected: 'Connected to support. Tell us what happened.',
+      reviewing: 'Listen to the report. Press 1 to submit, or 2 to correct it.', ended: 'The call ended. Your report has not been submitted.'};
+    $('voice-status').textContent = labels[session.voice_status] || labels.ready;
+    $('voice-summary').textContent = session.review?.statement || '';
+    $('retry-voice').hidden = session.voice_status !== 'ended';
+  } catch (error) {$('voice-status').textContent = error.message; clearInterval(voicePoll);}
+}
+async function startVoice() {
+  if (busy) return;
+  show('voice'); setBusy(true); $('retry-voice').hidden = true;
+  try {
+    const config = await api('/api/voice/config');
+    if (!config.enabled) { $('voice-status').textContent = 'Phone support is not configured right now. Please report in the app.'; return; }
+    if (session?.case_id) {await saved(); return;}
+    if (session?.channel !== 'voice' || session.voice_status === 'ended') {
+      session = await api('/api/voice/start', {transaction_id: 'T-204'});
+      sessionToken = session.token; delete session.token;
+      sessionStorage.removeItem('apex-customer-preview'); remember();
+    }
+    $('voice-number').textContent = config.number; $('voice-number').href = 'tel:' + config.number;
+    $('voice-number').hidden = false; $('voice-status').textContent = 'Ready for your call.';
+    clearInterval(voicePoll); voicePoll = setInterval(pollVoice, 1500);
+  } catch (error) {$('voice-status').textContent = error.message;}
+  finally {setBusy(false);}
+}
+$('choose-voice').onclick = startVoice;
+$('retry-voice').onclick = startVoice;
 $('choose-form').onclick = async () => {
   if (busy) return;
+  if (session?.channel === 'voice' && !session.case_id && session.voice_status !== 'ended') {
+    show('voice'); $('voice-status').textContent = 'Finish the phone call before changing reporting channels.'; return;
+  }
   show('report'); setBusy(true); notice('Connecting to support...');
   try {
-    if (session) await refreshSession();
+    if (session && session.channel !== 'voice') await refreshSession();
     else {
       session = await api('/api/intake/start', {transaction_id: 'T-204'});
       sessionToken = session.token; delete session.token; remember(); renderConversation();
@@ -147,6 +182,7 @@ async function restoreBankingSession() {
     } else if (stored?.session_id && stored?.token) {
       session = {session_id: stored.session_id}; sessionToken = stored.token;
       await refreshSession(); if (session.case_id) await saved();
+      else if (session.channel === 'voice') {show('voice'); setTimeout(startVoice, 0);}
     }
   } catch (error) { notice(error.message); }
   finally { setBusy(false); }

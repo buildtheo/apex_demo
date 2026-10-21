@@ -54,9 +54,13 @@ class IntakeStore:
         if not isinstance(sid, str) or not isinstance(token, str):
             raise IntakeError('session_denied', 403)
         row = self.db.execute('SELECT token_hash,body FROM intakes WHERE id=?', (sid,)).fetchone()
-        if not row or not hmac.compare_digest(row[0], hashlib.sha256(token.encode()).hexdigest()):
+        if not row:
             raise IntakeError('session_denied', 403)
         session = json.loads(row[1])
+        digest = hashlib.sha256(token.encode()).hexdigest()
+        if not (hmac.compare_digest(row[0], digest) or
+                (session.get('channel') == 'voice' and hmac.compare_digest(session.get('voice_token_hash', ''), digest))):
+            raise IntakeError('session_denied', 403)
         if session.get('demo_run') != self.current_run():
             raise IntakeError('demo_restarted', 409)
         if session.get('preview_only') and session.get('expires_at', 0) <= time.time():
@@ -66,6 +70,8 @@ class IntakeStore:
     def view(self, s):
         result = {key: s[key] for key in ('session_id', 'revision', 'messages', 'review', 'case_id')}
         result['demo_run'] = s.get('demo_run')
+        if s.get('channel') == 'voice':
+            result.update(channel='voice', voice_status=s.get('voice_status', 'ready'))
         if s.get('preview_only'): result['customer_preview'] = True
         return result
 
@@ -84,11 +90,12 @@ class IntakeStore:
             self.db.commit()
             return {**self.view(session), 'token': token}
 
-    def start(self, transaction_id):
+    def start(self, transaction_id, channel='text'):
         if transaction_id != 'T-204':
             raise IntakeError('transaction_denied', 403)
         token = secrets.token_urlsafe(32)
         s = {'session_id': secrets.token_hex(16), 'revision': 0, 'review': None, 'case_id': None,
+             'channel': channel,
              'messages': [{'role': 'assistant', 'content': "You selected the $648.50 JCPenney purchase. What happened? Please don't share your full card number, security code, PIN or password."}],
              'turns': {}, 'pending': None}
         with self.lock:
@@ -107,6 +114,7 @@ class IntakeStore:
             raise IntakeError('invalid_turn', 400)
         with self.lock:
             s = self._session(sid, token)
+            if s.get('channel') == 'voice': raise IntakeError('voice_channel_only', 403)
             if s.get('preview_only'): raise IntakeError('preview_read_only', 403)
             if turn_id in s['turns']:
                 if s['turns'][turn_id] != message:
@@ -155,9 +163,10 @@ class IntakeStore:
                 s['pending'] = None
                 self._save(s)
 
-    def confirm(self, sid, token, revision, nonce):
+    def confirm(self, sid, token, revision, nonce, voice_confirmation=False):
         with self.lock:
             s = self._session(sid, token)
+            if s.get('channel') == 'voice' and not voice_confirmation: raise IntakeError('voice_channel_only', 403)
             if s.get('preview_only'): raise IntakeError('preview_read_only', 403)
             review = s['review']
             if (type(revision) is not int or revision != s['revision'] or s['pending'] or not review
@@ -180,6 +189,10 @@ class IntakeStore:
             case['model_meta'] = s.get('model_meta', {})
             case['evidence'][0].update(source='Synthetic customer-confirmed in-app intake',
                 text="Customer statements (unaltered):\n" + '\n'.join(case['customer_statements']) + '\nCustomer-confirmed summary:\n' + review['statement'])
+            if s.get('channel') == 'voice':
+                case['intake_channel'] = 'voice'
+                case['evidence'][0].update(source='Synthetic customer-confirmed phone intake; speech-to-text transcript',
+                    text='Speech-to-text transcript (not original audio):\n' + '\n'.join(case['customer_statements']) + '\nCustomer-confirmed summary:\n' + review['statement'])
             case['evidence'][2]['available'] = False
             case['timeline'] = [{'at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
                                  'message': 'Customer confirmed intake; synthetic case assigned to Barbara. Processor evidence not yet received.'}]

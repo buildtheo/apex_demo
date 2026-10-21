@@ -2,6 +2,9 @@ import {readFileSync} from 'node:fs';
 import {createAdapter} from './app.mjs';
 import {tokenVerifier} from './access.mjs';
 import {AccessError} from './access.mjs';
+import {createServer} from 'node:http';
+import {attachPhone} from './phone-bridge.mjs';
+import {phoneConfig} from './phone-config.mjs';
 
 try { process.loadEnvFile('.env'); } catch (error) { if (error.code !== 'ENOENT') throw error; }
 function required(name) {
@@ -58,4 +61,22 @@ const app = createAdapter({origin, issuer, assignments, verifyToken, authMode,
     receiveDemoEvidence: (args, actor) => actionCall('/api/demo-evidence', actor, args),
     stageCredit: (args, actor) => actionCall('/api/stage-credit', actor, args),
     getActionResult: (caseId, actionId, actor) => actionCall(`/api/action-result?case_id=${encodeURIComponent(caseId)}&action_id=${encodeURIComponent(actionId)}`, actor)} : {})});
-app.listen(8787, '127.0.0.1', () => console.log(`Apex MCP on 127.0.0.1:8787 (${authMode === 'demo' ? 'SIMULATED IDENTITY, NO OAUTH' : 'OAuth'}); bounded investigation ${staging ? 'enabled' : 'disabled'}; credit requires separate Apex approval.`));
+let phone;
+const httpServer = createServer((req, res) => {
+  if (phone && req.url?.startsWith('/twilio/')) {void phone.handle(req, res); return;}
+  app(req, res);
+});
+if (process.env.APEX_PHONE_ENABLED === '1') {
+  if (authMode !== 'demo') throw Error('Apex phone intake is restricted to the synthetic demo.');
+  phone = attachPhone(httpServer, {config: phoneConfig(), backend: async (action, data, session) => {
+    const response = await fetch('http://127.0.0.1:8080/api/voice/call', {method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-Apex-Demo': 'local', ...(session ? {'X-Apex-Session': session.token} : {})},
+      body: JSON.stringify({action, ...data, ...(session ? {session_id: session.session_id} : {})}),
+      signal: AbortSignal.timeout(10000), redirect: 'error'});
+    const result = await response.json();
+    if (!response.ok) throw Object.assign(Error('Private voice operation failed'), {code: result.error});
+    return result;
+  }});
+}
+httpServer.listen(8787, '127.0.0.1', () => console.log(`Apex MCP on 127.0.0.1:8787; bounded investigation ${staging ? 'enabled' : 'disabled'}; phone ${phone ? 'enabled' : 'disabled'}; credit requires separate Apex approval.`));
+for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, async () => {await phone?.close(); httpServer.close(); process.exit(0);});

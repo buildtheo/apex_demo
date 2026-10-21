@@ -1,5 +1,13 @@
 # Build progress — October 21, 2026
 
+## Authorized Apex phone deployment - October 21
+
+Theo explicitly authorized temporarily using the existing M. Price Twilio number. Implemented an Apex-owned signed webhook/WSS PCMU bridge, single-use tickets and configured-caller guard, Realtime prepare-only tool, private selected-purchase binding, screened ASR turns, revision/nonce draft binding, exact readback transcript check, Twilio playback acknowledgement and keypad-1 confirmation. Keypad 2/correction invalidates the old review. No model submission, credit or driver-recovery tools. The bank polls the linked session and reveals the separately verified same saved case, feeding the existing seven-tool ChatGPT/credit journey. No banking PIN or real identity claim. Speech-to-text is labeled as such in E-001.
+
+92 Python and 46 Node tests pass (138 deterministic checks). Isolated mock-model browser/SDK flow passes text/investigation/credit/restart plus voice selection, synthetic private call events, no case before confirmation and same bank/queue/MCP case afterward. Live OpenAI accepted gpt-realtime-2.1/cedar/PCMU session configuration; no generated audio or physical phone call was part of that check. Actual call/model conversation and broader evals remain pending.
+
+Restarted DMS/MCP for deployment. The existing temporary Cloudflare host failed DNS and reported upstream Tunnel not found; replaced only that dead tunnel, updated the ignored origin and reapplied/read back Twilio routing. Original M. Price voice URL/method is backed up once in ignored .local/twilio-routing-backup.json with a restore command. App code/credentials were not modified. Public MCP lists the same seven tools; unsigned phone webhook returns 403 and /api/voice/call, /api/case and /ops return 404 publicly. Local phone config reports enabled. Both preserved proof case/ledger hashes are unchanged. No user-case reset, evidence release, credit approval or posting by Codex. ChatGPT needs the replacement tunnel address in its connection; it cannot be changed from this terminal. Read phone-setup.md for rehearsal, restore and raw-audio/privacy limitations.
+
 ## Repository lock consolidated - October 21
 
 Theo asked to lock all current work in the repo. Added current-state.md covering the current interaction, seven tools, copy/open limits, credit-only approval, evidence-step consent, verified customer copy, both preserved proof cases, last executed checks, runtime/private-data boundaries and remaining voice/PDF/eval work. Replaced contradictory stacked primary entry points with concise AGENTS.md, START-HERE.md and build-handoff.md, archiving the originals under docs/history/. README and design/history entry points explicitly defer current status to the snapshot.

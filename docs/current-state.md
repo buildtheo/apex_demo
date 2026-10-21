@@ -1,13 +1,13 @@
 # Locked Current State
 
-Locked at Theo's request October 21, 2026. Deployed implementation: `0f1fa39`. This is the current snapshot, not a new runtime change, test execution or claim of production readiness. Update this file in place as facts change; preserve chronology in build-progress.md and decisions-and-artifacts.md.
+Locked at Theo's request October 21, 2026; updated for the authorized phone-intake deployment. This is the current snapshot, not a claim of production readiness. Update this file in place as facts change; preserve chronology in build-progress.md and decisions-and-artifacts.md.
 
 ## Story and Experience
 
 Martha disputes a $648.50 JCPenney online purchase. Barbara investigates the same case in actual ChatGPT, identifies a bad supporting-record association, obtains corrected evidence, then reviews a supported credit recommendation. She returns to Apex to approve the credit. Martha sees the verified result in the browser iPhone banking app.
 
 - Platform/APIs powers customer intake; actual ChatGPT plus Apex MCP powers Barbara's work. Text and Realtime voice are alternative intake modes, not extra product surfaces.
-- Discovery chooses voice OR text. Conversational Responses text intake works; Apex voice remains unconnected.
+- Discovery chooses voice OR text. Responses text intake works. Twilio/OpenAI Realtime phone intake is implemented and configured; the physical phone rehearsal remains pending.
 - Barbara uses Apex only at initial queue pickup and final credit approval. Bounded evidence requests and reassessment stay in her ChatGPT conversation.
 - Agreement to an evidence-gathering step includes that step's permitted labeled simulated response. No second time-jump question; honor pause/wait/existing-only requests and read the released source before assessment.
 - Keep the primary story short and conversational. Technical depth stays inspectable through source excerpts/provenance, exact approval and verification, not repeated tables or IDs.
@@ -17,6 +17,7 @@ Martha disputes a $648.50 JCPenney online purchase. Barbara investigates the sam
 | Capability | Current boundary |
 | --- | --- |
 | Customer conversational intake | Server-side Responses, corrections, explicit customer confirmation, persistent shared case and queue |
+| Alternative phone intake | Selected purchase -> signed, allowlisted call -> Realtime conversation -> exact draft readback -> completed-playback acknowledgement and keypad 1 -> verified same shared case. Keypad 2 permits correction; no spoken yes alone submits |
 | Investigate in ChatGPT | Opens actual ChatGPT and attempts clipboard copy; visible manual-copy/link fallback. No verified automatic prompt prefill, app selection or message sending |
 | Evidence investigation | Released E-001/E-002 -> labeled later E-003 processor assertion -> bounded lookup -> E-004 association mismatch -> purchase-specific follow-up -> E-005 versioned correction |
 | Evidence requests | Fixed nonfinancial scopes, simulated assigned analyst authority, active-run/source/snapshot/status checks, idempotency, saved-effect verification; no separate business approval |
@@ -41,21 +42,23 @@ Theo's user observation of the customer credit preceded the completion-copy poli
 
 ## Last Executed Verification
 
-- 87 Python + 42 Node tests pass: 129 deterministic checks.
+- 92 Python + 46 Node tests pass: 138 deterministic checks, including private voice binding, stale/corrected readback, signed transport, interruption and keypad confirmation.
 - Isolated mock-model browser/official SDK walkthrough passes intake, copy/open/manual fallback, same-case investigation without evidence-request business approvals, separate credit approval, saved-effect verification, completed customer wording, lost-session preview and both restart buttons.
 - Tests cover 100 restart operations, repeated practice credits, duplicate/concurrent/stale/denied actions and false-success behavior. These are not 100 live calls.
-- Public tool/read/private-route preflight passed for the bounded seven-tool deployment. Read-only published-guidance check passed after the duplicate-question fix. Latest customer-copy update restarted only DMS; tools/tunnel/Twilio were unchanged.
-- Actual account-side proof is Theo's reported and pasted walkthrough, supported by saved-state reads; full raw ChatGPT traces were not independently inspected. Recent deterministic/browser tests made no paid provider calls.
+- Isolated browser/SDK flow also passes voice selection, private synthetic call events, draft without submission, keypad confirmation and same-case bank/queue/MCP visibility. Audio and model responses are mocked in that browser check.
+- Live OpenAI accepted the Realtime session configuration for gpt-realtime-2.1/cedar/PCMU. No generated audio or physical telephone call was tested by that handshake.
+- Replacement public tunnel preflight lists the same seven MCP tools; unsigned phone webhook returns 403, while private voice callback, case API and operator view return 404 publicly. Twilio route update was read back and local phone config is enabled. Both proof-case/ledger hashes are unchanged.
+- Actual ChatGPT account-side proof is Theo's reported and pasted walkthrough, supported by saved-state reads; full raw ChatGPT traces were not independently inspected. Deterministic/browser tests made no paid provider calls; the separate live Realtime configuration handshake did contact OpenAI.
 
 ## Runtime Boundaries
 
-Local browser/DMS: 8080. Private Responses worker: 8788. Public MCP adapter only: 8787 through the existing temporary Cloudflare tunnel. Secrets, active hostname, credentials and SQLite state stay ignored. Do not expose the other services or replace a working tunnel unnecessarily. The awake Chromebook/network and temporary address remain availability dependencies.
+Local browser/DMS: 8080. Private Responses worker: 8788. Narrow public adapter: 8787 for MCP and signed /twilio/voice and /twilio/media only. Secrets, active hostname, credentials and SQLite state stay ignored. The previous temporary tunnel was invalidated upstream (Tunnel not found / DNS failure) and needed replacement during phone deployment; never replace a working tunnel unnecessarily. The awake Chromebook/network and temporary address remain availability dependencies. A changed address requires updating the ChatGPT connection as well as Twilio.
 
-Barbara uses Theo's personal Plus ChatGPT connection, labeled simulated identity with No authentication. Server-side API credential reuse from M. Price is configured privately. No real OAuth deployment is claimed. Preserve the M. Price app/number/webhook while preparing Apex reuse.
+Barbara uses Theo's personal Plus ChatGPT connection, labeled simulated identity with No authentication. Server-side API credential reuse from M. Price is configured privately. No real OAuth deployment is claimed. Theo authorized temporarily switching the existing demo number to Apex; the original M. Price route is backed up privately and has a restore command. M. Price domain code and credentials are unchanged. Caller allowlisting and keypad consent are not bank identity authentication.
 
 ## Remaining Work
 
-- Connect and test the Apex voice alternative using M. Price transport patterns, with Apex-specific intake tools/session linkage and required sensitive-data warning. Existing voice-profile instructions are not a working call agent.
+- Rehearse the physical Apex phone call and actual model conversation, correction, interruption, readback and keypad confirmation. Implementation/configuration tests do not establish live model compliance or real phone audio quality. See phone-setup.md.
 - Create inspectable clearly synthetic source PDFs where document-shaped evidence warrants them; record views/excerpts already exist. Do not invent original PDFs or provenance.
 - Run representative model/failure evaluations and recording/interview-readiness checks. Complete presentation work when Theo directs; the technical walkthrough is not full submission readiness.
 - Continue to distinguish fictional policy, customer/processor/ledger data, public merchant references and modeled business assumptions. Missing evidence is not fraud or automatic credit eligibility; below-$1,000 authority is not an eligibility rule. Network recovery stays out of scope.
