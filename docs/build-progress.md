@@ -1,5 +1,13 @@
 # Build progress — October 21, 2026
 
+## Customer credit confirmed; technical walkthrough locked - October 21
+
+Theo explicitly confirmed that the customer view now shows the credit after using the local read-only demo preview. This completes the user-observed technical walkthrough: customer-confirmed Responses intake -> same Apex case -> actual ChatGPT evidence investigation -> separate internal lookup approval/verification -> purchase-specific processor follow-up approval/verification -> explicit corrected response -> actual ChatGPT credit proposal -> Theo's separate approval -> independently verified synthetic ledger/case -> user-observed customer credit. The final reveal used labeled simulated customer-preview identity, not restoration of a production login. Do not claim the user separately confirmed the Accounts balance or every customer UI field; the reported observation is the displayed credit.
+
+Locked case: APX-3625B0CC, evidence v4, credit CR-1b15a734b07f9dd879f3d913, $648.50 USD, original approved neutral explanation. Preserve this case as completed evidence; do not restage/reapprove/repost/reset it. Last executed checks remain 77 Python + 35 Node (112 deterministic tests) and the isolated browser/SDK recovery flow. This entry records user confirmation only; no runtime change, new tests, provider call or financial action.
+
+This is a completed synthetic technical walkthrough, not a passing model evaluation or full interview-readiness sign-off. Remaining preparation includes inspectable source/PDF artifacts, the voice alternative or honest fallback, representative/failure model evals, controlled rehearsal/reset for a separate case and presentation/readiness checks. Retain temporary-tunnel/Chromebook availability limits, simulated identity/policy/processor/ledger disclosure and no real money/ROI claims.
+
 ## Actual credit approved; lost-session customer preview added - October 21
 
 Theo supplied actual ChatGPT's staged credit result for action 1b15a734b07f9dd879f3d913 at v4, with the neutral customer explanation. After Theo reported explicit approval, an independent private result read verified CREDIT_POSTED / VERIFIED_POSTED_CREDIT, ledger CR-1b15a734b07f9dd879f3d913, 64850 USD cents and the matching reviewed case decision. The subsequent screenshots at 127.0.0.1 and localhost still show the starting balance with no restored dispute control. Customer-side observation is not complete; don't describe the screenshot as successful resolution. We cannot inspect the user's tab storage directly. The missing-session path is reproducible and the previous original-tab dependency is inadequate for recovery.
