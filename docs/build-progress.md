@@ -1,5 +1,11 @@
 # Build progress — October 21, 2026
 
+## Conversational experience and Apex voice profile prepared - October 21
+
+Reviewed the M. Price signed webhook/PCMU WebSocket bridge, environment/configuration entry points and voice instructions. Recorded Theo's simplicity/depth requirement, natural Barbara prompts, one ChatGPT investigation conversation and purposeful separate approval visits in conversational-experience.md. The technical walkthrough is complete, but presentation smoothness is not yet demonstrated. Added an Apex-specific voice instruction module and three static contract checks: warning before collection, confirmed current-draft/read-back and saved-case verification requirements, and no inherited driver recovery or bank-authentication claim. No runtime imports this profile yet; phone transport, tool handlers, session linkage, banking voice activation and actual call proof remain pending. Tests verify instruction text, not model behavior or enforced voice controls.
+
+77 Python and 38 Node tests pass (115 deterministic checks); git diff --check passes. No provider call, service/tunnel restart, Twilio routing change or completed-case action. Preserved M. Price and APX-3625B0CC. No new browser/rehearsal/model-eval proof claimed.
+
 ## Customer credit confirmed; technical walkthrough locked - October 21
 
 Theo explicitly confirmed that the customer view now shows the credit after using the local read-only demo preview. This completes the user-observed technical walkthrough: customer-confirmed Responses intake -> same Apex case -> actual ChatGPT evidence investigation -> separate internal lookup approval/verification -> purchase-specific processor follow-up approval/verification -> explicit corrected response -> actual ChatGPT credit proposal -> Theo's separate approval -> independently verified synthetic ledger/case -> user-observed customer credit. The final reveal used labeled simulated customer-preview identity, not restoration of a production login. Do not claim the user separately confirmed the Accounts balance or every customer UI field; the reported observation is the displayed credit.

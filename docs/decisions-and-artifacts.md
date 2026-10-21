@@ -1,5 +1,9 @@
 # Decisions and artifact index
 
+## October 21 - simple conversational flow and voice reuse
+
+Theo reaffirmed simple customer/analyst screens with inspectable technical depth, conversational Barbara, voice as a discovery-selected alternative reusing M. Price Twilio hooks, and fewer purposeless ChatGPT/Apex transitions. The technical proof works but is not yet presentation-smooth. [conversational-experience.md](conversational-experience.md) records the short analyst prompts, purposeful separate approvals and exact transport/domain reuse boundaries. `adapter/voice-profile.mjs` prepares Apex-only intake instructions; it is not wired to a call or shared-case tools. M. Price routing and completed Apex state remain untouched. No live Apex voice/readiness claim.
+
 Updated October 20, 2026. Consolidated from the available project conversation and repository, not a verbatim transcript or a claim that every historical attachment is archived here. This is the entry point for any agent continuing the work. Read demo-flow.md for the latest surface clarification, plan.md for strategy, and handoff.md for implementation verification. User instructions supersede these documents. Record future decisions here and update affected documents rather than leaving decisions only in chat.
 
 ## October 21 - customer credit observed; technical walkthrough locked

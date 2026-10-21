@@ -5,7 +5,7 @@
   "scripts": {
     "mcp": "node adapter/server.mjs",
     "intake": "node adapter/intake-server.mjs",
-    "test:adapter": "node --test tests/adapter.test.mjs tests/openai-config.test.mjs tests/intake-model.test.mjs"
+    "test:adapter": "node --test tests/adapter.test.mjs tests/openai-config.test.mjs tests/intake-model.test.mjs tests/voice-profile.test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",

@@ -1,5 +1,7 @@
 # Demo flow and system ownership
 
+October 21 latest: Theo confirmed the customer credit, completing the synthetic technical walkthrough end to end. Preserve APX-3625B0CC/v4; do not repeat its credit. Now simplify Barbara's experience without removing the three distinct human approvals. Read [the conversational interaction contract and M. Price voice-reuse plan](conversational-experience.md). An Apex voice profile is prepared but transport/session/tool integration and live call proof remain pending. Source PDFs and model evals also remain pending. Older pending-credit/customer paragraphs below are historical, not current status.
+
 October 21 current implementation: all three review cycles, including the human-approved synthetic credit and verified return to Martha's banking app, are built; see credit-workflow.md. ChatGPT supplies the final cited recommendation and customer explanation, Barbara judges/approves, and Apex validates/posts/verifies before customer success. 111 deterministic tests and an isolated three-cycle browser/SDK run pass. Both actual ChatGPT investigation walkthroughs are now user-observed complete; final actual ChatGPT credit and live customer observation are pending. Source/PDF artifacts, voice and broader evals remain pending. Older unbuilt-credit/follow-up statuses below are historical.
 
 Recorded October 15, 2026 from Theo's clarification. Read alongside plan.md and handoff.md. This describes the intended experience, not a claim that pending integrations work.
