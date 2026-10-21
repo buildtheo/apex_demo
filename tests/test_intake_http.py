@@ -2,6 +2,7 @@ import http.client
 import json
 import threading
 import unittest
+from unittest.mock import patch
 from http.server import ThreadingHTTPServer
 from server import Handler, Store
 
@@ -187,6 +188,7 @@ class IntakeHttpTests(unittest.TestCase):
         self.assertEqual(self.request('POST', '/api/review-action', approve)[0], 400)
         customer_url = '/api/customer-case?session_id=' + session['session_id']
         self.assertIsNone(self.request('GET', customer_url, token=session['token'])[1]['resolution'])
+        self.assertEqual(self.request('POST', '/api/customer-preview', {'case_id': case_id})[0], 409)
         self.assertEqual(self.request('POST', '/api/review-action', {**approve, 'supports_dispute': True}, origin='https://evil.example')[0], 403)
         self.assertEqual(self.request('POST', '/api/review-action', {**approve, 'supports_dispute': True})[0], 200)
         self.assertEqual(self.request('GET', customer_url)[0], 403)
@@ -194,7 +196,34 @@ class IntakeHttpTests(unittest.TestCase):
         self.assertEqual(result['resolution']['amount_cents'], 64850)
         self.assertEqual(result['resolution']['customer_explanation'], EXPLANATION)
         self.assertEqual(self.request('GET', '/api/action-result?case_id=' + case_id + '&action_id=' + draft['action_id'], actor='demo:barbara')[1]['status'], 'VERIFIED_POSTED_CREDIT')
+        original_case = store.read(case_id)
+        status, preview = self.request('POST', '/api/customer-preview', {'case_id': case_id})
+        self.assertEqual(status, 200)
+        self.assertTrue(preview['customer_preview'])
+        self.assertNotEqual(preview['session_id'], session['session_id'])
+        preview_url = '/api/customer-case?session_id=' + preview['session_id']
+        self.assertEqual(self.request('GET', preview_url)[0], 403)
+        self.assertEqual(self.request('GET', preview_url, token='wrong')[0], 403)
+        self.assertEqual(self.request('GET', preview_url, token=preview['token'])[1]['resolution']['amount_cents'], 64850)
+        self.assertEqual(self.request('POST', '/api/intake/turn', {'session_id': preview['session_id'], 'revision': 0,
+            'turn_id': 'preview-write-test', 'message': 'Change my statement'}, preview['token'])[0], 403)
+        self.assertEqual(self.request('POST', '/api/intake/confirm', {'session_id': preview['session_id'], 'revision': 0,
+            'nonce': 'invented'}, preview['token'])[0], 403)
+        with patch('intake.time.time', return_value=store.intake._session(preview['session_id'], preview['token'])['expires_at'] + 1):
+            self.assertEqual(self.request('GET', preview_url, token=preview['token'])[0], 403)
+        self.assertEqual(self.request('GET', customer_url, token=session['token'])[0], 200)
+        self.assertEqual(store.read(case_id), original_case)
+        self.assertEqual(store.db.execute('SELECT COUNT(*) FROM synthetic_credits').fetchone()[0], 1)
         store.db.execute('DELETE FROM synthetic_credits'); store.db.commit()
+        self.assertEqual(self.request('POST', '/api/customer-preview', {'case_id': case_id})[0], 409)
         status, result = self.request('GET', customer_url, token=session['token'])
         self.assertEqual(status, 409)
         self.assertNotIn('resolution', result)
+
+    def test_customer_preview_requires_private_local_boundary_and_permitted_case(self):
+        case_id = self.submitted_case()
+        for kwargs in ({'demo': False}, {'origin': 'https://evil.example'}):
+            self.assertEqual(self.request('POST', '/api/customer-preview', {'case_id': case_id}, **kwargs)[0], 403)
+        self.assertEqual(self.request('POST', '/api/customer-preview', {'case_id': 'APX-001'})[0], 403)
+        case = self.srv.store.read(case_id); case['assigned_to'] = 'other'; self.srv.store.save(case)
+        self.assertEqual(self.request('POST', '/api/customer-preview', {'case_id': case_id})[0], 403)

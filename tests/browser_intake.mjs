@@ -199,6 +199,20 @@ try {
   assert.equal(await page.locator('#card-balance').innerText(), '$1,536.22');
   assert.equal(await page.locator('#credit-activity').isVisible(), true);
   await page.screenshot({path: '.local/customer-credit-activity.png', fullPage: true});
+  const beforePreview = await readCase();
+  await page.evaluate(() => sessionStorage.clear());
+  await page.goto(base);
+  assert.equal(await page.locator('#view-report').isVisible(), false, 'Lost capability cannot automatically expose a case');
+  await page.goto(`${base}/ops?case_id=${caseId}`);
+  await page.locator('#customer-preview').waitFor({state: 'visible'});
+  await page.click('#customer-preview');
+  await page.locator('#resolution').waitFor({state: 'visible'});
+  assert.equal(new URL(page.url()).search, '', 'No capability in URL query');
+  assert.equal(new URL(page.url()).hash, '', 'No capability in URL fragment');
+  assert.match(await page.locator('#preview-notice').innerText(), /Identity simulated/);
+  assert.match(await page.locator('#saved-case').innerText(), new RegExp(caseId));
+  await page.screenshot({path: '.local/customer-preview.png', fullPage: true});
+  assert.deepEqual(await readCase(), beforePreview, 'Preview cannot change the case or financial record');
   assert.equal((await (await fetch(base + '/api/case')).json()).request, null, 'Credit flow must not change legacy seed');
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser_check: 'passed', mode: live ? 'live_responses' : 'mock_model', model_calls: modelCalls,
@@ -206,6 +220,7 @@ try {
     mcp_staging_and_human_approval: true, separate_request_verification: true, deterministic_association_check: true,
     processor_followup_and_explicit_correction: true, original_evidence_preserved: true,
     reviewed_credit_and_separate_ledger_case_verification: true, customer_resolution_and_activity: true,
+    lost_customer_session_operator_preview: true,
     live_database_modified: false}));
 } finally {
   if (client) await client.close();

@@ -1,5 +1,7 @@
 # Start here: Apex build status and handoff
 
+Latest user proof/recovery: APX-3625B0CC is now CREDIT_POSTED/v4 after Theo's explicit approval, with independently verified $648.50 ledger/case match. Do not restage/reapprove it. His browser didn't restore the original session; the local review screen now offers Open Martha's app (demo), a fresh expiring read-only preview after verification, with simulated identity labeled. 112 deterministic tests and isolated browser recovery pass. User-side customer-view observation remains pending. Read newest build-progress.md and credit-workflow.md; older uncredited/pending-credit instructions below are historical.
+
 Latest October 21: all three review cycles now exist, including the human-reviewed supported synthetic credit and verified customer-app ending. Read [credit-workflow.md](credit-workflow.md) and the newest progress entry. 111 deterministic tests and the isolated three-cycle browser/SDK walkthrough pass. Six MCP tools, all staging tools WRITE; no public approval/execution tool. Actual ChatGPT's two investigation cycles are user-observed complete. Actual ChatGPT credit recommendation, Theo's approval and live customer proof are next; current case remains uncredited at v4. PDFs, voice and broader evals remain pending. Earlier status blocks below describe prior increments.
 
 Updated October 20, 2026. Theo has authorized Codex to **review and start building the agreed demo**. Presentation materials and practice are on hold. Read AGENTS.md, [build-handoff.md](build-handoff.md), then [plan.md](plan.md).

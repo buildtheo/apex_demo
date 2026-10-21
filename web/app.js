@@ -50,6 +50,7 @@ function render(){
  $('response').textContent=state.status==='PROCESSOR_PENDING'?'Show later processor response (simulation)':'Simulate later response';
  $('response').disabled=!['PENDING_EVIDENCE','PROCESSOR_PENDING'].includes(state.status);$('escalate').disabled=state.status!=='EVIDENCE_RECEIVED';
  const pending=state.processor_request||state.request;
+ $('customer-preview').hidden=true;
  $('request-status').hidden=!pending;
  if(pending){
   const waiting=pending.status==='OPEN', processor=Boolean(state.processor_request);
@@ -58,6 +59,7 @@ function render(){
  if(state.decision){
   const approved=state.staged_actions?.[state.decision.draft_id];
   const verified=verifyEffect(state,approved,state.credit_check).ok;
+  $('customer-preview').hidden=!verified;
   $('request-status').hidden=false;
   $('request-status').innerHTML=verified?'<p class="eyebrow">CREDIT VERIFIED</p><h2>Martha\'s $648.50 credit is posted.</h2><p>The synthetic ledger and reviewed case decision match. Return to Martha\'s banking app to see her resolution.</p>':'<h2>Credit verification is pending.</h2><p>Do not report completion or retry posting. Refresh the case to reconcile the saved ledger and decision.</p>';
  }
@@ -122,6 +124,15 @@ async function ask(kind) {
 $('compare').onclick=()=>ask('compare');
 $('refresh-case').onclick=()=>load().catch(e=>$('notice').textContent=e.message);
 $('gap').onclick=()=>ask('gap');
+$('customer-preview').onclick=async()=>{
+ $('customer-preview').disabled=true;
+ try{
+  const r=await fetch('/api/customer-preview',{method:'POST',headers:{'Content-Type':'application/json','X-Apex-Demo':'local'},body:JSON.stringify({case_id:state.id})});
+  const preview=await r.json();if(!r.ok)throw Error(preview.error||'Customer preview unavailable');
+  sessionStorage.setItem('apex-customer-preview',JSON.stringify({session_id:preview.session_id,token:preview.token}));
+  location.assign('/');
+ }catch(error){$('notice').textContent=error.message;$('customer-preview').disabled=false;}
+};
 $('request').onclick=()=>act('draft',{kind:state.intake_id&&state.status==='EVIDENCE_RECEIVED'?'REQUEST_PROCESSOR_EVIDENCE':'REQUEST_EVIDENCE'});$('response').onclick=()=>act(state.status==='PROCESSOR_PENDING'?'processor_response':'response');$('escalate').onclick=()=>act('draft',{kind:'ESCALATE_REVIEW'});$('reset').onclick=()=>{if(confirm('Reset this local demo case and its history?'))act('reset');};
 load().catch(e=>$('notice').textContent=e.message);
 

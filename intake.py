@@ -38,10 +38,29 @@ class IntakeStore:
         row = self.db.execute('SELECT token_hash,body FROM intakes WHERE id=?', (sid,)).fetchone()
         if not row or not hmac.compare_digest(row[0], hashlib.sha256(token.encode()).hexdigest()):
             raise IntakeError('session_denied', 403)
-        return json.loads(row[1])
+        session = json.loads(row[1])
+        if session.get('preview_only') and session.get('expires_at', 0) <= time.time():
+            raise IntakeError('preview_expired', 403)
+        return session
 
     def view(self, s):
-        return {key: s[key] for key in ('session_id', 'revision', 'messages', 'review', 'case_id')}
+        result = {key: s[key] for key in ('session_id', 'revision', 'messages', 'review', 'case_id')}
+        if s.get('preview_only'): result['customer_preview'] = True
+        return result
+
+    def customer_preview(self, case_id):
+        """Called only after separate local operator authorization and credit verification."""
+        with self.lock:
+            case = self.read_case(case_id)
+            if case.get('customer_ref') != 'demo:martha' or case.get('transaction_id') != 'T-204':
+                raise IntakeError('session_denied', 403)
+            token = secrets.token_urlsafe(32)
+            session = {'session_id': secrets.token_hex(16), 'revision': 0, 'messages': [], 'review': None,
+                       'case_id': case_id, 'turns': {}, 'pending': None, 'preview_only': True,
+                       'expires_at': int(time.time()) + 3600}
+            self.db.execute('INSERT INTO intakes VALUES (?,?,?)', (session['session_id'], hashlib.sha256(token.encode()).hexdigest(), json.dumps(session)))
+            self.db.commit()
+            return {**self.view(session), 'token': token}
 
     def start(self, transaction_id):
         if transaction_id != 'T-204':
@@ -65,6 +84,7 @@ class IntakeStore:
             raise IntakeError('invalid_turn', 400)
         with self.lock:
             s = self._session(sid, token)
+            if s.get('preview_only'): raise IntakeError('preview_read_only', 403)
             if turn_id in s['turns']:
                 if s['turns'][turn_id] != message:
                     raise IntakeError('turn_conflict')
@@ -115,6 +135,7 @@ class IntakeStore:
     def confirm(self, sid, token, revision, nonce):
         with self.lock:
             s = self._session(sid, token)
+            if s.get('preview_only'): raise IntakeError('preview_read_only', 403)
             review = s['review']
             if (type(revision) is not int or revision != s['revision'] or s['pending'] or not review
                     or not isinstance(nonce, str) or not hmac.compare_digest(review['nonce'], nonce)):

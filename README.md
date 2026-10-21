@@ -1,6 +1,6 @@
 # Apex — dispute investigation prototype
 
-October 21 current build: all three human-reviewed action cycles are implemented, ending in a verified synthetic $648.50 credit and Martha's banking-app resolution, explanation and activity. Read [the credit walkthrough](docs/credit-workflow.md). 111 deterministic tests plus an isolated three-cycle browser/SDK flow pass. Both actual ChatGPT investigation walkthroughs are user-observed complete; the credit recommendation/approval/customer walkthrough is next. Identity, processor responses and ledger are simulated. PDFs, voice and broader evals remain pending; no real money movement or production-readiness claim.
+October 21 current build: all three human-reviewed action cycles are implemented. Theo's actual ChatGPT credit proposal and his approval are now observed, with saved $648.50 synthetic posting independently verified for APX-3625B0CC. Do not repost it. The original customer tab did not restore its session; use Open Martha's app (demo) in Apex review for an explicitly simulated, read-only preview of the verified result. Read [the credit walkthrough](docs/credit-workflow.md). 112 deterministic tests plus isolated three-cycle browser/SDK and lost-session recovery checks pass. Customer-side observation remains pending. PDFs, voice and broader evals remain pending; no real money movement or production-readiness claim.
 
 A runnable, synthetic analyst workflow for iterating on an OpenAI Applied AI Architect onsite demo.
 

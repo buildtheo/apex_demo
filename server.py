@@ -215,7 +215,7 @@ class Handler(BaseHTTPRequestHandler):
         self.reply(404,{'error':'Not found'})
     def do_POST(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action'): return self.reply(404,{'error':'Not found'})
+        if path not in ('/api/action', '/api/intake/start', '/api/intake/turn', '/api/intake/confirm', '/api/stage-request', '/api/stage-credit', '/api/review-action', '/api/customer-preview'): return self.reply(404,{'error':'Not found'})
         # Local demo CSRF boundary, not production identity/authentication.
         if self.headers.get('X-Apex-Demo') != 'local': return self.reply(403,{'error':'Missing demo request header'})
         origin = self.headers.get('Origin')
@@ -225,6 +225,11 @@ class Handler(BaseHTTPRequestHandler):
             if not 0 < size <= 8192: return self.reply(400,{'error':'Invalid request size'})
             data = json.loads(self.rfile.read(size))
             if not isinstance(data,dict): raise ValueError()
+            if path == '/api/customer-preview':
+                with LOCK:
+                    case = self.server.store.investigation.case(data.get('case_id'), 'demo:barbara')
+                    if not self.server.store.credit.customer_resolution(case): raise ActionError('credit_verification_pending')
+                    return self.reply(200, self.server.store.intake.customer_preview(case['id']))
             if path == '/api/stage-request':
                 return self.reply(200, self.server.store.investigation.stage(data.get('case_id'), data.get('snapshot'), data.get('scope'), self.headers.get('X-Apex-Actor')))
             if path == '/api/stage-credit':

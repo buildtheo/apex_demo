@@ -20,6 +20,7 @@ async function api(path, data) {
   const result = await response.json();
   if (!response.ok) {
     const messages = {content_blocked: "That message couldn't be accepted. Remove card numbers, security codes or other secrets and try again.",
+      preview_expired: "This demo preview has expired. Reopen Martha's app from Apex review.",
       intake_model_unavailable: 'Support is temporarily unavailable. Your report has not been submitted. Please try again.',
       conversation_limit: 'This demo has reached its conversation limit. No report was submitted.',
       duplicate_dispute: 'A report for this purchase already exists. Continue from the browser tab where you submitted it.',
@@ -54,6 +55,7 @@ async function saved() {
   const record = await api(`/api/customer-case?session_id=${encodeURIComponent(session.session_id)}`);
   if (!record.case_id || record.case_id !== session.case_id) throw Error('Submission could not be verified. Check status before retrying.');
   $('saved-case').textContent = `Case reference: ${record.case_id}`;
+  $('preview-notice').hidden=!session.customer_preview;
   const resolution=record.resolution;
   const posted=record.status==='CREDIT_POSTED'&&resolution?.amount_cents===64850&&resolution.currency==='USD'&&resolution.id;
   $('resolution').hidden=!posted;
@@ -124,7 +126,7 @@ window.addEventListener('focus',()=>{
   if(session?.case_id&&!$('saved').hidden)saved().catch(hideUnverifiedCredit);
 });
 try {
-  const stored = JSON.parse(sessionStorage.getItem('apex-intake-session'));
+  const stored = JSON.parse(sessionStorage.getItem('apex-customer-preview')||sessionStorage.getItem('apex-intake-session'));
   if (stored?.session_id && stored?.token) { session = {session_id: stored.session_id}; sessionToken = stored.token; }
 } catch { /* A new session remains available when browser storage is unavailable. */ }
 if(session){
