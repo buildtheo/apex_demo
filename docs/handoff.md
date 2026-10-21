@@ -1,5 +1,7 @@
 # Development handoff — October 15, 2026
 
+This document preserves historical development notes. The active entry points are [START-HERE.md](START-HERE.md), [current-state.md](current-state.md) and [build-handoff.md](build-handoff.md). The dated "current" headings below are historical and must not override the consolidated lock.
+
 ## October 21 current handoff
 
 All three human-reviewed cycles are implemented, including synthetic credit, independent saved ledger/case verification and Martha's customer-app resolution/activity. Start with docs/START-HERE.md, docs/credit-workflow.md and newest docs/build-progress.md. Six MCP tools, three WRITEs, never an approval/execution tool. 76 Python and 35 Node tests plus isolated three-cycle browser/SDK check pass. Both actual ChatGPT investigation walkthroughs are complete; final actual ChatGPT credit recommendation, Theo's approval and live customer observation are next. Current live case remains uncredited at v4; never credit/advance it for a check. PDFs, voice and broader evals remain pending. Older handoff statuses below are historical.

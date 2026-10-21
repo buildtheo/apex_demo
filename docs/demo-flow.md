@@ -1,5 +1,7 @@
 # Demo flow and system ownership
 
+For the locked implemented state and user-observed proof, read [current-state.md](current-state.md). It supersedes contradictory dated implementation-status notes below; the detailed working conversation is in [barbara-workflow.md](barbara-workflow.md).
+
 Current streamlined implementation: [Barbara workflow](barbara-workflow.md) supersedes the older three-business-approval journey. Queue copy/open launch -> actual ChatGPT bounded lookup/follow-up and explicit later-response simulation -> Apex credit approval only -> verified Martha resolution. Seven deployed tools; all writes truthfully annotated. Browser/SDK proof exists; new installed-ChatGPT walkthrough and conversational quality still need user rehearsal. Old proof case, source/PDF and voice boundaries remain unchanged. Older pending-conversion notes below are historical.
 
 Latest interaction decision supersedes the three-review target below: Barbara visits Apex at the start and to approve the final credit only; evidence requests and investigation remain in actual ChatGPT. Bounded evidence-request execution and a launch-to-ChatGPT control still need implementation. Restart demo is now available on queue/case screens for fresh isolated practice runs; see [restart-demo.md](restart-demo.md). It does not reset the completed proof case or claim the pending flow changes are shipped.

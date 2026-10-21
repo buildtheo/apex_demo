@@ -1,5 +1,11 @@
 # Build progress — October 21, 2026
 
+## Repository lock consolidated - October 21
+
+Theo asked to lock all current work in the repo. Added current-state.md covering the current interaction, seven tools, copy/open limits, credit-only approval, evidence-step consent, verified customer copy, both preserved proof cases, last executed checks, runtime/private-data boundaries and remaining voice/PDF/eval work. Replaced contradictory stacked primary entry points with concise AGENTS.md, START-HERE.md and build-handoff.md, archiving the originals under docs/history/. README and design/history entry points explicitly defer current status to the snapshot.
+
+Documentation only. No runtime code, services, tunnel, data, credentials, case actions or provider requests changed. Last runtime verification remains 87 Python + 42 Node checks and the isolated browser/SDK walkthrough; no new model-eval or production-readiness claim. Documentation link/whitespace checks are recorded with this commit, not counted as new runtime tests.
+
 ## Streamlined actual-account walkthrough confirmed; posted customer copy corrected - October 21
 
 Theo supplied actual ChatGPT's released-source findings through E-003, internal E-004 lookup, corrected E-005 and staged credit action 354e66a479674d0d2c472b8d for APX-B355D834. He then explicitly reported approving in Apex and seeing the credit in Martha's iPhone app. A separate private read verifies VERIFIED_POSTED_CREDIT at v4 for 64850 USD cents. This is the user-observed streamlined investigation journey with credit-only Apex business approval, supported by saved-result verification, not independent inspection of every account-side trace or a model-evaluation pass. Preserve this case and original proof APX-3625B0CC.

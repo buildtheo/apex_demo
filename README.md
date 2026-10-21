@@ -1,5 +1,7 @@
 # Apex — dispute investigation prototype
 
+**Locked current state:** read [the consolidated snapshot](docs/current-state.md) and [current handoff](docs/build-handoff.md). Theo completed the streamlined actual-ChatGPT investigation, approved the credit and saw it in Martha's app. Only credit needs business approval. 129 deterministic checks and isolated browser/SDK flow are the last executed verification; voice/source PDFs/broader evals remain unfinished. Older dated status paragraphs below are historical.
+
 **Barbara's current workflow:** queue -> Investigate in ChatGPT (copy/open) -> bounded evidence requests and explicit later responses in the same conversation -> Apex for credit approval only -> verified customer app. See [the current walkthrough and one-time tool refresh](docs/barbara-workflow.md). Old three-approval/pending-conversion paragraphs below are historical.
 
 **Practice:** click **Restart demo** on the [queue](http://localhost:8080/queue) or case screen. It opens a fresh banking-app run without deleting earlier cases/credits. Use the newly returned case reference in a fresh ChatGPT conversation. See [restart behavior and limits](docs/restart-demo.md). Theo's latest credit-only business-approval flow supersedes the older three-approval target; conversion of investigation tools and the launch-to-ChatGPT button remains pending.

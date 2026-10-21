@@ -1,47 +1,29 @@
-# Codex build handoff - October 21, 2026
+# Current Build Handoff
 
-Current continuation: read barbara-workflow.md. Deployed copy/open ChatGPT queue launch and seven-tool bounded investigation configuration; evidence requests no longer require separate business approval, and later responses advance only through an explicit synthetic time-jump tool. Exact credit approval remains in Apex only. 127 deterministic checks plus isolated browser/SDK flow pass; public deployed tool/read/private-route preflight passes. Theo must refresh installed tools once and rehearse the new flow in actual ChatGPT. Preserve proof case/tunnel; voice/source PDFs/model evals remain pending. Older pending-conversion/three-approval statements below are historical.
+Read [current-state.md](current-state.md) before changing anything. The streamlined text/ChatGPT/credit/customer journey is implemented and user-observed, not pending a rebuild. Last executed checks: 129 deterministic tests plus isolated browser/SDK flow. This lock is documentation-only.
 
-Locked current handoff: Theo confirmed the customer preview shows the verified credit. End-to-end synthetic technical walkthrough is user-observed complete, through actual ChatGPT and all three separate approvals. Preserve APX-3625B0CC/v4 and original credit; never repost or reset it. The reveal used simulated read-only customer preview, not production login. Remaining source/PDF, voice/fallback, model evals and interview-readiness/rehearsal work is not completed by this confirmation. See latest build-progress.md and credit-workflow.md; older pending-customer notes below are history.
+## Preserve
 
-Latest continuation: Theo completed actual ChatGPT credit staging and explicitly approved it. APX-3625B0CC is CREDIT_POSTED/v4 with verified original ledger CR-1b15a734b07f9dd879f3d913. Do not repost/restage. His customer tab has not restored its session, so use the new local Open Martha's app (demo) read-only preview after verification; it is labeled simulated identity. 112 tests and isolated browser recovery pass. User-side customer observation remains next. Older uncredited/pending-credit notes below are historical; see newest build-progress.md and credit-workflow.md.
+- Completed APX-B355D834 and APX-3625B0CC and their original credits/approved summaries. Do not execute financial actions or simulate new responses on them for a deployment check.
+- Seven bounded MCP tools and credit-only Apex business approval. Do not restore the old three-approval journey or extra time-jump confirmation.
+- Existing temporary tunnel, private service split, local credentials/state and M. Price routing. No automatic ChatGPT prefill/app-selection claim.
+- The bank-generated verified completion message and immutable approved financial/audit payloads.
 
-October 21 current update: read credit-workflow.md. All three action cycles, including reviewed credit, atomic synthetic posting, separate ledger/case verification and Martha's in-app resolution now exist. 111 deterministic tests plus isolated three-cycle browser/SDK flow pass. Actual ChatGPT's processor-follow-up and corrected-source reassessment are now user-observed complete. Final actual ChatGPT credit recommendation, Theo's approval and live customer observation are pending; never execute/credit his case for a deployment check. PDFs, voice and broader evals remain pending. Current hostname is unchanged; refresh tools to discover stage_credit. Earlier statuses below are history.
+## Resume
 
-Current action increment: read request-actions.md first. MCP first-request staging is a WRITE, separate private human approval validates exact scope/hash/version/assignment/expiry, and result read checks persisted request facts. Deterministic association appears only after explicit E-004 release. 82 deterministic tests and isolated browser/SDK human-review flow pass. Theo supplied actual new-case ChatGPT evidence reasoning; staging confirmation is still to capture, and his case remains intake/v1. No public approval/execution tool. Next build is processor follow-up, then credit. The older read-only/pending-staging notes below are historical.
-Latest executed build: live Responses text intake now persists corrections/review, requires explicit confirmation, creates one assigned case and shares its returned ID through the queue and MCP reads. 41 Python and 25 Node tests plus isolated mock/live browser checks pass. Read intake-setup.md/build-progress.md. The old seeded APX-001 is intact; new cases use the current story. Actual ChatGPT source reasoning on the old case is user-observed; new-case account-side proof and MCP staging/approved investigation/processor follow-up/credit are next. Identity is simulated; 8080/8788 stay private. Earlier unbuilt-intake statements below are history.
+1. Inspect the working tree and current services. Read the relevant workflow/security files, not just historical progress paragraphs.
+2. Follow Theo's next request. Voice connection, synthetic document artifacts and representative model evals remain unfinished; do not call them complete from the successful text walkthrough.
+3. Use isolated tests or a deliberate new practice run. Preserve proof and report exactly what was checked; never silently reset the user's database.
+4. Update current-state.md in place plus the decision/progress history for meaningful changes. Do not stack contradictory "latest" notes in AGENTS.md or START-HERE.md.
 
-**Start here:** read AGENTS.md, then [the current build plan](plan.md), [current resolution](case-resolution.md), [access design](analyst-access-control.md) and [sensitive-data/voice requirements](sensitive-data-and-voice.md).
+Tests, when needed:
 
-Theo has now explicitly asked Codex to review and start building the agreed demo. **Presentation materials and practice are on hold.** This supersedes earlier “preparation only/no build resumption” notes as an authorization statement; it does not turn any pending feature into completed work or remove existing safety/readiness requirements.
+```sh
+python3 -m unittest discover -s tests -q
+npm run test:adapter
+APEX_PLAYWRIGHT_MODULE=/home/theosbeer/hero-sentinel/node_modules/playwright/index.mjs node tests/browser_intake.mjs
+```
 
-Latest setup clarification: Theo approved simulated identity (explicit fixed Barbara demo actor, no OAuth claim) and M. Price API credential reuse. The local ignored configuration and credential helper are ready; 19 adapter/config plus 26 existing tests pass. External IdP setup is deferred; actual ChatGPT access/connection still needs proof. Read build-progress.md and adapter-setup.md before acting on older external-OAuth prerequisites below.
+The last command uses the installed local Playwright path. The browser check uses an isolated temporary database and mock model by default. Live provider mode is opt-in and must remain separately labeled. Do not treat deterministic instruction checks as model compliance or user-reported results as independently inspected full traces.
 
-## What changed since the original prototype
-
-The hero must no longer end at specialist referral. Martha disputes $648.50 at JCPenney; Barbara investigates in actual ChatGPT with scoped Apex tools. The weak packet is a fictional processor export. After an internal lookup reveals an earlier-purchase mismatch, Barbara requests transaction-specific processor evidence. A labeled later response corrects the citation. She reviews the complete record and can approve a supported synthetic credit under fictional authority **below $1,000**. Apex posts once, verifies the ledger/case record and shows Martha the approved explanation and resolution. Network recovery stays out of scope.
-
-No final decision is encoded into evidence. Threshold alone is not eligibility; missing authentication is not proof of fraud. Read case-resolution.md for the exact narrative and proof boundaries.
-
-## First actions
-
-1. Inspect the checkout/working changes and run current baseline checks.
-2. Perform/document the bounded Gate 0 check or honest sourced-table fallback; optional native UI must not become a detour.
-3. Prove minimal authenticated get_case/get_evidence retrieval in actual ChatGPT where account/access allows. Record actual blockers if unavailable.
-4. Continue the ordered plan: shared conversational intake/case continuity, released investigation evidence, processor follow-up, human-approved synthetic credit and verified customer outcome.
-5. Prepare the voice alternative live or explicitly simulated without silently replacing discovery selection.
-
-The plan contains acceptance criteria, implementation discretion, failure tests and genuine access questions. Ask only for consequential missing information after inspecting the environment; proceed on reversible work already authorized. Do not stop after producing another plan.
-
-## Status at this handoff
-
-Codex has now added the read-only MCP adapter and locally tested signed identity/case/source/version controls: 13 adapter tests and all 26 existing checks passed. [Build progress](build-progress.md) records the Gate 0 sourced-table fallback and precise proof limits; [adapter setup](adapter-setup.md) documents configuration. External identity/ChatGPT connection remain pending. The underlying workflow still has local Python/SQLite, browser banking form/local draft, disabled voice, seeded APX-001, fixed analyst assessments and the old specialist-handoff action. API conversation, shared new cases, real authenticated approvals and the new credit ending remain unbuilt. Do not confuse local signed-token tests with external OAuth deployment or actual ChatGPT execution.
-
-## Other preparation already saved
-
-- [Discovery/evaluations/executive close](discovery-to-pilot.md)
-- [Reflection and design tradeoffs](reflection.md)
-- [Why OpenAI](why-openai.md)
-- [Customer profile](customer-profile.md), [business case](business-case.md), [meeting outline](meeting-outline.md)
-
-These explain intent. Avoid expanding presentation materials while this build is the priority. Preserve synthetic labels, named users, same-case continuity, human authority, source release, source citations, exact-effect verification and truthful live/simulated status.
+Previous stacked entry points are preserved under [history](history/); detailed chronological checks remain in build-progress.md. Current proof/boundaries are in the snapshot, not the archived notes.

@@ -1,5 +1,9 @@
 # Decisions and artifact index
 
+## October 21 - consolidated repository lock
+
+At Theo's request, consolidated the shipped flow, observed proof, latest 129-check/browser results, safety/runtime boundaries and unfinished work in [current-state.md](current-state.md). Replaced the stacked AGENTS.md, START-HERE.md and build-handoff.md entry points with concise current guidance, preserving their prior contents under docs/history/. Detailed chronology remains in this register and build-progress.md. README, plan, demo-flow and old handoff point to the snapshot. No app/data/service/tunnel change, new test run or expanded readiness claim accompanies this documentation lock.
+
 ## October 21 - streamlined walkthrough observed and verified customer completion copy
 
 Theo confirmed credit approval and the iPhone result for APX-B355D834/action 354e66a479674d0d2c472b8d after actual ChatGPT's complete bounded investigation and recommendation. Independent saved-effect read verifies VERIFIED_POSTED_CREDIT/v4/$648.50. Preserve both this and original proof; don't replay financial actions. Fixed customer presentation without rewriting the approved summary: the verified bank-generated completion message replaces pending proposal wording on the customer screen, while exact decision/ledger/audit text stays unchanged. This is not a broad model-eval or voice-readiness claim. See credit-workflow.md and newest build-progress.md.
