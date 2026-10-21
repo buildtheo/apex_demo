@@ -5,7 +5,7 @@ import {test} from 'node:test';
 import {generateKeyPair, exportJWK, createLocalJWKSet, SignJWT} from 'jose';
 import {Client} from '@modelcontextprotocol/sdk/client/index.js';
 import {StreamableHTTPClientTransport} from '@modelcontextprotocol/sdk/client/streamableHttp.js';
-import {createAdapter} from '../adapter/app.mjs';
+import {createAdapter, boundedInvestigationInstructions, demoEvidenceDescription} from '../adapter/app.mjs';
 import {authorize, caseView, evidenceView, screen, tokenVerifier, actionResultView, creditPayloadView} from '../adapter/access.mjs';
 
 test('credit payload accepts bounded practice account namespaces, not arbitrary accounts', () => {
@@ -21,6 +21,18 @@ test('credit payload accepts bounded practice account namespaces, not arbitrary 
 // Locally generated credentials exercise validation, not an external OAuth deployment.
 const issuer = 'https://identity.example/';
 const audience = 'https://apex.example/mcp';
+
+test('agreed evidence step includes labeled later response without a second time-jump question', () => {
+  assert.match(boundedInvestigationInstructions, /says yes to your immediately preceding evidence-gathering proposal/);
+  assert.match(boundedInvestigationInstructions, /Do not ask a second question/);
+  assert.match(boundedInvestigationInstructions, /Later - response received \(simulated\)/);
+  assert.match(boundedInvestigationInstructions, /read the newly released source before assessing it/);
+  assert.match(boundedInvestigationInstructions, /Honor requests to pause/);
+  assert.match(boundedInvestigationInstructions, /An unrelated yes is not permission/);
+  assert.match(boundedInvestigationInstructions, /exact human credit approval/);
+  assert.match(demoEvidenceDescription, /No extra time-jump question is required/);
+  assert.doesNotMatch(boundedInvestigationInstructions + demoEvidenceDescription, /only when Barbara asks to show|never automatically after a request|Do not automatically advance time/);
+});
 const {privateKey, publicKey} = await generateKeyPair('RS256');
 const jwk = {...await exportJWK(publicKey), kid: 'local-test', alg: 'RS256'};
 const verifyToken = tokenVerifier({issuer, audience}, createLocalJWKSet({keys: [jwk]}));
@@ -432,6 +444,8 @@ test('bounded tools replace request approvals, remain writes, and never expose c
   const tools = (await client.listTools()).tools;
   assert.deepEqual(tools.map(tool => tool.name).sort(), ['get_case', 'get_evidence', 'get_action_result',
     'request_authentication_lookup', 'request_processor_evidence', 'receive_demo_evidence', 'stage_credit'].sort());
+  assert.equal(client.getInstructions(), boundedInvestigationInstructions);
+  assert.equal(tools.find(tool => tool.name === 'receive_demo_evidence').description, demoEvidenceDescription);
   for (const name of ['request_authentication_lookup', 'request_processor_evidence', 'receive_demo_evidence', 'stage_credit']) {
     assert.equal(tools.find(tool => tool.name === name).annotations.readOnlyHint, false);
   }

@@ -1,5 +1,9 @@
 # Decisions and artifact index
 
+## October 21 - remove duplicate evidence/time-jump confirmation
+
+Theo observed ChatGPT asking whether to advance demo time after he already agreed to gather evidence. Corrected the conflicting server instructions, receive_demo_evidence description and launch prompt: that agreement covers the same evidence step's permitted labeled later response, without a second time-jump question. Pause/wait/existing-source-only instructions still apply; unrelated assent does not authorize a new step. No automatic credit, backend release-gate bypass or suppression of ChatGPT host permissions. The response remains explicitly simulated and must be read before assessment. See barbara-workflow.md; old extra-confirmation instructions are historical.
+
 ## October 21 - streamlined Barbara workflow implemented
 
 Implemented Theo's credit-only business-approval choice. Queue Investigate in ChatGPT opens the real site and copies a case-scoped prompt with visible manual fallback; no undocumented automatic prompt handoff or tool selection. The deployed bounded configuration offers seven tools, replacing old request-staging tools with two scoped request operations and an explicit later-evidence simulation. Barbara stays in the same conversation until the separate exact credit approval; new-case UI hides old request controls. New request audits record simulated bounded authority, not fictional human approvals. Historic proof records and old compatibility tests remain unchanged. See barbara-workflow.md and latest build-progress.md for checks and remaining account-side proof. Voice/PDF/eval work remains separate.

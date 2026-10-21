@@ -1,5 +1,11 @@
 # Build progress — October 21, 2026
 
+## Duplicate evidence/time-jump question corrected - October 21
+
+Theo reported that ChatGPT asked permission to advance simulated time after he had already said yes to gathering evidence. That was caused by conflicting extra-confirmation instructions in the deployed server, arrival-tool description and copied opening prompt. All three now say that a request or yes to the immediately proposed evidence step includes the same step's permitted labeled simulated response, without another time-jump question. The model must read the released source before assessment, honor pause/wait/existing-only requests and not interpret unrelated assent as new permission. Credit remains separately reviewed and approved; release gates, tool WRITE hints and host permission behavior are unchanged.
+
+42 Node checks and the isolated mock-model browser/SDK walkthrough pass. Regression checks assert the agreement rule, visible simulation/source read, pause/consent/credit boundaries and that SDK initialization/tool listings publish those exact instructions. This tests configuration and deterministic integration, not actual conversational model compliance. Python code was unchanged; its last executed suite remains 86 passing tests. Reloaded only MCP; no tunnel replacement, provider call or live-case action. Actual ChatGPT needs tool refresh and a fresh opening prompt/conversation because an earlier user prompt explicitly demanded the extra question; don't claim the existing conversation has automatically forgotten it.
+
 ## Credit-only business approval and ChatGPT investigation deployed - October 21
 
 Implemented Theo's streamlined Barbara flow. Queue Investigate in ChatGPT opens the actual site and attempts to copy a case-scoped opening prompt, with visible select/copy/plain-link fallback. Nothing is automatically submitted and no undocumented prompt URL or automatic Apex tool selection is claimed. The browser test forces clipboard failure and verifies the fallback and exact case context.
