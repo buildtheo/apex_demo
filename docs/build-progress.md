@@ -1,5 +1,11 @@
 # Build progress — October 20, 2026
 
+## Actual ChatGPT reassessment completes first technical walkthrough - October 20
+
+Theo pasted actual ChatGPT verification of action 09590c76058eea27922444a8 as VERIFIED_SAVED_REQUEST/RESPONDED, plus E-004 at snapshot 3 for APX-3625B0CC. Its cited comparison identifies AUTH-77 as belonging to T-198 rather than T-204, weakens the processor's purchase-specific device assertion, and preserves uncertainty about authorization/fraud. It recommends transaction-specific processor evidence and correction of the original citation, explicitly reporting no additional staging/contact/decision. This is user-observed ChatGPT reasoning aligned with the independently checked saved request and public SDK source; no raw account-side trace or broad model evaluation was inspected.
+
+The implemented first-cycle technical walkthrough is complete under simulated identity. The next build remains a separate processor-follow-up draft, exact human review, saved-request verification and explicit later synthetic response; then supported credit review and verified customer-app ending. Limit follow-up to T-204 evidence and the AUTH-77 citation correction, not automatic collection of every optional item in the model's suggestions. Customer-facing/analyst copy should say: "That record belongs to a different purchase. Let's ask the processor for evidence supporting this charge and a correction to its earlier response." Do not claim the follow-up is already available, sent or answered. No runtime changes, paid API calls or case changes in this documentation increment.
+
 ## First live-case request verified after Theo's approval - October 20
 
 Theo reports approving the restaged lookup. A read-only /api/action-result check for APX-3625B0CC/action 09590c76058eea27922444a8 returns VERIFIED_SAVED_REQUEST: approved snapshot 2, observed snapshot 3, request REQ-09590c76, state RESPONDED, correct exact scope/references and simulated Barbara approval. The explicit later lookup response has therefore already been released in the saved case; Codex did not approve or advance it. This proves the saved synthetic request facts, not production identity or an external processor integration. Continue actual ChatGPT result/source reading and reassessment; processor follow-up and credit are not implemented.

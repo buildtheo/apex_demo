@@ -4,6 +4,8 @@ Updated October 20, 2026. Consolidated from the available project conversation a
 
 ## October 20 - plain-language evidence journey and customer ending locked
 
+Walkthrough completion: Theo subsequently supplied actual ChatGPT saved-request verification and source-cited E-004 reassessment at v3, consistent with independent saved-state/public SDK checks. First-cycle account-side walkthrough is now user-observed complete under simulated identity. Next is implementation of the separately approved transaction-specific processor follow-up, not another setup or first-lookup rehearsal. See newest build-progress.md entry. No second request or credit has been staged/executed.
+
 Theo explicitly locked these choices after reviewing the technical approval checkpoint:
 
 - Use conversational analyst language, merchant/amount first; keep IDs, snapshots, payload hashes and implementation instructions in secondary details. Simplification must not hide the exact action being approved.
