@@ -1,5 +1,9 @@
 # Decisions and artifact index
 
+## October 22 - reuse M. Price caller and keypad support-code verification
+
+Theo selected "what we did in M. Price" rather than app approval or a new one-time app code. Implemented signed registered-caller matching and an externally validated four-digit demo support code before the amount-first intake. Reuses the existing private code by reference; no value is committed. Twilio keypad-only IVR prevents this check's digits from entering the OpenAI media path. The private DMS requires a bridge-capability attestation before intake. Three wrong entries lock further checks for fifteen minutes in process memory; expiry/replay checks apply. Model cannot verify itself, bypass the gate or post credit. This remains simulated identity, not production bank security. 146 deterministic checks and isolated browser/SDK flow pass; updated physical-call success is pending. See phone-setup.md and sensitive-data-and-voice.md.
+
 ## October 21 - shorten phone intake and distinguish transaction from identity
 
 Theo wants voice to get the dispute submitted, not dominate the demo: caller says the exact amount, agent confirms JCPenney, asks the reason and submits after confirmation. Updated the Apex profile/initial response to start with caller amount rather than reveal the selected purchase, skip redundant intent/reason questions, clarify a mismatched amount, use a one-sentence summary and keep verified receipt brief. Existing keypad consent, saved-case verification and credit-only analyst approval remain intact.

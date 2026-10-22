@@ -7,7 +7,7 @@ import WebSocket, {WebSocketServer} from 'ws';
 import {attachPhone, readbackMatches, realtimeSession} from '../adapter/phone-bridge.mjs';
 
 const config = {origin: 'https://phone.example', accountSid: 'AC' + 'a'.repeat(32), authToken: 'test-token-only',
-  number: '+15555550100', caller: '+15555550101', apiKey: 'test-key-only', model: 'gpt-realtime-2.1', voice: 'cedar'};
+  number: '+15555550100', caller: '+15555550101', supportCode: '2468', apiKey: 'test-key-only', model: 'gpt-realtime-2.1', voice: 'cedar'};
 const wait = async predicate => {for (let i = 0; i < 200; i++) {if (predicate()) return; await new Promise(r => setTimeout(r, 10));} throw Error('Phone test timed out');};
 async function fixture(t, {confirmError} = {}) {
   const calls = [], modelEvents = [], phoneEvents = [];
@@ -21,6 +21,7 @@ async function fixture(t, {confirmError} = {}) {
   const backend = async (action, data, session) => {
     calls.push({action, data, session});
     if (action === 'claim') return {session_id: 'private-session', token: 'private-capability', revision: 0, transaction: {transaction_id: 'T-204'}};
+    if (action === 'verified') return {support_check: 'passed_demo_only', transaction: {transaction_id: 'T-204'}};
     if (action === 'transcript') return {revision: 1};
     if (action === 'prepare') return {revision: 1, review: {statement: data.statement, nonce: 'private-review-nonce'}};
     if (action === 'confirm') {
@@ -34,16 +35,19 @@ async function fixture(t, {confirmError} = {}) {
   const base = `http://127.0.0.1:${server.address().port}`;
   t.after(async () => {await bridge.close(); for (const socket of modelServer.clients) socket.terminate();
     server.closeAllConnections(); await new Promise(r => server.close(r)); await new Promise(r => modelServer.close(r));});
-  async function dial(overrides = {}, signed = true) {
+  async function dial(overrides = {}, signed = true, path = '/twilio/voice') {
     const params = {AccountSid: config.accountSid, To: config.number, From: config.caller, CallSid: 'CA' + 'b'.repeat(32), ...overrides};
-    const signature = twilio.getExpectedTwilioSignature(config.authToken, config.origin + '/twilio/voice', params);
-    return fetch(base + '/twilio/voice', {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded',
+    const signature = twilio.getExpectedTwilioSignature(config.authToken, config.origin + path, params);
+    return fetch(base + path, {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded',
       ...(signed ? {'X-Twilio-Signature': signature} : {})}, body: new URLSearchParams(params)});
   }
+  const verify = (digits, overrides = {}, signed = true) => dial({Digits: digits, ...overrides}, signed, '/twilio/verify');
   async function start() {
     const response = await dial(); assert.equal(response.status, 200);
-    const xml = await response.text();
-    assert.ok(xml.indexOf('Please do not say') < xml.indexOf('<Connect>'));
+    const greeting = await response.text();
+    assert.ok(greeting.indexOf('Please do not say') < greeting.indexOf('<Gather'));
+    assert.doesNotMatch(greeting, /<Connect>|JCPenney|648\.50/);
+    const xml = await (await verify(config.supportCode)).text();
     const ticket = /name="ticket" value="([a-f0-9]+)"/.exec(xml)[1];
     const phone = new WebSocket(base.replace('http:', 'ws:') + '/twilio/media', {headers: {
       'X-Twilio-Signature': twilio.getExpectedTwilioSignature(config.authToken, config.origin + '/twilio/media', {})}});
@@ -69,7 +73,7 @@ async function fixture(t, {confirmError} = {}) {
     await wait(() => phoneEvents.some(e => e.event === 'mark'));
     return phoneEvents.find(e => e.event === 'mark').mark.name;
   }
-  return {calls, modelEvents, phoneEvents, dial, start, emit, draft};
+  return {calls, modelEvents, phoneEvents, dial, verify, start, emit, draft};
 }
 
 test('signed bridge accepts only allowlisted caller and number', async t => {
@@ -96,6 +100,7 @@ test('readback playback acknowledgement plus keypad are required; private capabi
   await wait(() => f.calls.some(c => c.action === 'confirm'));
   assert.equal(f.calls.find(c => c.action === 'confirm').data.nonce, 'private-review-nonce');
   assert.doesNotMatch(JSON.stringify(f.modelEvents), /private-capability|private-review-nonce/);
+  assert.doesNotMatch(JSON.stringify(f.modelEvents), /2468/);
   assert.equal(f.calls.filter(c => c.action === 'confirm').length, 1);
   await wait(() => f.modelEvents.some(e => e.response?.instructions?.includes('Trusted saved-case verification succeeded')));
   assert.equal(phone.readyState, WebSocket.OPEN);
@@ -108,6 +113,35 @@ test('readback playback acknowledgement plus keypad are required; private capabi
   assert.deepEqual(f.modelEvents.at(-1).response.tools, []);
   assert.equal(phone.readyState, WebSocket.OPEN);
   phone.close();
+});
+
+test('keypad check is signed, caller-bound and locked after three failures without any model connection', async t => {
+  const f = await fixture(t);
+  assert.doesNotMatch(await (await f.verify(config.supportCode)).text(), /<Connect>/);
+  const greeting = await (await f.dial()).text();
+  assert.match(greeting, /input="dtmf"/);
+  assert.match(greeting, /numDigits="4"/);
+  assert.equal((await f.verify(config.supportCode, {}, false)).status, 403);
+  assert.equal((await f.verify(config.supportCode, {CallSid: 'CA' + 'c'.repeat(32)})).status, 200);
+  assert.equal((await f.verify(config.supportCode, {From: '+15555550999'})).status, 403);
+  for (const digits of ['9999', '24', '']) assert.doesNotMatch(await (await f.verify(digits)).text(), /<Connect>/);
+  assert.match(await (await f.verify(config.supportCode)).text(), /expired or is no longer available/);
+  assert.match(await (await f.dial({CallSid: 'CA' + 'd'.repeat(32)})).text(), /temporarily locked/);
+  assert.equal(f.calls.some(c => c.action === 'verified'), false);
+  assert.equal(f.modelEvents.length, 0);
+  assert.equal(f.calls.some(c => c.action === 'prepare' || c.action === 'confirm'), false);
+  assert.doesNotMatch(JSON.stringify(f.calls), /2468|9999|Digits/);
+});
+
+test('successful keypad callback is single-use and never returns the support code', async t => {
+  const f = await fixture(t);
+  await f.dial();
+  const xml = await (await f.verify(config.supportCode)).text();
+  assert.match(xml, /<Connect>/);
+  assert.doesNotMatch(xml, /2468/);
+  assert.doesNotMatch(await (await f.verify(config.supportCode)).text(), /<Connect>/);
+  assert.equal(f.calls.filter(c => c.action === 'verified').length, 1);
+  assert.equal(f.modelEvents.length, 0);
 });
 
 for (const code of ['duplicate_dispute', 'service_unavailable', 'stale_confirmation']) {

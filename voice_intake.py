@@ -40,19 +40,30 @@ class VoiceIntake:
             if len(eligible) != 1: raise IntakeError('no_armed_call', 409)
             sid, s = eligible[0]
             token = secrets.token_urlsafe(32)
-            s.update(voice_token_hash=hashlib.sha256(token.encode()).hexdigest(), voice_status='connected')
+            s.update(voice_token_hash=hashlib.sha256(token.encode()).hexdigest(), voice_status='verifying', support_verified=False)
             self.intake.db.execute('UPDATE voice_links SET call_sid=? WHERE session_id=?', (call_sid, sid))
             self.intake._save(s)
-            return {'session_id': sid, 'token': token, 'revision': s['revision'], 'identity_verification': 'simulated_not_oauth',
-                    'transaction': {'merchant': 'JCPenney', 'amount': 648.50, 'currency': 'USD', 'transaction_id': 'T-204', 'card_last_four': '8821'}}
+            return {'session_id': sid, 'token': token, 'revision': s['revision'], 'identity_verification': 'simulated_not_oauth'}
 
-    def session(self, sid, token):
+    def session(self, sid, token, require_verified=True):
         s = self.intake._session(sid, token)
         if s.get('channel') != 'voice' or not isinstance(token, str) or not hmac.compare_digest(s.get('voice_token_hash', ''), hashlib.sha256(token.encode()).hexdigest()):
             raise IntakeError('call_denied', 403)
         row = self.intake.db.execute('SELECT call_sid,expires_at FROM voice_links WHERE session_id=?', (sid,)).fetchone()
         if not row or not row[0] or row[1] <= time.time() or s.get('voice_status') == 'ended': raise IntakeError('call_ended', 409)
+        if require_verified and s.get('support_verified') is not True: raise IntakeError('support_verification_required', 403)
         return s
+
+    def verified(self, sid, token):
+        # Only the private bridge capability can attest its signed keypad check.
+        with self.intake.lock:
+            s = self.session(sid, token, require_verified=False)
+            if s.get('support_verified'): raise IntakeError('support_already_verified', 409)
+            self._require_new_report()
+            s.update(support_verified=True, voice_status='connected')
+            self.intake._save(s)
+            return {'support_check': 'passed_demo_only',
+                    'transaction': {'merchant': 'JCPenney', 'amount': 648.50, 'currency': 'USD', 'transaction_id': 'T-204', 'card_last_four': '8821'}}
 
     def transcript(self, sid, token, item_id, text):
         text = screened(text)
@@ -122,7 +133,7 @@ class VoiceIntake:
 
     def end(self, sid, token):
         with self.intake.lock:
-            s = self.session(sid, token)
+            s = self.session(sid, token, require_verified=False)
             s.update(voice_status='ended', readback_played=False)
             self.intake._save(s)
             return {'ended': True}

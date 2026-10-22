@@ -86,7 +86,7 @@ async function pollVoice() {
   try {
     await refreshSession();
     if (session.case_id) {await saved(); return;}
-    const labels = {ready: 'Ready for your call.', connected: 'Connected to support. Tell us what happened.',
+    const labels = {ready: 'Ready for your call.', verifying: 'Enter your demo support code on the phone keypad. Never use your card PIN.', connected: 'Connected to support. Tell us what happened.',
       reviewing: 'Listen to the report. Press 1 to submit, or 2 to correct it.',
       duplicate: 'A report already exists in this practice run. No new report was created. View it in the Apex case queue, or restart there to rehearse again.',
       ended: 'The call ended. Your report has not been submitted.'};

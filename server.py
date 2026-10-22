@@ -251,6 +251,7 @@ class Handler(BaseHTTPRequestHandler):
                 if action == 'claim': return self.reply(200, voice.claim(data.get('call_sid')))
                 args = (data.get('session_id'), self.headers.get('X-Apex-Session'))
                 if action == 'transcript': result = voice.transcript(*args, data.get('item_id'), data.get('text'))
+                elif action == 'verified': result = voice.verified(*args)
                 elif action == 'prepare': result = voice.prepare(*args, data.get('revision'), data.get('statement'), data.get('reason'))
                 elif action == 'played': result = voice.played(*args, data.get('revision'), data.get('nonce'))
                 elif action == 'confirm': result = voice.confirm(*args, data.get('revision'), data.get('nonce'), data.get('digit'))

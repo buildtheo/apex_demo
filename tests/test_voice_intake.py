@@ -14,6 +14,7 @@ class VoiceIntakeTests(unittest.TestCase):
         self.browser = self.voice.arm('T-204')
         self.link = self.voice.claim(CALL)
         self.sid, self.token = self.link['session_id'], self.link['token']
+        self.voice.verified(self.sid, self.token)
 
     def tearDown(self): self.store.db.close()
 
@@ -81,6 +82,7 @@ class VoiceIntakeTests(unittest.TestCase):
         with self.assertRaises(IntakeError): self.voice.transcript(self.sid, self.token, 'item-first', 'A different statement')
         s = self.store.intake._session(self.sid, self.token); nonce = s['review']['nonce']
         other = self.voice.arm('T-204'); linked = self.voice.claim('CA' + 'd' * 32)
+        self.voice.verified(linked['session_id'], linked['token'])
         self.voice.transcript(linked['session_id'], linked['token'], 'another-item', 'I deny this purchase.')
         d = self.voice.prepare(linked['session_id'], linked['token'], 1, 'I deny this purchase.', 'unauthorized')
         self.voice.played(linked['session_id'], linked['token'], 1, d['review']['nonce'])
@@ -108,3 +110,23 @@ class VoiceIntakeTests(unittest.TestCase):
         self.store.intake.restart('explicit-fresh-voice-run')
         self.assertEqual(self.voice.arm('T-204')['channel'], 'voice')
         self.assertEqual(self.store.read(result['case_id']), case_before)
+
+    def test_unverified_call_and_browser_cannot_bypass_keypad_attestation(self):
+        self.store.intake.restart('unverified-call-run')
+        browser = self.voice.arm('T-204')
+        link = self.voice.claim('CA' + 'f' * 32)
+        sid, token = link['session_id'], link['token']
+        self.assertNotIn('transaction', link)
+        self.assertEqual(self.store.intake.get(sid, browser['token'])['voice_status'], 'verifying')
+        for operation in (lambda: self.voice.transcript(sid, token, 'before-check', 'I deny this purchase.'),
+                          lambda: self.voice.prepare(sid, token, 0, 'I deny this purchase.', 'unauthorized'),
+                          lambda: self.voice.played(sid, token, 0, 'invalid'),
+                          lambda: self.voice.confirm(sid, token, 0, 'invalid', '1'),
+                          lambda: self.voice.verified(sid, browser['token'])):
+            with self.assertRaises(IntakeError): operation()
+        self.assertEqual(self.store.intake.cases(), [])
+        verified = self.voice.verified(sid, token)
+        self.assertEqual(verified['support_check'], 'passed_demo_only')
+        self.assertEqual(verified['transaction']['transaction_id'], 'T-204')
+        with self.assertRaises(IntakeError): self.voice.verified(sid, token)
+        self.assertNotIn('2468', str(self.store.intake.get(sid, browser['token'])))

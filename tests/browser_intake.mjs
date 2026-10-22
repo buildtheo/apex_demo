@@ -246,6 +246,7 @@ try {
       body: JSON.stringify({action, session_id: phoneSession.session_id, ...data})});
     assert.equal(response.status, 200); return response.json();
   };
+  await voiceCall('verified');
   await voiceCall('transcript', {item_id: 'voice-browser-item', text: 'I did not authorize the selected purchase.'});
   const phoneDraft = await voiceCall('prepare', {revision: 1, statement: 'I did not authorize the selected purchase.', reason: 'unauthorized'});
   assert.equal((await (await fetch(base + '/api/cases')).json()).length, 0, 'Voice draft is not a submitted case');

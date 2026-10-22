@@ -167,6 +167,7 @@ class IntakeStore:
         with self.lock:
             s = self._session(sid, token)
             if s.get('channel') == 'voice' and not voice_confirmation: raise IntakeError('voice_channel_only', 403)
+            if s.get('channel') == 'voice' and not s.get('support_verified'): raise IntakeError('support_verification_required', 403)
             if s.get('preview_only'): raise IntakeError('preview_read_only', 403)
             review = s['review']
             if (type(revision) is not int or revision != s['revision'] or s['pending'] or not review
@@ -191,6 +192,7 @@ class IntakeStore:
                 text="Customer statements (unaltered):\n" + '\n'.join(case['customer_statements']) + '\nCustomer-confirmed summary:\n' + review['statement'])
             if s.get('channel') == 'voice':
                 case['intake_channel'] = 'voice'
+                case['support_verification'] = 'registered_caller_and_demo_keypad_code'
                 case['evidence'][0].update(source='Synthetic customer-confirmed phone intake; speech-to-text transcript',
                     text='Speech-to-text transcript (not original audio):\n' + '\n'.join(case['customer_statements']) + '\nCustomer-confirmed summary:\n' + review['statement'])
             case['evidence'][2]['available'] = False

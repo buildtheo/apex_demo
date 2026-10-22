@@ -1,4 +1,4 @@
-import {randomBytes} from 'node:crypto';
+import {randomBytes, timingSafeEqual} from 'node:crypto';
 import twilio from 'twilio';
 import WebSocket, {WebSocketServer} from 'ws';
 import {apexVoiceInstructions} from './voice-profile.mjs';
@@ -25,7 +25,10 @@ export function realtimeSession(config, transaction) {
 
 // M. Price transport pattern, isolated from its driver tools, store and phone routing.
 export function attachPhone(server, {config, backend, connectModel}) {
+  if (!/^\d{4}$/.test(config.supportCode || '')) throw Error('Configure the private four-digit demo support code before enabling phone intake.');
   let slot;
+  let verificationLockedUntil = 0;
+  let verificationFailures = 0;
   const tickets = new Map(), sockets = new Set();
   const timers = new Set();
   const schedule = (fn, ms) => {const timer = setTimeout(() => {timers.delete(timer); fn();}, ms); timers.add(timer); timer.unref(); return timer;};
@@ -37,7 +40,7 @@ export function attachPhone(server, {config, backend, connectModel}) {
       .some(url => twilio.validateRequest(config.authToken, signature, url, params));
   }
   async function handle(req, res) {
-    if (req.method !== 'POST' || req.url !== '/twilio/voice') {res.writeHead(404).end(); return;}
+    if (req.method !== 'POST' || !['/twilio/voice', '/twilio/verify'].includes(req.url)) {res.writeHead(404).end(); return;}
     try {
       let body = '';
       for await (const chunk of req) {body += chunk; if (Buffer.byteLength(body) > 16384) {res.writeHead(413).end(); return;}}
@@ -46,17 +49,61 @@ export function attachPhone(server, {config, backend, connectModel}) {
           || params.AccountSid !== config.accountSid || params.To !== config.number || params.From !== config.caller
           || !/^CA[a-fA-F0-9]{32}$/.test(params.CallSid || '')) {res.writeHead(403).end(); return;}
       const xml = new twilio.twiml.VoiceResponse();
-      if (slot) {xml.say('The demonstration line is busy. Please try again.'); xml.hangup();}
+      const askCode = retry => {
+        xml.gather({input: 'dtmf', numDigits: 4, timeout: 12, actionOnEmptyResult: true,
+          action: config.origin + '/twilio/verify', method: 'POST'})
+          .say(retry ? 'That code did not match. Please try your four-digit demo support code again.'
+            : 'I have this number registered to Martha. Please enter your four-digit demo support code on the keypad. Not your card PIN.');
+      };
+      if (req.url === '/twilio/verify') {
+        const owned = slot;
+        if (!owned || owned.callSid !== params.CallSid || owned.phase !== 'verifying' || Date.now() >= owned.expiresAt) {
+          xml.say('This support check has expired or is no longer available. Please prepare a new call in the demo app.'); xml.hangup();
+        } else {
+          const matches = /^\d{4}$/.test(params.Digits || '') && timingSafeEqual(Buffer.from(params.Digits), Buffer.from(config.supportCode));
+          if (!matches) {
+            owned.attempts++;
+            if (++verificationFailures >= 3) {
+              verificationLockedUntil = Date.now() + 15 * 60 * 1000;
+              slot = undefined;
+              await backend('end', {}, owned.session).catch(() => {});
+              xml.say('The support check is locked for fifteen minutes. No report was submitted.'); xml.hangup();
+            } else askCode(true);
+          } else {
+            verificationFailures = 0;
+            // Claim before awaiting: replayed callbacks cannot issue a second stream ticket.
+            owned.phase = 'connecting';
+            try {
+              const verified = await backend('verified', {}, owned.session);
+              if (verified.support_check !== 'passed_demo_only' || !verified.transaction) throw Error('Support check not verified');
+              const session = {...owned.session, transaction: verified.transaction};
+              const ticket = randomBytes(32).toString('hex');
+              tickets.set(ticket, {session, slot: owned});
+              schedule(() => {if (tickets.delete(ticket)) {if (slot === owned) slot = undefined; void backend('end', {}, session).catch(() => {});}}, 60000);
+              xml.say('Your demo support check passed.');
+              xml.connect().stream({url: config.origin.replace('https:', 'wss:') + '/twilio/media'}).parameter({name: 'ticket', value: ticket});
+              xml.hangup();
+            } catch {
+              if (slot === owned) slot = undefined;
+              await backend('end', {}, owned.session).catch(() => {});
+              xml.say('The support check could not be completed. No new report was confirmed. Please check the demo app.'); xml.hangup();
+            }
+          }
+        }
+      } else if (Date.now() < verificationLockedUntil) {
+        xml.say('The demo support check is temporarily locked. Please try after fifteen minutes.'); xml.hangup();
+      } else if (slot) {xml.say('The demonstration line is busy. Please try again.'); xml.hangup();}
       else {
+        if (verificationLockedUntil) {verificationFailures = 0; verificationLockedUntil = 0;}
         const owned = {callSid: params.CallSid}; slot = owned;
         try {
           const session = await backend('claim', {call_sid: params.CallSid});
-          const ticket = randomBytes(32).toString('hex');
-          tickets.set(ticket, {session, slot: owned});
-          schedule(() => {if (tickets.delete(ticket)) {if (slot === owned) slot = undefined; void backend('end', {}, session).catch(() => {});}}, 60000);
+          Object.assign(owned, {session, phase: 'verifying', attempts: 0, expiresAt: Date.now() + 90000});
+          schedule(() => {if (slot === owned && owned.phase === 'verifying') {
+            slot = undefined; void backend('end', {}, session).catch(() => {});
+          }}, 90000);
           xml.say(warning);
-          xml.connect().stream({url: config.origin.replace('https:', 'wss:') + '/twilio/media'}).parameter({name: 'ticket', value: ticket});
-          xml.hangup();
+          askCode(false);
         } catch (error) {
           if (slot === owned) slot = undefined;
           xml.say(error.code === 'duplicate_dispute'
@@ -231,5 +278,11 @@ export function attachPhone(server, {config, backend, connectModel}) {
     });
     phone.on('close', end); phone.on('error', end);
   });
-  return {handle, close: async () => {for (const timer of timers) clearTimeout(timer); for (const socket of sockets) socket.terminate(); wss.close();}};
+  return {handle, close: async () => {
+    if (slot?.session) await backend('end', {}, slot.session).catch(() => {});
+    slot = undefined;
+    for (const timer of timers) clearTimeout(timer);
+    for (const socket of sockets) socket.terminate();
+    wss.close();
+  }};
 }
