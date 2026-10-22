@@ -16,7 +16,7 @@ const tools = [{type: 'function', name: 'prepare_intake', description: 'Prepare 
 export function realtimeSession(config, transaction) {
   return {type: 'realtime', model: config.model,
     instructions: apexVoiceInstructions + '\nTrusted selected synthetic transaction: ' + JSON.stringify(transaction)
-      + '\nThe fixed AI disclosure and no-secrets warning played before this stream. There is no model submission tool. Prepare a report using prepare_intake after useful clarification. The bridge controls exact readback and phone-keypad submission. Keep the statement under 100 words. Never request a PIN; pressing 1 is consent, not identity verification.',
+      + '\nThe fixed AI disclosure and no-secrets warning played before this stream. There is no model submission tool. Prepare a report using prepare_intake once the caller amount matches and their reason is clear; do not over-interview. The bridge controls exact readback and phone-keypad submission. Keep the statement to one sentence, at most 30 words. Never request a PIN; pressing 1 is consent, not identity verification.',
     tools, tool_choice: 'auto', max_output_tokens: 600,
     audio: {input: {format: {type: 'audio/pcmu'}, transcription: {model: 'gpt-4o-mini-transcribe'},
       turn_detection: {type: 'semantic_vad', eagerness: 'medium', create_response: false, interrupt_response: true}},
@@ -98,13 +98,13 @@ export function attachPhone(server, {config, backend, connectModel}) {
       if (++readbackAttempts > 2) {end(); return;}
       pendingReadback = true; played = false; mark = undefined;
       sendModel({type: 'response.create', response: {tool_choice: 'none',
-        instructions: `Read this exactly, including the report statement, and then stop and wait for the phone keypad: "Here is the report I have prepared. ${review.statement} To submit this report, press 1 on your phone keypad after I finish speaking. To correct it, press 2 or tell me what to change." Do not paraphrase the statement. Do not claim submission.`}});
+        instructions: `Read this exactly, then stop and wait for the phone keypad: "${review.statement} Press 1 to submit this report, or 2 to correct it." Do not add an introduction, paraphrase the statement or claim submission.`}});
     }
     async function handleModel(event) {
       if (event.type === 'session.updated' && !ready) {
         ready = true; clearTimeout(startup);
         for (const audio of buffered) sendModel({type: 'input_audio_buffer.append', audio}); buffered.length = 0;
-        speak('The telephone greeting and no-secrets warning have already played. Greet the customer briefly as Apex support and ask how you can help. Listen before mentioning a dispute.');
+        speak('The telephone greeting and no-secrets warning have already played. Do not repeat them. Ask only: What purchase amount are you calling about? Do not volunteer the merchant, amount or suspected problem. Wait for the caller.');
       } else if (event.type === 'conversation.item.input_audio_transcription.completed') {
         if (!event.transcript?.trim()) return;
         const saved = await call('transcript', {item_id: event.item_id, text: event.transcript});
@@ -223,7 +223,7 @@ export function attachPhone(server, {config, backend, connectModel}) {
             }
             intakeClosed = true;
             review = undefined; played = false;
-            speak('Trusted saved-case verification succeeded. Tell the customer their report was received by the dispute team, not decided or credited. Ask whether they need anything else, then wait.');
+            speak('Trusted saved-case verification succeeded. Say briefly: Your dispute has been submitted to our review team. Is there anything else I can help with? Then wait for the answer. Do not claim a decision or credit.');
           }
         });
         else if (event.event === 'stop') end();

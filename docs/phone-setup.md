@@ -7,13 +7,15 @@ October 21, 2026. Theo authorized temporarily using the existing M. Price Twilio
 1. Open http://localhost:8080. For a new rehearsal, use Restart demo on the Apex queue; keep the earlier completed proof cases untouched. Hang up before restarting.
 2. Select the JCPenney purchase, report a problem and choose Talk to support. This arms a ten-minute synthetic selected-purchase session; keep the app open.
 3. Dial the displayed number from the configured rehearsal phone. The number is shared temporarily, not a bank support number. Identity is simulated.
-4. After the AI disclosure and no-secrets warning, explain: "I don't recognize this JCPenney purchase. I didn't make it or authorize anyone else to make it."
-5. Answer useful clarification questions. Listen to the report readback. After it finishes, press 1 to submit, or press 2 / say what to correct. Spoken agreement alone cannot submit. No banking PIN is requested.
+4. After the AI disclosure and no-secrets warning, the agent asks for the purchase amount. Say: "I want to dispute a transaction for $648.50." The agent should confirm JCPenney and ask why. Say: "I didn't make or authorize that purchase." If you already supplied the reason, it should not ask again. A different or unclear amount needs clarification, not an assumed match.
+5. Listen to the one-sentence report readback. After it finishes, press 1 to submit, or press 2 / say what to correct. Spoken agreement alone cannot submit. No banking PIN is requested. The agent confirms verified receipt, asks if anything else is needed and waits. This is quick intake, not the centerpiece of the demo.
 6. The computer's banking app shows the verified saved receipt for that same case. Hang up naturally, then continue Barbara's existing queue -> actual ChatGPT investigation -> Apex credit approval -> Martha's verified credit flow. Voice does not decide or post credit.
 
 Calls are limited to five minutes and one active caller. A hangup, provider failure, stale session or incomplete confirmation does not create a new case. Refresh can resume the browser's linked session. After an ended unsubmitted call, prepare another call in the app. Do not arm competing browser tabs or call before selecting Talk to support.
 
 A run allows only one dispute for the selected purchase, including an already credited dispute. Phone preparation and call claim now reject that situation before collecting a report. Use Restart demo in the queue for a new rehearsal; the application never silently resets financial history. If another channel saves a report during the call, the agent explains the duplicate rejection and stays connected for questions instead of claiming success or disconnecting. Unverified save results are explained as uncertain and must be checked before retrying. After a verified submission, follow-up conversation has no intake tools and the call stays open for the caller's answer.
+
+Identity check remains an open decision: Theo was asked to choose banking-app call approval or a one-time app-generated demo code entered on the phone keypad. Neither is implemented yet. Caller number, claimed name, purchase amount and final submit key are not identity verification. Do not say "identity verified" or treat this shortened conversation as a new security control. The amount/merchant conversation and concise phrasing are model instructions; actual phone behavior still needs rehearsal.
 
 ## Architecture
 

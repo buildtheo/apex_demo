@@ -10,6 +10,7 @@ Martha disputes a $648.50 JCPenney online purchase. Barbara investigates the sam
 
 - Platform/APIs powers customer intake; actual ChatGPT plus Apex MCP powers Barbara's work. Text and Realtime voice are alternative intake modes, not extra product surfaces.
 - Discovery chooses voice OR text. Responses text intake works. Twilio/OpenAI Realtime phone intake is implemented and configured. Theo's first call reached confirmation but was rejected as a duplicate of the existing credited dispute. The erroneous disconnect and missing early warning are fixed; successful physical-call submission remains pending.
+- Voice is deliberately quick: caller supplies the amount -> agent confirms JCPenney -> asks the dispute reason once -> one-sentence readback -> keypad confirmation -> verified submission. Do not equate amount matching with identity verification. Theo's choice of an app-approval or one-time demo-code identity step is pending; neither is implemented yet.
 - Barbara uses Apex only at initial queue pickup and final credit approval. Bounded evidence requests and reassessment stay in her ChatGPT conversation.
 - Agreement to an evidence-gathering step includes that step's permitted labeled simulated response. No second time-jump question; honor pause/wait/existing-only requests and read the released source before assessment.
 - Keep the primary story short and conversational. Technical depth stays inspectable through source excerpts/provenance, exact approval and verification, not repeated tables or IDs.
@@ -44,7 +45,7 @@ Theo's user observation of the customer credit preceded the completion-copy poli
 
 ## Last Executed Verification
 
-- 93 Python + 49 Node tests pass: 142 deterministic checks, including private voice binding, stale/corrected readback, signed transport, interruption, keypad confirmation, early duplicate rejection and continued conversation after submission/rejection.
+- 93 Python + 50 Node tests pass: 143 deterministic checks, including private voice binding, stale/corrected readback, signed transport, interruption, keypad confirmation, early duplicate rejection, continued conversation after submission/rejection and quick-intake instruction/transport configuration.
 - Isolated mock-model browser/official SDK walkthrough passes intake, copy/open/manual fallback, same-case investigation without evidence-request business approvals, separate credit approval, saved-effect verification, completed customer wording, lost-session preview and both restart buttons.
 - Tests cover 100 restart operations, repeated practice credits, duplicate/concurrent/stale/denied actions and false-success behavior. These are not 100 live calls.
 - Isolated browser/SDK flow also passes voice selection, private synthetic call events, draft without submission, keypad confirmation and same-case bank/queue/MCP visibility. Audio and model responses are mocked in that browser check.

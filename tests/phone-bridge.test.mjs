@@ -82,6 +82,11 @@ test('signed bridge accepts only allowlisted caller and number', async t => {
 
 test('readback playback acknowledgement plus keypad are required; private capability never reaches model', async t => {
   const f = await fixture(t), phone = await f.start(), mark = await f.draft();
+  const opening = f.modelEvents.find(e => e.type === 'response.create').response.instructions;
+  assert.match(opening, /What purchase amount are you calling about/);
+  assert.match(opening, /Do not volunteer the merchant, amount/);
+  const readback = f.modelEvents.find(e => e.response?.instructions?.includes('Press 1 to submit this report')).response.instructions;
+  assert.doesNotMatch(readback, /Here is the report I have prepared/);
   phone.send(JSON.stringify({event: 'dtmf', dtmf: {digit: '1'}}));
   await new Promise(r => setTimeout(r, 30));
   assert.equal(f.calls.some(c => c.action === 'confirm'), false);

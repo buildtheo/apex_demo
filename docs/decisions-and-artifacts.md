@@ -1,5 +1,11 @@
 # Decisions and artifact index
 
+## October 21 - shorten phone intake and distinguish transaction from identity
+
+Theo wants voice to get the dispute submitted, not dominate the demo: caller says the exact amount, agent confirms JCPenney, asks the reason and submits after confirmation. Updated the Apex profile/initial response to start with caller amount rather than reveal the selected purchase, skip redundant intent/reason questions, clarify a mismatched amount, use a one-sentence summary and keep verified receipt brief. Existing keypad consent, saved-case verification and credit-only analyst approval remain intact.
+
+Theo also observed no identity check. Amount, name and caller number do not establish identity. Asked him to choose app-based call approval or a one-time app-generated keypad demo code; choice and implementation remain pending. Do not request a real bank PIN or describe either proposal as shipped production authentication. This prompt/flow change does not establish actual model compliance or successful physical submission.
+
 ## October 21 - lock the deployed phone fix and truthful rehearsal status
 
 Theo requested that all current work be locked in the repo. Phone integration (46abcc9), first-call duplicate/disconnect correction (ff2f247), restore instructions, safety limits and 142-check/browser verification are recorded. Primary entry points now explicitly say successful fresh-run physical submission remains unconfirmed. Next agent must preserve the current cases/run and working connection, then help with Theo's deliberate fresh-run rehearsal rather than silently resetting or declaring the failed call successful. No runtime change accompanies this documentation checkpoint.

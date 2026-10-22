@@ -1,6 +1,6 @@
 # Current Build Handoff
 
-Read [current-state.md](current-state.md) before changing anything. The streamlined text/ChatGPT/credit/customer journey is implemented and user-observed, not pending a rebuild. Phone intake is implemented/configured. Theo's first call hit the existing-dispute guard; early detection and abrupt rejection handling are fixed. Successful physical submission is still pending. Last executed checks: 142 deterministic tests plus isolated browser/SDK text and voice flows and a live Realtime configuration handshake.
+Read [current-state.md](current-state.md) before changing anything. The streamlined text/ChatGPT/credit/customer journey is implemented and user-observed, not pending a rebuild. Phone intake is implemented/configured. Theo's first call hit the existing-dispute guard; early detection and abrupt rejection handling are fixed. Voice instructions now use a quick caller-amount -> merchant -> reason -> brief readback flow. Successful physical submission and Theo's choice of identity step remain pending. Last executed checks: 143 deterministic tests plus isolated browser/SDK text and voice flows and a live Realtime configuration handshake.
 
 ## Preserve
 

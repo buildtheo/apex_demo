@@ -1,5 +1,13 @@
 # Build progress — October 21, 2026
 
+## Quick caller-led phone intake - October 21
+
+Theo wants voice to submit the dispute quickly, rather than dominate the demonstration. Updated initial Realtime prompt and Apex profile: caller supplies the amount first, agent confirms JCPenney, captures intent/reason without redundant questions, prepares a single sentence (30-word instruction target), reads it back without a long introduction and asks for keypad confirmation. Unknown/mismatched amounts should be clarified rather than assumed. Verified receipt stays brief and the agent waits for follow-up. Existing application-enforced current-draft consent, duplicate guards and separate saved-effect verification are unchanged; amount selection and concise style are model instructions, not independently proven model behavior or identity controls.
+
+Theo also requested verification. Asked him to choose app-based call approval or a one-time app-generated demo code entered by keypad; answer and implementation remain pending. No real PIN, SSN or credentials are requested, and number/name/amount/submit key do not authenticate a person. Do not imply that this interaction change implements identity verification. Successful fresh-run physical submission remains unconfirmed. Tests inspect the amount-first instruction and short readback configuration; 93 Python + 50 Node tests and isolated browser/SDK flow pass. No paid model conversation or user-state reset performed for this update.
+
+Deployment reloaded the narrow adapter. Read-only public preflight found the previous temporary address no longer resolved; cloudflared again reported upstream Tunnel not found. Replaced the dead tunnel, updated the ignored origin and reapplied/read back Twilio routing, retaining the original M. Price backup. The actual ChatGPT connection must use the replacement address supplied to Theo; no hostname or credentials are committed. No case or credit replay is part of reconnecting.
+
 ## Post-phone-fix repository lock - October 21
 
 At Theo's request, locked the current work after phone integration 46abcc9 and duplicate/disconnect fix ff2f247, both already pushed. Updated primary agent entry points and the handoff to distinguish the failed first physical call from a successful submission, preserve the seven-tool investigation and credit-only approval, and identify the next fresh-run phone check without silently resetting live state. Last executed proof remains 93 Python + 49 Node checks and isolated browser/SDK flow, not a new live-call success. This checkpoint changes documentation only; no service, tunnel, Twilio routing, case, credit, credentials or practice-run changes.

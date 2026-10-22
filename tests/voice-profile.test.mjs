@@ -23,3 +23,14 @@ test('Apex profile does not inherit M. Price recovery authority or identity clai
   assert.match(apexVoiceInstructions, /do not claim the audio was never transmitted or erased/);
   assert.doesNotMatch(apexVoiceInstructions, /Daryl|Route 17|1776|recover_app_session|verify_soft_pin/);
 });
+
+test('quick intake starts with caller amount, confirms merchant and captures a reason without repeating questions', () => {
+  for (const requirement of ['without volunteering the amount or merchant',
+    'If she already gives the amount, do not ask for it again',
+    "That's the JCPenney purchase. Why are you disputing it?",
+    'If the amount is different, missing or ambiguous',
+    'must never be described as identity verification',
+    'at most 30 words', 'Never invent that reason']) {
+    assert.ok(apexVoiceInstructions.includes(requirement), requirement);
+  }
+});
